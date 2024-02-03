@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -31,7 +31,7 @@ public class SessionData {
     private boolean isConnectedToRtc = false;
 
     // ongoing sounds - used for media-sources with the expiration timeout configured
-    private final List<Media> ongoingMedia = new ArrayList<>();
+    private final List<Sound> ongoingMedia = new ArrayList<>();
     private int apiSpeakers = 0;
 
     // session info

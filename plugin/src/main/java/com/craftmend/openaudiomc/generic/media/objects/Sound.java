@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-public class Media implements com.craftmend.openaudiomc.api.media.Media {
+public class Sound implements com.craftmend.openaudiomc.api.media.Media {
 
     //media tracker
     @Setter private String mediaId = UUID.randomUUID().toString();
@@ -35,7 +35,7 @@ public class Media implements com.craftmend.openaudiomc.api.media.Media {
      *
      * @param source the resource url
      */
-    public Media(String source) {
+    public Sound(String source) {
         this.source = OpenAudioMc.getService(MediaService.class).process(source);
         this.startInstant = OpenAudioMc.getService(TimeService.class).getSyncedInstant().toEpochMilli();
     }
@@ -47,7 +47,7 @@ public class Media implements com.craftmend.openaudiomc.api.media.Media {
      * @param options The options. Selected via the command
      * @return instance of self
      */
-    public Media applySettings(MediaOptions options) {
+    public Sound applySettings(MediaOptions options) {
         this.loop = options.isLoop();
         this.keepTimeout = options.getExpirationTimeout();
         if (options.getId() != null) this.mediaId = options.getId();

@@ -7,6 +7,14 @@ import java.util.UUID;
 
 public interface VoiceApi {
 
+    /**
+     * Get the voice api instance, or null if the plugin is not loaded yet
+     * @return instance
+     */
+    static VoiceApi getInstance() {
+        return ApiHolder.voiceApiInstance;
+    }
+
     /*
      * The VoiceApi contains registry, as well as control endpoints for voice-chat related features.
      * This implementation is only available on the Spigot instance, even if the plugin is running in a BungeeCord/Velocity or Vistas network.

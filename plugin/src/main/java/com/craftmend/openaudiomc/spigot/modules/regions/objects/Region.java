@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import lombok.AllArgsConstructor;
 
@@ -12,7 +12,7 @@ public class Region implements IRegion {
     private String worldName;
 
     @Override
-    public Media getMedia() {
+    public Sound getMedia() {
         if (getProperties() == null) return null;
         return regionProperties.getMediaForWorld(worldName);
     }

@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.api.clients;
 
 import com.craftmend.openaudiomc.api.basic.Actor;
+import com.craftmend.openaudiomc.api.media.Media;
+import org.jetbrains.annotations.NotNull;
 
 public interface Client {
 
@@ -44,4 +46,10 @@ public interface Client {
      * @return if the actor is moderating
      */
     boolean isModerating();
+
+    /**
+     * Play a media for this client
+     * @param media the media to play
+     */
+    void playMedia(@NotNull Media media);
 }

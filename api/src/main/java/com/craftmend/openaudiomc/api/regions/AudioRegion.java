@@ -27,4 +27,10 @@ public interface AudioRegion {
     @Nullable
     String getWorld();
 
+    /**
+     * Get the priority of this region
+     * @return priority
+     */
+    int getPriority();
+
 }

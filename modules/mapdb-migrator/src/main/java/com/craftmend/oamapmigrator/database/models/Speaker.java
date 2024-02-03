@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.api.spakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.api.spakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerMedia;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSound;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +34,7 @@ public class Speaker extends LegacyStore {
         this.extraOptions = options;
     }
 
-    public SpeakerMedia getMedia() {
+    public SpeakerSound getMedia() {
         return OpenAudioMc.getService(SpeakerService.class).getMedia(source);
     }
 

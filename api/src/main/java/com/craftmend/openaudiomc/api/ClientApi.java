@@ -10,11 +10,19 @@ import java.util.UUID;
 public interface ClientApi {
 
     /**
+     * Get an instance of the client api. May be null if the plugin is not loaded yet
+     * @return instance
+     */
+    static ClientApi getInstance() {
+        return ApiHolder.clientApiInstance;
+    }
+
+    /**
      * Get a client by a player UUID, or null if the player is not online or not registered yet
      * @param clientUuid the UUID of the player
      * @return the client instance, or null if the client is not connected
      */
-    @Nullable Client getClient(String clientUuid);
+    @Nullable Client getClient(UUID clientUuid);
 
     /**
      * Get all clients that are currently known to the server

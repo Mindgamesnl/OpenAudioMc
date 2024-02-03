@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.media;
 
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientCreateMediaPayload extends AbstractPacketPayload implements SourceHolder {
 
-    public ClientCreateMediaPayload(Media media) {
+    public ClientCreateMediaPayload(Sound media) {
         this.media = media;
     }
 
-    private Media media;
+    private Sound media;
     private int distance;
     private int maxDistance;
 

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.client.objects;
 
-import com.craftmend.openaudiomc.api.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientDropVoiceStream;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientSubscribeToVoice;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceDropPayload;

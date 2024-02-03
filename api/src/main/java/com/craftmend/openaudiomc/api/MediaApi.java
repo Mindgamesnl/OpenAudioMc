@@ -8,6 +8,14 @@ import org.jetbrains.annotations.NotNull;
 public interface MediaApi {
 
     /**
+     * Get an instance of the media api. May be null if the plugin is not loaded yet
+     * @return instance
+     */
+    static MediaApi getInstance() {
+        return ApiHolder.mediaApiInstance;
+    }
+
+    /**
      * Create a new media instance with a source, and automatically translate the source
      * (if needed) and register a normalized time for the start instant.
      *
@@ -32,9 +40,11 @@ public interface MediaApi {
      * An example use case would be a custom media server aliased by hypixel:, which can be resolved
      * to https://hypixel.com/media/* by a mutation.
      *
+     * @param prefix the prefix to register the mutation for,
+     *               the mutation will only be called for media sources starting with this prefix
      * @param mutation the mutation to register
      */
-    void registerMutation(@NotNull UrlMutation mutation);
+    void registerMutation(@NotNull String prefix, @NotNull UrlMutation mutation);
 
     /**
      * Get the current epoch time, but normalized to the start of the current media.

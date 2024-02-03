@@ -10,6 +10,14 @@ import java.util.Collection;
 public interface WorldApi {
 
     /**
+     * Get an instance of the world api. May be null if the plugin is not loaded yet
+     * @return instance
+     */
+    static WorldApi getInstance() {
+        return ApiHolder.worldApiInstance;
+    }
+
+    /**
      * Get all regions at a location
      * @param x x
      * @param y y

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
@@ -17,7 +17,7 @@ public class TimedRegionProperties extends RegionProperties {
     private int task = -1;
     @Column
     private String regionId;
-    private Media media;
+    private Sound media;
 
     public TimedRegionProperties() {
 
@@ -59,22 +59,22 @@ public class TimedRegionProperties extends RegionProperties {
         forceUpdateClients();
     }
 
-    public Media getOrStartMedia() {
+    public Sound getOrStartMedia() {
         // temp regions always use their own media, as it shouldn't sync with others
         if (media == null) {
-            this.media = new RegionMedia(getSource(), getVolume(), getFadeTimeMs(), true);
+            this.media = new RegionSound(getSource(), getVolume(), getFadeTimeMs(), true);
             this.media.setLoop(false);
         }
         return this.media;
     }
 
     @Override
-    public Media getMediaForWorld(String worldName) {
+    public Sound getMediaForWorld(String worldName) {
         return getOrStartMedia();
     }
 
     @Override
-    public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
+    public Sound getMediaForWorld(WorldRegionManager worldRegionManager) {
         return getOrStartMedia();
     }
 

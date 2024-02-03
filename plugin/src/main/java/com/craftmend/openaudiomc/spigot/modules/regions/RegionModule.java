@@ -6,7 +6,7 @@ import com.craftmend.openaudiomc.generic.backups.BackupService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -251,7 +251,7 @@ public class RegionModule {
             // does this world contain a region with the same name?
             if (worldManager.containsRegion(regionName)) {
                 RegionProperties region = worldManager.getRegionProperties(regionName);
-                Media media = region.getMediaForWorld(worldManager);
+                Sound media = region.getMediaForWorld(worldManager);
 
                 // mutate the region
                 try {

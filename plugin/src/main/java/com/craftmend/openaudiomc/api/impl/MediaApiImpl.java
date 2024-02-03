@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.api.impl;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.api.interfaces.MediaApi;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -28,12 +28,12 @@ public class MediaApiImpl implements MediaApi {
 
     @Override
     public void playMedia(Client client, String source) {
-        validateClient(client).sendMedia(new Media(source));
+        validateClient(client).sendMedia(new Sound(source));
     }
 
     @Override
     public void playMedia(Client client, String source, MediaOptions mediaOptions) {
-        validateClient(client).sendMedia(new Media(source).applySettings(mediaOptions));
+        validateClient(client).sendMedia(new Sound(source).applySettings(mediaOptions));
     }
 
     @Override

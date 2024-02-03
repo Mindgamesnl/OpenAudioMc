@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.api.VoicePeerOptions;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.user.User;
 
+@Deprecated
 public interface Client {
 
     /**
@@ -28,7 +28,7 @@ public interface Client {
      *
      * @param media media to be send
      */
-    void sendMedia(Media media);
+    void sendMedia(Sound media);
 
     /**
      * Add a on connect handler, which fires when the client gets closed for by player
@@ -66,6 +66,4 @@ public interface Client {
      */
     void preloadMedia(String source);
 
-
-    void updatePeerOptions(Client peer, VoicePeerOptions options);
 }
