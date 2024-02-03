@@ -30,7 +30,7 @@ public class VelocityCommandModule {
         );
 
         man.register(man.metaBuilder("audio")
-                        .aliases("sound", "connect", "media", "muziek", "geluid", "voice", "vc", "voicechat")
+                        .aliases("sound", "connect", "media", "muziek", "geluid")
                         .build(),
                 new VelocityAudioCommand()
         );
