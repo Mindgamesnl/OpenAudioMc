@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.generic.api.ApiService;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.backups.BackupService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
@@ -149,7 +150,8 @@ public class OpenAudioMc {
                 RedisService.class,             // redis hook/service implementation
                 OpenaudioAccountService.class,  // platform specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
-                ClientDataService.class         // manage player profiles
+                ClientDataService.class,        // manage player profiles
+                ApiService.class                // initialize api implementations
         );
 
         getService(ModuleLoaderService.class).fire(ModuleEvent.SERVICES_LOADED);

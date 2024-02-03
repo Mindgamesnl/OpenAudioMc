@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.user.User;
 
+@Deprecated
 public interface Client {
 
     /**
@@ -65,7 +65,5 @@ public interface Client {
      * @param source The source to preload
      */
     void preloadMedia(String source);
-
-    void updatePeerOptions(Client peer, VoicePeerOptions options);
 
 }

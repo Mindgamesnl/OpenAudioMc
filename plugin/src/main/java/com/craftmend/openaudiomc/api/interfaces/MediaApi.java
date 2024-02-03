@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.api.media.MediaOptions;
 
 public interface MediaApi {
 
