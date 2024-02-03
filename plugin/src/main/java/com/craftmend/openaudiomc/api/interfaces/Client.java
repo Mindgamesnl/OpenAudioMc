@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.user.User;
 

@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 
+import com.craftmend.openaudiomc.api.VoicePeerOptions;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;

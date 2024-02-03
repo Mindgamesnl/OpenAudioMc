@@ -101,6 +101,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.craftmend.openaudiomc</groupId>
+            <artifactId>openaudiomc-api</artifactId>
+            <version>6.8.10</version>
+        </dependency>
 
         <dependency>
             <groupId>com.coreoz</groupId>

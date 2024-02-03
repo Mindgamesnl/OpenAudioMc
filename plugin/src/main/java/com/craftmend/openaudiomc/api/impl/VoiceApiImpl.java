@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.api.impl;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.api.interfaces.VoiceApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.VoicePeerOptions;
 
 import java.util.UUID;
 

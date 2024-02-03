@@ -1,6 +1,5 @@
-package com.craftmend.openaudiomc.spigot.modules.speakers.enums;
+package com.craftmend.openaudiomc.api.spakers;
 
-import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -55,20 +54,20 @@ public enum ExtraSpeakerOptions {
     @Getter private boolean display;
     @Getter private String title;
     @Getter private String description;
-    private Predicate<Speaker>[] predicates;
+    private Predicate<BasicSpeaker>[] predicates;
 
-    ExtraSpeakerOptions(boolean display, String title, String description, Predicate<Speaker>... requirementChecks) {
+    ExtraSpeakerOptions(boolean display, String title, String description, Predicate<BasicSpeaker>... requirementChecks) {
         this.display = display;
         this.title = title;
         this.description = description;
         this.predicates = requirementChecks;
     }
 
-    public boolean isCompatibleWith(Speaker speaker) {
+    public boolean isCompatibleWith(BasicSpeaker speaker) {
         return Arrays.stream(this.predicates).allMatch(predicate -> predicate.test(speaker));
     }
 
-    public boolean isEnabledFor(Speaker speaker) {
+    public boolean isEnabledFor(BasicSpeaker speaker) {
         return speaker.getExtraOptions().contains(this) && isCompatibleWith(speaker);
     }
 

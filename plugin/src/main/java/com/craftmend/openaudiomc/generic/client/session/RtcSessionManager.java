@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.node.packets.ForceMuteMicrophonePacket;

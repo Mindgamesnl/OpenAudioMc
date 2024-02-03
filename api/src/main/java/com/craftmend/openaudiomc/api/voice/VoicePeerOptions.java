@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.client.objects;
+package com.craftmend.openaudiomc.api.voice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.spigot.modules.speakers.enums;
+package com.craftmend.openaudiomc.api.spakers;
 
 import lombok.Getter;
 

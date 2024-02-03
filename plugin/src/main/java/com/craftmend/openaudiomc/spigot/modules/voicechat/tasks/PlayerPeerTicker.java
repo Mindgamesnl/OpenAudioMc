@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.client.objects.VoicePeerOptions;
+import com.craftmend.openaudiomc.api.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;

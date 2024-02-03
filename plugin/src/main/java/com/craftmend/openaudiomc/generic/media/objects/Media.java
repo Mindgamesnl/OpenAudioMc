@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-public class Media {
+public class Media implements com.craftmend.openaudiomc.api.media.Media {
 
     //media tracker
     @Setter private String mediaId = UUID.randomUUID().toString();
@@ -60,4 +60,33 @@ public class Media {
         return this;
     }
 
+    @Override
+    public int startAtMillis() {
+        return startAtMillis;
+    }
+
+    @Override
+    public boolean loopMedia() {
+        return loop;
+    }
+
+    @Override
+    public boolean doPickup() {
+        return doPickup;
+    }
+
+    @Override
+    public boolean muteRegions() {
+        return muteRegions;
+    }
+
+    @Override
+    public boolean muteSpeakers() {
+        return muteSpeakers;
+    }
+
+    @Override
+    public void setLoopMedia(boolean b) {
+        this.loop = b;
+    }
 }
