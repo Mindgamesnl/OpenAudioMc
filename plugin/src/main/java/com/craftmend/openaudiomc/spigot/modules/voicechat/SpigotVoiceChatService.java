@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -75,9 +74,6 @@ public class SpigotVoiceChatService extends Service {
             // skip if this is disabled in the settings
             if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
 
-            // only notify normal events, we don't really care about special things
-            if (event.getCause() != VoiceEventCause.NORMAL) return;
-
             if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
                 return;
             }
@@ -89,9 +85,6 @@ public class SpigotVoiceChatService extends Service {
         eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
             // skip if this is disabled in the settings
             if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
-
-            // only notify normal events, we don't really care about special things
-            if (event.getCause() != VoiceEventCause.NORMAL) return;
 
             if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
                 return;

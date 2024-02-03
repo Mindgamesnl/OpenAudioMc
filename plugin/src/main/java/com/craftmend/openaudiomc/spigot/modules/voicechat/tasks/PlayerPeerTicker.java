@@ -2,13 +2,12 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
 import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.api.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
@@ -148,7 +147,7 @@ public class PlayerPeerTicker implements Runnable {
                 }
 
                 client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer, VoiceEventCause.NORMAL));
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer));
                 client.getRtcSessionManager().updateLocationWatcher();
                 client.getRtcSessionManager().getCurrentProximityPeers().remove(peer.getOwner().getUniqueId());
 
@@ -159,7 +158,7 @@ public class PlayerPeerTicker implements Runnable {
 
                 peer.getPeerQueue().drop(client.getRtcSessionManager().getStreamKey());
                 peer.getRtcSessionManager().getCurrentProximityPeers().remove(client.getOwner().getUniqueId());
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client, VoiceEventCause.NORMAL));
+                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
         }

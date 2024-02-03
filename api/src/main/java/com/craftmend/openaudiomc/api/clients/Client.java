@@ -18,6 +18,20 @@ public interface Client {
     Actor getActor();
 
     /**
+     * Add a on connect handler, which fires when the client gets opened for the player
+     *
+     * @param runnable Handler
+     */
+    void onConnect(Runnable runnable);
+
+    /**
+     * Add a on connect handler, which fires when the client gets closed for by player
+     *
+     * @param runnable Handler
+     */
+    void onDisconnect(Runnable runnable);
+
+    /**
      * If this client currently has the web session open
      * @return if the client is connected
      */

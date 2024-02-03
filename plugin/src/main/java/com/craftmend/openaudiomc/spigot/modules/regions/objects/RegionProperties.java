@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
@@ -41,9 +41,9 @@ public class RegionProperties extends DataStore {
         this.worlds = worldNames;
     }
 
-    public Sound getMediaForWorld(WorldRegionManager worldRegionManager) {
+    public Media getMediaForWorld(WorldRegionManager worldRegionManager) {
         if (loop == null) loop = true;
-        Sound media = worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
+        Media media = worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
         media.setDoPickup(this.doSync);
         return media;
     }
@@ -53,7 +53,7 @@ public class RegionProperties extends DataStore {
         return hasWorlds;
     }
 
-    public Sound getMediaForWorld(String worldName) {
+    public Media getMediaForWorld(String worldName) {
         return getMediaForWorld(OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(worldName));
     }
 

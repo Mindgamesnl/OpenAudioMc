@@ -3,16 +3,16 @@ package com.craftmend.openaudiomc.generic.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
-import com.craftmend.openaudiomc.generic.media.objects.OptionalError;
+import com.craftmend.openaudiomc.api.media.OptionalError;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
-import com.craftmend.openaudiomc.generic.media.objects.MediaOptions;
+import com.craftmend.openaudiomc.api.media.MediaOptions;
 import lombok.SneakyThrows;
 
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class PlaySubCommand extends SubCommand {
                 throw new CommandError("Invalid source url.");
             }
 
-            Sound media = new Sound(args[1]);
+            Media media = new Media(args[1]);
             int affected = 0;
 
             for (User<?> user : resolveSelector(sender, args[0])) {
@@ -71,7 +71,7 @@ public class PlaySubCommand extends SubCommand {
                     throw new CommandError("Invalid source url.");
                 }
 
-                Sound media = new Sound(args[1]).applySettings(mediaOptions);
+                Media media = new Media(args[1]).applySettings(mediaOptions);
 
                 for (User<?> user : resolveSelector(sender, args[0])) {
                     Optional<Client> client = user.findClient();

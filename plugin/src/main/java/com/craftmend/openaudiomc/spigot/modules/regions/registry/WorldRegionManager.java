@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.registry;
 
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionSound;
+import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ public class WorldRegionManager {
     private String world;
 
     // map region source -> shared media
-    private final Map<String, RegionSound> regionMediaMap = new HashMap<>();
+    private final Map<String, RegionMedia> regionMediaMap = new HashMap<>();
 
     // map region name -> region properties / settings
     private final Map<String, RegionProperties> regionPropertiesMap = new HashMap<>();
@@ -60,9 +60,9 @@ public class WorldRegionManager {
         return regionPropertiesMap.containsKey(regionName);
     }
 
-    public RegionSound getRegionMedia(String source, int volume, int fadeTimeMs, Boolean loop) {
+    public RegionMedia getRegionMedia(String source, int volume, int fadeTimeMs, Boolean loop) {
         if (regionMediaMap.containsKey(source)) return regionMediaMap.get(source);
-        RegionSound regionMedia = new RegionSound(source, volume, fadeTimeMs, loop);
+        RegionMedia regionMedia = new RegionMedia(source, volume, fadeTimeMs, loop);
         regionMediaMap.put(source, regionMedia);
         return regionMedia;
     }

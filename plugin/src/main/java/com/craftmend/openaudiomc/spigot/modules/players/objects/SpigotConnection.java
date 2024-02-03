@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -8,7 +9,6 @@ import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.Pack
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientPlayerLocationPayload;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.spigot.modules.players.handlers.AudioChunkHandler;
@@ -166,7 +166,7 @@ public class SpigotConnection {
     /**
      * @param media start media for the client
      */
-    public void playMedia(Sound media) {
+    public void playMedia(Media media) {
         clientConnection.sendMedia(media);
     }
 

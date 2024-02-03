@@ -46,7 +46,8 @@ public interface BasicSpeaker {
      * Get the radius of the speaker
      * @return radius
      */
-    int getRadius();
+    @NotNull
+    Integer getRadius();
 
     /**
      * If this speaker is currently directly powered by redstone

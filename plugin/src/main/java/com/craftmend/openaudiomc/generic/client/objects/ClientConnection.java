@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
@@ -17,7 +18,6 @@ import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.MediaService;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
@@ -42,6 +42,7 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -211,13 +212,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
         }
     }
 
-    /**
-     * send media to the client to play
-     *
-     * @param media media to be send
-     */
-    @Override
-    public void sendMedia(Sound media) {
+    public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !session.getOngoingMedia().contains(media)) {
             session.getOngoingMedia().add(media);
 
@@ -289,6 +284,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
     }
 
     @Override
+    public void sendMedia(com.craftmend.openaudiomc.generic.media.objects.Media media) {
+        sendMedia(media);
+    }
+
+    @Override
     public void onDisconnect(Runnable runnable) {
         addOnDisconnectHandler(runnable);
     }
@@ -311,6 +311,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
     @Override
     public boolean isModerating() {
         return session.isModerating();
+    }
+
+    @Override
+    public void playMedia(@NotNull Media media) {
+        sendMedia(media);
     }
 
     @Override

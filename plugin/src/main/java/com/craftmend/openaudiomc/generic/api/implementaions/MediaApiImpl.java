@@ -5,9 +5,7 @@ import com.craftmend.openaudiomc.api.MediaApi;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.media.UrlMutation;
-import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.media.MediaService;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
@@ -20,7 +18,7 @@ public class MediaApiImpl implements MediaApi {
     @NotNull
     @Override
     public Media createMedia(@NotNull String source) {
-        return new Sound(source);
+        return new Media(source);
     }
 
     @NotNull

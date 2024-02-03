@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.media.objects;
+package com.craftmend.openaudiomc.api.media;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

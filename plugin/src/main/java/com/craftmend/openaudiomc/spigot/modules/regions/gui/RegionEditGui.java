@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.gui;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
@@ -76,9 +76,9 @@ public class RegionEditGui extends Menu {
 
 
                     // reset the media cache for this region
-                    Sound oldMedia = region.getMedia();
+                    Media oldMedia = region.getMedia();
                     OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(player.getWorld().getName()).unregisterRegionMedia(region.getMedia().getSource());
-                    Sound newMedia = region.getMedia();
+                    Media newMedia = region.getMedia();
 
                     // send destroy packets to all players in the region
                     for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(region.getProperties().getRegionName())) {
@@ -113,9 +113,9 @@ public class RegionEditGui extends Menu {
                     }
 
                     // reset the media cache for this region
-                    Sound oldMedia = region.getMedia();
+                    Media oldMedia = region.getMedia();
                     OpenAudioMcSpigot.getInstance().getRegionModule().getWorld(player.getWorld().getName()).unregisterRegionMedia(region.getMedia().getSource());
-                    Sound newMedia = region.getMedia();
+                    Media newMedia = region.getMedia();
 
                     // send destroy packets to all players in the region
                     for (SpigotConnection spigotConnection : OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(region.getProperties().getRegionName())) {

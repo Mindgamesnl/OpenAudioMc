@@ -62,7 +62,7 @@ public class Speaker extends DataStore implements BasicSpeaker {
         extraOptions = fixedValues;
     }
 
-    public SpeakerSound getMedia() {
+    public SpeakerMedia getMedia() {
         return OpenAudioMc.getService(SpeakerService.class).getMedia(source);
     }
 

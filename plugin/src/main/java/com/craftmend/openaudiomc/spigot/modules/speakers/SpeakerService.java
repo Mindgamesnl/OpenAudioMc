@@ -43,7 +43,7 @@ public class SpeakerService extends Service {
 
     public static final SpeakerType DEFAULT_SPEAKER_TYPE = SpeakerType.SPEAKER_3D;
     @Getter private final Map<MappedLocation, Speaker> speakerMap = new ConcurrentHashMap<>();
-    private final Map<String, SpeakerSound> speakerMediaMap = new ConcurrentHashMap<>();
+    private final Map<String, SpeakerMedia> speakerMediaMap = new ConcurrentHashMap<>();
     @Getter private Material playerSkullItem;
     @Getter private Material playerSkullBlock;
     @Getter private ServerVersion version;
@@ -162,9 +162,9 @@ public class SpeakerService extends Service {
         return speakerMap.get(location);
     }
 
-    public SpeakerSound getMedia(String source) {
+    public SpeakerMedia getMedia(String source) {
         if (speakerMediaMap.containsKey(source)) return speakerMediaMap.get(source);
-        SpeakerSound speakerMedia = new SpeakerSound(source);
+        SpeakerMedia speakerMedia = new SpeakerMedia(source);
         speakerMediaMap.put(source, speakerMedia);
         return speakerMedia;
     }

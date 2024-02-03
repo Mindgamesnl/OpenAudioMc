@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.interfaces;
 
-import com.craftmend.openaudiomc.generic.media.objects.Sound;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 
 public interface IRegion {
@@ -10,7 +10,7 @@ public interface IRegion {
     /**
      * @return Media playing in the region
      */
-    Sound getMedia();
+    Media getMedia();
 
     /**
      * @return Extra settings related to the region
@@ -56,7 +56,7 @@ public interface IRegion {
     public class EmptyRegion implements IRegion {
 
         @Override
-        public Sound getMedia() {
+        public Media getMedia() {
             return null;
         }
 
