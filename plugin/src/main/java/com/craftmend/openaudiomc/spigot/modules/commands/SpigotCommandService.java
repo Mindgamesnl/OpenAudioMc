@@ -37,6 +37,8 @@ public class SpigotCommandService extends Service {
 
         VoiceChatCommand voiceChatCommand = new VoiceChatCommand();
         openAudioMcSpigot.getCommand("voice").setExecutor(voiceChatCommand);
+        openAudioMcSpigot.getCommand("voice").setTabCompleter(voiceChatCommand);
+
 
         commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandService.getAliases().add("openaudiomc");
