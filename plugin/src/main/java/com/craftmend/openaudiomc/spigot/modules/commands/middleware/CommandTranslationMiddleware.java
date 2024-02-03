@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -35,7 +36,7 @@ public class CommandTranslationMiddleware implements Listener {
         if (!OpenAudioMc.getService(CommandService.class).getAliases().contains(parts[0])) return;
 
         // get the command
-        SubCommand subCommand = OpenAudioMc.getService(CommandService.class).getSubCommand(parts[1].toLowerCase());
+        SubCommand subCommand = OpenAudioMc.getService(CommandService.class).getSubCommand(CommandContext.OPENAUDIOMC, parts[1].toLowerCase());
         if (subCommand == null) return;
 
         String selector = null;

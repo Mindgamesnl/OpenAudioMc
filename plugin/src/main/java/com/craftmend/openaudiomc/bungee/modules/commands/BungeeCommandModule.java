@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.bungee.modules.commands.commands.BungeeVolumeCo
 import com.craftmend.openaudiomc.bungee.modules.commands.commands.OpenAudioMcBungeeCommand;
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.*;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.service.Inject;
@@ -30,7 +31,7 @@ public class BungeeCommandModule extends Service {
         openAudioMcBungee.getProxy().getPluginManager().registerCommand(openAudioMcBungee, new BungeeAudioCommand());
 
         commandService.registerSubCommands(
-                new HelpSubCommand(),
+                CommandContext.OPENAUDIOMC,
                 new BungeeRegionCommand(),
                 new BungeeSpeakerCommand(),
                 new BungeeShowCommand(),
@@ -38,10 +39,5 @@ public class BungeeCommandModule extends Service {
                 new BungeeVoiceCommand(),
                 new BungeePlaylistCommand()
         );
-
-        // add accept sub command if the player is new
-        if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            commandService.registerSubCommands(new AcceptSubCommand());
-        }
     }
 }
