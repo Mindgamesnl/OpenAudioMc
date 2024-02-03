@@ -7,7 +7,9 @@ import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.SneakyThrows;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class HelpSubCommand extends SubCommand {
 
@@ -19,6 +21,7 @@ public class HelpSubCommand extends SubCommand {
         ignorePermissions = true;
         this.context = context;
         this.useHelpTrail = useHelpTrail;
+        registerArguments(new Argument("<command>", "Show help for a specific command"));
     }
 
     @Override
@@ -44,7 +47,31 @@ public class HelpSubCommand extends SubCommand {
 
             // only render aliases
             if (command.equals(handler.getCommand()) && handler.isListed()) {
-                goldClickableMessage(sender, "/" + context.getBaseCommand() + " " + handler.getCommand(), "oa help " + handler.getCommand());
+                String optionalDelegates = "";
+                boolean hasDelegates = false;
+                if (!handler.getArguments().isEmpty()) {
+                    Set<String> arguments = new HashSet<>();
+
+                    for (Argument argument : handler.getArguments()) {
+                        String base = argument.getBase();
+                        if (!base.isEmpty()) arguments.add(argument.getBase());
+                    }
+
+                    optionalDelegates += OaColor.GRAY + "[";
+                    int argCount = arguments.size();
+                    int index = 0;
+                    for (String argument : arguments) {
+                        optionalDelegates += OaColor.DARK_GRAY + argument;
+                        if (index != argCount - 1) {
+                            optionalDelegates += OaColor.GRAY + "|";
+                        }
+                        index++;
+                    }
+                    optionalDelegates += OaColor.GRAY + "]";
+                    hasDelegates = index > 0;
+                }
+
+                goldClickableMessage(sender, "/" + context.getBaseCommand() + " " + handler.getCommand() + " " + (hasDelegates ? optionalDelegates : ""), "oa help " + handler.getCommand());
             }
         }
 

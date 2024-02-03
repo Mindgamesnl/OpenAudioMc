@@ -8,7 +8,7 @@ import { MicrophoneProcessor } from './processing/MicrophoneProcessor';
 import { SocketManager } from '../socket/SocketModule';
 import * as PluginChannel from '../../util/PluginChannel';
 import { VoicePeer } from './peers/VoicePeer';
-import { feedDebugValue } from '../debugging/DebugService';
+import { debugLog, feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
 import { setTab } from '../../../components/tabwindow/TabWindow';
 import { StringifyError } from '../../util/errorreformat';
@@ -207,6 +207,23 @@ export const VoiceModule = new class IVoiceModule {
   }
 
   removePeer(playerStreamKey) {
+    // FALLBACK! IF WE GET A UUID WE NEED TO RECOVER AND FIND THE PEER'S STREAM KEY
+    if (playerStreamKey.length > 32) {
+      debugLog('FALLBACK: UUID DETECTED, TRYING TO RECOVER STREAM KEY');
+      let foundKey = null;
+      this.peerMap.forEach((peer, key) => {
+        if (peer.peerUuid === playerStreamKey) {
+          foundKey = key;
+        }
+      });
+      if (foundKey) {
+        playerStreamKey = foundKey;
+      } else {
+        debugLog('FALLBACK: COULD NOT RECOVER STREAM KEY, ABORTING');
+        return;
+      }
+    }
+
     const peer = this.peerMap.get(playerStreamKey);
     if (peer) {
       peer.stop();

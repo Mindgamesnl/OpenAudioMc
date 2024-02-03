@@ -19,6 +19,7 @@ import com.craftmend.openaudiomc.generic.voicechat.bus.VoiceApiConnection;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,20 +33,37 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RtcSessionManager implements Serializable {
 
-    @Getter private boolean isMicrophoneEnabled = false;
-    @Getter private boolean isVoicechatDeafened = false;
+    @Getter
+    private boolean isMicrophoneEnabled = false;
+    @Getter
+    private boolean isVoicechatDeafened = false;
 
-    @Getter private final transient Set<UUID> currentGlobalPeers = ConcurrentHashMap.newKeySet();
-    @Getter private final transient Set<UUID> currentProximityPeers = ConcurrentHashMap.newKeySet();
-    @Getter private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
-    @Getter private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
-    @Getter private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();
+    @Getter
+    private final transient Set<UUID> currentGlobalPeers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final transient Set<UUID> currentProximityPeers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final transient Set<ClientRtcLocationUpdate> locationUpdateQueue = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final transient Set<RtcBlockReason> blockReasons = new HashSet<>();
+    @Getter
+    private final transient Set<RtcStateFlag> stateFlags = new HashSet<>();
 
     // these are used for messaging, not tracking. N amount players joined, etc
-    @Getter private final transient Set<UUID> currentProximityAdditions = new HashSet<>();
-    @Getter private final transient Set<UUID> currentProximityDrops = new HashSet<>();
+    @Getter
+    private final transient Set<UUID> currentProximityAdditions = new HashSet<>();
+    @Getter
+    private final transient Set<UUID> currentProximityDrops = new HashSet<>();
 
-    @Setter @Getter private String streamKey;
+    // channel stuff
+    @Getter
+    @Setter
+    private Channel currentChannel = null;
+
+
+    @Setter
+    @Getter
+    private String streamKey;
     private transient Location lastPassedLocation = null;
     private final transient ClientConnection clientConnection;
 

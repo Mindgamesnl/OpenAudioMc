@@ -161,6 +161,18 @@ public class PlayerPeerTicker implements Runnable {
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
+
+            for (UUID currentGlobalPeer : client.getRtcSessionManager().getCurrentGlobalPeers()) {
+                // clean
+                ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(currentGlobalPeer);
+                boolean dead = peer == null || !peer.getRtcSessionManager().isReady();
+                if (dead) {
+                    client.getRtcSessionManager().getCurrentGlobalPeers().remove(currentGlobalPeer);
+                    client.getPeerQueue().drop(peer.toString());
+                    // but mats, thats not a stream key! correct, we may have lost that by now, the client should search by uuid
+                    // as fallback if the string is longer than 32 characters
+                }
+            }
         }
 
         // flush all voicechat updates

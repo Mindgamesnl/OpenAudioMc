@@ -34,6 +34,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.services.dependency.SpigotDependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskService;
@@ -112,6 +113,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
                     ShowService.class,
                     PredictiveMediaService.class,
                     SpigotVoiceChatService.class,
+                    VoiceChannelService.class,
                     FilterService.class,
                     MediaRuleService.class,
                     PlaylistService.class
