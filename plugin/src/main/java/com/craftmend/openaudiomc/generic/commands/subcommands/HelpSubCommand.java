@@ -1,8 +1,5 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.commands.CommandService;
-
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -14,14 +11,12 @@ import java.util.Map;
 
 public class HelpSubCommand extends SubCommand {
 
-    private final CommandService commandService;
     private final CommandContext context;
     private final boolean useHelpTrail;
 
     public HelpSubCommand(CommandContext context, boolean useHelpTrail) {
         super("help");
         ignorePermissions = true;
-        this.commandService = OpenAudioMc.getService(CommandService.class);
         this.context = context;
         this.useHelpTrail = useHelpTrail;
     }

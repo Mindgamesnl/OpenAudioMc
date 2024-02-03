@@ -91,6 +91,7 @@ public class CommandService extends Service {
     public void registerSubCommands(CommandContext context, SubCommand... commandList) {
         subCommands.computeIfAbsent(context, k -> new HashMap<>());
         for (SubCommand subCommand : commandList) {
+            subCommand.setCommandService(this);
             subCommands.get(context).put(subCommand.getCommand(), subCommand);
             for (String alias : subCommand.getAliases()) {
                 subCommands.get(context).put(alias, subCommand);
