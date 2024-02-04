@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -33,7 +33,7 @@ public class BungeeAudioCommand extends Command {
     };
 
     public BungeeAudioCommand() {
-        super("audio", null, "sound", "connect", "media", "muziek", "geluid", "voice", "vc", "voicechat");
+        super("audio", null, "sound", "connect", "media", "muziek", "geluid");
     }
 
     @Override

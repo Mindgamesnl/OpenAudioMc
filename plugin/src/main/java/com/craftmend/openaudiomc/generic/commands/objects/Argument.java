@@ -16,4 +16,12 @@ public class Argument {
     private String syntax;
     private String description;
 
+    public String getBase() {
+        String base = syntax.split(" ")[0];
+        if (base.contains("<")) {
+            return base.replace("<", "").replace(">", "");
+        }
+        return base;
+    }
+
 }

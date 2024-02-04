@@ -22,14 +22,16 @@ public class BackupService extends Service {
         OpenAudioLogger.toConsole("Making a backup of your database, config, and data.yml");
 
         // check backups dir
-        File backupRootDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), File.pathSeparator + "backups");
+        File backupRootDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), File.separator + "backups");
         if (!backupRootDirectory.exists()) {
             backupRootDirectory.mkdir();
         }
 
+        OpenAudioLogger.toConsole("Backup directory: " + backupRootDirectory.getAbsolutePath());
+
         long unixTime = Instant.now().getEpochSecond();
         // create current backup dir
-        File backupDir = new File(backupRootDirectory, File.pathSeparator + "backup-" + unixTime);
+        File backupDir = new File(backupRootDirectory, File.separator + "backup-" + unixTime);
         if (!backupDir.exists()) {
             backupDir.mkdir();
         } else {

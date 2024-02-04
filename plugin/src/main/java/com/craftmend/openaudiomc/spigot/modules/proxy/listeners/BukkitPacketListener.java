@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
@@ -79,7 +80,7 @@ public class BukkitPacketListener implements PacketListener {
         if (player == null) return;
         try {
             OpenAudioMc.getService(CommandService.class)
-                    .getSubCommand(packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
+                    .getSubCommand(CommandContext.OPENAUDIOMC, packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
                     .onExecute(player, packet.getCommandProxy().getArgs());
         } catch (Exception e) {
             if (e instanceof CommandError) {

@@ -28,8 +28,8 @@ export function HandleVoiceSubscription(data) {
     } = peers[i];
 
     let options = null;
-    if (data.options) {
-      options = peerOptionsFromObj(data.options);
+    if (peers[i].options) {
+      options = peerOptionsFromObj(peers[i].options);
     } else {
       options = new VoicePeerOptions();
     }

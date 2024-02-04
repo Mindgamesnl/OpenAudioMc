@@ -97,6 +97,9 @@ vc.peersHiddenText=This server has disabled the ability to see who is in voice c
 vc.isTalking=is talking
 vc.people=people
 vc.deafened=You are currently deafened
+vc.tooltip.local=Proximity Voice Chat
+vc.tooltip.global=Global Voice Chat
+
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.

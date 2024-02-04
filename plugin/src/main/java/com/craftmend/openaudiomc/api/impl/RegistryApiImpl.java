@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.interfaces.ITokenProvider;
 import com.craftmend.openaudiomc.api.interfaces.RegistryApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.MediaService;
@@ -30,7 +31,7 @@ public class RegistryApiImpl implements RegistryApi {
 
     @Override
     public void registerSubCommand(SubCommand subCommand) {
-        OpenAudioMc.getService(CommandService.class).registerSubCommand(subCommand);
+        OpenAudioMc.getService(CommandService.class).registerSubCommands(CommandContext.OPENAUDIOMC, subCommand);
     }
 
     @Override

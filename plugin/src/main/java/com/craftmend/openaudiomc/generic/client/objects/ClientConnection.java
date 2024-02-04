@@ -270,12 +270,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
 
     @Override
     public boolean hasVoicechatEnabled() {
-        return false;
+        return this.rtcSessionManager.isReady();
     }
 
     @Override
     public boolean isMicrophoneMuted() {
-        return false;
+        return this.rtcSessionManager.isMicrophoneEnabled();
     }
 
     @Override

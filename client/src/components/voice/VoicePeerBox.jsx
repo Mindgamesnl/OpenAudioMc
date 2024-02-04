@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Tooltip } from 'react-tooltip';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
 
@@ -115,6 +116,8 @@ function VoicePeerBox(props) {
           </div>
         </div>
       </div>
+      <Tooltip id="proximity-voice-tooltip" />
+      <Tooltip id="global-voice-tooltip" />
     </div>
   );
 }

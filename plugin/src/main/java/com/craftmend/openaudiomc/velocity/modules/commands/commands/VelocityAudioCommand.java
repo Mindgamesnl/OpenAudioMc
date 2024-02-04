@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.Client;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
@@ -60,7 +60,7 @@ public class VelocityAudioCommand implements SimpleCommand {
             velocityPlayerSelector.setString(args[0]);
 
             for (User<CommandSource> result : velocityPlayerSelector.getResults()) {
-                Optional<Client> client = result.findClient();
+                Optional<Client> client = result.findClient ();
                 client.ifPresent(value -> ((ClientConnection) value).getAuth().publishSessionUrl());
             }
         }

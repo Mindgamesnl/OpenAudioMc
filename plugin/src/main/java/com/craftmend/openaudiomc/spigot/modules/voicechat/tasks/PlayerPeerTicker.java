@@ -94,14 +94,13 @@ public class PlayerPeerTicker implements Runnable {
                 Stream<ClientConnection> pre = Stream.of(allClients)
                         .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
                         .filter((c) -> c.getOwner().getUniqueId() != client.getOwner().getUniqueId()) // don't check yourself
-                        .filter((c) -> !combinationChecker.contains(client.getUser().getUniqueId(), c.getUser().getUniqueId())) // don't check combinations that failed
-                        .filter(c -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(c.getOwner().getUniqueId())) // exempt global peers
-                        .filter((c) -> c.isModerating() == client.isModerating()) // only allow equal moderation states
-
                         // mark checked, prior to filtering, because if someone isn't
                         // applicable, then they should still be marked as checked to prevent
                         // future checks
-                        .peek((c) -> combinationChecker.markChecked(client.getUser().getUniqueId(), c.getUser().getUniqueId()));
+                        .filter((c) -> combinationChecker.getAndPutIfAbsent(client.getUser().getUniqueId(), c.getUser().getUniqueId(), false) == CombinationChecker.NOT_CHECKED) // don't check combinations that failed
+                        .filter(c -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(c.getOwner().getUniqueId())) // exempt global peers
+                        .filter((c) -> c.isModerating() == client.isModerating()) // only allow equal moderation states
+                        ;
 
                 // execute API filters
                 applicableClients = filter.wrap(
@@ -112,6 +111,8 @@ public class PlayerPeerTicker implements Runnable {
 
             // find players that we don't have yet
             applicableClients.forEach(peer -> {
+                combinationChecker.markChecked(client.getUser().getUniqueId(), peer.getUser().getUniqueId(), true);
+
                 // am I moderating compared to this peer?
                 boolean isModerating = client.isModerating() && !peer.isModerating();
 
@@ -132,13 +133,21 @@ public class PlayerPeerTicker implements Runnable {
             // check if we have any peers that are no longer applicable
             for (UUID uuid : client.getRtcSessionManager().getCurrentProximityPeers()
                     .stream()
+                    // ignore self
                     .filter(p -> p != client.getOwner().getUniqueId())
-                    .filter(uuid -> (client.getSession().isResetVc() || applicableClients.stream().noneMatch(apc -> apc.getOwner().getUniqueId() == uuid)))
+                    // allow if its resetting or if its not in the applicable list
+                    .filter(uuid -> (client.getSession().isResetVc() ||
+                            // if the byte is either 0 or 1, then its not checked or false
+                            combinationChecker.stateIs(client.getOwner().getUniqueId(), uuid) != CombinationChecker.CHECKED_TRUE
+                    ))
+                    // not in the global list
                     .filter(uuid -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(uuid))
                     .collect(Collectors.toSet())) {
 
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
+
+                System.out.println("Found non-applicable peer: " + peer.getOwner().getName() + ", our stateIs" + combinationChecker.stateIs(client.getOwner().getUniqueId(), uuid));
 
                 if (peer == null) {
                     // remove from list
@@ -160,6 +169,18 @@ public class PlayerPeerTicker implements Runnable {
                 peer.getRtcSessionManager().getCurrentProximityPeers().remove(client.getOwner().getUniqueId());
                 AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client));
                 peer.getRtcSessionManager().updateLocationWatcher();
+            }
+
+            for (UUID currentGlobalPeer : client.getRtcSessionManager().getCurrentGlobalPeers()) {
+                // clean
+                ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(currentGlobalPeer);
+                boolean dead = peer == null || !peer.getRtcSessionManager().isReady();
+                if (dead) {
+                    client.getRtcSessionManager().getCurrentGlobalPeers().remove(currentGlobalPeer);
+                    client.getPeerQueue().drop(currentGlobalPeer.toString());
+                    // but mats, thats not a stream key! correct, we may have lost that by now, the client should search by uuid
+                    // as fallback if the string is longer than 32 characters
+                }
             }
         }
 

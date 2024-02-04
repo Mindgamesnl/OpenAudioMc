@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.authentication.driver.AuthenticationDriver;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -86,7 +87,7 @@ public class VistasRedisServer extends Service {
                             CommandService commandService = OpenAudioMc.getService(CommandService.class);
                             User sender = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(evalCommandPacket.getUserId());
                             String[] args = evalCommandPacket.getCommand();
-                            SubCommand subCommand = commandService.getSubCommand(args[0].toLowerCase());
+                            SubCommand subCommand = commandService.getSubCommand(CommandContext.OPENAUDIOMC, args[0].toLowerCase());
                             if (subCommand != null) {
                                 if (subCommand.isAllowed(sender)) {
                                     String[] subArgs = new String[args.length - 1];
@@ -107,7 +108,7 @@ public class VistasRedisServer extends Service {
                                     return;
                                 }
                             } else {
-                                commandService.getSubCommand("help").onExecute(sender, args);
+                                commandService.getSubCommand(CommandContext.OPENAUDIOMC, "help").onExecute(sender, args);
                             }
                         });
 

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -10,6 +11,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
@@ -25,6 +27,7 @@ public abstract class SubCommand {
     private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
     protected boolean trimArguments = false;
     protected boolean ignorePermissions = false;
+    @Setter protected CommandService commandService;
 
     /**
      * @param argument Your command name. For example "select"
@@ -53,7 +56,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(User sender, String message) {
-        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + message);
+        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(message));
     }
 
     /**
