@@ -24,24 +24,25 @@ public class ChannelListCommand extends SubCommand {
             return;
         }
 
-        message(sender, "Existing channels:");
+        message(sender, "Existing channels with occupants:");
         for (Channel channel : channels) {
-            String readableOccupants = "";
+            StringBuilder readableOccupants;
             Collection<ClientConnection> occupants = channel.getMembers();
             if (occupants.isEmpty()) {
-                readableOccupants = OaColor.RED + "[empty]";
+                readableOccupants = new StringBuilder(OaColor.RED + "[empty]");
             } else {
                 int size = occupants.size();
                 int i = 0;
-                readableOccupants = OaColor.GREEN + "[";
+                readableOccupants = new StringBuilder(OaColor.GREEN + "[");
                 for (ClientConnection occupant : occupants) {
-                    readableOccupants += occupant.getActor().getName();
+                    readableOccupants.append(occupant.getActor().getName());
                     if (i < size - 1) {
-                        readableOccupants += ", ";
+                        readableOccupants.append(", ");
                     }
                     i++;
                 }
-                readableOccupants += OaColor.GREEN + "]";
+                readableOccupants.append(OaColor.GREEN);
+                readableOccupants.append("]");
             }
 
             message(sender, " - " + channel.getName() + " " + readableOccupants);

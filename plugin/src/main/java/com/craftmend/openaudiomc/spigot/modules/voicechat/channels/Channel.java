@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.channels;
 
 import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;

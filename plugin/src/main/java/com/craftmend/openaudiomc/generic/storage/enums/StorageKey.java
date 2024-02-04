@@ -35,6 +35,7 @@ public enum StorageKey {
     MESSAGE_VOICE_IN_VICINITY(false, "messages.voicechat-players-in-vicinity", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_ABANDONED(false, "messages.voicechat-channel-abandoned", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_KICKED(false, "messages.voicechat-channel-kicked", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITED(false, "messages.voicechat-channel-invited", StorageLocation.CONFIG_FILE),
 
     MESSAGE_TOKEN_ACTIVATION_LOADING(false, "messages.token-activation-loading", StorageLocation.CONFIG_FILE),
     MESSAGE_TOKEN_ACTIVATION_SUCCESS(false, "messages.token-activation-success", StorageLocation.CONFIG_FILE),
