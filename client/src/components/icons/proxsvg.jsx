@@ -1,9 +1,16 @@
 import React from 'react';
+import { msg } from '../../client/OpenAudioAppContainer';
 
 export function ProximitySvg() {
+  // source: https://www.svgrepo.com/svg/526380/translation-2
   return (
-    // source: https://www.svgrepo.com/svg/526380/translation-2
-    <svg className="inline !mr-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className="inline !mr-1"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      data-tooltip-id="global-voice-tooltip"
+      data-tooltip-content={msg('vc.tooltip.local')}
+    >
       <g id="SVGRepo_bgCarrier" strokeWidth="0" />
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
       <g id="SVGRepo_iconCarrier">
@@ -29,5 +36,6 @@ export function ProximitySvg() {
         />
       </g>
     </svg>
+
   );
 }
