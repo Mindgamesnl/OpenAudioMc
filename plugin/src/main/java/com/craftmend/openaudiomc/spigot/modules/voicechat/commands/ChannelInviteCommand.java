@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import lombok.SneakyThrows;
@@ -16,8 +17,6 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static com.bergerkiller.bukkit.tc.TrainCarts.plugin;
 
 public class ChannelInviteCommand extends SubCommand {
 
@@ -112,10 +111,14 @@ public class ChannelInviteCommand extends SubCommand {
         invitations.put(invitationId, channel.getName());
 
         String invitationMessage = StorageKey.MESSAGE_VOICE_CHANNEL_INVITED.getString()
-                .replace("{{channel}}", channel.getName())
-                .replace("{{inviter}}", sender.getName());
+                .replace("{channel}", channel.getName())
+                .replace("{inviter}", sender.getName());
 
-        ClientConnection targetClient = (ClientConnection) resolveDependency(UserHooks.class).byUuid(target.getUniqueId());
+        User targetUser = resolveDependency(UserHooks.class).byUuid(target.getUniqueId());
+        if (targetUser == null) {
+            throw new CommandError("That player is not connected to OpenAudioMc");
+        }
+        ClientConnection targetClient = (ClientConnection) targetUser.findClient().get();
 
         if (targetClient == null) {
             throw new CommandError("That player is not connected to OpenAudioMc");
@@ -137,7 +140,7 @@ public class ChannelInviteCommand extends SubCommand {
 
         message(sender, "You have invited " + target.getName() + " to the channel.");
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), () -> {
             if (invitations.containsKey(invitationId)) {
                 invitations.remove(invitationId);
                 message(sender, "The invitation to " + target.getName() + " has expired");

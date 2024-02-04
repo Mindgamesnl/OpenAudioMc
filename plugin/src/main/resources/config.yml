@@ -91,7 +91,7 @@ messages:
   voicechat-channel-kicked: '&7&oYou have been kicked from the voicechat channel'
 
   # The message a player receives when they are invited to a voicechat channel
-  voicechat-channel-invited: '\n&b&lYou have been invited to a voice chat channel!\n&3Click &ahere&3 to join &d{channel}&3 by &d{inviter}&3!\n&7&oYou have 30 seconds  to accept the invitation.\n'
+  voicechat-channel-invited: ' \n&b&lYou have been invited to a voice chat channel!\n&3Click &ahere&3 to join &d{channel}&3 by &d{inviter}&3!\n&7&oYou have 30 seconds  to accept the invitation.\n '
 
   # The following messages are for the new "revised" authentication flow.
   # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
