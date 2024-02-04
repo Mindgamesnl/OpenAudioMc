@@ -112,7 +112,6 @@ public class RtcSessionManager implements Serializable {
         AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection));
 
         updateLocationWatcher();
-
         return true;
     }
 

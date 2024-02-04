@@ -1,8 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.utils;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class CombinationChecker {
 
@@ -16,16 +14,32 @@ public class CombinationChecker {
      * If this ever happens then well, guess some minecraft has worse odds than winning the lottery but we'll have to fix it
      */
 
-    private Set<Integer> checkedCombinations = new HashSet<>();
+    public static final byte NOT_CHECKED = 0;
+    public static final byte CHECKED_FALSE = 1;
+    public static final byte CHECKED_TRUE = 2;
 
-    public boolean contains(UUID player1, UUID player2) {
+    private Map<Integer, Boolean> checkedCombinations = new HashMap<>();
+
+    public byte stateIs(UUID player1, UUID player2) {
         int hashCode = getCombinedHashCode(player1, player2);
-        return checkedCombinations.contains(hashCode);
+        Boolean v = checkedCombinations.get(hashCode);
+        if (v == null) return NOT_CHECKED;
+        return v ? CHECKED_TRUE : CHECKED_FALSE;
     }
 
-    public void markChecked(UUID player1, UUID player2) {
+    public byte getAndPutIfAbsent(UUID player1, UUID player2, Boolean state) {
         int hashCode = getCombinedHashCode(player1, player2);
-        checkedCombinations.add(hashCode);
+        Boolean v = checkedCombinations.get(hashCode);
+        if (v == null) {
+            checkedCombinations.put(hashCode, state);
+            return NOT_CHECKED;
+        }
+        return v ? CHECKED_TRUE : CHECKED_FALSE;
+    }
+
+    public void markChecked(UUID player1, UUID player2, Boolean state) {
+        int hashCode = getCombinedHashCode(player1, player2);
+        checkedCombinations.put(hashCode, state);
     }
 
     private int getCombinedHashCode(UUID player1, UUID player2) {

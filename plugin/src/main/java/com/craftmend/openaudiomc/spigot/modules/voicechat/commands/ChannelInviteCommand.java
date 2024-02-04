@@ -135,7 +135,7 @@ public class ChannelInviteCommand extends SubCommand {
         targetClient.getUser().sendClickableCommandMessage(
                 invitationMessage,
                 "Click to join the channel",
-                "voice channel invite use " + channel.getName()
+                "voice channel invite use " + invitationId
         );
 
         message(sender, "You have invited " + target.getName() + " to the channel.");
