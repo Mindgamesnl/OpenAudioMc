@@ -117,7 +117,7 @@ public class PlayerPeerTicker implements Runnable {
                 boolean isModerating = client.isModerating() && !peer.isModerating();
 
                 // only setup mutual connection if out moderation state is the same
-                boolean success = client.getRtcSessionManager().requestLinkage(peer, !isModerating, VoicePeerOptions.DEFAULT);
+                client.getRtcSessionManager().requestLinkage(peer, !isModerating, VoicePeerOptions.DEFAULT);
 
                 // add them as a recent if we already have its data cached
                 if (client.getDataCache() != null) {
@@ -177,7 +177,7 @@ public class PlayerPeerTicker implements Runnable {
                 boolean dead = peer == null || !peer.getRtcSessionManager().isReady();
                 if (dead) {
                     client.getRtcSessionManager().getCurrentGlobalPeers().remove(currentGlobalPeer);
-                    client.getPeerQueue().drop(peer.toString());
+                    client.getPeerQueue().drop(currentGlobalPeer.toString());
                     // but mats, thats not a stream key! correct, we may have lost that by now, the client should search by uuid
                     // as fallback if the string is longer than 32 characters
                 }
