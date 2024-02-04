@@ -56,7 +56,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(User sender, String message) {
-        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + message);
+        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(message));
     }
 
     /**

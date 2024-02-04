@@ -2,10 +2,14 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
+import lombok.SneakyThrows;
 
 import java.util.Collection;
 
@@ -16,15 +20,16 @@ public class ChannelListCommand extends SubCommand {
     }
 
     @Override
+    @SneakyThrows
     public void onExecute(User sender, String[] args) {
         Collection<Channel> channels = getService(VoiceChannelService.class).getChannels();
 
         if (channels.isEmpty()) {
-            message(sender, "There are no channels yet");
-            return;
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_NO_CHANNELS.getString());
         }
 
-        message(sender, "Existing channels with occupants:");
+        sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_HEADER.getString()));
+
         for (Channel channel : channels) {
             StringBuilder readableOccupants;
             Collection<ClientConnection> occupants = channel.getMembers();
@@ -45,7 +50,12 @@ public class ChannelListCommand extends SubCommand {
                 readableOccupants.append("]");
             }
 
-            message(sender, " - " + channel.getName() + " " + readableOccupants);
+            sender.sendMessage(
+                    Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_ITEM.getString()
+                            .replace("{channel}", channel.getName())
+                            .replace("{participants}", readableOccupants.toString())
+                    )
+            );
         }
     }
 }

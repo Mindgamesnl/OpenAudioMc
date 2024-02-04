@@ -4,8 +4,10 @@ import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
+import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.ChannelSubCommand;
@@ -22,8 +24,12 @@ public class VoiceChannelService extends Service {
     public VoiceChannelService(
           CommandService commandService
     ) {
+        HelpSubCommand helpSubCommand = new HelpSubCommand(CommandContext.VOICE, false);
+        helpSubCommand.setHeaderMessage(StorageKey.MESSAGE_VOICE_COMMAND_HELP_HEADER.getString());
+
         commandService.registerSubCommands(
                 CommandContext.VOICE,
+                helpSubCommand,
                 new ChannelSubCommand()
         );
 

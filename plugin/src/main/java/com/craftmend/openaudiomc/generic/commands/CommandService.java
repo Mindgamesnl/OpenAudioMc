@@ -21,6 +21,7 @@ import com.craftmend.openaudiomc.generic.user.User;
 import lombok.Getter;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class CommandService extends Service {
 
@@ -108,7 +109,7 @@ public class CommandService extends Service {
         return subCommands.getOrDefault(context, new HashMap<>()).get(argument);
     }
 
-    public void invokeCommand(User<?> sender, CommandContext context, String[] args) {
+    public void invokeCommand(User<?> sender, CommandContext context, String[] args, Consumer<String> errorConsumer) {
         if (args.length == 0) {
             getSubCommand(context, "help").onExecute(sender, args);
             return;
@@ -135,7 +136,7 @@ public class CommandService extends Service {
                      * It's more dead inside then i am
                      */
                     if (e instanceof CommandError) {
-                        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + e.getMessage());
+                        errorConsumer.accept(e.getMessage());
                     } else {
                         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Something went wrong while executing this command, please check the console for more information.");
                         e.printStackTrace();

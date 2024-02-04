@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -48,20 +49,21 @@ public class ChannelInviteCommand extends SubCommand {
 
             ClientConnection client = (ClientConnection) sender.findClient().get();
             if (!client.hasVoicechatEnabled()) {
-                throw new CommandError("You must first have voice chat enabled before you can join a channel");
+                throw new CommandError(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());
             }
 
             if (client.getRtcSessionManager().getCurrentChannel() != null) {
-                throw new CommandError("You're already in a channel. Leave it first using /voice channel leave");
+                throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_ALREADY_MEMBER.getString());
             }
 
             Channel channel = getService(VoiceChannelService.class).getChannel(channelName);
             if (channel == null) {
-                throw new CommandError("No channel with that name exists");
+                throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_FOUND.getString());
             }
 
             channel.addMember(sender);
-            message(sender, "You have joined the channel");
+
+            sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_JOINED.getString().replace("{channel}", channel.getName())));
             return;
         }
 
@@ -71,14 +73,14 @@ public class ChannelInviteCommand extends SubCommand {
 
         Client client = (Client) sender.findClient().get();
         if (!client.hasVoicechatEnabled()) {
-            throw new CommandError("You must first have voice chat enabled before you can send an invitation");
+            throw new CommandError(StorageKey.MESSAGE_VC_NOT_CONNECTED.getString());
         }
 
         ClientConnection clientConnection = (ClientConnection) client;
         Channel channel = clientConnection.getRtcSessionManager().getCurrentChannel();
 
         if (channel == null) {
-            throw new CommandError("You are not in a channel");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_A_MEMBER.getString());
         }
 
         // am I the owner?
@@ -86,14 +88,14 @@ public class ChannelInviteCommand extends SubCommand {
             if (sender.isAdministrator()) {
                 message(sender, "You are not the owner of this channel, but your invite was allowed because you are an admin");
             } else {
-                throw new CommandError("Only the owner of the channel can invite people");
+                throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_THE_OWNER.getString());
             }
         }
 
         String targetName = args[0];
         Player target = Bukkit.getPlayer(targetName);
         if (target == null) {
-            throw new CommandError("No player with that name is online");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_MEMBER_NOT_FOUND.getString());
         }
 
         if (target.getUniqueId().equals(sender.getUniqueId())) {
@@ -103,7 +105,7 @@ public class ChannelInviteCommand extends SubCommand {
         // is the target already in a channel?
         for (ClientConnection member : channel.getMembers()) {
             if (member.getOwner().getUniqueId().equals(target.getUniqueId())) {
-                throw new CommandError("That player is already in a channel");
+                throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_ALREADY_MEMBER.getString());
             }
         }
 
@@ -116,20 +118,20 @@ public class ChannelInviteCommand extends SubCommand {
 
         User targetUser = resolveDependency(UserHooks.class).byUuid(target.getUniqueId());
         if (targetUser == null) {
-            throw new CommandError("That player is not connected to OpenAudioMc");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_NOT_CONNECTED.getString());
         }
         ClientConnection targetClient = (ClientConnection) targetUser.findClient().get();
 
         if (targetClient == null) {
-            throw new CommandError("That player is not connected to OpenAudioMc");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_NOT_CONNECTED.getString());
         }
 
         if (targetClient.getRtcSessionManager().getCurrentChannel() != null) {
-            throw new CommandError("That player is already in a channel");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_ALREADY_MEMBER.getString());
         }
 
         if (!targetClient.getRtcSessionManager().isReady()) {
-            throw new CommandError("That player is not connected to voice chat yet, please ask them to connect and try again.");
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_NOT_CONNECTED.getString());
         }
 
         targetClient.getUser().sendClickableCommandMessage(
@@ -138,12 +140,18 @@ public class ChannelInviteCommand extends SubCommand {
                 "voice channel invite use " + invitationId
         );
 
-        message(sender, "You have invited " + target.getName() + " to the channel.");
+        sender.sendMessage(Platform.translateColors(
+                StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_SENT.getString()
+                        .replace("{player}", target.getName())
+        ));
 
         Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), () -> {
             if (invitations.containsKey(invitationId)) {
                 invitations.remove(invitationId);
-                message(sender, "The invitation to " + target.getName() + " has expired");
+                sender.sendMessage(Platform.translateColors(
+                        StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_EXPIRED.getString()
+                                .replace("{player}", target.getName())
+                ));
             }
         }, 20 * 30);
     }

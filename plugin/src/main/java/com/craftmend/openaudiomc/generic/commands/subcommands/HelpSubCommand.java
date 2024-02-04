@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.util.HashSet;
@@ -15,6 +16,8 @@ public class HelpSubCommand extends SubCommand {
 
     private final CommandContext context;
     private final boolean useHelpTrail;
+
+    @Setter private String headerMessage = "Welcome to OpenAudioMc! Please click the sub command you need help with.";
 
     public HelpSubCommand(CommandContext context, boolean useHelpTrail) {
         super("help");
@@ -39,7 +42,7 @@ public class HelpSubCommand extends SubCommand {
             }
         }
 
-        message(sender, "Welcome to OpenAudioMc! Please click the sub command you need help with.");
+        message(sender, headerMessage);
 
         for (Map.Entry<String, SubCommand> entry : commandService.getSubCommandHandlers(context).entrySet()) {
             String command = entry.getKey();

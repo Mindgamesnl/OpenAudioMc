@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.CommandSender;
@@ -36,7 +37,9 @@ public class OpenAudioMcBungeeCommand extends Command {
             return;
         }
 
-        commandService.invokeCommand(user, CommandContext.OPENAUDIOMC, args);
+        commandService.invokeCommand(user, CommandContext.OPENAUDIOMC, args, (err) -> {
+            user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(err));
+        });
 
     }
 }

@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -33,7 +34,9 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        commandService.invokeCommand(sender, CommandContext.OPENAUDIOMC, args);
+        commandService.invokeCommand(sender, CommandContext.OPENAUDIOMC, args, (err) -> {
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(err));
+        });
         return true;
     }
 

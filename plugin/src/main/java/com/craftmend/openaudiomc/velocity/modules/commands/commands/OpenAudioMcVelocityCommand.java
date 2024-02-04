@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
@@ -23,6 +24,8 @@ public class OpenAudioMcVelocityCommand implements SimpleCommand {
             return;
         }
 
-        commandService.invokeCommand(user, CommandContext.OPENAUDIOMC, args);
+        commandService.invokeCommand(user, CommandContext.OPENAUDIOMC, args, (err) -> {
+            user.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(err));
+        });
     }
 }

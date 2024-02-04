@@ -3,7 +3,12 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
+import lombok.SneakyThrows;
 
 public class ChannelSubCommand extends SubCommand {
 
@@ -29,7 +34,12 @@ public class ChannelSubCommand extends SubCommand {
     }
 
     @Override
+    @SneakyThrows
     public void onExecute(User sender, String[] args) {
+        if (!sender.findClient().isPresent()) {
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_A_PLAYER.getString());
+        }
+
         if (args.length == 0) {
             dispatchHelp(sender);
             return;
@@ -62,6 +72,8 @@ public class ChannelSubCommand extends SubCommand {
     }
 
     private void dispatchHelp(User sender) {
-        commandService.invokeCommand(sender, CommandContext.VOICE, new String[]{"help"});
+        commandService.invokeCommand(sender, CommandContext.VOICE, new String[]{"help"}, (err) -> {
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(err));
+        });
     }
 }
