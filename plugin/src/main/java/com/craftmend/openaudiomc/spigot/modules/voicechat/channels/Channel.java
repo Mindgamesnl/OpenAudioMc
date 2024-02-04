@@ -27,6 +27,12 @@ public class Channel {
     }
 
     public void addMember(User user) {
+        // is this user already in a channel?
+        if (members.containsKey(user.getUniqueId())) {
+            // ignore
+            return;
+        }
+
         ClientConnection client = (ClientConnection) user.findClient().get();
         members.put(user.getUniqueId(), client);
         client.getRtcSessionManager().setCurrentChannel(this);

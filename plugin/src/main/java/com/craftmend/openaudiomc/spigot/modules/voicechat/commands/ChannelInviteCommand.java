@@ -67,12 +67,12 @@ public class ChannelInviteCommand extends SubCommand {
         }
 
         if (!sender.findClient().isPresent()) {
-            throw new CommandError("Only players can create channels");
+            throw new CommandError("Only players can use invitations");
         }
 
         Client client = (Client) sender.findClient().get();
         if (!client.hasVoicechatEnabled()) {
-            throw new CommandError("You must first have voice chat enabled before you can create a channel");
+            throw new CommandError("You must first have voice chat enabled before you can send an invitation");
         }
 
         ClientConnection clientConnection = (ClientConnection) client;
@@ -95,6 +95,10 @@ public class ChannelInviteCommand extends SubCommand {
         Player target = Bukkit.getPlayer(targetName);
         if (target == null) {
             throw new CommandError("No player with that name is online");
+        }
+
+        if (target.getUniqueId().equals(sender.getUniqueId())) {
+            throw new CommandError("You can't invite yourself to a channel");
         }
 
         // is the target already in a channel?
