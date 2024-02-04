@@ -4,7 +4,7 @@ import './voicecard.css';
 import Cookies from 'js-cookie';
 import { VoiceModule } from '../../client/services/voice/VoiceModule';
 import { getVolumeForPeer } from '../../client/services/voice/peers/VoicePeer';
-import { GlobeSVG } from '../icons/global';
+import { ProximitySvg } from '../icons/global';
 import { PeerMutedSvg } from '../icons/peermuted';
 import { PeerProximitySvg } from '../icons/peerprox';
 
@@ -131,7 +131,7 @@ export class VoicePeerRow extends React.Component {
           <div className="flex items-centerhidden-on-mobile py-1">
             <h1 className="ml-2">
               {muted ? (<PeerMutedSvg />) : null}
-              {this.props.spatialAudio ? (<GlobeSVG />) : <PeerProximitySvg />}
+              {this.props.spatialAudio ? (<ProximitySvg />) : <PeerProximitySvg />}
               {name}
               {showVolume ? (
                 <small className="soft-text">
