@@ -52,7 +52,8 @@ public class CommandService extends Service {
                 new ClientsSubCommand(),
                 new StopSubCommand(),
                 new PlaySubCommand(),
-                new PreloadSubCommand()
+                new PreloadSubCommand(),
+                new SetKvSubCommand()
         );
 
         // add accept sub command if the player is new
