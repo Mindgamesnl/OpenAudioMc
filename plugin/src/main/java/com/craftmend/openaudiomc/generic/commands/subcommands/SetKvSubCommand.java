@@ -48,6 +48,7 @@ public class SetKvSubCommand extends SubCommand {
                     // set the value
                     OpenAudioMc.getInstance().getInvoker().getConfigurationProvider().setBoolean(storageKey, Boolean.parseBoolean(value));
                     message(sender, "Set " + key + " to " + value);
+                    message(sender, "Please restart your server to apply this change.");
                 } else {
                     message(sender, "Invalid value. Usage: /openaudio setkv <key> <value>");
                 }
