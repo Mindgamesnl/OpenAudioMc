@@ -112,4 +112,10 @@ public class PlaceholderModule extends PlaceholderExpansion {
         return "invalid parameter";
     }
 
+    @Override
+    public boolean persist() {
+        // persist between papi reloads, thank you Verum
+        return true;
+    }
+
 }
