@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.events.EventService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -137,6 +138,7 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
+                EventService.class,             // platform agnostic event manager
                 DatabaseService.class,          // player and profile storage
                 EnvironmentService.class,       // env loader
                 MojangLookupService.class,      // handles caching of uuid's > names
