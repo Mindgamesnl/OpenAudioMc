@@ -12,6 +12,9 @@ public interface MediaApi {
      * @return instance
      */
     static MediaApi getInstance() {
+        if (ApiHolder.mediaApiInstance == null) {
+            throw new IllegalStateException("OpenAudioMc has not been initialized yet");
+        }
         return ApiHolder.mediaApiInstance;
     }
 

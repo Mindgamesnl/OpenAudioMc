@@ -14,6 +14,9 @@ public interface WorldApi {
      * @return instance
      */
     static WorldApi getInstance() {
+        if (ApiHolder.worldApiInstance == null) {
+            throw new IllegalStateException("OpenAudioMc has not been initialized yet");
+        }
         return ApiHolder.worldApiInstance;
     }
 

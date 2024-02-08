@@ -12,6 +12,9 @@ public interface VoiceApi {
      * @return instance
      */
     static VoiceApi getInstance() {
+        if (ApiHolder.voiceApiInstance == null) {
+            throw new IllegalStateException("OpenAudioMc has not been initialized yet");
+        }
         return ApiHolder.voiceApiInstance;
     }
 

@@ -14,6 +14,9 @@ public interface ClientApi {
      * @return instance
      */
     static ClientApi getInstance() {
+        if (ApiHolder.clientApiInstance == null) {
+            throw new IllegalStateException("OpenAudioMc has not been initialized yet");
+        }
         return ApiHolder.clientApiInstance;
     }
 

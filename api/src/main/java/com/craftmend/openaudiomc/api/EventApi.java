@@ -10,6 +10,9 @@ public interface EventApi {
      * @return instance
      */
     static EventApi getInstance() {
+        if (ApiHolder.eventApiInstance == null) {
+            throw new IllegalStateException("OpenAudioMc has not been initialized yet");
+        }
         return ApiHolder.eventApiInstance;
     }
 
