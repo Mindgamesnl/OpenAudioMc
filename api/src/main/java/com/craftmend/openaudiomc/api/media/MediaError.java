@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.networking.enums;
+package com.craftmend.openaudiomc.api.media;
 
 import lombok.Getter;
 

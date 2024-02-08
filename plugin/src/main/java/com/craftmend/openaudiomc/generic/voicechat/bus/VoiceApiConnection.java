@@ -1,7 +1,8 @@
 package com.craftmend.openaudiomc.generic.voicechat.bus;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientEnableVoiceEvent;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
@@ -81,8 +82,8 @@ public class VoiceApiConnection {
                         }
 
                         // make an event, and invite the client if it isn't cancelled
-                        ClientRequestVoiceEvent event = OpenAudioMc.getInstance().getApiEventDriver().fire(new ClientRequestVoiceEvent(clientConnection));
-                        if (!event.isCanceled()) {
+                        ClientEnableVoiceEvent event = (ClientEnableVoiceEvent) EventApi.getInstance().callEvent(new ClientEnableVoiceEvent(clientConnection));
+                        if (!event.isCancelled()) {
                             clientConnection.sendPacket(new PacketClientUnlockVoiceChat(new ClientVoiceChatUnlockPayload(
                                     clientConnection.getRtcSessionManager().getStreamKey(),
                                     this.host,

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.SPIGOT_ONLY)
+@Deprecated
 public class VoiceChatPeerTickEvent extends AudioEvent {
 
     private TickEventType when;

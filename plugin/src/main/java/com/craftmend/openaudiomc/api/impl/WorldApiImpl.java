@@ -20,15 +20,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class WorldApiImpl implements WorldApi {
 
     @Override
+    @Deprecated
     public void setRegionHandler(AbstractRegionAdapter regionHandler) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
         OpenAudioMcSpigot.getInstance().setRegionModule(new RegionModule(regionHandler));
     }
 
     @Override
+    @Deprecated
     public Collection<IRegion> getApplicableRegions(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
         if (OpenAudioMcSpigot.getInstance().getRegionModule() == null ) throw new IllegalStateException("The region module is not enabled.");
@@ -43,6 +46,7 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
+    @Deprecated
     public Collection<String> getPredictedSources(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
@@ -56,6 +60,7 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
+    @Deprecated
     public ConcurrentHeatMap<String, Byte> getChunkContext(Location location) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
@@ -69,6 +74,7 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
+    @Deprecated
     public void setChunkContext(Location location, List<ConcurrentHeatMap<String, Byte>.Value> context) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) throw new IllegalStateException("This method is only available in a SPIGOT server.");
 
@@ -80,10 +86,12 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
+    @Deprecated
     public String getChunkId(Location location) {
         return getPredictionModule().locationToAudioChunkId(location);
     }
 
+    @Deprecated
     private PredictiveMediaService getPredictionModule() {
         return OpenAudioMc.getService(PredictiveMediaService.class);
     }

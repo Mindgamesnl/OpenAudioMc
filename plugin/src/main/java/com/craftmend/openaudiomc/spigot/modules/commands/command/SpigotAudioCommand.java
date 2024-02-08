@@ -1,9 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.clients.Client;
-import com.craftmend.openaudiomc.api.impl.event.events.SpigotAudioCommandEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.helpers.PromptProxyError;
@@ -21,6 +20,7 @@ import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.events.SpigotAudioCommandEvent;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 
 import lombok.NoArgsConstructor;
@@ -44,8 +44,8 @@ public class SpigotAudioCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        SpigotAudioCommandEvent event = AudioApi.getInstance().getEventDriver().fire(new SpigotAudioCommandEvent(commandSender, args));
-        if (event.isCanceled()) {
+        SpigotAudioCommandEvent event = (SpigotAudioCommandEvent) EventApi.getInstance().callEvent(new SpigotAudioCommandEvent(commandSender, args));
+        if (event.isCancelled()) {
             return true;
         }
 

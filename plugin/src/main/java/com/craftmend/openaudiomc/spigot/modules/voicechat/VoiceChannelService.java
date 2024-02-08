@@ -1,7 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
-import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
@@ -33,13 +34,13 @@ public class VoiceChannelService extends Service {
                 new ChannelSubCommand()
         );
 
-        AudioApi.getInstance().getEventDriver()
-                .on(ClientDisconnectEvent.class)
-                .setHandler(event -> {
-                    if (event.getClient().getRtcSessionManager().getCurrentChannel() != null) {
-                        event.getClient().getRtcSessionManager().getCurrentChannel().removeMember(event.getClient().getUser());
-                    }
-                });
+        // register events
+        EventApi.getInstance().registerHandler(ClientDisconnectEvent.class, event -> {
+            ClientConnection client = (ClientConnection) event.getClient();
+            if (client.getRtcSessionManager().getCurrentChannel() != null) {
+                client.getRtcSessionManager().getCurrentChannel().removeMember(client.getUser());
+            }
+        });
     }
 
     public boolean createChannel(String name, User creator) {

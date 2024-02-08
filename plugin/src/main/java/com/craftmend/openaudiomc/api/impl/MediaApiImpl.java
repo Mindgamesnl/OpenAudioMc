@@ -19,34 +19,41 @@ import com.craftmend.openaudiomc.api.spakers.SpeakerType;
 import java.time.Instant;
 import java.util.UUID;
 
+@Deprecated
 public class MediaApiImpl implements MediaApi {
 
+    @Deprecated
     private ClientConnection validateClient(Client client) {
         if (!(client instanceof ClientConnection)) throw new IllegalStateException("This player isn't a instance of ClientConnection");
         return (ClientConnection) client;
     }
 
     @Override
+    @Deprecated
     public void playMedia(Client client, String source) {
         validateClient(client).sendMedia(new Media(source));
     }
 
     @Override
+    @Deprecated
     public void playMedia(Client client, String source, MediaOptions mediaOptions) {
         validateClient(client).sendMedia(new Media(source).applySettings(mediaOptions));
     }
 
     @Override
+    @Deprecated
     public void stopMedia(Client client) {
         OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null));
     }
 
     @Override
+    @Deprecated
     public void stopMedia(Client client, String id) {
         OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(id));
     }
 
     @Override
+    @Deprecated
     public String playSpatialSound(Client client, String source, int x, int y, int z, int radius, boolean useSurroundSound, int obstructions) {
         ClientSpeaker clientSpeaker = new ClientSpeaker(
                 new Vector3(x, y, z),
@@ -67,6 +74,7 @@ public class MediaApiImpl implements MediaApi {
     }
 
     @Override
+    @Deprecated
     public void stopSpatialSound(Client client, String spatialSoundId) {
         ClientSpeaker clientSpeaker = new ClientSpeaker(
                 Vector3.EMPTY,

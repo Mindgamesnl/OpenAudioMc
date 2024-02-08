@@ -1,8 +1,7 @@
 package com.craftmend.openaudiomc.bungee.modules.punishments;
 
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientEnableVoiceEvent;
 import com.craftmend.openaudiomc.bungee.modules.dependency.DependencyHandler;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import litebans.api.Database;
@@ -14,19 +13,14 @@ public class LitebansIntegration implements DependencyHandler {
     public void onLoad(String pluginName, Plugin plugin) {
         // enable voicechat blocking for muted players
 
-        ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
-        if (driver.isSupported(ClientRequestVoiceEvent.class)) {
-            driver.on(ClientRequestVoiceEvent.class)
-                    .setHandler(event -> {
+        EventApi.getInstance().registerHandler(ClientEnableVoiceEvent.class, event -> {
+            boolean isMuted = Database.get().isPlayerMuted(event.getClient().getActor().getUniqueId(), null);
 
-                        boolean isMuted = Database.get().isPlayerMuted(event.getRequester().getOwner().getUniqueId(), null);
-
-                        if (isMuted) {
-                            OpenAudioLogger.toConsole("Blocking voicechat for " + event.getRequester().getUser().getName() + " because they are muted on LiteBans");
-                            event.setCanceled(true);
-                        }
-                    });
-        }
+            if (isMuted) {
+                OpenAudioLogger.toConsole("Blocking voicechat for " + event.getClient().getActor().getName() + " because they are muted on LiteBans");
+                event.setCancelled(true);
+            }
+        });
     }
 
 }

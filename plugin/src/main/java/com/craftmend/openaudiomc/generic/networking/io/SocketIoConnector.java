@@ -1,11 +1,11 @@
 package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
+import com.craftmend.openaudiomc.generic.events.events.StateChangeEvent;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
@@ -43,10 +43,12 @@ import java.time.Instant;
 public class SocketIoConnector {
 
     private Socket socket;
-    @Getter private RestRequest<RelayLoginResponse> relayLoginRequest;
+    @Getter
+    private RestRequest<RelayLoginResponse> relayLoginRequest;
     private RestRequest<NoResponse> relayLogoutRequest;
     private boolean registeredLogout = false;
-    @Getter private String lastUsedRelay = "none";
+    @Getter
+    private String lastUsedRelay = "none";
     private ServerKeySet keySet;
 
     private final SocketDriver[] drivers = new SocketDriver[]{
@@ -70,16 +72,11 @@ public class SocketIoConnector {
             relayLoginRequest.setQuery("oa-version", OpenAudioMc.BUILD.getBuildNumber() + "");
             relayLogoutRequest = new RestRequest(NoResponse.class, Endpoint.RELAY_LOGOUT);
 
-            // listen for state events
-            ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
-            if (driver.isSupported(StateChangeEvent.class)) {
-                driver.on(StateChangeEvent.class)
-                        .setHandler(event -> {
-                            if (event.getOldState() instanceof ConnectedState) {
-                                relayLogoutRequest.run();
-                            }
-                        });
-            }
+            EventApi.getInstance().registerHandler(StateChangeEvent.class, event -> {
+                if (event.getOldState() instanceof ConnectedState) {
+                    relayLogoutRequest.run();
+                }
+            });
 
             registeredLogout = true;
         }

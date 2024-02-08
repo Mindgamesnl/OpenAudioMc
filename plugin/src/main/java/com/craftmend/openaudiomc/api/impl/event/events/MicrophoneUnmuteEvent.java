@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.EVERYWHERE)
+@Deprecated
 public class MicrophoneUnmuteEvent extends AudioEvent implements ClientEvent {
 
     private ClientConnection client;

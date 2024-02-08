@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.impl.event.enums;
 
 import lombok.Getter;
 
+@Deprecated
 public enum EventSupport {
 
     UNKNOWN("Failed to fetch event support for this event"),
