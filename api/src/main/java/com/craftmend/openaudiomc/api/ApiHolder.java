@@ -6,12 +6,14 @@ public class ApiHolder {
     static WorldApi worldApiInstance;
     static VoiceApi voiceApiInstance;
     static MediaApi mediaApiInstance;
+    static EventApi eventApiInstance;
 
     public static void initiate(
             ClientApi clientApi,
             WorldApi worldApi,
             VoiceApi voiceApi,
-            MediaApi mediaApi
+            MediaApi mediaApi,
+            EventApi eventApi
     ) {
         if (clientApiInstance != null) throw new IllegalStateException("Api already initiated");
 
@@ -19,6 +21,7 @@ public class ApiHolder {
         worldApiInstance = worldApi;
         voiceApiInstance = voiceApi;
         mediaApiInstance = mediaApi;
+        eventApiInstance = eventApi;
     }
 
 }
