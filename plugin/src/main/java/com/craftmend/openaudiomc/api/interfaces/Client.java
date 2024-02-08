@@ -76,4 +76,12 @@ public interface Client {
     @Deprecated
     void preloadMedia(String source);
 
+    default com.craftmend.openaudiomc.api.clients.Client toModernClient() {
+        if (this instanceof com.craftmend.openaudiomc.api.clients.Client) {
+            return (com.craftmend.openaudiomc.api.clients.Client) this;
+        }
+        throw new IllegalStateException("This client is not a modern client");
+    }
+
+
 }

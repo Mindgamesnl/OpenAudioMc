@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.generic.oac;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.AccountRemoveTagEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.events.events.AccountAddTagEvent;
+import com.craftmend.openaudiomc.generic.events.events.AccountRemoveTagEvent;
 import com.craftmend.openaudiomc.generic.oac.enums.AccountState;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.oac.response.OpenaudioSettingsResponse;
@@ -123,7 +123,7 @@ public class OpenaudioAccountService extends Service {
         }
 
         for (CraftmendTag tag : tags) {
-            AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
+            EventApi.getInstance().callEvent(new AccountRemoveTagEvent(tag));
         }
 
         tags.clear();
@@ -150,12 +150,12 @@ public class OpenaudioAccountService extends Service {
 
     public void addTag(CraftmendTag tag) {
         tags.add(tag);
-        AudioApi.getInstance().getEventDriver().fire(new AccountAddTagEvent(tag));
+        EventApi.getInstance().callEvent(new AccountAddTagEvent(tag));
     }
 
     private void removeTag(CraftmendTag tag) {
         tags.remove(tag);
-        AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
+        EventApi.getInstance().callEvent(new AccountRemoveTagEvent(tag));
     }
 
     public void startVoiceHandshake() {

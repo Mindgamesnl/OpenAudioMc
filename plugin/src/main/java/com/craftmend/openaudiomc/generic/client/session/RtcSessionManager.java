@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.*;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.*;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.enums.RtcStateFlag;
@@ -98,7 +98,13 @@ public class RtcSessionManager implements Serializable {
         if (mutual && !peer.getRtcSessionManager().currentProximityPeers.contains(clientConnection.getOwner().getUniqueId())) {
             peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
             peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
-            AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(clientConnection, peer));
+
+            EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+                    clientConnection,
+                    peer,
+                    options
+            ));
+
             peer.getRtcSessionManager().updateLocationWatcher();
         }
 
@@ -109,7 +115,12 @@ public class RtcSessionManager implements Serializable {
 
         currentProximityPeers.add(peer.getOwner().getUniqueId());
         clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
-        AudioApi.getInstance().getEventDriver().fire(new PlayerEnterVoiceProximityEvent(peer, clientConnection));
+
+        EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+                peer,
+                clientConnection,
+                options
+        ));
 
         updateLocationWatcher();
         return true;
@@ -150,7 +161,7 @@ public class RtcSessionManager implements Serializable {
                 peer.getRtcSessionManager().updateLocationWatcher();
                 peer.getPeerQueue().drop(streamKey);
 
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(clientConnection, peer));
+                EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(clientConnection, peer));
             }
         }
     }
@@ -206,9 +217,9 @@ public class RtcSessionManager implements Serializable {
         if (!this.isReady()) return;
 
         if (state) {
-            AudioApi.getInstance().getEventDriver().fire(new VoicechatDeafenEvent(clientConnection));
+            EventApi.getInstance().callEvent(new VoicechatDeafenEvent(clientConnection));
         } else {
-            AudioApi.getInstance().getEventDriver().fire(new VoicechatUndeafenEvent(clientConnection));
+            EventApi.getInstance().callEvent(new VoicechatUndeafenEvent(clientConnection));
         }
     }
 
@@ -225,9 +236,9 @@ public class RtcSessionManager implements Serializable {
         if (!this.isReady()) return;
 
         if (state) {
-            AudioApi.getInstance().getEventDriver().fire(new MicrophoneUnmuteEvent(clientConnection));
+            EventApi.getInstance().callEvent(new MicrophoneUnmuteEvent(clientConnection));
         } else {
-            AudioApi.getInstance().getEventDriver().fire(new MicrophoneMuteEvent(clientConnection));
+            EventApi.getInstance().callEvent(new MicrophoneMuteEvent(clientConnection));
         }
     }
 

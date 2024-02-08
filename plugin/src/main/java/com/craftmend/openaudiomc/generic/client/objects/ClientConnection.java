@@ -1,11 +1,12 @@
 package com.craftmend.openaudiomc.generic.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.basic.Actor;
 import com.craftmend.openaudiomc.api.clients.Client;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
+import com.craftmend.openaudiomc.api.events.client.ClientConnectEvent;
+import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.api.events.client.MediaErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
@@ -19,7 +20,7 @@ import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
+import com.craftmend.openaudiomc.api.media.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
@@ -123,7 +124,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientConnectedPacket(user.getUniqueId()));
 
-        AudioApi.getInstance().getEventDriver().fire(new ClientConnectEvent(this));
+        EventApi.getInstance().callEvent(new ClientConnectEvent(this));
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
@@ -145,7 +146,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
 
-        AudioApi.getInstance().getEventDriver().fire(new ClientDisconnectEvent(this));
+        EventApi.getInstance().callEvent(new ClientDisconnectEvent(this));
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
@@ -248,7 +249,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
 
     @Override
     public void handleError(MediaError error, String source) {
-        AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
+        EventApi.getInstance().callEvent(new MediaErrorEvent(this, source, error));
         if (this.getUser().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = MagicValue.COMMAND_PREFIX.get(String.class);
             this.getUser().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");

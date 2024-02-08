@@ -1,14 +1,16 @@
 package com.craftmend.openaudiomc.api.events;
 
+import com.craftmend.openaudiomc.api.clients.Client;
+
 public class ClientEvent extends BaseEvent {
 
-        private final String client;
+        private final Client client;
 
         /**
          * Create a new client event
          * @param client the client that this event is about
          */
-        public ClientEvent(String client) {
+        public ClientEvent(Client client) {
             this.client = client;
         }
 
@@ -16,7 +18,7 @@ public class ClientEvent extends BaseEvent {
          * Get the client that this event is about
          * @return the client
          */
-        public String getClient() {
+        public Client getClient() {
             return client;
         }
 }

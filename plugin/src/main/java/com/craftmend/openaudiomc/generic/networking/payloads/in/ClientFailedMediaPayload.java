@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.in;
 
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
-import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
+import com.craftmend.openaudiomc.api.media.MediaError;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
