@@ -81,6 +81,15 @@ public class ApiEventDriver {
     @Deprecated
     @SneakyThrows
     public <T extends AudioEvent> HandlerHolder<T> on(Class<T> eventType) {
+
+        // get the caller class name, method name and line number
+        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+        StackTraceElement e = stacktrace[2];
+        String methodThatInvoked = e.getMethodName();
+        String classThatInvoked = e.getClassName();
+        int lineThatInvoked = e.getLineNumber();
+        OpenAudioLogger.toConsole("Deprecated event listener registration, please use the new event system. Invoked from " + classThatInvoked + "#" + methodThatInvoked + ":" + lineThatInvoked);
+
         // check if this event is supported here
         EventSupport support = getEventSupportFor(eventType);
         // is the plugin real?

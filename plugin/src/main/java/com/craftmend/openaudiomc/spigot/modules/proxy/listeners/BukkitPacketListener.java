@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.events.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -50,7 +50,7 @@ public class BukkitPacketListener implements PacketListener {
     @ProxyPacketHandler
     public void onTimeUpdate(User user, ServerUpdateTimePacket packet) {
         OpenAudioMc.getInstance().getServiceManager().replaceService(TimeService.class, packet.getTimeService());
-        AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(packet.getTimeService()));
+        EventApi.getInstance().callEvent(new TimeServiceUpdateEvent(packet.getTimeService()));
     }
 
     @ProxyPacketHandler

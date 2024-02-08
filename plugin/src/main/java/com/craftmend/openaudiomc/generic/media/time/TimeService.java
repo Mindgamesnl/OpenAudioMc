@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.media.time;
 
-import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.generic.events.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.generic.service.Service;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,7 +52,7 @@ public class TimeService extends Service {
         lastUpdated = Instant.now();
 
         // push to child servers
-        AudioApi.getInstance().getEventDriver().fire(new TimeServiceUpdateEvent(this));
+        EventApi.getInstance().callEvent(new TimeServiceUpdateEvent(this));
     }
 
     @Override
