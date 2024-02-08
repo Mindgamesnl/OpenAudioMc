@@ -18,6 +18,8 @@ public class EventService extends Service implements EventApi {
 
     private final Map<Class<? extends BaseEvent>, List<EventMethod>> eventHandlers = new HashMap<>();
 
+
+
     @Override
     public void registerHandlers(Object listener) {
         for (Method method : listener.getClass().getMethods()) {
