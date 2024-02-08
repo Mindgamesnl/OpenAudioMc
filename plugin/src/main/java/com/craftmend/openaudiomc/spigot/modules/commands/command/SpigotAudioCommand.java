@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.helpers.PromptProxyError;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
@@ -70,8 +71,7 @@ public class SpigotAudioCommand implements CommandExecutor {
                 OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientRunAudioPacket(user.getUniqueId(), enteredToken));
             } else {
                 // its on a sub-server without an activated proxy, so completely ignore it
-                commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
-                        state.getDescription());
+                PromptProxyError.sendTo(sua);
             }
             return true;
         }
