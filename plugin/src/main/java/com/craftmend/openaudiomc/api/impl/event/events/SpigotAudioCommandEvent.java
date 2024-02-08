@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 
 @NoArgsConstructor
 @EventSupportFlag(support = EventSupport.SPIGOT_ONLY)
+@Deprecated
 public class SpigotAudioCommandEvent extends AudioEvent {
 
     @Setter

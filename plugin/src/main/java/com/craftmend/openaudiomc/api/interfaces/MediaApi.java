@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.api.media.MediaOptions;
 
+@Deprecated
 public interface MediaApi {
 
     /**

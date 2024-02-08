@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
+@Deprecated
 public class StateChangeEvent extends AudioEvent {
 
     private State oldState;

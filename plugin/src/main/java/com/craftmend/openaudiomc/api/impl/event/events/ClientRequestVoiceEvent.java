@@ -15,6 +15,7 @@ import lombok.Setter;
  */
 @NoArgsConstructor
 @EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
+@Deprecated
 public class ClientRequestVoiceEvent extends AudioEvent {
 
     @Setter

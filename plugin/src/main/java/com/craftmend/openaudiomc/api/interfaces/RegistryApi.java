@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public interface RegistryApi {
 
     /**

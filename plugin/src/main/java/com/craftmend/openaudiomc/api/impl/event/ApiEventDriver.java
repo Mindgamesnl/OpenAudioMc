@@ -20,11 +20,13 @@ import java.util.Set;
  * Key feature is the fact that it doesn't depend on any bukkit/spigot services, making it save
  * and functional on other platforms as well (bungee, velocity, testing)
  */
+@Deprecated
 public class ApiEventDriver {
 
     /**
      * Cache for reflected event support lookups
      */
+    @Deprecated
     private final Map<Class<? extends AudioEvent>, EventSupport> eventSupportCache = new HashMap<>();
 
     /**
@@ -33,6 +35,7 @@ public class ApiEventDriver {
      * expect that there'll be events registered during normal application flow, but is important
      * since most (if not all) events are async for networking and platform reasons.
      */
+    @Deprecated
     private final HashMap<Class<? extends AudioEvent>, Set<HandlerHolder<? extends AudioEvent>>> handlers = new HashMap<>();
 
     /**
@@ -42,6 +45,7 @@ public class ApiEventDriver {
      * @param event Event class
      * @return Event support type
      */
+    @Deprecated
     public EventSupport getEventSupportFor(Class<? extends AudioEvent> event) throws InstantiationException, IllegalAccessException {
         if (eventSupportCache.containsKey(event)) return eventSupportCache.get(event);
         EventSupport s = null;
@@ -62,6 +66,7 @@ public class ApiEventDriver {
      * @param eventClass Specific event implementation to match
      * @return A collection of callable event listeners, or an empty set if there are none.
      */
+    @Deprecated
     private Set<HandlerHolder<? extends AudioEvent>> getHandlersFor(Class<? extends AudioEvent> eventClass) {
         return handlers.getOrDefault(eventClass, new HashSet<>());
     }
@@ -73,6 +78,7 @@ public class ApiEventDriver {
      * @param eventType The event type you want to listen for
      * @return Your new event handler, which you can fill using the `setHandler` method
      */
+    @Deprecated
     @SneakyThrows
     public <T extends AudioEvent> HandlerHolder<T> on(Class<T> eventType) {
         // check if this event is supported here
@@ -100,6 +106,7 @@ public class ApiEventDriver {
      * @param event instance to fire
      * @return instance that got fired, possibly mutated if the event was cancellable or had any other setters
      */
+    @Deprecated
     public <T extends AudioEvent> T fire(T event) {
         // get handlers
         Set<HandlerHolder<? extends AudioEvent>> subscribers = getHandlersFor(event.getClass());
@@ -118,6 +125,7 @@ public class ApiEventDriver {
         return event;
     }
 
+    @Deprecated
     public boolean isSupported(EventSupport supportType, Platform platform, boolean isNode) {
         switch (supportType) {
             case UNKNOWN:
@@ -142,6 +150,7 @@ public class ApiEventDriver {
         return false;
     }
 
+    @Deprecated
     public boolean isSupported(Class<? extends AudioEvent> af) {
         try {
             return isSupported(getEventSupportFor(af), OpenAudioMc.getInstance().getPlatform(), OpenAudioMc.getInstance().getInvoker().isNodeServer());

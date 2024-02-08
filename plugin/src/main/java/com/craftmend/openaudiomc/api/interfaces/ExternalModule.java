@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.Getter;
 import lombok.Setter;
 
+@Deprecated
 public abstract class ExternalModule {
 
     @Getter @Setter private ClassLoader loader;
