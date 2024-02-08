@@ -2,12 +2,13 @@ package com.craftmend.openaudiomc.generic.events.internal;
 
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import lombok.Getter;
 
 import java.lang.reflect.Method;
 
 public class EventMethod {
 
-    private Object holder;
+    @Getter private Object holder;
     private Method method;
 
     public EventMethod(Object holder, Method method) {

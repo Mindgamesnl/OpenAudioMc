@@ -14,17 +14,13 @@ public class ApiService extends Service {
 
     @Inject
     public ApiService(
-            NetworkingService networkingService,
-            EventService eventService
+            NetworkingService networkingService
     ) {
         // initialize api
-        ApiHolder.initiate(
-                new ClientApiImpl(networkingService),
-                new WorldApiImpl(),
-                new VoiceApiImpl(),
-                new MediaApiImpl(),
-                eventService
-        );
+        ApiHolder.initiate(new ClientApiImpl(networkingService));
+        ApiHolder.initiate(new WorldApiImpl());
+        ApiHolder.initiate(new VoiceApiImpl());
+        ApiHolder.initiate(new MediaApiImpl());
     }
 
 }

@@ -97,8 +97,11 @@ public class OpenAudioMc {
         instance = this;
         OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
 
-        // load runtime shit
-        serviceManager.loadService(RuntimeDependencyService.class);
+        // load core internal API's which are heavily used by the rest of the plugin
+        serviceManager.loadServices(
+                RuntimeDependencyService.class,
+                EventService.class             // platform agnostic event manager
+        );
 
         // setup
         this.invoker = invoker;
@@ -138,7 +141,6 @@ public class OpenAudioMc {
 
         // load core services in order
         serviceManager.loadServices(
-                EventService.class,             // platform agnostic event manager
                 DatabaseService.class,          // player and profile storage
                 EnvironmentService.class,       // env loader
                 MojangLookupService.class,      // handles caching of uuid's > names
