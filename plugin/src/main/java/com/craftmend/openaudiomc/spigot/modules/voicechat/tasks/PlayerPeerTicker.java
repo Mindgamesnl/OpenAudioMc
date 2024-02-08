@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
 import com.craftmend.openaudiomc.api.events.client.SystemReloadEvent;
 import com.craftmend.openaudiomc.api.events.client.VoicechatPeerTickEvent;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
@@ -142,8 +143,6 @@ public class PlayerPeerTicker implements Runnable {
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
-                System.out.println("Found non-applicable peer: " + peer.getOwner().getName() + ", our stateIs" + combinationChecker.stateIs(client.getOwner().getUniqueId(), uuid));
-
                 if (peer == null) {
                     // remove from list
                     client.getRtcSessionManager().getCurrentProximityPeers().remove(uuid);
@@ -151,6 +150,7 @@ public class PlayerPeerTicker implements Runnable {
                 }
 
                 client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
+                EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(client, peer));
                 client.getRtcSessionManager().updateLocationWatcher();
                 client.getRtcSessionManager().getCurrentProximityPeers().remove(peer.getOwner().getUniqueId());
 
@@ -160,6 +160,7 @@ public class PlayerPeerTicker implements Runnable {
                 }
 
                 peer.getPeerQueue().drop(client.getRtcSessionManager().getStreamKey());
+                EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(peer, client));
                 peer.getRtcSessionManager().getCurrentProximityPeers().remove(client.getOwner().getUniqueId());
                 peer.getRtcSessionManager().updateLocationWatcher();
             }

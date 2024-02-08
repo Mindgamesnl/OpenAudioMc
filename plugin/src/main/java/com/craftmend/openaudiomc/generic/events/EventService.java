@@ -53,7 +53,6 @@ public class EventService extends Service implements EventApi {
             throw new IllegalArgumentException("Event handler " + method.getName() + " in " + listener.getClass().getSimpleName() + " has an invalid parameter type (" + eventType.getName() + ")");
         }
         eventHandlers.computeIfAbsent(eventType, k -> new ArrayList<>()).add(new EventMethod(listener, method));
-        OpenAudioLogger.toConsole("Registered event handler for " + eventType.getSimpleName() + " in " + listener.getClass().getSimpleName());
     }
 
     @Override
