@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @EventSupportFlag(support = EventSupport.EVERYWHERE)
+@Deprecated
 public class SystemReloadEvent extends AudioEvent {
     // no additional data
 }

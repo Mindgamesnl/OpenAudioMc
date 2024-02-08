@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api.impl.event;
 import lombok.Getter;
 import lombok.Setter;
 
+@Deprecated
 public class HandlerHolder<T> {
 
     public HandlerHolder(T type) {

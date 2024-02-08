@@ -1,11 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.events.PlayerLeaveVoiceProximityEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.VoiceChatPeerTickEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
+import com.craftmend.openaudiomc.api.events.client.SystemReloadEvent;
+import com.craftmend.openaudiomc.api.events.client.VoicechatPeerTickEvent;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -55,7 +54,7 @@ public class PlayerPeerTicker implements Runnable {
         this.filter = peerFilter;
         this.filter.updateProperty("d", maxDistance);
 
-        AudioApi.getInstance().getEventDriver().on(SystemReloadEvent.class).setHandler(e -> {
+        EventApi.getInstance().registerHandler(SystemReloadEvent.class, e -> {
             this.filter.updateProperty("d", maxDistance);
         });
     }
@@ -66,9 +65,6 @@ public class PlayerPeerTicker implements Runnable {
 
     @Override
     public void run() {
-        // pre-tick event, to take care of any pre-tick logic elsewhere
-        AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.BEFORE_TICK));
-
         // we'll reference everything during this tick based on this initial time snapshot. This prevents
         // concurrency issues later on, and means we can do relatively fast arrayCopy's when needed.
         // to save time, we'll pre-filter some results.
@@ -147,8 +143,6 @@ public class PlayerPeerTicker implements Runnable {
                 // unsubscribe these
                 ClientConnection peer = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
 
-                System.out.println("Found non-applicable peer: " + peer.getOwner().getName() + ", our stateIs" + combinationChecker.stateIs(client.getOwner().getUniqueId(), uuid));
-
                 if (peer == null) {
                     // remove from list
                     client.getRtcSessionManager().getCurrentProximityPeers().remove(uuid);
@@ -156,7 +150,7 @@ public class PlayerPeerTicker implements Runnable {
                 }
 
                 client.getPeerQueue().drop(peer.getRtcSessionManager().getStreamKey());
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(client, peer));
+                EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(client, peer));
                 client.getRtcSessionManager().updateLocationWatcher();
                 client.getRtcSessionManager().getCurrentProximityPeers().remove(peer.getOwner().getUniqueId());
 
@@ -166,8 +160,8 @@ public class PlayerPeerTicker implements Runnable {
                 }
 
                 peer.getPeerQueue().drop(client.getRtcSessionManager().getStreamKey());
+                EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(peer, client));
                 peer.getRtcSessionManager().getCurrentProximityPeers().remove(client.getOwner().getUniqueId());
-                AudioApi.getInstance().getEventDriver().fire(new PlayerLeaveVoiceProximityEvent(peer, client));
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
 
@@ -190,6 +184,6 @@ public class PlayerPeerTicker implements Runnable {
             client.getSession().setResetVc(false);
         }
 
-        AudioApi.getInstance().getEventDriver().fire(new VoiceChatPeerTickEvent(TickEventType.AFTER_TICK));
+        EventApi.getInstance().callEvent(new VoicechatPeerTickEvent());
     }
 }

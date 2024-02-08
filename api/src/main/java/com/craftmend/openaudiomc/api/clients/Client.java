@@ -66,4 +66,5 @@ public interface Client {
      * @param media the media to play
      */
     void playMedia(@NotNull Media media);
+
 }

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.ONLY_PROXY_IF_AVAILABLE)
+@Deprecated
 public class TimeServiceUpdateEvent extends AudioEvent {
 
     private TimeService timeService;

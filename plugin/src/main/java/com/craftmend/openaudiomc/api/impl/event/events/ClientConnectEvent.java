@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @EventSupportFlag(support = EventSupport.EVERYWHERE)
+@Deprecated
 public class ClientConnectEvent extends AudioEvent implements ClientEvent {
 
     @Getter

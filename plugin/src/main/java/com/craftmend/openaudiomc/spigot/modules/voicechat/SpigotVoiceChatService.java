@@ -1,12 +1,14 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.basic.Actor;
+import com.craftmend.openaudiomc.api.events.client.*;
 import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.events.*;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.events.events.AccountAddTagEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -45,7 +47,7 @@ public class SpigotVoiceChatService extends Service {
 
     @Override
     public void onEnable() {
-        ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
+        EventApi eventApi = EventApi.getInstance();
 
         if (StorageKey.SETTINGS_VOICECHAT_VICINITY_REMINDER_ENABLED.getBoolean()) {
             taskService.scheduleAsyncRepeatingTask(
@@ -56,47 +58,50 @@ public class SpigotVoiceChatService extends Service {
         }
 
         // enable voice chat when the tag gets added
-        eventDriver.on(AccountAddTagEvent.class)
-                .setHandler(handler -> {
-                    if (firstRun) {
-                        int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
+        eventApi.registerHandler(AccountAddTagEvent.class, handler -> {
+            if (firstRun) {
+                int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
-                        // tick every second
-                        peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
-                        taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);
-                        taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
-                    }
-                    firstRun = false;
-                });
-
-        // register events to notify players when player enter, leave, and whatever
-        eventDriver.on(PlayerEnterVoiceProximityEvent.class).setHandler(event -> {
-            // skip if this is disabled in the settings
-            if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
-
-            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
-                return;
+                // tick every second
+                peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
+                taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);
+                taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
             }
-
-            event.getSpeaker().getRtcSessionManager().getCurrentProximityAdditions().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getCurrentProximityDrops().remove(event.getListener().getOwner().getUniqueId());
+            firstRun = false;
         });
 
-        eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
+        eventApi.registerHandler(ClientPeerAddedEvent.class, event -> {
             // skip if this is disabled in the settings
+            if (!event.getOptions().isSpatialAudio()) return; // exclude non-spatial audio clients
             if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
 
-            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
+            if (event.getClient().isModerating() && !event.getPeer().isModerating()) {
                 return;
             }
 
-            event.getSpeaker().getRtcSessionManager().getCurrentProximityDrops().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getCurrentProximityAdditions().remove(event.getListener().getOwner().getUniqueId());
+            ClientConnection listener = (ClientConnection) event.getClient();
+
+            listener.getRtcSessionManager().getCurrentProximityAdditions().add(event.getPeer().getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityDrops().remove(event.getPeer().getActor().getUniqueId());
+        });
+
+        eventApi.registerHandler(ClientPeerRemovedEvent.class, event -> {
+            // skip if this is disabled in the settings
+            if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
+
+            if (event.getClient().isModerating() && !event.getPeer().isModerating()) {
+                return;
+            }
+
+            ClientConnection peer = (ClientConnection) event.getPeer();
+            ClientConnection listener = (ClientConnection) event.getClient();
+
+            listener.getRtcSessionManager().getCurrentProximityAdditions().remove(event.getPeer().getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityDrops().add(event.getPeer().getActor().getUniqueId());
         });
 
         // do vc tick loop
-        eventDriver.on(VoiceChatPeerTickEvent.class).setHandler(event -> {
-            if (event.getWhen() == TickEventType.BEFORE_TICK) return;
+        eventApi.registerHandler(VoicechatPeerTickEvent.class, handler -> {
             if (broadcastTickLoop > 2) {
                 broadcastTickLoop = 0;
                 return;
@@ -156,25 +161,24 @@ public class SpigotVoiceChatService extends Service {
         });
 
         // mute messages
-        eventDriver.on(MicrophoneMuteEvent.class).setHandler(event -> {
+        eventApi.registerHandler(MicrophoneMuteEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
         });
 
-        eventDriver.on(MicrophoneUnmuteEvent.class).setHandler(event -> {
+        eventApi.registerHandler(MicrophoneUnmuteEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
 
-        // deafen messages
-        eventDriver.on(VoicechatDeafenEvent.class).setHandler(event -> {
+        eventApi.registerHandler(VoicechatDeafenEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_DEAFEN.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_DEAFEN.getString()));
         });
 
-        eventDriver.on(VoicechatUndeafenEvent.class).setHandler(event -> {
+        eventApi.registerHandler(VoicechatUndeafenEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
         });
 
         // enable default rules
@@ -189,10 +193,11 @@ public class SpigotVoiceChatService extends Service {
         }
     }
 
-    private void sendMessage(User player, String message) {
+    private void sendMessage(Actor player, String message) {
         if (StorageKey.SETTINGS_VC_USE_HOTBAR.getBoolean()) {
             // use hotbar
-            player.sendActionbarMessage(message);
+            User<?> user = (User<?>) player;
+            user.sendActionbarMessage(message);
         } else {
             // normal
             player.sendMessage(message);

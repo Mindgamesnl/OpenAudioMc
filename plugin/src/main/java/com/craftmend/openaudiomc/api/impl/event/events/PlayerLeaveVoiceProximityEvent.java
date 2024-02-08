@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.SPIGOT_ONLY)
+@Deprecated
 public class PlayerLeaveVoiceProximityEvent extends AudioEvent {
 
     private ClientConnection speaker;

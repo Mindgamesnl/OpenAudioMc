@@ -1,14 +1,10 @@
 package com.craftmend.voicejoinpermission;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientRequestVoiceEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.events.client.ClientEnableVoiceEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.CustomFilterFunction;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import lombok.NoArgsConstructor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 @NoArgsConstructor
@@ -38,16 +34,12 @@ public final class OaVoicechatJoinPermission extends ExternalModule implements L
 
     private void bootComponent() {
         // hook into both plugins
-        AudioApi.getInstance().getEventDriver()
-                .on(ClientRequestVoiceEvent.class)
-                .setHandler((handler) -> {
-                    boolean hasPermission = handler.getRequester().getUser().hasPermission("openaudiomc.voicechat.join");
-                    if (!hasPermission) {
-                        handler.getRequester().getUser().sendMessage("You don't have permission to join voicechat");
-                        handler.setCanceled(true);
-                    } else {
-                        handler.setCanceled(false);
-                    }
-                });
+        EventApi.getInstance().registerHandler(ClientEnableVoiceEvent.class, event -> {
+            boolean hasPermission = event.getClient().getActor().hasPermission("openaudiomc.voicechat.join");
+            if (!hasPermission) {
+                event.setCancelled(true);
+                event.getClient().getActor().sendMessage("You don't have permission to join voicechat");
+            }
+        });
     }
 }

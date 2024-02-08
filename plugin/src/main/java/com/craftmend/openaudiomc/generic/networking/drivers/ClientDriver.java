@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientAuthenticationEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -34,10 +34,10 @@ public class ClientDriver implements SocketDriver {
             if (authenticatable == null) {
                 callback.call(false);
             } else {
-                ClientPreAuthEvent checkEvent = new ClientPreAuthEvent(authenticatable, payload.getToken());
-                AudioApi.getInstance().getEventDriver().fire(checkEvent);
+                ClientAuthenticationEvent checkEvent = new ClientAuthenticationEvent(authenticatable.getOwner(), payload.getToken());
+                EventApi.getInstance().callEvent(checkEvent);
 
-                if (!checkEvent.isCanceled()) {
+                if (!checkEvent.isCancelled()) {
                     // allow
                     callback.call(true);
                     authenticatable.onConnect();

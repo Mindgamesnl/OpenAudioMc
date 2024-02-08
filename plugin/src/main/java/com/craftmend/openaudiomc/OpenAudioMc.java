@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.events.EventService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -96,8 +97,11 @@ public class OpenAudioMc {
         instance = this;
         OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
 
-        // load runtime shit
-        serviceManager.loadService(RuntimeDependencyService.class);
+        // load core internal API's which are heavily used by the rest of the plugin
+        serviceManager.loadServices(
+                RuntimeDependencyService.class,
+                EventService.class             // platform agnostic event manager
+        );
 
         // setup
         this.invoker = invoker;

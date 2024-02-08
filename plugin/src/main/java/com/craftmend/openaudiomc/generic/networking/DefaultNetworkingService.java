@@ -1,9 +1,8 @@
 package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientPreAuthEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.ClientAuthenticationEvent;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -64,23 +63,25 @@ public class DefaultNetworkingService extends NetworkingService {
         init();
 
         // default auth check middleware
-        ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
-        if (driver.isSupported(ClientPreAuthEvent.class)) {
-            AudioApi.getInstance().getEventDriver()
-                    .on(ClientPreAuthEvent.class)
-                    .setHandler((event -> {
-                        // cancel the request if the client is already open, don't bother checking the token
-                        if (event.getRequester().isConnected()) {
-                            event.setCanceled(true);
-                            return;
-                        }
+        EventApi.getInstance().registerHandler(ClientAuthenticationEvent.class, event -> {
+            // get Client from event
+            ClientConnection client = getClient(event.getActor().getUniqueId());
+            if  (client == null) {
+                event.setCancelled(true);
+                return;
+            }
 
-                        // cancel the login if the token is invalid
-                        if (!event.getRequester().getAuth().isKeyCorrect(event.getToken())) {
-                            event.setCanceled(true);
-                        }
-                    }));
-        }
+            // check if the client is already connected
+            if (client.isConnected()) {
+                event.setCancelled(true);
+                return;
+            }
+
+            // check if the token is correct
+            if (!client.getAuth().isKeyCorrect(event.getToken())) {
+                event.setCancelled(true);
+            }
+        });
 
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
             packetThroughput = 0;

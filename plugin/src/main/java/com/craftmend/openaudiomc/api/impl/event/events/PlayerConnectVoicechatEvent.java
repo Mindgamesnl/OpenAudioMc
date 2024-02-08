@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EventSupportFlag(support = EventSupport.EVERYWHERE)
+@Deprecated
 public class PlayerConnectVoicechatEvent extends AudioEvent implements ClientEvent {
 
     private ClientConnection client;
