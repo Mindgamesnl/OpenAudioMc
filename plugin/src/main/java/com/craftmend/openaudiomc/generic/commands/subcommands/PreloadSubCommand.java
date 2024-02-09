@@ -18,7 +18,7 @@ public class PreloadSubCommand extends SubCommand {
     public PreloadSubCommand() {
         super("preload");
         registerArguments(
-                new Argument("<selector> <source>", "Attempt to preload a sound for all players in a selection")
+                new Argument("<selector> <source>", "Attempt to preload a sound for all players in a selection", 0)
         );
     }
 

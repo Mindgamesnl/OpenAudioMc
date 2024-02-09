@@ -1,10 +1,8 @@
 package com.craftmend.openaudiomc.generic.commands.objects;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class Argument {
 
     /**
@@ -15,6 +13,22 @@ public class Argument {
      */
     private String syntax;
     private String description;
+    private int playerArgumentIndex = -1;
+
+    public Argument(String syntax, String description) {
+        this.syntax = syntax;
+        this.description = description;
+    }
+
+    public Argument(String syntax, String description, int playerArgumentIndex) {
+        this.syntax = syntax;
+        this.description = description;
+        this.playerArgumentIndex = playerArgumentIndex;
+    }
+
+    public boolean isPlayerArgument(int index) {
+        return index == playerArgumentIndex;
+    }
 
     public String getBase() {
         String base = syntax.split(" ")[0];

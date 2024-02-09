@@ -13,11 +13,13 @@ import static com.craftmend.openaudiomc.generic.storage.enums.StorageKey.*;
 @NoArgsConstructor
 public class MigrationWorker {
 
-    @Getter private int migrationsFinished = 0;
-    @Getter private int migrationsSkipped = 0;
+    @Getter
+    private int migrationsFinished = 0;
+    @Getter
+    private int migrationsSkipped = 0;
 
     public void handleMigrations() {
-        final SimpleMigration[] migrations = new SimpleMigration[] {
+        final SimpleMigration[] migrations = new SimpleMigration[]{
                 new AddConfigKeyMigration(MESSAGE_HOVER_TO_CONNECT, "adds a config field for the hover-to-connect message"),
                 new AddConfigKeyMigration(SETTINGS_STAFF_TIPS, "adds a config field for the staff-tips option"),
                 new AddConfigKeyMigration(SETTINGS_NOTIFY_UPDATES, "adds config fields for update and announcement preferences,"),
