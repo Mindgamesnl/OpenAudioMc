@@ -1086,10 +1086,19 @@ footer {
 }
 
 .navbar-bg {
-    background: linear-gradient(156deg, #000 5%, color-mix(in srgb,var(--primary-accent), #000 65%), color-mix(in srgb,var(--primary-accent),#000 70%));
-    border-right-color: color-mix(in srgb,var(--primary-accent), #000 65%);
-    border-right-style: solid;
-    border-right-width: 2px;
+    background: linear-gradient(
+            156deg, #07020D 50%,
+            color-mix(in srgb, var(--primary-accent), #07020D 60%),
+            #07020D 100%
+    );
+}
+
+.navbar-bg-button {
+    background-color: #0F0A0A;
+}
+
+.navbar-button-active {
+    background-color: color-mix(in srgb, var(--primary-accent), #07020D 55%) !important;
 }
 
 .login-image {
@@ -1178,11 +1187,11 @@ span.tab {
 }
 
 pre {
-    display:inline;
-    margin:0;
-    padding:0;
-    border:0;
-    outline:0;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
 }
 
 .common-rounded {
@@ -1192,6 +1201,7 @@ pre {
 .serverimage {
     content: var(--background-image);
 }
+
 .disabled-bt {
     pointer-events: none;
     opacity: 0.4; /* Adjust the opacity value to control the level of disabled effect */
