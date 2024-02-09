@@ -12,7 +12,7 @@ public class ClientsSubCommand extends SubCommand {
     public ClientsSubCommand() {
         super("clients");
         registerArguments(
-                new Argument("", "List all connected clients")
+                new Argument("", "List all connected clients", 0)
         );
     }
 

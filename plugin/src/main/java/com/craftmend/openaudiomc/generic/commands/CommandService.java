@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
@@ -12,6 +13,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.commands.subcommands.*;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -29,9 +31,10 @@ public class CommandService extends Service {
     private Configuration configuration;
 
     private final Map<CommandContext, Map<String, SubCommand>> subCommands = new EnumMap<>(CommandContext.class);
-    @Getter private final List<String> aliases = new ArrayList<>();
+    @Getter
+    private final List<String> aliases = new ArrayList<>();
 
-    private final CommandMiddleware[] defaultCommandMiddleware = new CommandMiddleware[] {
+    private final CommandMiddleware[] defaultCommandMiddleware = new CommandMiddleware[]{
             new CatchLegalBindingMiddleware(),
             new CatchCrashMiddleware(),
             new CleanStateCheckMiddleware()
@@ -87,7 +90,7 @@ public class CommandService extends Service {
     }
 
     /**
-     * @param context the context to get the sub commands from
+     * @param context     the context to get the sub commands from
      * @param commandList registers one or more sub commands
      */
     public void registerSubCommands(CommandContext context, SubCommand... commandList) {
@@ -102,7 +105,7 @@ public class CommandService extends Service {
     }
 
     /**
-     * @param context the context to get the sub commands from
+     * @param context  the context to get the sub commands from
      * @param argument get the sub command from a name
      * @return returns the handler, can be null
      */
@@ -153,20 +156,48 @@ public class CommandService extends Service {
     }
 
     public List<String> getTabCompletions(CommandContext context, String[] args) {
-        List<String> completions = new ArrayList<>();
+        Set<String> completions = new HashSet<>();
         for (String subCommand : getSubCommands(context)) {
-            if (args.length <= 1 && subCommand.startsWith(args[0])) completions.add(subCommand);
+            if (args.length <= 1 && subCommand.startsWith(args[0])) {
+                // Not typing yet, add the entire damn thing
+                completions.add(subCommand);
+            }
         }
-        if (args.length == 2) {
+
+        // do we not have anything yet?
+        if (completions.isEmpty()) {
             SubCommand subCommand = getSubCommand(context, args[0].toLowerCase());
             if (subCommand == null) return new ArrayList<>();
             for (Argument argument : subCommand.getArguments()) {
-                if (argument.getSyntax().startsWith(args[1].toLowerCase())) {
-                    completions.add(argument.getSyntax());
+                String[] argumentSyntaxParts = argument.getSyntax().split(" ");
+
+                int localArgIndex = args.length - 2;
+
+                if (argument.isPlayerArgument(localArgIndex)) {
+                    for (String targetName : getAllTargetNames()) {
+                        if (targetName.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                            completions.add(targetName);
+                        }
+                    }
+                } else {
+                    if (args.length <= argumentSyntaxParts.length + 1) {
+                        completions.add(argumentSyntaxParts[localArgIndex]);
+                    }
                 }
             }
         }
-        return completions;
+
+        List<String> s = new ArrayList<>();
+        s.addAll(completions);
+        return s;
+    }
+
+    private List<String> getAllTargetNames() {
+        List<String> names = new ArrayList<>();
+        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
+            names.add(client.getUser().getName());
+        }
+        return names;
     }
 
 }

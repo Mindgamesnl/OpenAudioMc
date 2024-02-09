@@ -23,9 +23,9 @@ public class PlaySubCommand extends SubCommand {
         super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
-                        "Plays a sound for all the players in a selection"),
+                        "Plays a sound for all the players in a selection", 0),
                 new Argument("<selector> <source> <options>",
-                        "Plays a sound with configuration (like fade time, sync etc) for all players in a selection")
+                        "Plays a sound with configuration (like fade time, sync etc) for all players in a selection", 0)
         );
     }
 

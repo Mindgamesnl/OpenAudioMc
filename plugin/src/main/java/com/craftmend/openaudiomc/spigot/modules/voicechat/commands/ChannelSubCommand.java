@@ -19,7 +19,7 @@ public class ChannelSubCommand extends SubCommand {
                 new Argument("leave", "Leave your current channel, back to proximity chat"),
                 new Argument("join <channel-name>", "Join a channel"),
                 new Argument("list", "List all available channels"),
-                new Argument("invite <player-name>", "Invite a player to your channel")
+                new Argument("invite <player-name>", "Invite a player to your channel", 1)
         );
 
         this.ignorePermissions = true;

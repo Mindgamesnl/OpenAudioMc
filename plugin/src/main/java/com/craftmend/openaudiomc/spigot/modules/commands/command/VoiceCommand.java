@@ -3,7 +3,6 @@ package com.craftmend.openaudiomc.spigot.modules.commands.command;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
-import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @NoArgsConstructor
-public class VoiceChatCommand implements CommandExecutor, TabCompleter {
+public class VoiceCommand implements CommandExecutor, TabCompleter {
 
     private final CommandService commandService = OpenAudioMc.getService(CommandService.class);
 
