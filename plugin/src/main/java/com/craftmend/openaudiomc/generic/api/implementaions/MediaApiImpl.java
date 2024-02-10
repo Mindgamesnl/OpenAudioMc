@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import org.jetbrains.annotations.NotNull;
 
 import static com.craftmend.openaudiomc.generic.api.utils.ApiUtils.validateClient;
@@ -19,6 +20,19 @@ public class MediaApiImpl implements MediaApi {
     @Override
     public Media createMedia(@NotNull String source) {
         return new Media(source);
+    }
+
+    @Override
+    public void preloadMediaSource(Client client, String mediaSource) {
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(mediaSource), "api", false);
+        if (client.isConnected()) {
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null));
+        }
+    }
+
+    @Override
+    public void preloadMedia(Client client, Media media) {
+        this.preloadMediaSource(client, media.getSource());
     }
 
     @NotNull
