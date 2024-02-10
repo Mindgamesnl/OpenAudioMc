@@ -96,16 +96,18 @@ public class RtcSessionManager implements Serializable {
 
         // only force the other user to subscribe if they are not already listening to me and mutual is true
         if (mutual && !peer.getRtcSessionManager().currentProximityPeers.contains(clientConnection.getOwner().getUniqueId())) {
-            peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
-            peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
-
-            EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+            ClientPeerAddedEvent event = (ClientPeerAddedEvent) EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
                     clientConnection,
                     peer,
                     options
             ));
 
-            peer.getRtcSessionManager().updateLocationWatcher();
+            if (!event.isCancelled()) {
+                peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
+                peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
+
+                peer.getRtcSessionManager().updateLocationWatcher();
+            }
         }
 
         // in case that I'm already listening to the other user, don't do anything
@@ -113,16 +115,18 @@ public class RtcSessionManager implements Serializable {
         if (currentProximityPeers.contains(peer.getOwner().getUniqueId()))
             return false;
 
-        currentProximityPeers.add(peer.getOwner().getUniqueId());
-        clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
-
-        EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+        ClientPeerAddedEvent event = (ClientPeerAddedEvent) EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
                 peer,
                 clientConnection,
                 options
         ));
 
-        updateLocationWatcher();
+        if (!event.isCancelled()) {
+            currentProximityPeers.add(peer.getOwner().getUniqueId());
+            clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
+            updateLocationWatcher();
+        }
+
         return true;
     }
 

@@ -1,14 +1,14 @@
 package com.craftmend.openaudiomc.api.events.client;
 
 import com.craftmend.openaudiomc.api.clients.Client;
-import com.craftmend.openaudiomc.api.events.ClientEvent;
+import com.craftmend.openaudiomc.api.events.CancellableClientEvent;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientPeerAddedEvent extends ClientEvent {
+public class ClientPeerAddedEvent extends CancellableClientEvent {
 
     private Client peer;
     private VoicePeerOptions options;
