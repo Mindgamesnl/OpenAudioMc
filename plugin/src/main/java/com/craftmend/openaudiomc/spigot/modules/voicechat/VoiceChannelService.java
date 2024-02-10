@@ -51,7 +51,7 @@ public class VoiceChannelService extends Service {
             channelMap.put(name, previous);
             return false;
         }
-
+ 
         created.addMember(creator);
 
         // success
