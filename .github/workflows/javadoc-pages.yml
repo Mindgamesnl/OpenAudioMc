@@ -21,5 +21,8 @@ jobs:
           project: maven # or gradle
           subdirectories: api
           custom-command:  mvn javadoc:aggregate -pl :openaudiomc-api
+      - name: Ensure docs directory exists
+        run: mkdir -p docs
+
       - name: Copy API docs
         run: cp -r api/target/site/apidocs/* docs/
