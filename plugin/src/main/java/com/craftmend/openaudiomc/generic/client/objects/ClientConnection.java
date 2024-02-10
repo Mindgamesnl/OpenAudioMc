@@ -320,6 +320,16 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
     }
 
     @Override
+    public void kickProximityPeer(@NotNull Client otherClient) {
+        if (this.rtcSessionManager.isPeer(otherClient.getActor().getUniqueId())) {
+            // remove the peer
+            ClientConnection other = (ClientConnection) otherClient;
+            this.rtcSessionManager.getCurrentProximityPeers().remove(other.getActor().getUniqueId());
+            this.getPeerQueue().drop(other.getRtcSessionManager().getStreamKey());
+        }
+    }
+
+    @Override
     public void preloadMedia(String source) {
         ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false);
         sendPacket(new PacketClientPreFetch(payload));

@@ -67,4 +67,13 @@ public interface Client {
      */
     void playMedia(@NotNull Media media);
 
+    /**
+     * Forcefully remove a player from my proximity chat peers. This will cause the otherClient to trigger a new ClientPeerAddEvent
+     * Useful for refreshing peers when someone changes game modes, for example.
+     * This method will not do anything if this user isn't in voice chat, if they aren't a peer, or if the other client isn't in voice chat.
+     * This action is **one-sided**. The other client will still be listening to this client.
+     * @param otherClient the client to remove
+     */
+    void kickProximityPeer(@NotNull Client otherClient);
+
 }
