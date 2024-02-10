@@ -7,10 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class ClientPeerAddEvent extends CancellableClientEvent {
 
     private Client peer;
+
+    @Setter
     private VoicePeerOptions options;
 
     /**

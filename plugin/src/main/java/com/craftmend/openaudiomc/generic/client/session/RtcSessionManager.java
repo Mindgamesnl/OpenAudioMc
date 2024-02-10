@@ -102,6 +102,9 @@ public class RtcSessionManager implements Serializable {
                     options
             ));
 
+            // get changed options
+            options = event.getOptions();
+
             if (!event.isCancelled()) {
                 peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
                 peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
@@ -120,6 +123,9 @@ public class RtcSessionManager implements Serializable {
                 clientConnection,
                 options
         ));
+
+        // get changed options
+        options = event.getOptions();
 
         if (!event.isCancelled()) {
             currentProximityPeers.add(peer.getOwner().getUniqueId());

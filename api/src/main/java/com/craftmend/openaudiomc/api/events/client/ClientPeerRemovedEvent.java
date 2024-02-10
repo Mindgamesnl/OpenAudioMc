@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class ClientPeerRemovedEvent extends ClientEvent {
 
     private Client peer;
