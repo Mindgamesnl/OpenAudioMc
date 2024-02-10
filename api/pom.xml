@@ -39,6 +39,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <source>8</source>
+                    <destDir>../../../../docs</destDir>
                 </configuration>
                 <executions>
                     <execution>
