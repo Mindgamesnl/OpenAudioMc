@@ -29,6 +29,30 @@ public interface MediaApi {
     Media createMedia(@NotNull String source);
 
     /**
+     * Force a client to preload a media source, so it's ready to play when needed.
+     * This will force the client to download the entire file and cache it. Once a media is played
+     * (through any method) it will look in the cache and take it from there if it's available.
+     * This method is useful for preloading media sources that are not played often, but should be
+     * ready to play at any time (like a sound effects, shows, etc)
+     *
+     * @param client the client to preload the media for
+     * @param mediaSource the media source to preload
+     */
+    void preloadMediaSource(Client client, String mediaSource);
+
+    /**
+     * Force a client to preload a media, so it's ready to play when needed.
+     * This will force the client to download the entire file and cache it. Once a media is played
+     * (through any method) it will look in the cache and take it from there if it's available.
+     * This method is useful for preloading media sources that are not played often, but should be
+     * ready to play at any time (like a sound effects, shows, etc)
+     *
+     * @param client the client to preload the media for
+     * @param media the media to preload
+     */
+    void preloadMedia(Client client, Media media);
+
+    /**
      * Translate server-sided aliases, playlists or other sources to a valid source.
      * This is automatically done by createMedia, but you might want to do this manually.
      *
@@ -60,7 +84,7 @@ public interface MediaApi {
 
     /**
      * Play a media for a client
-     * @param client Target client
+     * @param clients Target clients
      * @param media Media instance
      */
     void playFor(@NotNull Media media, @NotNull Client... clients);
