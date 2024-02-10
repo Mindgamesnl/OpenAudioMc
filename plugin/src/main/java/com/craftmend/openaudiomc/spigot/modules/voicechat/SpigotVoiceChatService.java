@@ -4,8 +4,6 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.basic.Actor;
 import com.craftmend.openaudiomc.api.events.client.*;
-import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
 import com.craftmend.openaudiomc.generic.events.events.AccountAddTagEvent;
@@ -70,7 +68,7 @@ public class SpigotVoiceChatService extends Service {
             firstRun = false;
         });
 
-        eventApi.registerHandler(ClientPeerAddedEvent.class, event -> {
+        eventApi.registerHandler(ClientPeerAddEvent.class, event -> {
             // skip if this is disabled in the settings
             if (!event.getOptions().isSpatialAudio()) return; // exclude non-spatial audio clients
             if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;

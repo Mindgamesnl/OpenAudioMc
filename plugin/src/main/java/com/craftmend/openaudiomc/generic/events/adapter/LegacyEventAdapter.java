@@ -69,7 +69,7 @@ public class LegacyEventAdapter {
     }
 
     @Handler
-    public void onPeerAdd(ClientPeerAddedEvent event) {
+    public void onPeerAdd(ClientPeerAddEvent event) {
         legacyEventDriver.fire(new com.craftmend.openaudiomc.api.impl.event.events.PlayerEnterVoiceProximityEvent(toClientConnection(event.getClient()), toClientConnection(event.getPeer())));
     }
 
