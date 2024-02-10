@@ -2,13 +2,12 @@ package com.craftmend.openaudiomc.api.basic;
 
 import java.util.UUID;
 
+/**
+ * An actor is a further abstraction of a User from within OpenAudioMc.
+ * A user is an object representing a platform specific user whose type is given as a parameter to the user class itself.
+ * An actor is a more abstract version of this, and is used to represent any user, regardless of platform.
+ */
 public interface Actor {
-
-    /*
-     * An actor is a further abstraction of a User<?> from within OpenAudioMc.
-     * A user is an object representing a platform specific user whose type is given as a parameter to the user class itself.
-     * An actor is a more abstract version of this, and is used to represent any user, regardless of platform.
-     */
 
     /**
      * Get the name of the actor (usually the player name)
@@ -37,7 +36,6 @@ public interface Actor {
 
     /**
      * Make the actor execute a command. This is usually a wrapper around the platform's command sender system.
-     * @param command the command to execute
      */
     void sendMessage(String message);
 
