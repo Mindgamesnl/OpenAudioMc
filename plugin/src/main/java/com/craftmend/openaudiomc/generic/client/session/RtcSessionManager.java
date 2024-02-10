@@ -96,7 +96,7 @@ public class RtcSessionManager implements Serializable {
 
         // only force the other user to subscribe if they are not already listening to me and mutual is true
         if (mutual && !peer.getRtcSessionManager().currentProximityPeers.contains(clientConnection.getOwner().getUniqueId())) {
-            ClientPeerAddedEvent event = (ClientPeerAddedEvent) EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+            ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(
                     clientConnection,
                     peer,
                     options
@@ -115,7 +115,7 @@ public class RtcSessionManager implements Serializable {
         if (currentProximityPeers.contains(peer.getOwner().getUniqueId()))
             return false;
 
-        ClientPeerAddedEvent event = (ClientPeerAddedEvent) EventApi.getInstance().callEvent(new ClientPeerAddedEvent(
+        ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(
                 peer,
                 clientConnection,
                 options

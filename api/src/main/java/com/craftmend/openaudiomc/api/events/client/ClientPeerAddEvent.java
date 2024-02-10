@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientPeerAddedEvent extends CancellableClientEvent {
+public class ClientPeerAddEvent extends CancellableClientEvent {
 
     private Client peer;
     private VoicePeerOptions options;
@@ -20,7 +20,7 @@ public class ClientPeerAddedEvent extends CancellableClientEvent {
      * @param peer    the peer that was added
      * @param options the options that were used to add the peer
      */
-    public ClientPeerAddedEvent(Client client, Client peer, VoicePeerOptions options) {
+    public ClientPeerAddEvent(Client client, Client peer, VoicePeerOptions options) {
         super(client);
         this.peer = peer;
         this.options = options;
