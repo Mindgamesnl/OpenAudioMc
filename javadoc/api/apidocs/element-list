@@ -1,0 +1,10 @@
+com.craftmend.openaudiomc.api
+com.craftmend.openaudiomc.api.basic
+com.craftmend.openaudiomc.api.clients
+com.craftmend.openaudiomc.api.events
+com.craftmend.openaudiomc.api.events.client
+com.craftmend.openaudiomc.api.media
+com.craftmend.openaudiomc.api.regions
+com.craftmend.openaudiomc.api.spakers
+com.craftmend.openaudiomc.api.voice
+com.craftmend.openaudiomc.generic.media.objects
