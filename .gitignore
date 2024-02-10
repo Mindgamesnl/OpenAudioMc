@@ -25,3 +25,4 @@ test-server-bungee/
 test-server-vistas/
 test-server/
 .buildconfig
+javadoc/
