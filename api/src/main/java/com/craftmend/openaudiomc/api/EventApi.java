@@ -3,6 +3,10 @@ package com.craftmend.openaudiomc.api;
 import com.craftmend.openaudiomc.api.events.BaseEvent;
 import com.craftmend.openaudiomc.api.events.SingleHandler;
 
+/**
+ * This is the event api, which is used to register and call events.
+ * We use this instead of the bukkit event system to allow for cross-platform compatibility
+ */
 public interface EventApi {
 
     /**

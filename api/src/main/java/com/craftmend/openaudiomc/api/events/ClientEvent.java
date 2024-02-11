@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.api.events;
 
 import com.craftmend.openaudiomc.api.clients.Client;
 
+/**
+ * Base event for all events carrying a client
+ */
 public class ClientEvent extends BaseEvent {
 
         private final Client client;

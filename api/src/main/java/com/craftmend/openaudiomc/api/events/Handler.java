@@ -7,10 +7,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+/**
+ * This is a marker annotation for event handlers, for bukkit-style listeners
+ * See {@link com.craftmend.openaudiomc.api.EventApi} for more information
+ */
 public @interface Handler {
-
-    /**
-     * This is a marker annotation for event handlers.
-     */
 
 }

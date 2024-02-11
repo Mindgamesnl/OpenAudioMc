@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.api.spakers;
 
 import lombok.Getter;
 
+/**
+ * Represents a speaker type
+ */
 public enum SpeakerType {
 
     SPEAKER_2D("2D", "Only bases volume on distance"),

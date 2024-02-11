@@ -5,6 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+/**
+ * Represents an optional error
+ */
 public class OptionalError {
 
     private boolean error;

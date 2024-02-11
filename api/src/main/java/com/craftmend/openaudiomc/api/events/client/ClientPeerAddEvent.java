@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+/**
+ * This event is called whenever a peer is being added to the client, and can be cancelled to prevent the peer from being added.
+ * This is useful to set up single-sided voice connections, without having to implement a filter.
+ */
 public class ClientPeerAddEvent extends CancellableClientEvent {
 
     private Client peer;

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+/**
+ * This event is called whenever a peer is being removed from the client
+ */
 public class ClientPeerRemovedEvent extends ClientEvent {
 
     private Client peer;

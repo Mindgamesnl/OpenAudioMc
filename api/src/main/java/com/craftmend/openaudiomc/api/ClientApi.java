@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * The ClientApi is a collection of methods to interact with clients, and get information about them
+ */
 public interface ClientApi {
 
     /**

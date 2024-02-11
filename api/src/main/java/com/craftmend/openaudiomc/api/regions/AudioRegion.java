@@ -4,6 +4,9 @@ import com.craftmend.openaudiomc.api.media.Media;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents a region that can play audio. Obtainable through {@link com.craftmend.openaudiomc.api.WorldApi the world api}
+ */
 public interface AudioRegion {
 
     /**

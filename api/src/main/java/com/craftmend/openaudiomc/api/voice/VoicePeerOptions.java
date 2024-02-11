@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoicePeerOptions {
 
-    /*
-     * Voice chat options are special flags set for each peer, giving the client extra information on how the connection
-     * should be treated and rendered. The initial state is defined by the default values in this class, and get passed during
-     * the connection request packet sent towards the client. These settings can also be changed on the fly, by pushing them
-     * in a separate client options update packet without needing the session to reload.
-     */
+/*
+ * Voice chat options are special flags set for each peer, giving the client extra information on how the connection
+ * should be treated and rendered. The initial state is defined by the default values in this class, and get passed during
+ * the connection request packet sent towards the client. These settings can also be changed on the fly, by pushing them
+ * in a separate client options update packet without needing the session to reload.
+ */
+public class VoicePeerOptions {
 
     /**
      * Singleton default. Means we don't have to create a new object every time we want to use the default.

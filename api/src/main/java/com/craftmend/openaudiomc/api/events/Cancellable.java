@@ -1,5 +1,8 @@
 package com.craftmend.openaudiomc.api.events;
 
+/**
+ * Represents an event that can be cancelled
+ */
 public interface Cancellable {
 
     /**

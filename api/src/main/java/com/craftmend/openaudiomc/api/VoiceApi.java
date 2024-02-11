@@ -5,6 +5,11 @@ import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 
 import java.util.UUID;
 
+/**
+ * The VoiceApi contains registry, as well as control endpoints for voice-chat related features.
+ * This implementation is only available on the Spigot instance, even if the plugin is running in a BungeeCord/Velocity or Vistas network.
+ * Accessing this API on a non-spigot instance will result in undefined behavior or runtime exceptions.
+ */
 public interface VoiceApi {
 
     /**
@@ -17,12 +22,6 @@ public interface VoiceApi {
         }
         return ApiHolder.voiceApiInstance;
     }
-
-    /*
-     * The VoiceApi contains registry, as well as control endpoints for voice-chat related features.
-     * This implementation is only available on the Spigot instance, even if the plugin is running in a BungeeCord/Velocity or Vistas network.
-     * Accessing this API on a non-spigot instance will result in undefined behavior or runtime exceptions.
-     */
 
     /**
      * Register a client as a voice-chat peer
