@@ -18,8 +18,8 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilter;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilterCustom;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilterCustom;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerPeerTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
@@ -182,12 +182,12 @@ public class SpigotVoiceChatService extends Service {
         // enable default rules
         if (StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE.getBoolean()) {
             OpenAudioLogger.toConsole("Enabling voicechat gamemode filter");
-            getService(FilterService.class).addFilterFunction(new GamemodeFilter());
+            getService(FilterService.class).addCustomFilter(new GamemodeFilterCustom());
         }
 
         if (StorageKey.SETTINGS_VOICE_FILTERS_TEAM.getBoolean()) {
             OpenAudioLogger.toConsole("Enabling voicechat team filter");
-            getService(FilterService.class).addFilterFunction(new TeamFilter());
+            getService(FilterService.class).addCustomFilter(new TeamFilterCustom());
         }
     }
 

@@ -3,13 +3,16 @@ package com.craftmend.openaudiomc.generic.api.implementaions;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientVoiceOptionsUpdate;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceOptionsPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -120,5 +123,15 @@ public class VoiceApiImpl implements VoiceApi {
         if (mutual) {
             removeStaticPeer(peerToRemove, client, false);
         }
+    }
+
+    @Override
+    public void addFilterFunction(CustomPlayerFilter customPlayerFilter) {
+        OpenAudioMc.getService(FilterService.class).addCustomFilter(customPlayerFilter);
+    }
+
+    @Override
+    public List<CustomPlayerFilter> getCustomPlayerFilters() {
+        return OpenAudioMc.getService(FilterService.class).getCustomPlayerFilters();
     }
 }
