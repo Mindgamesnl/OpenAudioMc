@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
  * the connection request packet sent towards the client. These settings can also be changed on the fly, by pushing them
  * in a separate client options update packet without needing the session to reload.
  */
-public class VoicePeerOptions {
+public class VoicePeerOptions implements Cloneable {
 
     /**
      * Singleton default. Means we don't have to create a new object every time we want to use the default.
@@ -35,5 +35,14 @@ public class VoicePeerOptions {
      * The icon next to someone's name also gets controlled by this flag.
      */
     private boolean spatialAudio = true;
+
+    /**
+     * Clone the object
+     * @return a clone of the object
+     */
+    @Override
+    public VoicePeerOptions clone() {
+        return new VoicePeerOptions(visible, spatialAudio);
+    }
 
 }

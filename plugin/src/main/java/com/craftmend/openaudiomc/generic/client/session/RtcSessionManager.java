@@ -99,16 +99,12 @@ public class RtcSessionManager implements Serializable {
             ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(
                     clientConnection,
                     peer,
-                    options
+                    options.clone()
             ));
-
-            // get changed options
-            options = event.getOptions();
 
             if (!event.isCancelled()) {
                 peer.getRtcSessionManager().getCurrentProximityPeers().add(clientConnection.getOwner().getUniqueId());
-                peer.getPeerQueue().addSubscribe(clientConnection, peer, options);
-
+                peer.getPeerQueue().addSubscribe(clientConnection, peer, event.getOptions());
                 peer.getRtcSessionManager().updateLocationWatcher();
             }
         }
@@ -121,15 +117,12 @@ public class RtcSessionManager implements Serializable {
         ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(
                 peer,
                 clientConnection,
-                options
+                options.clone()
         ));
-
-        // get changed options
-        options = event.getOptions();
 
         if (!event.isCancelled()) {
             currentProximityPeers.add(peer.getOwner().getUniqueId());
-            clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, options);
+            clientConnection.getPeerQueue().addSubscribe(peer, clientConnection, event.getOptions());
             updateLocationWatcher();
         }
 
