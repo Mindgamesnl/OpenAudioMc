@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.api.events;
 
 import com.craftmend.openaudiomc.api.clients.Client;
 
+/**
+ * A cancellable client event
+ */
 public class CancellableClientEvent extends ClientEvent implements Cancellable {
 
     private boolean cancelled = false;

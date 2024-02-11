@@ -1,5 +1,9 @@
 package com.craftmend.openaudiomc.api;
 
+/**
+ * Internal class used to initialize the API once based on services from the plugin.
+ * Calling any of these methods will throw an exception if the API is already initiated.
+ */
 public class ApiHolder {
 
     static ClientApi clientApiInstance;

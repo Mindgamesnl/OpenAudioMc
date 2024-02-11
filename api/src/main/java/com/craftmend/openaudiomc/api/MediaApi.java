@@ -5,6 +5,10 @@ import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.media.UrlMutation;
 import org.jetbrains.annotations.NotNull;
 
+
+/**
+ * The MediaApi is a collection of methods to interact with media, and get information about them
+ */
 public interface MediaApi {
 
     /**

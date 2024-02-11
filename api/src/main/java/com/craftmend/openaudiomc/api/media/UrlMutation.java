@@ -2,14 +2,12 @@ package com.craftmend.openaudiomc.api.media;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * URL mutations can be used to register custom server-side media hooks or source translators.
+ * An example use case would be a custom media server aliased by hypixel:, which can be resolved
+ * to https://hypixel.com/media/* by a mutation. See {@link com.craftmend.openaudiomc.api.MediaApi the media api} for more information.
+ */
 public interface UrlMutation {
-
-    /*
-     * URL mutations can be used to register custom server-side media hooks or source translators.
-     * An example use case would be a custom media server aliased by hypixel:, which can be resolved
-     * to https://hypixel.com/media/* by a mutation.
-     */
-
     /**
      * Translate a custom source to a full media URL.
      *

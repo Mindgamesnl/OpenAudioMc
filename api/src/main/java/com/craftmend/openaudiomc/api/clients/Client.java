@@ -4,12 +4,11 @@ import com.craftmend.openaudiomc.api.basic.Actor;
 import com.craftmend.openaudiomc.api.media.Media;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A player session represents the state of an online player and its corresponding web client connection.
+ * It's used to interact with the webclient, determine and change state and hook back into the platform specific user object.
+ */
 public interface Client {
-
-    /*
-     * A player session represents the state of an online player and its corresponding web client connection.
-     * It's used to interact with the webclient, determine and change state and hook back into the platform specific user object.
-     */
 
     /**
      * Get the actor of the underlying User (usually a player)

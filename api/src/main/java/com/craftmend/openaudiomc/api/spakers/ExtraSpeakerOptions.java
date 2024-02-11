@@ -5,8 +5,14 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
+/**
+ * Represents extra options for a speaker
+ */
 public enum ExtraSpeakerOptions {
 
+    /**
+     * This option will ignore audio synchronization for this speaker specifically
+     */
     IGNORE_SYNCHRONIZATION(
             true,
             "Ignore Synchronization",
@@ -15,6 +21,10 @@ public enum ExtraSpeakerOptions {
     ),
 
 
+    @Deprecated
+    /**
+     * This setting is no longer exposed or shown, but still exists for backwards compatibility
+     */
     PROCESS_OBSTRUCTIONS(
             false,
             "Process Obstructions",
@@ -22,6 +32,9 @@ public enum ExtraSpeakerOptions {
             speaker -> speaker.getSpeakerType() == SpeakerType.SPEAKER_3D
     ),
 
+    /**
+     * This setting will make the speaker play once, and then never again until the player leaves the area and re-enters
+     */
     PLAY_ONCE(
             true,
             "Play Once",
@@ -29,6 +42,9 @@ public enum ExtraSpeakerOptions {
             speaker -> true
     ),
 
+    /**
+     * This setting will only make the speaker active/discoverable when its directly powered by redstone
+     */
     REQUIRES_REDSTONE(
             true,
             "Requires Redstone",
@@ -36,6 +52,9 @@ public enum ExtraSpeakerOptions {
             speaker -> true
     ),
 
+    /**
+     * This setting will make the media timestamp reset once it loses redstone power
+     */
     RESET_PLAYTHROUGH_ON_REDSTONE_LOSS(
             true,
             "Reset Playthrough on Redstone Loss",
@@ -43,6 +62,9 @@ public enum ExtraSpeakerOptions {
             speaker -> true
     ),
 
+    /**
+     * This setting will mute all the regions for the player as long as they are in range of this speaker
+     */
     OVERWRITE_REGIONS(
             true,
             "Overwrite Regions",

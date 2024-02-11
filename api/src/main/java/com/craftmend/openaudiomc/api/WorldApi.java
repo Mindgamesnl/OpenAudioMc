@@ -7,6 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
+
+/**
+ * The WorldApi is a collection of methods to interact with features that is linked to worlds.
+ * This API is only available if the OpenAudioMc plugin on spigot, and is not available on the bungee side.
+ */
 public interface WorldApi {
 
     /**

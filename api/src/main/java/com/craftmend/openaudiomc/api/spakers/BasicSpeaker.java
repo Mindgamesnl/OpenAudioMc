@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Represents a basic speaker placed in the world
+ * Obtainable through {@link com.craftmend.openaudiomc.api.WorldApi the world api}
+ */
 public interface BasicSpeaker {
 
     /**

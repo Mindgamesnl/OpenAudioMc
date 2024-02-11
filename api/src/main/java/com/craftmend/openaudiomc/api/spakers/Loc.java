@@ -2,6 +2,9 @@ package com.craftmend.openaudiomc.api.spakers;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a location in the world, regardless of the server implementation
+ */
 public interface Loc {
 
     /**

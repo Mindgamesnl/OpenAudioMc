@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+/**
+ * This event is called before a client session is authenticated.
+ * Cancelling this event will prevent the client from being authenticated and reload the web page.
+ * Keep in mind that this event is run from the socket thread, and is blocking other clients from connecting.
+ */
 public class ClientAuthenticationEvent extends CancellableEvent {
 
     private Actor actor;

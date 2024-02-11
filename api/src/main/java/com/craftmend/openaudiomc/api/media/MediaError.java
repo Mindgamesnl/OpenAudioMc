@@ -2,6 +2,10 @@ package com.craftmend.openaudiomc.api.media;
 
 import lombok.Getter;
 
+/**
+ * This enum contains all possible media errors that can occur when trying to play a media file.
+ * This can be used to determine what went wrong, and to provide a better user experience.
+ */
 public enum MediaError {
 
     YOUTUBE_ERR("The provided youtube video is invalid, private or is unavailable. We recommend that you upload your own content."),

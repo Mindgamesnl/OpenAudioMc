@@ -4,10 +4,13 @@ import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.events.ClientEvent;
 import com.craftmend.openaudiomc.api.media.MediaError;
 
+/**
+ * This event is called whenever a media source fails to load or play for the web client
+ */
 public class MediaErrorEvent extends ClientEvent {
 
-    private String mediaSource;
-    private MediaError mediaError;
+    private final String mediaSource;
+    private final MediaError mediaError;
 
     /**
      * This event resembles an internal error in the web client (like bad or failed HTTP media requests).

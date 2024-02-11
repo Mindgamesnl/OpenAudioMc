@@ -7,6 +7,10 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
+/**
+ * A Media object represents the full state of a media file, including all settings and options.
+ * This file is parsed by the client and used to play media of any type, also used internally for regions and speakers.
+ */
 public class Media {
 
     /**
