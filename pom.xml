@@ -15,7 +15,36 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <oa.version>6.10.0</oa.version>
+
+        <!-- dev deps -->
+        <deps.lombok.version>1.18.30</deps.lombok.version>
+        <deps.lombokmvn.version>1.18.20.0</deps.lombokmvn.version>
+        <deps.jetbrainsannot.version>24.1.0</deps.jetbrainsannot.version>
+
+        <!-- production deps -->
+        <deps.spigot.version>1.13.2-R0.1-SNAPSHOT</deps.spigot.version>
+        <deps.okhttp.version>4.7.0</deps.okhttp.version>
+        <deps.velocityapi.version>3.0.1</deps.velocityapi.version>
+        <deps.storm.version>e1f961b</deps.storm.version>
+        <deps.nbtapi.version>2.12.0</deps.nbtapi.version>
+
+        <!-- Bungeecord uses some special deps from jitpack to work around protocol bugs -->
+        <deps.bungee.proxy.version>b23a51825e</deps.bungee.proxy.version>
+        <deps.bungee.protocol.version>${deps.bungee.proxy.version}</deps.bungee.protocol.version>
+        <deps.bungee.api.version>${deps.bungee.proxy.version}</deps.bungee.api.version>
+
+        <!-- Integrations -->
+        <deps.legacyworldguard.version>6.1</deps.legacyworldguard.version>
+        <deps.worldguard.version>7.0.5</deps.worldguard.version>
+        <deps.worldedit.version>7.0.0-SNAPSHOT</deps.worldedit.version>
+        <deps.traincarts.version>1.15.2-v2-SNAPSHOT</deps.traincarts.version>
+        <deps.bkcommonlib.version>${deps.traincarts.version}</deps.bkcommonlib.version>
+        <deps.litebans.version>0.3.4</deps.litebans.version>
+        <deps.essentialsx.version>2.19.0-SNAPSHOT</deps.essentialsx.version>
+        <deps.placeholderapi.version>2.10.9</deps.placeholderapi.version>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>

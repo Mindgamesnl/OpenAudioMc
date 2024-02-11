@@ -95,13 +95,21 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
+            <version>${deps.jetbrainsannot.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>${deps.lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- THIS SHOULD ONLY BE USED IN THE FILTER, NOT IN ANY OTHER INTERFACE WHICH MAY BE USED ON OTHER PLATFORMS -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${deps.spigot.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
