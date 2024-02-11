@@ -8,3 +8,4 @@ com.craftmend.openaudiomc.api.regions
 com.craftmend.openaudiomc.api.spakers
 com.craftmend.openaudiomc.api.voice
 com.craftmend.openaudiomc.generic.media.objects
+com.craftmend.openaudiomc.spigot.modules.voicechat.filters
