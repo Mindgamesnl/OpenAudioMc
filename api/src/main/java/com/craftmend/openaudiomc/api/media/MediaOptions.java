@@ -5,6 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+/**
+ * This class is a model for media options, which are used to configure media objects.
+ * Media options are used to configure the behavior of a media object, such as volume, looping, and fading.
+ * These can be set on the Media object itself too, but this serves as an intermediate object to help apply serialized media options.
+ */
 public class MediaOptions {
 
     /**
