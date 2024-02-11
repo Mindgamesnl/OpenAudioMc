@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - development # build from development branch (for now)
 
 jobs:
   publish:
