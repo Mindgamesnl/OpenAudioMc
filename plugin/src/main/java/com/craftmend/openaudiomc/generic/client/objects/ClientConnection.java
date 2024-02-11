@@ -276,7 +276,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
 
     @Override
     public boolean isMicrophoneMuted() {
-        return this.rtcSessionManager.isMicrophoneEnabled();
+        return !this.rtcSessionManager.isMicrophoneEnabled();
     }
 
     @Override
