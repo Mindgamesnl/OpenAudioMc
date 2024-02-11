@@ -14,7 +14,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.Cli
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientSpeakerDestroyPayload;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects.ClientSpeaker;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
-import com.craftmend.openaudiomc.api.spakers.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 
 import java.time.Instant;
 import java.util.UUID;

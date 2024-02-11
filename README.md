@@ -34,6 +34,7 @@ Please note that the test for `vistas-server` test cases require a redis server 
 * **Website** - <https://openaudiomc.net/>
 * **Discord Community** - <https://discord.openaudiomc.net/>
 * **Documentation** - <https://openaudiomc.net/docs>
+* **JavaDocs** - <https://javadoc.openaudiomc.net/>
 * **Client** - <https://session.openaudiomc.net/>
 
 # Codebase core terminology

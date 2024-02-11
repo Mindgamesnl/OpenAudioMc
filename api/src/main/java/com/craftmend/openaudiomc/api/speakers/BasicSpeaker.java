@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.api.spakers;
+package com.craftmend.openaudiomc.api.speakers;
 
 import com.craftmend.openaudiomc.api.media.Media;
 import org.jetbrains.annotations.NotNull;

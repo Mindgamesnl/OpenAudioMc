@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.WorldApi;
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.regions.AudioRegion;
-import com.craftmend.openaudiomc.api.spakers.BasicSpeaker;
+import com.craftmend.openaudiomc.api.speakers.BasicSpeaker;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;

@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.api;
 
 import com.craftmend.openaudiomc.api.regions.AudioRegion;
-import com.craftmend.openaudiomc.api.spakers.BasicSpeaker;
+import com.craftmend.openaudiomc.api.speakers.BasicSpeaker;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

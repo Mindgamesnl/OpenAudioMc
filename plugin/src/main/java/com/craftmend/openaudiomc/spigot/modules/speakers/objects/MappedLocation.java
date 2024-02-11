@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
-import com.craftmend.openaudiomc.api.spakers.Loc;
+import com.craftmend.openaudiomc.api.speakers.Loc;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
