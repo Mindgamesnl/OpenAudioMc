@@ -1,11 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl;
 
-import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.CustomFilterFunction;
+import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-public class TeamFilter implements CustomFilterFunction {
+public class TeamFilterCustom implements CustomPlayerFilter {
 
     @Override
     public boolean isPlayerValidListener(Player listener, Player possibleSpeaker) {
