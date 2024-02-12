@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class ServiceManager {
 
-
     private final Map<Class<?>, Object> otherInjectables = new HashMap<>();
     private final Map<Class<? extends Service>, Service> serviceMap = new HashMap<>();
 

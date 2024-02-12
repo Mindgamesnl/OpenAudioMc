@@ -1,6 +1,11 @@
 package com.craftmend.openaudiomc.generic.commands.objects;
 
+import com.craftmend.openaudiomc.generic.commands.interfaces.TabCompleteProvider;
+import com.craftmend.openaudiomc.generic.commands.tabcomplete.ClientTabcompleteProvider;
 import lombok.Data;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 public class Argument {
@@ -13,7 +18,7 @@ public class Argument {
      */
     private String syntax;
     private String description;
-    private int playerArgumentIndex = -1;
+    private Map<Integer, TabCompleteProvider> tabCompleteProviders = new HashMap<>();
 
     public Argument(String syntax, String description) {
         this.syntax = syntax;
@@ -23,11 +28,16 @@ public class Argument {
     public Argument(String syntax, String description, int playerArgumentIndex) {
         this.syntax = syntax;
         this.description = description;
-        this.playerArgumentIndex = playerArgumentIndex;
+        this.tabCompleteProviders.put(playerArgumentIndex, ClientTabcompleteProvider.INSTANCE);
     }
 
-    public boolean isPlayerArgument(int index) {
-        return index == playerArgumentIndex;
+    public Argument addTabCompleteProvider(int index, TabCompleteProvider provider) {
+        tabCompleteProviders.put(index, provider);
+        return this;
+    }
+
+    public TabCompleteProvider getTabCompleteProvider(int index) {
+        return tabCompleteProviders.get(index);
     }
 
     public String getBase() {
