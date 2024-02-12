@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
@@ -19,6 +20,7 @@ public class PreloadSubCommand extends SubCommand {
         super("preload");
         registerArguments(
                 new Argument("<selector> <source>", "Attempt to preload a sound for all players in a selection", 0)
+                        .addTabCompleteProvider(1, MediaTabcompleteProvider.getInstance())
         );
     }
 
