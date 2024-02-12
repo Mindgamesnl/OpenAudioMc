@@ -59,6 +59,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_GAMEMODE, "Add migrations for the new voicechat filters"),
                 new AddConfigKeyMigration(MESSAGE_VOICE_COMMAND_ERROR_FORMAT, "Add migrations for the new voicechat channels"),
                 new AddConfigKeyMigration(SETTINGS_CHANNEL_COMMAND_ENABLED, "Add migrations for the new static channels"),
+                new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_CHANNEL, "Add migrations for the new voicechat channel filter"),
         };
 
         for (SimpleMigration migration : migrations) {

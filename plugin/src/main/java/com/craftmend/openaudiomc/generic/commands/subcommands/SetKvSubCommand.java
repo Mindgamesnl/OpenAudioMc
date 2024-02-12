@@ -13,7 +13,8 @@ public class SetKvSubCommand extends SubCommand {
             StorageKey.SETTINGS_SPEAKER_SYNC,
             StorageKey.SETTINGS_HYDRATE_REGIONS_ON_BOOT,
             StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE,
-            StorageKey.SETTINGS_VOICE_FILTERS_TEAM
+            StorageKey.SETTINGS_VOICE_FILTERS_TEAM,
+            StorageKey.SETTINGS_VOICE_FILTERS_CHANNEL,
     };
 
     public SetKvSubCommand() {

@@ -19,6 +19,7 @@ import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilterCustom;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.PlayerInChannelFilter;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilterCustom;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerPeerTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
@@ -188,6 +189,11 @@ public class SpigotVoiceChatService extends Service {
         if (StorageKey.SETTINGS_VOICE_FILTERS_TEAM.getBoolean()) {
             OpenAudioLogger.toConsole("Enabling voicechat team filter");
             getService(FilterService.class).addCustomFilter(new TeamFilterCustom());
+        }
+
+        if (StorageKey.SETTINGS_VOICE_FILTERS_CHANNEL.getBoolean()) {
+            OpenAudioLogger.toConsole("Enabling voicechat channel filter");
+            getService(FilterService.class).addCustomFilter(new PlayerInChannelFilter(networkingService));
         }
     }
 
