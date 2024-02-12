@@ -1,11 +1,11 @@
 package com.craftmend.openaudiomc.generic.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.interfaces.TabCompleteProvider;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CleanStateCheckMiddleware;
@@ -13,7 +13,6 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.commands.subcommands.*;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -172,11 +171,11 @@ public class CommandService extends Service {
                 String[] argumentSyntaxParts = argument.getSyntax().split(" ");
 
                 int localArgIndex = args.length - 2;
-
-                if (argument.isPlayerArgument(localArgIndex)) {
-                    for (String targetName : getAllTargetNames()) {
-                        if (targetName.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
-                            completions.add(targetName);
+                TabCompleteProvider customProvider = argument.getTabCompleteProvider(localArgIndex);
+                if (customProvider != null) {
+                    for (String val : customProvider.getOptions()) {
+                        if (val.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                            completions.add(val);
                         }
                     }
                 } else {
@@ -190,14 +189,6 @@ public class CommandService extends Service {
         List<String> s = new ArrayList<>();
         s.addAll(completions);
         return s;
-    }
-
-    private List<String> getAllTargetNames() {
-        List<String> names = new ArrayList<>();
-        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
-            names.add(client.getUser().getName());
-        }
-        return names;
     }
 
 }
