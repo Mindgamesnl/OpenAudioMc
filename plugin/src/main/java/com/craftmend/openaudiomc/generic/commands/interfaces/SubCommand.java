@@ -28,6 +28,7 @@ public abstract class SubCommand {
     protected boolean trimArguments = false;
     protected boolean ignorePermissions = false;
     @Setter protected CommandService commandService;
+    protected String permissionScope = "openaudiomc.commands.";
 
     /**
      * @param argument Your command name. For example "select"
@@ -37,7 +38,7 @@ public abstract class SubCommand {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             // try, could already be registered
             try {
-                Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+                Bukkit.getPluginManager().addPermission(new Permission(permissionScope + command));
             } catch (IllegalArgumentException e) {
                 // ignored
             }
@@ -68,8 +69,8 @@ public abstract class SubCommand {
      */
     public boolean isAllowed(User commandSender) {
         if (ignorePermissions) return true;
-        return commandSender.hasPermission("openaudiomc.commands." + command)
-                || commandSender.hasPermission("openaudiomc.commands.*")
+        return commandSender.hasPermission(permissionScope + command)
+                || commandSender.hasPermission(permissionScope + "*")
                 || commandSender.hasPermission("openaudiomc.*");
     }
 

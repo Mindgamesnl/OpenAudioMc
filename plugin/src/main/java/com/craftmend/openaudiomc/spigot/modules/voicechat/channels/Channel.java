@@ -41,7 +41,7 @@ public class Channel {
 
     public ChannelEnterResponse attemptEnter(User member) {
         // admin check
-        if (member.hasPermission("openaudiomc.voice.channel.join") || member.isAdministrator()) {
+        if (member.hasPermission("openaudiomc.channel.force-join") || member.isAdministrator()) {
             return ChannelEnterResponse.OK;
         }
 

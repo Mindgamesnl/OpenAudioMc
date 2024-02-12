@@ -16,6 +16,7 @@ public class ChannelLeaveCommand extends SubCommand {
     public ChannelLeaveCommand() {
         super("leave");
         registerArguments(new Argument("", "Leave your current channel, back to proximity chat"));
+        this.ignorePermissions = true;
     }
 
     @Override

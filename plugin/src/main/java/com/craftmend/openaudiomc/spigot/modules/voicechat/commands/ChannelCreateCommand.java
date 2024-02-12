@@ -16,6 +16,7 @@ public class ChannelCreateCommand extends SubCommand {
     public ChannelCreateCommand() {
         super("create");
         registerArguments(new Argument("<channel-name>", "Create a new channel"));
+        this.permissionScope = "openaudiomc.channel.";
     }
 
     @Override
