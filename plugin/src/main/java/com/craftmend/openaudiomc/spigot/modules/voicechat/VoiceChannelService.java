@@ -6,9 +6,11 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.ChannelSubCommand;
@@ -23,7 +25,8 @@ public class VoiceChannelService extends Service {
 
     @Inject
     public VoiceChannelService(
-          CommandService commandService
+          CommandService commandService,
+          Configuration configuration
     ) {
         HelpSubCommand helpSubCommand = new HelpSubCommand(CommandContext.VOICE, false);
         helpSubCommand.setHeaderMessage(StorageKey.MESSAGE_VOICE_COMMAND_HELP_HEADER.getString());
@@ -41,9 +44,47 @@ public class VoiceChannelService extends Service {
                 client.getRtcSessionManager().getCurrentChannel().removeMember(client.getUser());
             }
         });
+
+        // load static channels
+        try {
+            if (!StorageKey.SETTINGS_STATIC_CHANNELS_ENABLED.getBoolean()) {
+                OpenAudioLogger.toConsole("Static voice channels are disabled, skipping load..");
+                return;
+            }
+
+            int loaded = 0;
+            OpenAudioLogger.toConsole("Loading static voice channels..");
+            for (Map<String, Object> obj : StorageKey.SETTINGS_STATIC_CHANNELS_BASE.getObjectList()) {
+                // check if its valid
+                boolean valid = obj.containsKey("name") && obj.get("name") instanceof String
+                        && obj.containsKey("permission") && obj.get("permission") instanceof String
+                        && obj.containsKey("requirePermission") && obj.get("requirePermission") instanceof Boolean;
+
+                if (!valid) {
+                    OpenAudioLogger.toConsole("Failed to load a static voice channel, invalid configuration. Read:");
+                    OpenAudioLogger.toConsole(obj.toString());
+                    continue;
+                }
+
+                Channel staticChannel = new Channel(
+                        (String) obj.get("name"),
+                        ((boolean) obj.get("requirePermission")) ? (String) obj.get("permission") : null,
+                        this
+                );
+                channelMap.put(staticChannel.getName(), staticChannel);
+                OpenAudioLogger.toConsole("Created static channel: " + staticChannel.getName());
+
+                loaded++;
+            }
+
+            OpenAudioLogger.toConsole("Loaded " + loaded + " static voice channels");
+        } catch (Exception e) {
+            e.printStackTrace();
+            OpenAudioLogger.toConsole("Failed to load voice channels, see error above");
+        }
     }
 
-    public boolean createChannel(String name, User creator) {
+    public boolean createUserChannel(String name, User creator) {
         Channel created = new Channel(creator, name, this);
         Channel previous = channelMap.putIfAbsent(name, created);
         if (previous != null) {

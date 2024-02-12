@@ -23,7 +23,7 @@ public class BungeeUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\n")) {
+        for (String s : string.split("\\\\n")) {
             sender.sendMessage(s);
         }
     }

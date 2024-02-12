@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,8 +46,6 @@ public class VistasConfiguration extends Service implements Configuration {
         OpenAudioLogger.toConsole("Using storage base path " + BASE_PATH);
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(VistasConfiguration.BASE_PATH));
         reloadConfig();
-
-
     }
 
     private Object resolve(String key, StorageLocation location) {
@@ -198,6 +198,12 @@ public class VistasConfiguration extends Service implements Configuration {
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
         throw new UnsupportedOperationException("Not supported in bungeecord mode");
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        ArrayList<Map<String, Object>> o = (ArrayList<Map<String, Object>>) resolve(path, storageLocation);
+        return o == null ? new ArrayList<>() : o;
     }
 
     /**

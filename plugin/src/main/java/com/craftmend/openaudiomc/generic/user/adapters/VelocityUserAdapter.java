@@ -24,7 +24,7 @@ public class VelocityUserAdapter implements User<CommandSource> {
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\n")) {
+        for (String s : string.split("\\\\n")) {
             sender.sendMessage(Component.text(s));
         }
     }

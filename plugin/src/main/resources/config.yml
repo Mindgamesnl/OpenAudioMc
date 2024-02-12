@@ -114,6 +114,21 @@ messages:
   # A message a player receives after accepting an invitation to a voicechat channel
   voicechat-channel-joined: '&7&oYou have joined the voice chat channel &d{channel}'
 
+  # The type name for a channel which is created by a user
+  voicechat-channel-type-user: 'Private Temporary Channel'
+
+  # The type name for a static channel without a permission requirement
+  voicechat-channel-type-static: 'Public Channel'
+
+  # The type name for a static channel with a permission requirement
+  voicechat-channel-type-static-permission: 'Private Channel'
+
+  # The message a player receives when they try to join a non-static channel without the required permission to bypass the invite
+  voicechat-channel-invite-only: '&7&oThis channel is invite only, you need to be invited to join. Ask {owner} to invite you.'
+
+  # The message a player receives when they try to join a channel but miss the required permission
+  voicechat-channel-no-permission-to-join: '&cYou do not have permission to join this channel'
+
   # A message a player receives after running a command while not in a voicechat channel
   voicechat-channel-not-a-member: '&cYou can only perform this action if you are a member of the channel'
 
@@ -130,8 +145,8 @@ messages:
   voicechat-target-not-connected: '&cThe player you are trying to invite is not connected to voice chat, please ask them to connect first'
 
   # Good job! the invitation was sent
-  voicechat-target-invitation-sent: '&7&oAn invitation has been sent to %name'
-  voicechat-target-invitation-expired: '&7&oThe invitation to %name has expired'
+  voicechat-target-invitation-sent: '&7&oAn invitation has been sent to {player}'
+  voicechat-target-invitation-expired: '&7&oThe invitation to {player} has expired'
 
   # A player receives after leaving a channel voluntarily
   voicechat-channel-left: '&7&oYou have left the voice chat channel'
@@ -139,7 +154,7 @@ messages:
   # Format messages for the channel list command
   voicechat-channel-list-no-channels: '&7&oThere are no voice chat channels available'
   voicechat-channel-list-header: '&7&oAvailable voice chat channels and their occupants:'
-  voicechat-channel-list-item: '&7&o- &d{channel} &7&o&d{participants}&7&o'
+  voicechat-channel-list-item: '&f┌ &b{channel}\n&8├─ &3{type}\n&8└─ &7&o&d{participants}&7&o'
 
   # Header of the base /voice help command
   voicechat-command-help-header: 'Welcome to OpenAudioMc! Please click the sub command you need help with.'

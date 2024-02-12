@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
 import lombok.SneakyThrows;
 
 public class ChannelJoinCommand extends SubCommand {
@@ -16,6 +17,7 @@ public class ChannelJoinCommand extends SubCommand {
     public ChannelJoinCommand() {
         super("join");
         this.trimArguments = true;
+        this.ignorePermissions = true;
     }
 
     @Override
@@ -41,6 +43,14 @@ public class ChannelJoinCommand extends SubCommand {
         Channel targetChannel = getService(VoiceChannelService.class).getChannel(channelName);
         if (targetChannel == null) {
             throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_FOUND.getString());
+        }
+
+        ChannelEnterResponse response = targetChannel.attemptEnter(sender);
+        if (response != ChannelEnterResponse.OK) {
+            throw new CommandError(
+                    response.getMessage()
+                            .replace("{owner}", targetChannel.getCreator() != null ? targetChannel.getCreator().getName() : "unknown")
+            );
         }
 
         targetChannel.addMember(sender);
