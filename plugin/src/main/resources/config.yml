@@ -306,11 +306,11 @@ static-channels:
   list:
     - name: survival
       permission: channels.survival
-      requirePermission: false
+      requirePermission: true
 
     - name: off-topic
       permission: channels.offtopic
-      requirePermission: false
+      requirePermission: true
 
     - name: staff-chat
       permission: channels.staffchat
