@@ -44,6 +44,8 @@ public class VistasConfiguration extends Service implements Configuration {
         OpenAudioLogger.toConsole("Using storage base path " + BASE_PATH);
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(VistasConfiguration.BASE_PATH));
         reloadConfig();
+
+
     }
 
     private Object resolve(String key, StorageLocation location) {

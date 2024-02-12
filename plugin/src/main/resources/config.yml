@@ -281,6 +281,26 @@ vc-filter:
   # - Players without a team can only hear other players without a team
   require-common-team: false
 
+# Static channels are a set of channels that will always exist (even if they are empty), and can be locked behind certain permissions
+# You can use this feature in cases where individuals don't have permissions to create their own channels, but sitll want to offer
+# some groups for global voicechat (like a channel for minigames, off-topic, and roleplay). You can add more values here if you wish,
+# or disable the feature entirely. Keep in mind to include all sub values if you add a new channel, and to respect yaml formatting.
+# These values are only used on spigot instances
+static-channels:
+  enabled: true
+  list:
+    - name: survival
+      permission: channels.survival
+      requirePermission: false
+
+    - name: off-topic
+      permission: channels.offtopic
+      requirePermission: false
+
+    - name: staff-chat
+      permission: channels.staffchat
+      requirePermission: true
+
 # PlaceholderAPI
 papi:
   # Value to display when player is connected to the web client

@@ -99,6 +99,10 @@ public enum StorageKey {
     SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE(false, "options.ignore-regions-on-vehicles", StorageLocation.CONFIG_FILE),
     SETTINGS_HYDRATE_REGIONS_ON_BOOT(false, "options.hydrate-regions-on-boot", StorageLocation.CONFIG_FILE),
 
+    SETTINGS_STATIC_CHANNELS_ENABLED(false, "static-channels.enabled", StorageLocation.CONFIG_FILE),
+    SETTINGS_STATIC_CHANNELS_BASE(false, "static-channels.list", StorageLocation.CONFIG_FILE),
+
+
     SETTINGS_VOICE_FILTERS_GAMEMODE(false, "vc-filter.require-same-gamemode", StorageLocation.CONFIG_FILE),
     SETTINGS_VOICE_FILTERS_TEAM(false, "vc-filter.require-common-team", StorageLocation.CONFIG_FILE),
 
