@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
-import java.util.List;
+import com.craftmend.openaudiomc.generic.user.User;
 
 public interface TabCompleteProvider {
 
-    List<String> getOptions();
+    String[] getOptions(User sender);
 
 }

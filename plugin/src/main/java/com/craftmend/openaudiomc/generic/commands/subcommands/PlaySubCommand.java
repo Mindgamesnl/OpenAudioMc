@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.api.media.OptionalError;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -23,9 +24,12 @@ public class PlaySubCommand extends SubCommand {
         super("play", "p");
         registerArguments(
                 new Argument("<selector> <source>",
-                        "Plays a sound for all the players in a selection", 0),
+                        "Plays a sound for all the players in a selection", 0)
+                        .addTabCompleteProvider(1, MediaTabcompleteProvider.getInstance()),
+
                 new Argument("<selector> <source> <options>",
                         "Plays a sound with configuration (like fade time, sync etc) for all players in a selection", 0)
+                        .addTabCompleteProvider(1, MediaTabcompleteProvider.getInstance())
         );
     }
 

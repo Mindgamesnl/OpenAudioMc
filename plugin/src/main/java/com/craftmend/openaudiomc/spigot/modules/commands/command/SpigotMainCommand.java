@@ -42,6 +42,7 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] args) {
-        return commandService.getTabCompletions(CommandContext.OPENAUDIOMC, args);
+        User<?> sender = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(commandSender);
+        return commandService.getTabCompletions(CommandContext.OPENAUDIOMC, args, sender);
     }
 }

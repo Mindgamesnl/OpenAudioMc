@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
@@ -39,10 +40,12 @@ public class SpeakersSubCommand extends SubCommand {
 
                 new Argument("<source> [radius]",
                         "Gives you a speaker block which you can place anywhere in the world. " +
-                                "The speaker will play the sound you entered in the argument. Optional radius as number."),
+                                "The speaker will play the sound you entered in the argument. Optional radius as number.")
+                        .addTabCompleteProvider(0, MediaTabcompleteProvider.getInstance()),
 
                 new Argument("set <world> <x> <y> <z> <url>",
-                        "Force place a speaker on a location, no interactions required"),
+                        "Force place a speaker on a location, no interactions required")
+                        .addTabCompleteProvider(5, MediaTabcompleteProvider.getInstance()),
 
                 new Argument("remove <world> <x> <y> <z>",
                         "Delete a speaker on a location"),

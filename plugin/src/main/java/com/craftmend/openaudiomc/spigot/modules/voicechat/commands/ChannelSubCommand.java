@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tabcomplete.VoiceChannelTabCompleteProvider;
 import lombok.SneakyThrows;
 
 public class ChannelSubCommand extends SubCommand {
@@ -17,7 +18,8 @@ public class ChannelSubCommand extends SubCommand {
         registerArguments(
                 new Argument("create <channel-name>", "Create a new channel"),
                 new Argument("leave", "Leave your current channel, back to proximity chat"),
-                new Argument("join <channel-name>", "Join a channel"),
+                new Argument("join <channel-name>", "Join a channel")
+                        .addTabCompleteProvider(1, new VoiceChannelTabCompleteProvider()),
                 new Argument("list", "List all available channels"),
                 new Argument("invite <player-name>", "Invite a player to your channel", 1)
         );

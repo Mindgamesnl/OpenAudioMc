@@ -13,6 +13,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.commands.subcommands.*;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -154,41 +155,67 @@ public class CommandService extends Service {
         }
     }
 
-    public List<String> getTabCompletions(CommandContext context, String[] args) {
-        Set<String> completions = new HashSet<>();
-        for (String subCommand : getSubCommands(context)) {
-            if (args.length <= 1 && subCommand.startsWith(args[0])) {
-                // Not typing yet, add the entire damn thing
-                completions.add(subCommand);
+    public List<String> getTabCompletions(CommandContext context, String[] args, User sender) {
+        try {
+            Set<String> completions = new HashSet<>();
+            for (String subCommand : getSubCommands(context)) {
+                if (args.length <= 1 && subCommand.startsWith(args[0])) {
+                    // Not typing yet, add the entire damn thing
+                    completions.add(subCommand);
+                }
             }
-        }
 
-        // do we not have anything yet?
-        if (completions.isEmpty()) {
-            SubCommand subCommand = getSubCommand(context, args[0].toLowerCase());
-            if (subCommand == null) return new ArrayList<>();
-            for (Argument argument : subCommand.getArguments()) {
-                String[] argumentSyntaxParts = argument.getSyntax().split(" ");
+            // do we not have anything yet?
+            if (completions.isEmpty()) {
+                SubCommand subCommand = getSubCommand(context, args[0].toLowerCase());
+                if (subCommand == null) return new ArrayList<>();
+                for (Argument argument : subCommand.getArguments()) {
+                    String[] argumentSyntaxParts = argument.getSyntax().split(" ");
+                    int localArgIndex = args.length - 2;
 
-                int localArgIndex = args.length - 2;
-                TabCompleteProvider customProvider = argument.getTabCompleteProvider(localArgIndex);
-                if (customProvider != null) {
-                    for (String val : customProvider.getOptions()) {
-                        if (val.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
-                            completions.add(val);
+                    boolean isMatch = true;
+                    for (int i = 0; i < localArgIndex; i++) {
+                        if (args.length - 1 < i + 1 || argumentSyntaxParts.length < i + 1) {
+                            isMatch = false;
+                            break;
+                        };
+
+                        boolean wasCustomProvider = argument.getTabCompleteProvider(i) != null;
+                        if (!args[i + 1].equalsIgnoreCase(argumentSyntaxParts[i]) && !wasCustomProvider) {
+                            isMatch = false;
+                            break;
                         }
                     }
-                } else {
-                    if (args.length <= argumentSyntaxParts.length + 1) {
-                        completions.add(argumentSyntaxParts[localArgIndex]);
+
+                    if (!isMatch) continue;
+
+                    TabCompleteProvider customProvider = argument.getTabCompleteProvider(localArgIndex);
+
+                    if (customProvider != null) {
+                        for (String val : customProvider.getOptions(sender)) {
+                            if (val.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                                completions.add(val);
+                            }
+                        }
+                    } else {
+                        // ensure that this argument is actually from our last argument
+                        if (args.length <= argumentSyntaxParts.length + 1) {
+                            completions.add(argumentSyntaxParts[localArgIndex]);
+                        }
                     }
                 }
             }
-        }
 
-        List<String> s = new ArrayList<>();
-        s.addAll(completions);
-        return s;
+            List<String> s = new ArrayList<>();
+            s.addAll(completions);
+            return s;
+        } catch (Exception e) {
+            String message = "Error while tab-completing command " + context.name() + " with args " + Arrays.toString(args);
+            OpenAudioLogger.toConsole(message);
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "An error occurred while tab-completing this command. Please check the console for more information.");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
 }

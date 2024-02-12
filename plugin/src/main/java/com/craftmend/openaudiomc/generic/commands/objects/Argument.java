@@ -31,6 +31,11 @@ public class Argument {
         this.tabCompleteProviders.put(playerArgumentIndex, ClientTabcompleteProvider.INSTANCE);
     }
 
+    public Argument addTabCompleteProvider(int index, TabCompleteProvider provider) {
+        tabCompleteProviders.put(index, provider);
+        return this;
+    }
+
     public TabCompleteProvider getTabCompleteProvider(int index) {
         return tabCompleteProviders.get(index);
     }

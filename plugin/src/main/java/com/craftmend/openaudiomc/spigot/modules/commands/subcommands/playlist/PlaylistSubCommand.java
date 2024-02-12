@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.*;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.tabcomplete.PlaylistTabCompleteProvider;
 
 public class PlaylistSubCommand extends SubCommand {
 
@@ -14,11 +15,18 @@ public class PlaylistSubCommand extends SubCommand {
 
         registerArguments(
                 new Argument("create <playlistName>", "create a new playlist"),
-                new Argument("delete <playlistName>", "delete a playlist"),
+                new Argument("delete <playlistName>", "delete a playlist")
+                        .addTabCompleteProvider(1, new PlaylistTabCompleteProvider()),
+
                 new Argument("list", "list all playlists"),
-                new Argument("remove <playlistName> <index>", "remove a track from a playlist"),
-                new Argument("view <playlistName>", "view a playlist contents"),
+                new Argument("remove <playlistName> <index>", "remove a track from a playlist")
+                        .addTabCompleteProvider(1, new PlaylistTabCompleteProvider()),
+
+                new Argument("view <playlistName>", "view a playlist contents")
+                        .addTabCompleteProvider(1, new PlaylistTabCompleteProvider()),
+
                 new Argument("add <playlistName> <source>", "add a track to a playlist")
+                        .addTabCompleteProvider(1, new PlaylistTabCompleteProvider())
         );
 
         registerSubCommands(
