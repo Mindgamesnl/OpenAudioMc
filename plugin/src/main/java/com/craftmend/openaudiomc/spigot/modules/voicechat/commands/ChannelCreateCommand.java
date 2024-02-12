@@ -35,7 +35,7 @@ public class ChannelCreateCommand extends SubCommand {
         }
 
         String channelName = args[0].toLowerCase();
-        boolean success = getService(VoiceChannelService.class).createChannel(channelName, sender);
+        boolean success = getService(VoiceChannelService.class).createUserChannel(channelName, sender);
 
         if (!success) {
             throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NAME_TAKEN.getString());

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -132,6 +133,13 @@ public class BungeeConfiguration implements Configuration {
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
         throw new UnsupportedOperationException("Not supported in bungeecord mode");
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        net.md_5.bungee.config.Configuration config = storageLocation == StorageLocation.DATA_FILE ? dataConfig : mainConfig;
+        List<?> list = config.getList(path);
+        return (List<Map<String, Object>>) list;
     }
 
     /**

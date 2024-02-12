@@ -25,7 +25,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\n")) {
+        for (String s : string.split("\\\\n")) {
             player.sendMessage(s);
         }
     }

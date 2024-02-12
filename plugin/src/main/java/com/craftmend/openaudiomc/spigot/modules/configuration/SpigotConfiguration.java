@@ -15,9 +15,7 @@ import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SpigotConfiguration implements Configuration, Listener {
@@ -146,6 +144,21 @@ public class SpigotConfiguration implements Configuration, Listener {
         ConfigurationSection section = dataConfig.getConfigurationSection(path);
         if (section == null) return new HashSet<>();
         return section.getKeys(false);
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        FileConfiguration t = storageLocation == StorageLocation.DATA_FILE ? dataConfig : mainConfig;
+        List<Map<?, ?>> list = t.getMapList(path);
+        List<Map<String, Object>> values = new ArrayList<>();
+        for (Map<?, ?> map : list) {
+            Map<String, Object> newMap = new HashMap<>();
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                newMap.put(entry.getKey().toString(), entry.getValue());
+            }
+            values.add(newMap);
+        }
+        return values;
     }
 
     /**

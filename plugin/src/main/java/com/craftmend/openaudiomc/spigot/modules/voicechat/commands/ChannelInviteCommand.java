@@ -84,7 +84,7 @@ public class ChannelInviteCommand extends SubCommand {
         }
 
         // am I the owner?
-        if (!channel.getCreator().getUniqueId().equals(sender.getUniqueId())) {
+        if (channel.getCreator() != null && !channel.getCreator().getUniqueId().equals(sender.getUniqueId())) {
             if (sender.isAdministrator()) {
                 message(sender, "You are not the owner of this channel, but your invite was allowed because you are an admin");
             } else {

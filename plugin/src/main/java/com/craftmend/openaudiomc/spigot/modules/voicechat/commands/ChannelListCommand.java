@@ -54,6 +54,7 @@ public class ChannelListCommand extends SubCommand {
                     Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_ITEM.getString()
                             .replace("{channel}", channel.getName())
                             .replace("{participants}", readableOccupants.toString())
+                            .replace("{type}", channel.getReadableType())
                     )
             );
         }

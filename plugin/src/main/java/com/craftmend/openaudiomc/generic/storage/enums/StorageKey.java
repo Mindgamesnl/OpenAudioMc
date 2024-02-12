@@ -3,6 +3,9 @@ package com.craftmend.openaudiomc.generic.storage.enums;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.Map;
+
 public enum StorageKey {
 
     MESSAGE_GENERATING_SESSION(false, "messages.preparing-session", StorageLocation.CONFIG_FILE),
@@ -44,6 +47,11 @@ public enum StorageKey {
     MESSAGE_VOICE_CHANNEL_ALREADY_MEMBER(false, "messages.voicechat-channel-already-in", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_NOT_FOUND(false, "messages.voicechat-channel-name-not-found", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_JOINED(false, "messages.voicechat-channel-joined", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITE_ONLY(false, "messages.voicechat-channel-invite-only", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NO_PERMISSION_TO_JOIN(false, "messages.voicechat-channel-no-permission-to-join", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_USER(false, "messages.voicechat-channel-type-user", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_STATIC(false, "messages.voicechat-channel-type-static", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_STATIC_LOCKED(false, "messages.voicechat-channel-type-static-permission", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_NOT_A_MEMBER(false, "messages.voicechat-channel-not-a-member", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_NOT_THE_OWNER(false, "messages.voicechat-channel-not-owner", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_CHANNEL_MEMBER_NOT_FOUND(false, "messages.voicechat-channel-player-not-found", StorageLocation.CONFIG_FILE),
@@ -98,6 +106,10 @@ public enum StorageKey {
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
     SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE(false, "options.ignore-regions-on-vehicles", StorageLocation.CONFIG_FILE),
     SETTINGS_HYDRATE_REGIONS_ON_BOOT(false, "options.hydrate-regions-on-boot", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_STATIC_CHANNELS_ENABLED(false, "static-channels.enabled", StorageLocation.CONFIG_FILE),
+    SETTINGS_STATIC_CHANNELS_BASE(false, "static-channels.list", StorageLocation.CONFIG_FILE),
+
 
     SETTINGS_VOICE_FILTERS_GAMEMODE(false, "vc-filter.require-same-gamemode", StorageLocation.CONFIG_FILE),
     SETTINGS_VOICE_FILTERS_TEAM(false, "vc-filter.require-common-team", StorageLocation.CONFIG_FILE),
@@ -162,5 +174,9 @@ public enum StorageKey {
 
     public String getString() {
         return OpenAudioMc.getInstance().getConfiguration().getString(this);
+    }
+
+    public List<Map<String, Object>> getObjectList() {
+        return OpenAudioMc.getInstance().getConfiguration().getObjectList(this.getPath(), this.getStorageLocation());
     }
 }

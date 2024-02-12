@@ -17,7 +17,9 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(string);
+        for (String s : string.split("\\\\n")) {
+            sender.sendMessage(s);
+        }
     }
 
     @Override

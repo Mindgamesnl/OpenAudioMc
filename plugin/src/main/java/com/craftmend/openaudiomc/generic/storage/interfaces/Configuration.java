@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.generic.storage.interfaces;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface Configuration {
@@ -14,6 +16,7 @@ public interface Configuration {
     boolean isPathValid(String path, StorageLocation storageLocation);
     Integer getIntFromPath(String path, StorageLocation storageLocation);
     Set<String> getStringSet(String path, StorageLocation storageLocation);
+    List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation);
     void setString(StorageKey storageKey, String string);
     void setString(StorageLocation storageLocation, String path, String string);
     void setBoolean(StorageKey location, boolean value);
