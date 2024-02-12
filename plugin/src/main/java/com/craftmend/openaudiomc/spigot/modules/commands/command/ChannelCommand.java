@@ -18,13 +18,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @NoArgsConstructor
-public class VoiceCommand implements CommandExecutor, TabCompleter {
+public class ChannelCommand implements CommandExecutor, TabCompleter {
 
     private final CommandService commandService = OpenAudioMc.getService(CommandService.class);
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
-        commandService.invokeCommand(OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(sender), CommandContext.VOICE, args, (err) -> {
+        commandService.invokeCommand(OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(sender), CommandContext.CHANNEL, args, (err) -> {
             sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_COMMAND_ERROR_FORMAT.getString().replace("{message}", err)));
         });
         return true;
@@ -34,6 +34,6 @@ public class VoiceCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         User<?> sender = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(commandSender);
-        return commandService.getTabCompletions(CommandContext.VOICE, args, sender);
+        return commandService.getTabCompletions(CommandContext.CHANNEL, args, sender);
     }
 }

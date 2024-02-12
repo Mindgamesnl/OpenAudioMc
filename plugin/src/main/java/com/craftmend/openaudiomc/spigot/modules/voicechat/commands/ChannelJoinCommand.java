@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -10,13 +11,16 @@ import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tabcomplete.VoiceChannelTabCompleteProvider;
 import lombok.SneakyThrows;
 
 public class ChannelJoinCommand extends SubCommand {
 
     public ChannelJoinCommand() {
         super("join");
-        this.trimArguments = true;
+        registerArguments(new Argument("<channel-name>", "Join a channel")
+                .addTabCompleteProvider(0, new VoiceChannelTabCompleteProvider()));
+        // this command does some special stuff with permissions, so we ignore them here
         this.ignorePermissions = true;
     }
 

@@ -156,7 +156,7 @@ messages:
   voicechat-channel-list-header: '&7&oAvailable voice chat channels and their occupants:'
   voicechat-channel-list-item: '&f┌ &b{channel}\n&8├─ &3{type}\n&8└─ &7&o&d{participants}&7&o'
 
-  # Header of the base /voice help command
+  # Header of the base /channel help command
   voicechat-command-help-header: 'Welcome to OpenAudioMc! Please click the sub command you need help with.'
 
   # The format most error messages will be shown in, including prefix

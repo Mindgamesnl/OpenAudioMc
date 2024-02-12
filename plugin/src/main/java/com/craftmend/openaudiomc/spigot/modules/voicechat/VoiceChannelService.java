@@ -13,7 +13,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.ChannelSubCommand;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,16 +25,20 @@ public class VoiceChannelService extends Service {
 
     @Inject
     public VoiceChannelService(
-          CommandService commandService,
-          Configuration configuration
+          CommandService commandService
     ) {
-        HelpSubCommand helpSubCommand = new HelpSubCommand(CommandContext.VOICE, false);
+        HelpSubCommand helpSubCommand = new HelpSubCommand(CommandContext.CHANNEL, false);
         helpSubCommand.setHeaderMessage(StorageKey.MESSAGE_VOICE_COMMAND_HELP_HEADER.getString());
 
         commandService.registerSubCommands(
-                CommandContext.VOICE,
+                CommandContext.CHANNEL,
                 helpSubCommand,
-                new ChannelSubCommand()
+                //new ChannelSubCommand()
+                new ChannelCreateCommand(),
+                new ChannelLeaveCommand(),
+                new ChannelJoinCommand(),
+                new ChannelListCommand(),
+                new ChannelInviteCommand()
         );
 
         // register events

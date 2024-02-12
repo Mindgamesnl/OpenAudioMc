@@ -8,11 +8,11 @@ description: "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no
 website: https://openaudiomc.net/
 commands:
   audio:
-    aliases: [sound, connect, media, muziek, geluid]
+    aliases: [sound, connect, media, muziek, geluid, vc, voicechat, voice]
     description: Generate a link to the audio web client
-  voice:
-    aliases: [vc, voicechat]
-    description: Manage your own voicechat session
+  channel:
+    aliases: [ch, vch, voicechannel]
+    description: Manage/joint voice channels
   volume:
     aliases: [setvolume, vol]
     description: Change the volume of the audio web client
