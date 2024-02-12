@@ -79,7 +79,7 @@ public class HelpSubCommand extends SubCommand {
         }
 
         if (this.useHelpTrail)
-            message(sender, "For more personal help or other questions, please visit https://help.openaudiomc.net/");
+            message(sender, "For more personal help or other questions, please visit https://openaudiomc.net/docs");
     }
 
     private void goldMessage(User s, String message) {
