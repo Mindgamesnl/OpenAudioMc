@@ -20,7 +20,7 @@ public class ChannelSubCommand extends SubCommand {
                 new Argument("leave", "Leave your current channel, back to proximity chat"),
                 new Argument("join <channel-name>", "Join a channel")
                         .addTabCompleteProvider(1, new VoiceChannelTabCompleteProvider()),
-                new Argument("list", "List all available channels"),
+                //new Argument("list", "List all available channels"),
                 new Argument("invite <player-name>", "Invite a player to your channel", 1)
         );
 
@@ -74,7 +74,7 @@ public class ChannelSubCommand extends SubCommand {
     }
 
     private void dispatchHelp(User sender) {
-        commandService.invokeCommand(sender, CommandContext.VOICE, new String[]{"help"}, (err) -> {
+        commandService.invokeCommand(sender, CommandContext.CHANNEL, new String[]{"help"}, (err) -> {
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(err));
         });
     }

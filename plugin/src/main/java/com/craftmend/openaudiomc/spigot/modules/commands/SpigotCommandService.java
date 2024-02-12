@@ -33,9 +33,9 @@ public class SpigotCommandService extends Service {
         openAudioMcSpigot.getCommand("deafen").setExecutor(new DeafenCommand());
 
 
-        VoiceCommand voiceCommand = new VoiceCommand();
-        openAudioMcSpigot.getCommand("voice").setExecutor(voiceCommand);
-        openAudioMcSpigot.getCommand("voice").setTabCompleter(voiceCommand);
+        ChannelCommand channelCommand = new ChannelCommand();
+        openAudioMcSpigot.getCommand("channel").setExecutor(channelCommand);
+        openAudioMcSpigot.getCommand("channel").setTabCompleter(channelCommand);
 
         commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandService.getAliases().add("openaudiomc");

@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -25,7 +26,8 @@ public class ChannelInviteCommand extends SubCommand {
 
     public ChannelInviteCommand() {
         super("invite");
-        this.trimArguments = true;
+        registerArguments(new Argument("<player-name>", "Invite a player to your channel", 0));
+        this.ignorePermissions = true;
     }
 
     @Override
@@ -137,7 +139,7 @@ public class ChannelInviteCommand extends SubCommand {
         targetClient.getUser().sendClickableCommandMessage(
                 invitationMessage,
                 "Click to join the channel",
-                "voice channel invite use " + invitationId
+                "channel invite use " + invitationId
         );
 
         sender.sendMessage(Platform.translateColors(

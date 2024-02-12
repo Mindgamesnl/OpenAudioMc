@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -14,7 +15,7 @@ public class ChannelCreateCommand extends SubCommand {
 
     public ChannelCreateCommand() {
         super("create");
-        this.trimArguments = true;
+        registerArguments(new Argument("<channel-name>", "Create a new channel"));
     }
 
     @Override

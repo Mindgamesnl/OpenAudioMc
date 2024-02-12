@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
+import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
@@ -17,6 +18,8 @@ public class ChannelListCommand extends SubCommand {
 
     public ChannelListCommand() {
         super("list");
+        registerArguments(new Argument("", "List all available channels"));
+        this.ignorePermissions = true;
     }
 
     @Override
