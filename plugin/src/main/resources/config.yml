@@ -285,6 +285,9 @@ options:
   # but it's recommended to leave this on.
   hydrate-regions-on-boot: true
 
+  # This setting determines if the /channel command will be enabled. If this is set to false, then none of the channel features will be available.
+  enable-channel-command: true
+
 # Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
 # You can implement custom filters through the API, or enable some of the default ones below.
 vc-filter:

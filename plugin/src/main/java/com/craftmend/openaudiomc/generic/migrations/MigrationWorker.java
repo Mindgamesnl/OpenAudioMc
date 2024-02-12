@@ -58,7 +58,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(REDIS_SENTINEL_MASTER_SET, "adds the option to use redis sentinel"),
                 new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_GAMEMODE, "Add migrations for the new voicechat filters"),
                 new AddConfigKeyMigration(MESSAGE_VOICE_COMMAND_ERROR_FORMAT, "Add migrations for the new voicechat channels"),
-                new AddConfigKeyMigration(MESSAGE_VOICE_CHANNEL_TYPE_STATIC_LOCKED, "Add migrations for the new static channels"),
+                new AddConfigKeyMigration(SETTINGS_CHANNEL_COMMAND_ENABLED, "Add migrations for the new static channels"),
         };
 
         for (SimpleMigration migration : migrations) {
