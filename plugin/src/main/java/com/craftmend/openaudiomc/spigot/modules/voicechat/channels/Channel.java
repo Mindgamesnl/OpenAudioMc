@@ -63,7 +63,7 @@ public class Channel {
 
     private void checkAbandonment() {
         if (members.size() < 2) {
-            creator.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_ABANDONED.getString()));
+            members.forEach((uuid, clientConnection) -> clientConnection.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_ABANDONED.getString())));
             voiceChannelService.deleteChannel(name);
         }
     }
