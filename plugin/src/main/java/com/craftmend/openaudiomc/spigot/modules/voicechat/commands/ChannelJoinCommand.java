@@ -27,6 +27,10 @@ public class ChannelJoinCommand extends SubCommand {
     @Override
     @SneakyThrows
     public void onExecute(User sender, String[] args) {
+        if (!sender.findClient().isPresent()) {
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_A_PLAYER.getString());
+        }
+
         if (args.length != 1) {
             throw new CommandError("Please specify a name for the channel");
         }

@@ -25,6 +25,10 @@ public class ChannelListCommand extends SubCommand {
     @Override
     @SneakyThrows
     public void onExecute(User sender, String[] args) {
+        if (!sender.findClient().isPresent()) {
+            throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_A_PLAYER.getString());
+        }
+
         Collection<Channel> channels = getService(VoiceChannelService.class).getChannels();
 
         if (channels.isEmpty()) {
