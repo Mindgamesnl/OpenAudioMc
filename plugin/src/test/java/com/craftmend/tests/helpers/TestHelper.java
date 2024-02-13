@@ -56,9 +56,7 @@ public class TestHelper implements OpenAudioInvoker {
         Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
 
         if (start) {
-            OpenAudioLogger.mute();
             openAudioMc = new OpenAudioMc(new TestHelper());
-            OpenAudioLogger.unmute();
         }
     }
 
@@ -68,15 +66,11 @@ public class TestHelper implements OpenAudioInvoker {
 
     @SneakyThrows
     public void startQuietly() {
-        OpenAudioLogger.mute();
         openAudioMc = new OpenAudioMc(new TestHelper());
-        OpenAudioLogger.unmute();
     }
 
     protected void shutdown() {
-        OpenAudioLogger.mute();
         openAudioMc.disable();
-        OpenAudioLogger.unmute();
     }
 
     public static void testLog(String... messages) {

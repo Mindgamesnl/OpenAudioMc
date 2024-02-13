@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,18 +43,18 @@ public class SystemConfiguration extends Service implements Configuration {
     @Inject
     @SneakyThrows
     public SystemConfiguration() {
-        OpenAudioLogger.toConsole("Using storage base path " + BASE_PATH);
+        OpenAudioLogger.info("Using storage base path " + BASE_PATH);
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(SystemConfiguration.BASE_PATH));
         dataFile = new File(BASE_PATH + "/data.yml");
         configFile = new File(BASE_PATH + "/config.yml");
 
         if (!dataFile.exists()) {
-            OpenAudioLogger.toConsole("Creating data.yml");
+            OpenAudioLogger.info("Creating data.yml");
             dataFile = new File(FileUtil.exportResource("/data.yml", OpenAudioMc.class, new File(BASE_PATH)));
         }
 
         if (!configFile.exists()) {
-            OpenAudioLogger.toConsole("Creating config.yml");
+            OpenAudioLogger.info("Creating config.yml");
             configFile = new File(FileUtil.exportResource("/config.yml", OpenAudioMc.class, new File(BASE_PATH)));
         }
 
@@ -87,7 +88,7 @@ public class SystemConfiguration extends Service implements Configuration {
     }
 
     public void set(String key, Object value, StorageLocation location) {
-        OpenAudioLogger.toConsole("Setting " + key + " to " + value);
+        OpenAudioLogger.info("Setting " + key + " to " + value);
         Map<String, Object> haystack = null;
         switch (location) {
             case DATA_FILE:
@@ -115,7 +116,7 @@ public class SystemConfiguration extends Service implements Configuration {
     @SneakyThrows
     @Override
     public void saveAll(boolean ignored) {
-        OpenAudioLogger.toConsole("Saving files...");
+        OpenAudioLogger.info("Saving files...");
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
@@ -203,6 +204,11 @@ public class SystemConfiguration extends Service implements Configuration {
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
         throw new UnsupportedOperationException("Not supported in bungeecord mode");
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        return null;
     }
 
     /**

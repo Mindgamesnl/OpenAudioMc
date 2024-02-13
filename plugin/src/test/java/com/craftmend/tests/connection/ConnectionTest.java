@@ -71,9 +71,7 @@ public class ConnectionTest extends TestHelper {
 
     @Test
     public void testAliasregistry() {
-        OpenAudioLogger.mute();
         final OpenAudioMc openAudioMc = createTestInstance();
-        OpenAudioLogger.unmute();
 
         // dump all regions from the current store
         for (Alias value : OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).values()) {
@@ -104,9 +102,7 @@ public class ConnectionTest extends TestHelper {
 
     @Test
     public void testRegionRegistry() {
-        OpenAudioLogger.mute();
         final OpenAudioMc openAudioMc = createTestInstance();
-        OpenAudioLogger.unmute();
 
         // dump all regions from the current store
         for (RegionProperties value : OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values()) {
@@ -160,9 +156,7 @@ public class ConnectionTest extends TestHelper {
         TestUserHooks.createFakeUser(UUID.fromString("a1897ee4-5b32-41e0-a849-b803ba7740bd"), "Davadro");
 
         // register fake OpenAudioMc
-        OpenAudioLogger.mute();
         final OpenAudioMc firstInstance = createTestInstance();
-        OpenAudioLogger.unmute();
 
         // attempt to connect
         Waiter.waitSeconds(5);
@@ -172,9 +166,7 @@ public class ConnectionTest extends TestHelper {
         whenConnected(firstInstance);
 
         Waiter.waitUntil(unused -> canShutdown, 9999999);
-        OpenAudioLogger.mute();
         firstInstance.disable();
-        OpenAudioLogger.unmute();
         Waiter.waitUntil(unused -> firstInstance.isDisabled(), 5);
         Waiter.waitSeconds(2);
 
@@ -182,9 +174,7 @@ public class ConnectionTest extends TestHelper {
         // SECOND BOOT
         // =============================
 
-        OpenAudioLogger.mute();
         final OpenAudioMc secondInstance = createTestInstance();
-        OpenAudioLogger.unmute();
         Collection<MojangProfile> mojangProfiles = OpenAudioMc.getService(MojangLookupService.class).getProfileRepository().values();
         Assert.assertEquals("All UUID's are cached", TestUserHooks.fakeUsers.size(), mojangProfiles.size());
         for (MojangProfile mojangProfile : mojangProfiles) {
@@ -216,9 +206,7 @@ public class ConnectionTest extends TestHelper {
             System.out.println("WARNING!!!! SKIPPING DATABASE CHECKS BECAUSE THEY CAN'T BE DONE RELIABLY ON WINDOWS!!!");
         }
 
-        OpenAudioLogger.mute();
         secondInstance.disable();
-        OpenAudioLogger.unmute();
     }
 
     private void whenConnected(OpenAudioMc openAudioMc) {
