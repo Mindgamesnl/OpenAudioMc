@@ -12,7 +12,7 @@ commands:
     description: Generate a link to the audio web client
   channel:
     aliases: [ch, vch, voicechannel]
-    description: Manage/joint voice channels
+    description: Manage/join voice channels
   volume:
     aliases: [setvolume, vol]
     description: Change the volume of the audio web client
