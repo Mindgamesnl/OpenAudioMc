@@ -34,12 +34,12 @@ public class SpigotConfiguration implements Configuration, Listener {
 
         loadConfig(openAudioMcSpigot);
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
     public void loadConfig(OpenAudioMcSpigot openAudioMcSpigot) {
-        OpenAudioLogger.toConsole("Using the main config file..");
+        OpenAudioLogger.info("Using the main config file..");
         openAudioMcSpigot.saveDefaultConfig();
         mainConfig = openAudioMcSpigot.getConfig();
     }
@@ -299,8 +299,7 @@ public class SpigotConfiguration implements Configuration, Listener {
             }
             dataConfig.save("plugins"+ File.separator + "OpenAudioMc" + File.separator + "data.yml");
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config/data");
         }
     }
 

@@ -34,6 +34,6 @@ public class ServerService extends Service {
             version = ServerVersion.MODERN;
         }
 
-        OpenAudioLogger.toConsole("Detected version type: " + version);
+        OpenAudioLogger.info("Detected version type: " + version);
     }
 }

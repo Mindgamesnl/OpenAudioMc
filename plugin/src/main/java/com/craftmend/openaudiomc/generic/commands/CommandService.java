@@ -211,9 +211,8 @@ public class CommandService extends Service {
             return s;
         } catch (Exception e) {
             String message = "Error while tab-completing command " + context.name() + " with args " + Arrays.toString(args);
-            OpenAudioLogger.toConsole(message);
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "An error occurred while tab-completing this command. Please check the console for more information.");
-            e.printStackTrace();
+            OpenAudioLogger.error(e, message);
             return new ArrayList<>();
         }
     }

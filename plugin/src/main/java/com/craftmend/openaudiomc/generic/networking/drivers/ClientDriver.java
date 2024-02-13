@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
-import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.networking.io.SocketConnection;
 import com.craftmend.openaudiomc.generic.networking.payloads.AcknowledgeClientPayload;
 import io.socket.client.Ack;
 import io.socket.client.Socket;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ClientDriver implements SocketDriver {
 
     @Override
-    public void boot(Socket socket, SocketIoConnector connector) {
+    public void boot(Socket socket, SocketConnection connector) {
         socket.on("acknowledgeClient", args -> {
             AcknowledgeClientPayload payload = (AcknowledgeClientPayload) OpenAudioMc.getGson().fromJson(
                     args[0].toString(),
@@ -45,7 +45,7 @@ public class ClientDriver implements SocketDriver {
                         event.onClientOpen(authenticatable);
                     }
                 } else {
-                    OpenAudioLogger.toConsole("Closing login attempt for " + authenticatable.getOwner().getName() + " because they are already connected.");
+                    OpenAudioLogger.info("Closing login attempt for " + authenticatable.getOwner().getName() + " because they are already connected.");
                     callback.call(false);
                 }
             }
@@ -58,15 +58,12 @@ public class ClientDriver implements SocketDriver {
             } catch (Exception e) {
                 // ignore when we're shutting down
                 if (OpenAudioMc.getInstance().isDisabled()) return;
-                OpenAudioLogger.handleException(e);
-                OpenAudioLogger.toConsole("An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "An incoming packet was attempted to be parsed but failed horribly and it broke. Please update your plugin, of if this is already the latest version, let me know of this exception. The received data was: " + args[0].toString());
             }
         });
     }
 
     private Authenticatable findSession(UUID id) {
-        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(id);
-        return clientConnection;
+        return OpenAudioMc.getService(NetworkingService.class).getClient(id);
     }
 }

@@ -30,7 +30,7 @@ public class SpigotDependencyService extends Service implements Listener {
 
     public SpigotDependencyService ifPluginEnabled(String pluginName, DependencyHandler handler) {
         if (Bukkit.getPluginManager().isPluginEnabled(pluginName)) {
-            OpenAudioLogger.toConsole("Plugin " + pluginName + " is already enabled, running handler");
+            OpenAudioLogger.info("Plugin " + pluginName + " is already enabled, running handler");
             try {
                 handler.onLoad(pluginName, Bukkit.getPluginManager().getPlugin(pluginName));
             } catch (Exception e) {
@@ -48,7 +48,7 @@ public class SpigotDependencyService extends Service implements Listener {
     public void onLoad(PluginEnableEvent enableEvent) {
         List<DependencyHandler> handlers = handlerMap.getOrDefault(enableEvent.getPlugin().getName(), new ArrayList<>());
         for (DependencyHandler handler : handlers) {
-            OpenAudioLogger.toConsole("Plugin " + enableEvent.getPlugin().getName() + " is now enabled, running handler");
+            OpenAudioLogger.info("Plugin " + enableEvent.getPlugin().getName() + " is now enabled, running handler");
             try {
                 handler.onLoad(enableEvent.getPlugin().getName(), enableEvent.getPlugin());
             } catch (Exception e) {

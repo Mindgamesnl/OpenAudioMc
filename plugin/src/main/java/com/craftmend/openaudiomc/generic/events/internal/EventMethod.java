@@ -25,8 +25,7 @@ public class EventMethod {
         try {
             method.invoke(holder, event);
         } catch (Exception e) {
-            OpenAudioLogger.toConsole("Failed to invoke event handler " + method.getName() + " in " + holder.getClass().getSimpleName() + " due to " + e.getMessage());
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to invoke event handler " + method.getName() + " in " + holder.getClass().getSimpleName());
         }
     }
 

@@ -16,7 +16,7 @@ public class AccountUpdateNotification implements NotificationHandler {
 
     @Override
     public void handle(BackendNotification notificationData) {
-        OpenAudioLogger.toConsole("Updating craftmend account due to update push..");
+        OpenAudioLogger.info("Updating OpenAudioMc account state due to update push..");
         OpenAudioMc.getService(OpenaudioAccountService.class).syncAccount();
     }
 }

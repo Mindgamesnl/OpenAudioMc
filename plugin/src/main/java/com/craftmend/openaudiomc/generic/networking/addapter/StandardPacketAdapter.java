@@ -36,7 +36,7 @@ public class StandardPacketAdapter implements JsonSerializer<StandardPacket>, Js
         try {
             return context.deserialize(element, Class.forName(type));
         } catch (ClassNotFoundException cnfe) {
-            OpenAudioLogger.handleException(cnfe);
+            OpenAudioLogger.error(cnfe, "Failed to deserialize packet " + json.getAsString());
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }

@@ -65,7 +65,7 @@ public class BungeePlayerSelector implements SelectorTranslator<CommandSender> {
             if (proxiedPlayer != null) players.add(proxiedPlayer);
         } else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
         }
         return players;

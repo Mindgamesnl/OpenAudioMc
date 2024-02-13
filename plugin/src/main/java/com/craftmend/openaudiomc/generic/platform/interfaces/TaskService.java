@@ -14,7 +14,7 @@ public interface TaskService {
     default void notifyRunner() {
         StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
         StackTraceElement e = stacktrace[3];
-        OpenAudioLogger.toConsole("An async task was requested but server is already stopping, so I'm doing it now. Original requester was from " + e.getMethodName() + " in " + e.getFileName());
+        OpenAudioLogger.info("An async task was requested but server is already stopping, so I'm doing it now. Original requester was from " + e.getMethodName() + " in " + e.getFileName());
     }
 
 }

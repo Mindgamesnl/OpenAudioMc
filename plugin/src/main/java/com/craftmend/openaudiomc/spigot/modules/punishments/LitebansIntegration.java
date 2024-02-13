@@ -15,7 +15,7 @@ public class LitebansIntegration implements DependencyHandler {
         EventApi.getInstance().registerHandler(ClientEnableVoiceEvent.class, event -> {
             boolean isMuted = Database.get().isPlayerMuted(event.getClient().getActor().getUniqueId(), null);
             if (isMuted) {
-                OpenAudioLogger.toConsole("Blocking voicechat for " + event.getClient().getActor().getName() + " because they are muted on LiteBans");
+                OpenAudioLogger.warn("Blocking voicechat for " + event.getClient().getActor().getName() + " because they are muted on LiteBans");
                 event.setCancelled(true);
             }
         });

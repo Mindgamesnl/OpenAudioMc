@@ -1,57 +1,77 @@
 package com.craftmend.openaudiomc.generic.logging;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
+import com.craftmend.openaudiomc.generic.logging.platform.StdOutLog;
 import lombok.Setter;
 
+/**
+ * Static-accessible logging instance, with wrapper methods to prevent the instance
+ * to be accessed directly
+ * The log adapter can be set using {@link #setLogAdapter(LogAdapter)} to change the logging implementation.
+ */
 public class OpenAudioLogger {
 
-    private static final String LOG_PREFIX = "[OpenAudioMc] ";
-    private static boolean muted = false;
+    @Setter
+    private static LogAdapter logAdapter = new StdOutLog();
 
-    @Setter private static Logger logger = new Logger() {
-
-        @Override
-        public void error(String s) {
-            System.err.println(s);
-        }
-
-        @Override
-        public void info(String s) {
-            System.out.println(s);
-        }
-
-        @Override
-        public boolean includePrefix() {
-            return true;
-        }
-    };
-
-    public static void toConsole(String message) {
-        if (muted) return;
-        logger.info((logger.includePrefix() ? LOG_PREFIX : "") + message);
+    /**
+     * Log a regular information message
+     * @param message the message to log
+     */
+    public static void info(String message) {
+        logAdapter.info(message);
     }
 
-    public static void mute() {
-        muted = true;
+    /**
+     * Print debug information with the caller of this method (depth=1)
+     * @param message the message to log
+     */
+    public static void debug(String message) {
+        debug(message, 1);
     }
 
-    public static void unmute() {
-        muted = false;
+    /**
+     * Print debug information with a custom depth for the caller. 0 would be the invocation, 1 its parent, etc
+     * @param message the message to log
+     * @param callerDepth the depth of the caller in the stack trace
+     */
+    public static void debug(String message, int callerDepth) {
+        // get the class and method name of the caller
+        String caller = Thread.currentThread().getStackTrace()[2 + callerDepth].getFileName();
+        String method = Thread.currentThread().getStackTrace()[2 + callerDepth].getMethodName();
+        logAdapter.debug("[" + caller + ":" + method + "] " +message);
     }
 
-    public static void handleException(Throwable throwable) {
-        // don't do anything if this is prod, lol
-        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) return;
+    /**
+     * Log an error message with a throwable
+     * @param e the throwable to log
+     * @param message the message to log
+     */
+    public static void error(Throwable e, String message) {
+        logAdapter.error(e, message);
+    }
 
-        // get caller
-        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-        StackTraceElement e = stacktrace[3];
+    /**
+     * Write a warning message
+     * @param message the message to log
+     */
+    public static void warn(String message) {
+        logAdapter.warn(message);
+    }
 
-        String methodThatFuckedUp = e.getMethodName();
+    /**
+     * Enable or disable debug logging
+     * @param enable true to enable, false to disable
+     */
+    public static void enableDebug(boolean enable) {
+        logAdapter.enableDebug(enable);
+    }
 
-        logger.error("Encountered an exception in " + methodThatFuckedUp);
-        throwable.printStackTrace();
+    /**
+     * Check if debug logging is enabled
+     * @return true if debug logging is enabled
+     */
+    public static boolean isDebugEnabled() {
+        return logAdapter.isDebugEnabled();
     }
 
 }

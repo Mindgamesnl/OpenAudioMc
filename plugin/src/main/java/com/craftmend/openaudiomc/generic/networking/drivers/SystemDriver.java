@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
-import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.networking.io.SocketConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
@@ -27,7 +27,7 @@ public class SystemDriver implements SocketDriver {
     private Socket lastSocket;
 
     @Override
-    public void boot(Socket socket, SocketIoConnector connector) {
+    public void boot(Socket socket, SocketConnection connector) {
         this.lastSocket = socket;
 
         taskService.scheduleAsyncRepeatingTask(() -> {
@@ -67,7 +67,7 @@ public class SystemDriver implements SocketDriver {
 
         // is the latest heartbeat older than 30 seconds?
         if (lastHeartbeat.plusSeconds(30).isBefore(Instant.now())) {
-            OpenAudioLogger.toConsole("Heartbeat timed out, disconnecting...");
+            OpenAudioLogger.warn("Heartbeat timed out, disconnecting...");
             // yes, it is. disconnect
             handleDisconnect();
             // timeout state
@@ -77,7 +77,7 @@ public class SystemDriver implements SocketDriver {
             long seconds = Duration.between(lastHeartbeat, Instant.now()).getSeconds();
             if (seconds > 10) {
                 // more than 5 seconds, so we're probably lagging
-                OpenAudioLogger.toConsole("Heartbeat is lagging " + seconds + " seconds behind, connection will reset if it doesn't recover soon");
+                OpenAudioLogger.warn("Heartbeat is lagging " + seconds + " seconds behind, connection will reset if it doesn't recover soon");
             }
         }
     }

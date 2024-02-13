@@ -18,7 +18,7 @@ public class EssentialsIntegration implements DependencyHandler {
             User user = ((Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials")).getUser(event.getClient().getActor().getUniqueId());
             if (user == null) return;
             if (user.isMuted()) {
-                OpenAudioLogger.toConsole("Blocking voicechat for " + event.getClient().getActor().getName() + " because they are muted on Essentials");
+                OpenAudioLogger.warn("Blocking voicechat for " + event.getClient().getActor().getName() + " because they are muted on Essentials");
                 event.setCancelled(true);
             }
         });

@@ -34,7 +34,7 @@ public class VelocityConfiguration implements Configuration {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
@@ -308,8 +308,7 @@ public class VelocityConfiguration implements Configuration {
                     .setFile(data)
                     .build().save(dataConfig);
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config files");
         }
     }
 
@@ -341,8 +340,7 @@ public class VelocityConfiguration implements Configuration {
         try {
             return yamlLoader.load();
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to load file " + filename);
         }
         return null;
     }
@@ -357,8 +355,7 @@ public class VelocityConfiguration implements Configuration {
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to delete file " + filename);
             }
         }
 
@@ -366,8 +363,7 @@ public class VelocityConfiguration implements Configuration {
             try (InputStream in = OpenAudioMcVelocity.getInstance().getClass().getClassLoader().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to save default file " + filename);
             }
         }
     }

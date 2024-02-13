@@ -25,7 +25,7 @@ public class AddConfigKeyMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating config key for: " + name);
+        OpenAudioLogger.info("Migrating config key for: " + name);
         migrateFilesFromResources();
     }
 }

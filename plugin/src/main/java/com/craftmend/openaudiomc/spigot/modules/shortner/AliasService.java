@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import com.craftmend.openaudiomc.spigot.modules.shortner.middleware.AliasMiddleware;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class AliasService extends Service {
     public String translate(String name) {
         Alias target = aliasMap.get(name.toLowerCase());
         if (target == null) {
-            OpenAudioLogger.toConsole("Warning! The alias '" + name + "' was used but doesn't have a source attached to it");
+            OpenAudioLogger.warn("The alias '" + name + "' was used but doesn't have a source attached to it");
             return name;
         }
         return target.getTarget();
@@ -38,7 +37,7 @@ public class AliasService extends Service {
 
     @Override
     public void onEnable() {
-        OpenAudioLogger.toConsole("Loading aliases...");
+        OpenAudioLogger.info("Loading aliases...");
         OpenAudioMc.getService(MediaService.class).registerMutation("a:", new AliasMiddleware(this));
 
         //load config
@@ -69,6 +68,6 @@ public class AliasService extends Service {
             OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(removeable);
         }
 
-        OpenAudioLogger.toConsole("Loaded " + aliasMap.size() + " aliases");
+        OpenAudioLogger.info("Loaded " + aliasMap.size() + " aliases");
     }
 }

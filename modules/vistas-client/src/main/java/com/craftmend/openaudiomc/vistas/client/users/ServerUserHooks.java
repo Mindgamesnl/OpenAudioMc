@@ -37,11 +37,11 @@ public class ServerUserHooks implements UserHooks {
                 }
             }
 
-            for (VistasUser deputyUser : removeMe) {
-                OpenAudioLogger.toConsole("Kicking garbage connection for " + deputyUser.getName());
-                deputyUser.handleDefiniteDisconnect();
-                OpenAudioMc.getService(NetworkingService.class).remove(deputyUser.getUniqueId());
-                remoteUsers.remove(deputyUser.getUniqueId());
+            for (VistasUser vistasUser : removeMe) {
+                OpenAudioLogger.info("Kicking garbage connection for " + vistasUser.getName());
+                vistasUser.handleDefiniteDisconnect();
+                OpenAudioMc.getService(NetworkingService.class).remove(vistasUser.getUniqueId());
+                remoteUsers.remove(vistasUser.getUniqueId());
             }
         }, 20, 20);
     }
@@ -124,13 +124,13 @@ public class ServerUserHooks implements UserHooks {
         MinecraftServer dpi = remoteInstallation.get(serverId);
         VistasUser du = registerUserIfNew(playerUuid, playerName, ip);
         du.registerInServer(serverId);
-        OpenAudioLogger.toConsole(playerName + " got claimed by server " + serverId.toString());
+        OpenAudioLogger.info(playerName + " got claimed by server " + serverId.toString());
     }
 
     public void onUserLeave(String playerName, UUID playerUuid, UUID serverId) {
         MinecraftServer dpi = remoteInstallation.get(serverId);
         VistasUser du = registerUserIfNew(playerUuid, playerName);
         du.removeServer(serverId);
-        OpenAudioLogger.toConsole(playerName + " left server " + serverId.toString());
+        OpenAudioLogger.info(playerName + " left server " + serverId.toString());
     }
 }

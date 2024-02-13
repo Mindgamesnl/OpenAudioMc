@@ -182,17 +182,17 @@ public class SpigotVoiceChatService extends Service {
 
         // enable default rules
         if (StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE.getBoolean()) {
-            OpenAudioLogger.toConsole("Enabling voicechat gamemode filter");
+            OpenAudioLogger.info("Enabling voicechat gamemode filter");
             getService(FilterService.class).addCustomFilter(new GamemodeFilterCustom());
         }
 
         if (StorageKey.SETTINGS_VOICE_FILTERS_TEAM.getBoolean()) {
-            OpenAudioLogger.toConsole("Enabling voicechat team filter");
+            OpenAudioLogger.info("Enabling voicechat team filter");
             getService(FilterService.class).addCustomFilter(new TeamFilterCustom());
         }
 
         if (StorageKey.SETTINGS_VOICE_FILTERS_CHANNEL.getBoolean()) {
-            OpenAudioLogger.toConsole("Enabling voicechat channel filter");
+            OpenAudioLogger.info("Enabling voicechat channel filter");
             getService(FilterService.class).addCustomFilter(new PlayerInChannelFilter(networkingService));
         }
     }

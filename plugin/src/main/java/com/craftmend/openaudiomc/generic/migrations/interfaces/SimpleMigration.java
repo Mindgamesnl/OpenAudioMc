@@ -67,7 +67,7 @@ public abstract class SimpleMigration {
             }
 
             if (oldValues.containsKey(key)) {
-                OpenAudioLogger.toConsole("Migrating " + key.getSubSection() + " from " + value + " to the new file");
+                OpenAudioLogger.info("Migrating " + key.getSubSection() + " from " + value + " to the new file");
                 value = oldValues.get(key);
             }
 

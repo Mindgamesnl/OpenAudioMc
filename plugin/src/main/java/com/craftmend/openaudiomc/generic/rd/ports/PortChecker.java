@@ -36,12 +36,12 @@ public class PortChecker {
 
     public PortCheckResponse test(String expectedResponse) {
         if (StorageKey.CDN_SKIP_VALIDATION.getBoolean()) {
-            OpenAudioLogger.toConsole("Was going to check if the cdn was running at " + url() + " but it was skipped by the config");
+            OpenAudioLogger.warn("Was going to check if the cdn was running at " + url() + " but it was skipped by the config");
             return PortCheckResponse.MATCH;
         }
 
         // anything goes on a test server lol
-        OpenAudioLogger.toConsole("Attaching cdn host to " + url());
+        OpenAudioLogger.info("Attaching cdn host to " + url());
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
             return PortCheckResponse.MATCH;
         }

@@ -51,8 +51,7 @@ public class CertificateHelper {
                 }
             });
         } catch (Exception e) {
-            OpenAudioLogger.handleException(e);
-            OpenAudioLogger.toConsole("Failed to middleman ssl, should probably be fine");
+            OpenAudioLogger.warn("Failed to handle certificate middleware, this may cause issues with the connection to the OpenAudioMc API. Error: " + e.getMessage());
         }
         return builder;
     }

@@ -79,7 +79,7 @@ public class SpeakerService extends Service {
         if (StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED.getBoolean()) {
             int interval = StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL.getInt();
 
-            OpenAudioLogger.toConsole("Starting redstone speaker tick task with interval " + interval + " ticks");
+            OpenAudioLogger.info("Starting redstone speaker tick task with interval " + interval + " ticks");
 
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), () -> {
                 for (Speaker speaker : speakerMap.values()) {
@@ -116,7 +116,7 @@ public class SpeakerService extends Service {
                 }
             }, interval, interval);
         } else {
-            OpenAudioLogger.toConsole("Redstone speaker tick task is disabled");
+            OpenAudioLogger.info("Redstone speaker tick task is disabled");
         }
     }
 
@@ -129,21 +129,21 @@ public class SpeakerService extends Service {
         version = OpenAudioMc.getService(ServerService.class).getVersion();
 
         if (version == ServerVersion.MODERN) {
-            OpenAudioLogger.toConsole("Enabling the 1.13 speaker system");
+            OpenAudioLogger.info("Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
             playerSkullBlock = Material.PLAYER_HEAD;
         } else {
-            OpenAudioLogger.toConsole("Enabling the 1.12 speaker system");
+            OpenAudioLogger.info("Enabling the 1.12 speaker system");
             try {
-                OpenAudioLogger.toConsole("Hooking speakers attempt 1..");
+                OpenAudioLogger.info("Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
                 playerSkullBlock = Material.valueOf("SKULL");
             } catch (Exception e) {
-                OpenAudioLogger.toConsole("Failed hook speakers attempt 1..");
+                OpenAudioLogger.info("Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                OpenAudioLogger.toConsole("Speakers failed to hook. Hooking to a block.");
+                OpenAudioLogger.info("Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
                 playerSkullBlock = Material.JUKEBOX;
             }
@@ -152,7 +152,7 @@ public class SpeakerService extends Service {
 
     public Speaker registerSpeaker(Speaker speaker) {
         if (speaker.getLocation() == null) {
-            OpenAudioLogger.toConsole("WARNING! Registering speaker with nil location " + speaker.getSpeakerId());
+            OpenAudioLogger.warn("Registering speaker with nil location " + speaker.getSpeakerId());
         }
         speakerMap.put(speaker.getLocation(), speaker);
         return speaker;

@@ -171,7 +171,7 @@ public class RestRequest<T extends AbstractRestResponse> {
         }
 
         if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
-            OpenAudioLogger.toConsole("Running in development mode, disabling SSL verification");
+            OpenAudioLogger.warn("Running in development mode, disabling SSL verification");
             clientBuilder = ignore(clientBuilder);
         }
         client = clientBuilder.build();

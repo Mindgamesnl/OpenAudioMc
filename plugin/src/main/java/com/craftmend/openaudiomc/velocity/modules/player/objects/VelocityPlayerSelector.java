@@ -69,7 +69,7 @@ public class VelocityPlayerSelector implements SelectorTranslator<CommandSource>
                 return Collections.singletonList(player.get());
         } else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
             source.sendMessage(Component.text("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments."));
         }
         return players;

@@ -81,7 +81,7 @@ public class VistasUser implements User<Object> {
     }
 
     public void handleDefiniteDisconnect() {
-        OpenAudioLogger.toConsole("Handling disconnect for " + getName());
+        OpenAudioLogger.info("Handling disconnect for " + getName());
         OpenAudioMc.getService(NetworkingService.class).getClient(uuid).kickConnection();
     }
 

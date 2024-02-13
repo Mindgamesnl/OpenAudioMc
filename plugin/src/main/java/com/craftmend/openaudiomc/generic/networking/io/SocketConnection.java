@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.networking.io;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.events.events.StateChangeEvent;
@@ -40,7 +39,7 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 
-public class SocketIoConnector {
+public class SocketConnection {
 
     private Socket socket;
     @Getter
@@ -57,7 +56,7 @@ public class SocketIoConnector {
             new ClientDriver(),
     };
 
-    public SocketIoConnector(ServerKeySet keySet) {
+    public SocketConnection(ServerKeySet keySet) {
         this.keySet = keySet;
     }
 
@@ -96,16 +95,11 @@ public class SocketIoConnector {
                 keySet.getPublicKey().getValue()
         );
 
-        // request a relay server
-        if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
-            OpenAudioLogger.toConsole("Requesting relay..");
-        }
-
         // schedule timeout check
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
             if (OpenAudioMc.getService(StateService.class).getCurrentState() instanceof AssigningRelayState) {
-                OpenAudioLogger.toConsole("Connecting timed out.");
-                OpenAudioMc.getService(StateService.class).setState(new IdleState("Connecting to the relay timed out"));
+                OpenAudioLogger.info("Connecting timed out.");
+                OpenAudioMc.getService(StateService.class).setState(new IdleState("Connecting to OpenAudioMc timed out"));
             }
         }, 20 * 35);
 
@@ -115,11 +109,10 @@ public class SocketIoConnector {
 
         if (relayLoginRequest.hasError()) {
             OpenAudioMc.getService(StateService.class).setState(new IdleState("Failed to do the initial handshake. Error: " + relayLoginRequest.getError()));
-            OpenAudioLogger.toConsole("Failed to get relay host: " + relayLoginRequest.getError().getMessage());
+            OpenAudioLogger.info("Failed to get instance: " + relayLoginRequest.getError().getMessage());
             try {
-                throw new IOException("Failed to get relay! see console for error information");
+                throw new IOException("Failed to get instance! see console for error information");
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
                 e.printStackTrace();
             }
             return;
@@ -127,19 +120,15 @@ public class SocketIoConnector {
 
         RelayLoginResponse loginResponse = relayLoginRequest.getResponse();
         Instant finish = Instant.now();
-        if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
-            OpenAudioLogger.toConsole("Assigned relay: " + loginResponse.getRelay() + " request took " + Duration.between(request, finish).toMillis() + "MS");
-        }
+
         lastUsedRelay = loginResponse.getRelay();
 
-        // setup socketio connection
         try {
             String endpoint = loginResponse.getRelayEndpoint();
             endpoint = endpoint.replace("https", "http");
             socket = IO.socket(endpoint, opts);
         } catch (URISyntaxException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Received an invalid endpoint");
         }
 
         // register state to be connecting
@@ -151,8 +140,8 @@ public class SocketIoConnector {
         // schedule timeout check
         OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
             if (OpenAudioMc.getService(StateService.class).getCurrentState() instanceof ConnectingState) {
-                OpenAudioLogger.toConsole("Connecting timed out.");
-                OpenAudioMc.getService(StateService.class).setState(new IdleState("Connecting to the relay timed out (socket)"));
+                OpenAudioLogger.warn("Connect timed out.");
+                OpenAudioMc.getService(StateService.class).setState(new IdleState("Connecting to the assigned instance timed out (socket)"));
             }
         }, 20 * 35);
 

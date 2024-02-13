@@ -30,13 +30,13 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating speakers from the data.yml");
+        OpenAudioLogger.info("Migrating speakers from the data.yml");
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
 
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
             // check if said world is loaded
-            OpenAudioLogger.toConsole("Migrating speaker " + id);
+            OpenAudioLogger.info("Migrating speaker " + id);
 
             if (id.equals("none") || !isUuid(id)) {
                 config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);

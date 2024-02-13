@@ -44,7 +44,7 @@ public class AuthenticationService extends Service {
     public void initialize() {
         driver = new AuthenticationDriver(this);
         registrationProvider = new RestRequest(RegistrationResponse.class, Endpoint.REGISTER);
-        OpenAudioLogger.toConsole("Starting authentication module");
+        OpenAudioLogger.info("Starting authentication module");
         loadData();
         explicitParentPublicKey = serverKeySet.getPublicKey();
     }

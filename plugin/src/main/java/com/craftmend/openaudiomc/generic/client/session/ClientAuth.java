@@ -42,7 +42,7 @@ public class ClientAuth implements Serializable {
 
         activationAttempt.setWhenFailed((error) -> {
             sender.sendMessage(translateColors(StorageKey.MESSAGE_TOKEN_ACTIVATION_FAILED.getString()));
-            OpenAudioLogger.toConsole("Failed to activate token for " + sender.getName() + ", the code they entered is invalid or has expired.");
+            OpenAudioLogger.warn("Failed to activate token for " + sender.getName() + ", the code they entered is invalid or has expired.");
         });
 
         activationAttempt.setWhenFinished((r) -> {
@@ -82,7 +82,7 @@ public class ClientAuth implements Serializable {
 
         Task<String> sessionRequest = OpenAudioMc.getService(AuthenticationService.class).getDriver().createPlayerSession(client);
         sessionRequest.setWhenFailed((error) -> {
-            OpenAudioLogger.toConsole("Failed to create a session for " + client.getUser().getName() + ", error: " + error.getMessage());
+            OpenAudioLogger.warn("Failed to create a session for " + client.getUser().getName() + ", error: " + error.getMessage());
             client.getUser().sendMessage(translateColors(StorageKey.MESSAGE_SESSION_ERROR.getString()));
         });
 

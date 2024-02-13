@@ -90,12 +90,12 @@ public class OpenAudioMc {
         MagicValue.loadArguments();
         if (env != null && !env.equals("")) {
             SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
-            OpenAudioLogger.toConsole("WARNING! STARTING IN " + env + " MODE!");
+            OpenAudioLogger.info("WARNING! STARTING IN " + env + " MODE!");
         }
 
         // random bullshit, go!
         instance = this;
-        OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
+        OpenAudioLogger.info("Starting OpenAudioMc, build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
 
         // load core internal API's which are heavily used by the rest of the plugin
         serviceManager.loadServices(
@@ -180,7 +180,7 @@ public class OpenAudioMc {
                 serviceManager.getService(NetworkingService.class).stop();
             }
         } catch (NoClassDefFoundError exception) {
-            OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
+            OpenAudioLogger.warn("Core dependencies were already unloaded by the classloader, skipping shutdown");
         }
     }
 

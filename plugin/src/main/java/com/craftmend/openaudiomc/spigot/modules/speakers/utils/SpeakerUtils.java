@@ -34,7 +34,7 @@ public class SpeakerUtils {
                     .addReturnValue("getName", speakerSkin)
                     .createProxy();
         } catch (Exception e) {
-            OpenAudioLogger.toConsole("Failed to create a OfflinePlayer proxy class. This will cause issues with speakers on servers running post 1.20.2");
+            OpenAudioLogger.warn("Failed to create a OfflinePlayer proxy class. This will cause issues with speakers on servers running post 1.20.2");
         }
     }
 

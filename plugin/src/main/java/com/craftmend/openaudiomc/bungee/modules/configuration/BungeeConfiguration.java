@@ -38,7 +38,7 @@ public class BungeeConfiguration implements Configuration {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
@@ -266,8 +266,7 @@ public class BungeeConfiguration implements Configuration {
             }
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config/data");
         }
     }
 
@@ -294,8 +293,7 @@ public class BungeeConfiguration implements Configuration {
         try {
             load = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename));
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Could not load file: " + filename);
         }
         return load;
     }
@@ -310,8 +308,7 @@ public class BungeeConfiguration implements Configuration {
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Could not delete file: " + filename);
             }
         }
 
@@ -319,8 +316,7 @@ public class BungeeConfiguration implements Configuration {
             try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Could not save default file: " + filename);
             }
         }
     }

@@ -45,7 +45,7 @@ public class RedisConnection {
             uri = builder.build();
         }
 
-        OpenAudioLogger.toConsole("Connecting to redis server: " + uri.toString());
+        OpenAudioLogger.info("Connecting to redis server: " + uri.toString());
 
         redisClient = RedisClient.create(uri);
         redisClient.setOptions(ClientOptions.builder().autoReconnect(true).build());

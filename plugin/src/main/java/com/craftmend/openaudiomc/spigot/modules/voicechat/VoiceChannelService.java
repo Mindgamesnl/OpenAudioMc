@@ -52,12 +52,12 @@ public class VoiceChannelService extends Service {
         // load static channels
         try {
             if (!StorageKey.SETTINGS_STATIC_CHANNELS_ENABLED.getBoolean()) {
-                OpenAudioLogger.toConsole("Static voice channels are disabled, skipping load..");
+                OpenAudioLogger.info("Static voice channels are disabled, skipping load..");
                 return;
             }
 
             int loaded = 0;
-            OpenAudioLogger.toConsole("Loading static voice channels..");
+            OpenAudioLogger.info("Loading static voice channels..");
             for (Map<String, Object> obj : StorageKey.SETTINGS_STATIC_CHANNELS_BASE.getObjectList()) {
                 // check if its valid
                 boolean valid = obj.containsKey("name") && obj.get("name") instanceof String
@@ -65,8 +65,8 @@ public class VoiceChannelService extends Service {
                         && obj.containsKey("requirePermission") && obj.get("requirePermission") instanceof Boolean;
 
                 if (!valid) {
-                    OpenAudioLogger.toConsole("Failed to load a static voice channel, invalid configuration. Read:");
-                    OpenAudioLogger.toConsole(obj.toString());
+                    OpenAudioLogger.warn("Failed to load a static voice channel, invalid configuration. Read:");
+                    OpenAudioLogger.warn(obj.toString());
                     continue;
                 }
 
@@ -76,15 +76,14 @@ public class VoiceChannelService extends Service {
                         this
                 );
                 channelMap.put(staticChannel.getName(), staticChannel);
-                OpenAudioLogger.toConsole("Created static channel: " + staticChannel.getName());
+                OpenAudioLogger.info("Created static channel: " + staticChannel.getName());
 
                 loaded++;
             }
 
-            OpenAudioLogger.toConsole("Loaded " + loaded + " static voice channels");
+            OpenAudioLogger.info("Loaded " + loaded + " static voice channels");
         } catch (Exception e) {
-            e.printStackTrace();
-            OpenAudioLogger.toConsole("Failed to load voice channels, see error above");
+            OpenAudioLogger.error(e, "Failed to load voice channels");
         }
     }
 
