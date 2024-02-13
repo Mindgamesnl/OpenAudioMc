@@ -80,13 +80,13 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
 
             // timing end and calc
             Instant finish = Instant.now();
-            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+            OpenAudioLogger.info("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
 
             this.messageReceiver.registerListener(new CommandPacketListener());
 
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            OpenAudioLogger.error(ex, "Failed to start OpenAudioMc");
         }
     }
 

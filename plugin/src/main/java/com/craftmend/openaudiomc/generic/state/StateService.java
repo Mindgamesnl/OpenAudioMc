@@ -57,7 +57,7 @@ public class StateService extends Service {
         EventApi.getInstance().callEvent(new StateChangeEvent(currentState, state));
 
         if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
-            OpenAudioLogger.toConsole("Updating state to: " + state.getClass().getSimpleName() + " - " + state.getDescription());
+            OpenAudioLogger.debug("Updating state to: " + state.getClass().getSimpleName() + " - " + state.getDescription(), 1);
         }
 
         this.currentState = state;

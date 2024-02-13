@@ -81,7 +81,7 @@ public class RedisService extends Service {
         if (!Configuration.getBoolean(StorageKey.REDIS_ENABLED)) return;
         enabled = true;
 
-        OpenAudioLogger.toConsole("Enabling redis service..");
+        OpenAudioLogger.info("Enabling redis service..");
 
         // Read Redis password
         final String redisPass = Configuration.getString(StorageKey.REDIS_PASSWORD);
@@ -105,7 +105,7 @@ public class RedisService extends Service {
             uri = builder.build();
         }
 
-        OpenAudioLogger.toConsole("Connecting to redis server: " + uri.toString());
+        OpenAudioLogger.info("Connecting to redis server: " + uri.toString());
 
         // set up listener
         redisSub = RedisClient.create(uri);
@@ -130,7 +130,7 @@ public class RedisService extends Service {
         // enable command
         OpenAudioMc.getService(CommandService.class).registerSubCommands(CommandContext.OPENAUDIOMC, new RedisSubCommand(this));
 
-        OpenAudioLogger.toConsole("Enabled redis service!");
+        OpenAudioLogger.info("Enabled redis service!");
     }
 
     public void sendMessage(ChannelKey key, OARedisPacket packet) {

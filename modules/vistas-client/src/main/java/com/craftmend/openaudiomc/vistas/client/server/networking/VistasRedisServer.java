@@ -43,7 +43,7 @@ public class VistasRedisServer extends Service {
                 configuration.getBoolean(StorageKey.REDIS_USE_SSL),
                 configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET),
                 packetEvents,
-                "server_to_deputy"
+                "server_to_vistas"
         );
 
         packetEvents.registerPacket(UserJoinPacket.class).setHandler(joinPacket -> {
@@ -67,7 +67,7 @@ public class VistasRedisServer extends Service {
                 User sender = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(userExecuteAudioCommandPacket.getPlayerUuid());
 
                 if (sender == null) {
-                    OpenAudioLogger.toConsole("User " + userExecuteAudioCommandPacket.getPlayerUuid() + " is not online, but tried to execute a command");
+                    OpenAudioLogger.warn("User " + userExecuteAudioCommandPacket.getPlayerUuid() + " is not online, but tried to execute a command");
                     return;
                 }
                 authenticationDriver.activateToken(sender, userExecuteAudioCommandPacket.getArgs()[0]);
@@ -124,13 +124,13 @@ public class VistasRedisServer extends Service {
         packetEvents.registerPacket(WrappedProxyPacket.class).setHandler(wrappedProxyPacket -> {
             MinecraftServer installation = getService(ServerUserHooks.class).registerServerIfNew(wrappedProxyPacket.getServerId());
             if (installation == null) {
-                OpenAudioLogger.toConsole("Warning! couldn't handle a packet from a server, because, well, I don't have it registered lol " + wrappedProxyPacket.getServerId());
+                OpenAudioLogger.warn("couldn't handle a packet from a server, because, well, I don't have it registered lol " + wrappedProxyPacket.getServerId());
                 return;
             }
 
             User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(wrappedProxyPacket.getPlayerId());
             if (wrappedProxyPacket.getPacket() == null) {
-                System.out.println("WARNING! nill packet for " + user.getName());
+                OpenAudioLogger.warn("nill packet for " + user.getName());
                 return;
             }
             OpenAudioMc.getService(ProxyHostService.class).onPacketReceive(user, wrappedProxyPacket.getPacket());
@@ -138,7 +138,7 @@ public class VistasRedisServer extends Service {
     }
 
     public void sendPacket(AbstractPacketPayload packet, UUID targetServerId) {
-        redis.publish("deputy_to_server", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, targetServerId)));
+        redis.publish("vistas_to_server", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, targetServerId)));
     }
 
 }

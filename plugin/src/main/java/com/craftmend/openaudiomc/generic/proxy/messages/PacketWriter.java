@@ -27,8 +27,7 @@ public class PacketWriter {
             try {
                 dataOutputStream.writeUTF(packet.getClass().getName());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to write packet class name to packet");
             }
         }
     }

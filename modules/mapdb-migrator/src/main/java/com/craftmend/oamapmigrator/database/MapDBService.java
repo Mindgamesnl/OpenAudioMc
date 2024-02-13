@@ -33,7 +33,7 @@ public class MapDBService extends Service {
     }
 
     public void shutdown() {
-        OpenAudioLogger.toConsole("Closing database");
+        OpenAudioLogger.info("Closing database");
         database.commit();
         database.close();
         databaseMap.clear();
@@ -46,7 +46,7 @@ public class MapDBService extends Service {
         }
 
         // create database
-        OpenAudioLogger.toConsole("Registering storage table for " + dataClass.getSimpleName());
+        OpenAudioLogger.info("Registering storage table for " + dataClass.getSimpleName());
         Repository<T> createdTable = new Repository<>();
         createdTable.onCreate(this, this.database, dataClass);
         databaseMap.put(dataClass, createdTable);

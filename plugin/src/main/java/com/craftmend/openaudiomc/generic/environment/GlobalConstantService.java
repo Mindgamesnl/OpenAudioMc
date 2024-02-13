@@ -33,8 +33,7 @@ public class GlobalConstantService extends Service {
                                 .run()
                                 .getResponse();
                     } catch (Exception e) {
-                        OpenAudioLogger.handleException(e);
-                        // Failed to check
+                        OpenAudioLogger.error(e, "Failed to check for updates");
                     }
                 }
         );

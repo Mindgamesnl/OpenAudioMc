@@ -33,10 +33,8 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        OpenAudioLogger.toConsole("Post login for " + event.getPlayer().getName());
-
         if (!BungeeUtils.areEncodersReady(event.getPlayer())) {
-            OpenAudioLogger.toConsole("Player " + event.getPlayer().getName() + " is not ready yet during postLogin, waiting for next event");
+            OpenAudioLogger.warn("Player " + event.getPlayer().getName() + " is not ready yet during postLogin, waiting for next event");
             return;
         }
 
@@ -56,13 +54,13 @@ public class PlayerConnectionListener implements Listener {
         ));
 
         if (!BungeeUtils.areEncodersReady(event.getPlayer())) {
-            OpenAudioLogger.toConsole("Player " + event.getPlayer().getName() + " is not ready yet during connectEvent, waiting for next event");
+            OpenAudioLogger.warn("Player " + event.getPlayer().getName() + " is not ready yet during connectEvent, waiting for next event");
             return;
         }
 
         // possibly polyfill the missing client
         if (!OpenAudioMc.getService(NetworkingService.class).hasClient(event.getPlayer().getUniqueId())) {
-            OpenAudioLogger.toConsole("Player " + event.getPlayer().getName() + "is not registered yet, forcing login during connect");
+            OpenAudioLogger.warn("Player " + event.getPlayer().getName() + "is not registered yet, forcing login during connect");
             OpenAudioMc.getService(NetworkingService.class).register(new BungeeUserAdapter(event.getPlayer()), null);
         }
     }
@@ -70,12 +68,12 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void onSwitch(ServerSwitchEvent event) {
         if (!BungeeUtils.areEncodersReady(event.getPlayer())) {
-            OpenAudioLogger.toConsole("Player " + event.getPlayer().getName() + " is not ready yet during serverSwitch, waiting for next event");
+            OpenAudioLogger.warn("Player " + event.getPlayer().getName() + " is not ready yet during serverSwitch, waiting for next event");
         }
 
         // did we have to skip the login packet?
         if (!OpenAudioMc.getService(NetworkingService.class).hasClient(event.getPlayer().getUniqueId())) {
-            OpenAudioLogger.toConsole("Player " + event.getPlayer().getName() + " is not registered yet, forcing login during switch");
+            OpenAudioLogger.warn("Player " + event.getPlayer().getName() + " is not registered yet, forcing login during switch");
             OpenAudioMc.getService(NetworkingService.class).register(new BungeeUserAdapter(event.getPlayer()), null);
         }
 

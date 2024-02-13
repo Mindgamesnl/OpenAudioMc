@@ -121,9 +121,9 @@ public class VoiceApiConnection {
             // start?
             boolean success = voiceWebsocket.start();
             if (success) {
-                OpenAudioLogger.toConsole("Attempting to login to voice chat...");
+                OpenAudioLogger.info("Attempting to login to voice chat...");
             } else {
-                OpenAudioLogger.toConsole("Failed to initialize voice events.");
+                OpenAudioLogger.warn("Failed to initialize voice events.");
                 status = VoiceApiStatus.IDLE;
             }
         });
@@ -147,16 +147,17 @@ public class VoiceApiConnection {
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getRtcSessionManager().isReady()) {
                 client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
-                client.kick(() -> {});
+                client.kick(() -> {
+                    OpenAudioLogger.warn("Kicked " + client.getUser().getName() + " because the voicechat connection was lost");
+                });
             }
         }
-        OpenAudioLogger.toConsole("Expected voicechat shut down.");
     }
 
     private void onWsOpen() {
         if (status == VoiceApiStatus.CONNECTED) return;
         Thread.currentThread().setName("OaVoiceAPI");
-        OpenAudioLogger.toConsole("Connected to voicechat!");
+        OpenAudioLogger.info("VoiceChat prepared and connected!");
         status = VoiceApiStatus.CONNECTED;
         // seed online players
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);

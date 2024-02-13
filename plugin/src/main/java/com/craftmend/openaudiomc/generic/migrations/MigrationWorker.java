@@ -65,15 +65,19 @@ public class MigrationWorker {
         for (SimpleMigration migration : migrations) {
             if (migration.shouldBeRun(this)) {
                 OpenAudioMc.getService(BackupService.class).makeBackup(false);
-                OpenAudioLogger.toConsole("Migration Service: Running migration " + migration.getClass().getSimpleName());
-                migration.execute(this);
-                OpenAudioLogger.toConsole("Migration Service: Finished migrating " + migration.getClass().getSimpleName());
+                OpenAudioLogger.info("Migration Service: Running migration " + migration.getClass().getSimpleName());
+                try {
+                    migration.execute(this);
+                } catch (Exception e) {
+                    OpenAudioLogger.error(e, "Migration Service: Failed to run migration " + migration.getClass().getSimpleName());
+                }
+                OpenAudioLogger.info("Migration Service: Finished migrating " + migration.getClass().getSimpleName());
                 migrationsFinished++;
             } else {
                 migrationsSkipped++;
             }
         }
-        OpenAudioLogger.toConsole("Skipped " + migrationsSkipped + "/" + migrations.length + " migrations.");
+        OpenAudioLogger.info("Skipped " + migrationsSkipped + "/" + migrations.length + " migrations.");
     }
 
 }

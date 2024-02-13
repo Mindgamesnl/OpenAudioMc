@@ -138,8 +138,7 @@ public class Show {
             writer.flush();
             writer.close();
         } catch (IOException x) {
-            OpenAudioLogger.handleException(x);
-            System.err.format("IOException: %s%n", x);
+            OpenAudioLogger.error(x, "Failed to save show " + showName);
         }
         return this;
     }

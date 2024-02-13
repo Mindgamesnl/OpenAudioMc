@@ -54,7 +54,7 @@ public class RedisTypeAdapter implements JsonSerializer<OARedisPacket>, JsonDese
             orp.setSenderUUID(UUID.fromString(senderUuid));
             return orp;
         } catch (ClassNotFoundException cnfe) {
-            OpenAudioLogger.handleException(cnfe);
+            OpenAudioLogger.warn("Failed to adapt packet type " + type);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }

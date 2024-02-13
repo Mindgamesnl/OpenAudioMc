@@ -12,7 +12,7 @@ public abstract class Service implements Servicable {
     }
 
     public void log(String s) {
-        OpenAudioLogger.toConsole(getClass().getSimpleName() + ": " + s);
+        OpenAudioLogger.info(getClass().getSimpleName() + ": " + s);
     }
 
     public <T extends Servicable> T getService(Class<T> s) {

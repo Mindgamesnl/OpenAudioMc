@@ -43,7 +43,7 @@ public class VistasConfiguration extends Service implements Configuration {
     @Inject
     @SneakyThrows
     public VistasConfiguration() {
-        OpenAudioLogger.toConsole("Using storage base path " + BASE_PATH);
+        OpenAudioLogger.info("Using storage base path " + BASE_PATH);
         MagicValue.overWrite(MagicValue.STORAGE_DIRECTORY, new File(VistasConfiguration.BASE_PATH));
         reloadConfig();
     }
@@ -74,7 +74,7 @@ public class VistasConfiguration extends Service implements Configuration {
     }
 
     public void set(String key, Object value, StorageLocation location) {
-        OpenAudioLogger.toConsole("Setting " + key + " to " + value);
+        OpenAudioLogger.info("Setting " + key + " to " + value);
         Map<String, Object> haystack = null;
         switch (location) {
             case DATA_FILE:
@@ -102,7 +102,7 @@ public class VistasConfiguration extends Service implements Configuration {
     @SneakyThrows
     @Override
     public void saveAll(boolean ignoreConfig) {
-        OpenAudioLogger.toConsole("Saving files...");
+        OpenAudioLogger.info("Saving files...");
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -269,12 +269,12 @@ public class VistasConfiguration extends Service implements Configuration {
         configFile = new File(BASE_PATH + "/config.yml");
 
         if (!dataFile.exists()) {
-            OpenAudioLogger.toConsole("Creating data.yml");
+            OpenAudioLogger.info("Creating data.yml");
             dataFile = new File(FileUtil.exportResource("/data.yml", OpenAudioMc.class, new File(BASE_PATH)));
         }
 
         if (!configFile.exists()) {
-            OpenAudioLogger.toConsole("Creating config.yml");
+            OpenAudioLogger.info("Creating config.yml");
             configFile = new File(FileUtil.exportResource("/config.yml", OpenAudioMc.class, new File(BASE_PATH)));
         }
 

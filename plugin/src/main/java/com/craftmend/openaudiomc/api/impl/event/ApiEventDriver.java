@@ -88,7 +88,7 @@ public class ApiEventDriver {
         String methodThatInvoked = e.getMethodName();
         String classThatInvoked = e.getClassName();
         int lineThatInvoked = e.getLineNumber();
-        OpenAudioLogger.toConsole("Deprecated event listener registration, please use the new event system. Invoked from " + classThatInvoked + "#" + methodThatInvoked + ":" + lineThatInvoked);
+        OpenAudioLogger.warn("Deprecated event listener registration, please use the new event system. Invoked from " + classThatInvoked + "#" + methodThatInvoked + ":" + lineThatInvoked);
 
         // check if this event is supported here
         EventSupport support = getEventSupportFor(eventType);
@@ -124,9 +124,7 @@ public class ApiEventDriver {
                 try {
                     subscriber.call(event);
                 } catch (Exception e) {
-                    OpenAudioLogger.handleException(e);
-                    OpenAudioLogger.toConsole("Failed to handle an event handler");
-                    e.printStackTrace();
+                    OpenAudioLogger.error(e, "Failed to handle an event (" + event.getClass().getSimpleName() + ") handler in " + subscriber.getHandler().getClass().getName());
                 }
             }
         }

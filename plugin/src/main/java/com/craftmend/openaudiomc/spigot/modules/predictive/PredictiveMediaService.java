@@ -49,7 +49,7 @@ public class PredictiveMediaService extends Service {
         try {
             loadFromFile();
         } catch (IOException e) {
-            OpenAudioLogger.toConsole("Failed to load chunk-cache from file.");
+            OpenAudioLogger.warn("Failed to load chunk-cache from file.");
         }
     }
 
@@ -68,7 +68,7 @@ public class PredictiveMediaService extends Service {
 
     public void onDisable() {
         // save
-        OpenAudioLogger.toConsole("Saving world cache...");
+        OpenAudioLogger.info("Saving world cache...");
         Repository<StoredWorldChunk> repo = databaseService.getRepository(StoredWorldChunk.class);
         for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMapSerializer.serialize(chunkTracker).getData().entrySet()) {
             String name = entry.getKey();

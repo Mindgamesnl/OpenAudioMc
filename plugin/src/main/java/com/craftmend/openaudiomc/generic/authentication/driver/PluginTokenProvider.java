@@ -21,11 +21,11 @@ public class PluginTokenProvider implements ITokenProvider {
 
         // create token if new
       if (config.getString(StorageKey.AUTH_PRIVATE_KEY) == null || config.getString(StorageKey.AUTH_PRIVATE_KEY).equals("not-set") || as.getAuthVersion() != as.getCurrentKeyVersion()) {
-            OpenAudioLogger.toConsole("Creating account...");
+            OpenAudioLogger.info("Creating account...");
 
             // am I a top level server? skip setup if that's the case
             if (OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
-                OpenAudioLogger.toConsole("Skipping account setup since this isn't a master server, moving on with fake api keys.");
+                OpenAudioLogger.info("Skipping account setup since this isn't a master server, moving on with fake api keys.");
                 as.getServerKeySet().setPrivateKey(new Key(UUID.randomUUID().toString()));
                 as.getServerKeySet().setPublicKey(new Key(UUID.randomUUID().toString()));
                 as.setSuccessful(true);
@@ -39,7 +39,7 @@ public class PluginTokenProvider implements ITokenProvider {
                 as.initializeToken(response.getResponse(), config);
                 as.setSuccessful(true);
             } else {
-                OpenAudioLogger.toConsole("Failed to request token. Error: " + response.getError().getMessage());
+                OpenAudioLogger.info("Failed to request token. Error: " + response.getError().getMessage());
                 as.setSuccessful(false);
             }
             as.setNewAccount(true);
@@ -47,7 +47,7 @@ public class PluginTokenProvider implements ITokenProvider {
         }
 
         // paddle back
-        OpenAudioLogger.toConsole("This server already has an account, skipping sign up.");
+        OpenAudioLogger.info("This server already has an account, skipping sign up.");
         as.getServerKeySet().setPrivateKey(new Key(config.getString(StorageKey.AUTH_PRIVATE_KEY)));
         as.getServerKeySet().setPublicKey(new Key(config.getString(StorageKey.AUTH_PUBLIC_KEY)));
         as.setSuccessful(true);

@@ -30,7 +30,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         runTaskTimer(OpenAudioMcSpigot.getInstance(), 600, 600);
         OpenAudioMc.resolveDependency(TaskService.class).scheduleAsyncRepeatingTask(() -> {
             if (PROCESSED_SPEAKERS != 0) {
-                OpenAudioLogger.toConsole("The garbage collector found and processed " + PROCESSED_SPEAKERS + " broken speakers");
+                OpenAudioLogger.info("The garbage collector found and processed " + PROCESSED_SPEAKERS + " broken speakers");
                 PROCESSED_SPEAKERS = 0;
             }
         }, 20 * 30, 20 * 30);
@@ -63,7 +63,7 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
                     if (mappedLocation == null) {
-                        OpenAudioLogger.toConsole("A speaker doesn't have a location, terminating");
+                        OpenAudioLogger.warn("A speaker doesn't have a location, terminating");
                         remove(speaker);
                         return;
                     }
@@ -71,14 +71,14 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
                     // check if the chunk is loaded, if not, don't do shit lmao
                     Location bukkitLocation = mappedLocation.toBukkit();
                     if (bukkitLocation == null || bukkitLocation.getWorld() == null) {
-                        OpenAudioLogger.toConsole("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getSpeakerId() + " is being deleted");
+                        OpenAudioLogger.warn("Can't find world " + mappedLocation.getWorld() + " so speaker " + speaker.getSpeakerId() + " is being deleted");
                         remove(speaker);
                     } else if (bukkitLocation.getChunk().isLoaded() || forceRun) {
                         if (forceRun && !bukkitLocation.getChunk().isLoaded()) {
-                            OpenAudioLogger.toConsole("Attempting to load chunk " + bukkitLocation.getChunk().toString() + " for a forced speaker check...");
+                            OpenAudioLogger.info("Attempting to load chunk " + bukkitLocation.getChunk().toString() + " for a forced speaker check...");
                             bukkitLocation.getChunk().load();
                             if (!bukkitLocation.getChunk().isLoaded()) {
-                                OpenAudioLogger.toConsole("Failed to load chunk! please try again later...");
+                                OpenAudioLogger.warn("Failed to load chunk! please try again later...");
                             }
                             return;
                         }

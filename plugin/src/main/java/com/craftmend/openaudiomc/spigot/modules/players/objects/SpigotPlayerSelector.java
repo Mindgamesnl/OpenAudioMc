@@ -132,7 +132,7 @@ public class SpigotPlayerSelector implements SelectorTranslator<CommandSender> {
         }
         else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @p, username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @p, username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @p, username or other arguments.");
         }
         return players;

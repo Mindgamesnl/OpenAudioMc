@@ -16,7 +16,7 @@ public abstract class ExternalModule {
     public abstract void on(ModuleEvent event);
 
     protected void log(String message) {
-        OpenAudioLogger.toConsole("[module-" + getName() + "] " + message);
+        OpenAudioLogger.info("[module-" + getName() + "] " + message);
     }
 
 }

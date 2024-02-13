@@ -22,7 +22,7 @@ public class ExternalResourceLoader extends URLClassLoader {
             String u = url.toString();
             String[] parts = u.split(File.separator);
             String fn = parts[parts.length - 1];
-            OpenAudioLogger.toConsole("Loading runtime resource " + fn);
+            OpenAudioLogger.info("Loading runtime resource " + fn);
             addJarToClasspath(url);
         }
     }

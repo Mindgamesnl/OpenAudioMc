@@ -46,7 +46,7 @@ public class VoiceWebsocket extends WebSocketListener {
 
         // denied
         if (preAuthCheck.hasError()) {
-            OpenAudioLogger.toConsole("Failed to login to RTC, error: " + preAuthCheck.getError().getMessage());
+            OpenAudioLogger.warn("Failed to login to RTC, error: " + preAuthCheck.getError().getMessage());
             return false;
         }
 
@@ -88,7 +88,7 @@ public class VoiceWebsocket extends WebSocketListener {
     @Override
     public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
         if (code != 1000) {
-            OpenAudioLogger.toConsole("RTC connection closed with code " + code + " and reason " + reason);
+            OpenAudioLogger.warn("RTC connection closed with code " + code + " and reason " + reason);
         }
         handleError();
     }
@@ -96,7 +96,7 @@ public class VoiceWebsocket extends WebSocketListener {
     @Override
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
         if (code != 1000) {
-            OpenAudioLogger.toConsole("Voicechat ws closing: " + reason + " - " + code);
+            OpenAudioLogger.warn("Voicechat ws closing: " + reason + " - " + code);
         }
         handleError();
     }
@@ -105,7 +105,7 @@ public class VoiceWebsocket extends WebSocketListener {
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
         String nullableMessage = "";
         if (response != null) nullableMessage = response.message();
-        OpenAudioLogger.toConsole("Voicechat ws error: " + t.getMessage() + " - " + nullableMessage);
+        OpenAudioLogger.warn("Voicechat ws error: " + t.getMessage() + " - " + nullableMessage);
         handleError();
     }
 

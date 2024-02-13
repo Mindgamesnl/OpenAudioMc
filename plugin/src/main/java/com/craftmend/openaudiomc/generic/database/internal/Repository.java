@@ -52,7 +52,7 @@ public class Repository<T extends DataStore> {
         try {
             storm.save(data);
         } catch (Exception e) {
-            OpenAudioLogger.toConsole("Failed to save a model. Trying again later (" + data.getClass().getSimpleName() + ")");
+            OpenAudioLogger.warn("Failed to save a model. Trying again later (" + data.getClass().getSimpleName() + ")");
             // try again in a second, if it failed again, log it as an error
             TaskService ts = OpenAudioMc.resolveDependency(TaskService.class);
             ts.schduleSyncDelayedTask(() -> {
@@ -60,7 +60,7 @@ public class Repository<T extends DataStore> {
                     try {
                         storm.save(data);
                     } catch (Exception e1) {
-                        OpenAudioLogger.toConsole("Error: Failed to update storm model " + data.getClass().getSimpleName());
+                        OpenAudioLogger.warn("Failed to save a model. This is a error. (" + data.getClass().getSimpleName() + ") (" + e.getClass().getSimpleName() + "/" + e1.getMessage() + ")");
                     }
                 });
             }, 20 * 5);

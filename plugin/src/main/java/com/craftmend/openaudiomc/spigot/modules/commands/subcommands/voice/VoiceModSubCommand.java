@@ -32,11 +32,11 @@ public class VoiceModSubCommand extends SubCommand {
 
         if (!client.getSession().isModerating()) {
            client.setModerating(true);
-            OpenAudioLogger.toConsole(sender.getName() + " started moderating");
+            OpenAudioLogger.info(sender.getName() + " started moderating");
             bcToStaff(sender.getName() + " started moderating");
         } else {
             client.setModerating(false);
-            OpenAudioLogger.toConsole(sender.getName() + " stopped moderating");
+            OpenAudioLogger.info(sender.getName() + " stopped moderating");
             bcToStaff(sender.getName() + " stopped moderating");
         }
     }

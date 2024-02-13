@@ -50,7 +50,7 @@ public class PlaylistService extends Service implements UrlMutation {
             // delete entries
             for (PlaylistEntry deletedEntry : value.getDeletedEntries()) {
                 playlistEntryRepository.delete(deletedEntry);
-                OpenAudioLogger.toConsole("Deleted entry " + deletedEntry.getId() + " from playlist " + value.getName());
+                OpenAudioLogger.warn("Deleted entry " + deletedEntry.getId() + " from playlist " + value.getName());
             }
             value.getDeletedEntries().clear();
 

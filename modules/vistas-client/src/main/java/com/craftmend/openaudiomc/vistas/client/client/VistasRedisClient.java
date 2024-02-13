@@ -36,7 +36,7 @@ public class VistasRedisClient extends Service {
                 configuration.getBoolean(StorageKey.REDIS_USE_SSL),
                 configuration.getString(StorageKey.REDIS_SENTINEL_MASTER_SET),
                 packetEvents,
-                "deputy_to_server"
+                "vistas_to_server"
         );
 
         EventApi.getInstance().registerHandler(SpigotAudioCommandEvent.class, event -> {
@@ -83,11 +83,11 @@ public class VistasRedisClient extends Service {
     }
 
     public void sendPacket(AbstractPacketPayload packet) {
-        redis.publish("server_to_deputy", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, null)));
+        redis.publish("server_to_vistas", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, null)));
     }
 
     public void sendPacket(AbstractPacketPayload packet, UUID serverId) {
-        redis.publish("server_to_deputy", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, serverId)));
+        redis.publish("server_to_vistas", OpenAudioMc.getGson().toJson(new InternalPacketWrapper(packet, serverId)));
     }
 
 }

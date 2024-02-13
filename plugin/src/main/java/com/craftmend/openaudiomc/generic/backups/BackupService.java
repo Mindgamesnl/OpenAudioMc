@@ -19,7 +19,7 @@ public class BackupService extends Service {
             if (madeBackup) return;
             madeBackup = true;
         }
-        OpenAudioLogger.toConsole("Making a backup of your database, config, and data.yml");
+        OpenAudioLogger.info("Making a backup of your database, config, and data.yml");
 
         // check backups dir
         File backupRootDirectory = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), File.separator + "backups");
@@ -27,7 +27,7 @@ public class BackupService extends Service {
             backupRootDirectory.mkdir();
         }
 
-        OpenAudioLogger.toConsole("Backup directory: " + backupRootDirectory.getAbsolutePath());
+        OpenAudioLogger.info("Backup directory: " + backupRootDirectory.getAbsolutePath());
 
         long unixTime = Instant.now().getEpochSecond();
         // create current backup dir
@@ -35,7 +35,7 @@ public class BackupService extends Service {
         if (!backupDir.exists()) {
             backupDir.mkdir();
         } else {
-            OpenAudioLogger.toConsole("Backup directory already exists");
+            OpenAudioLogger.warn("Backup directory already exists");
         }
 
         try {
@@ -45,8 +45,7 @@ public class BackupService extends Service {
                     StandardCopyOption.REPLACE_EXISTING
             );
         } catch (IOException e) {
-            OpenAudioLogger.toConsole("Failed to backup config.yml");
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to backup config.yml");
         }
 
         try {
@@ -56,8 +55,7 @@ public class BackupService extends Service {
                     StandardCopyOption.REPLACE_EXISTING
             );
         } catch (IOException e) {
-            OpenAudioLogger.toConsole("Failed to backup data.yml");
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to backup data.yml");
         }
 
         try {
@@ -77,8 +75,7 @@ public class BackupService extends Service {
                     StandardCopyOption.REPLACE_EXISTING
             );
         } catch (IOException e) {
-            OpenAudioLogger.toConsole("Failed to backup storm.db");
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to backup storm.db");
         }
 
     }

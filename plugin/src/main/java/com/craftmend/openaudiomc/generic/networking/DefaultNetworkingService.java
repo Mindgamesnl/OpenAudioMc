@@ -17,7 +17,7 @@ import com.craftmend.openaudiomc.generic.networking.handlers.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.INetworkingEvents;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
-import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.networking.io.SocketConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -37,7 +37,7 @@ public class DefaultNetworkingService extends NetworkingService {
     private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final Map<UUID, ClientConnection> clientMap = new ConcurrentHashMap<>();
     private final Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
-    private SocketIoConnector socketIoConnector;
+    private SocketConnection socketConnection;
     private int packetThroughput = 0;
 
     public DefaultNetworkingService() {
@@ -89,7 +89,7 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     private void init() {
-        OpenAudioLogger.toConsole("Initializing socket connector");
+        OpenAudioLogger.info("Initializing connection service...");
 
         // set tick tack
         OpenAudioMc.resolveDependency(TaskService.class)
@@ -99,11 +99,9 @@ public class DefaultNetworkingService extends NetworkingService {
                         20, 20);
 
         try {
-            socketIoConnector = new SocketIoConnector(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
+            socketConnection = new SocketConnection(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
         } catch (Exception e) {
-            OpenAudioLogger.handleException(e);
-            OpenAudioLogger.toConsole("The plugin could not start because of a connection problem when requesting the initial private key. Please contact the developers of this plugin.");
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "The plugin was unable to start because of a connection problem when requesting the initial private key. Please contact support in https://discord.openaudiomc.net/");
         }
     }
 
@@ -119,7 +117,7 @@ public class DefaultNetworkingService extends NetworkingService {
         }
         // update state
         OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
-        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketIoConnector.setupConnection());
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketConnection.setupConnection());
     }
 
     /**
@@ -131,7 +129,7 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void send(Authenticatable client, AbstractPacket packet) {
         for (INetworkingEvents event : getEvents()) event.onPacketSend(client, packet);
-        socketIoConnector.send(client, packet);
+        socketConnection.send(client, packet);
     }
 
     /**
@@ -143,7 +141,7 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void triggerPacket(AbstractPacket abstractPacket) {
         if (packetHandlerMap.get(abstractPacket.getPacketChannel()) == null) {
-            OpenAudioLogger.toConsole("Unknown handler for packet type " + abstractPacket.getPacketChannel().name());
+            OpenAudioLogger.warn("Unknown handler for packet type " + abstractPacket.getPacketChannel().name());
             return;
         }
 
@@ -211,8 +209,7 @@ public class DefaultNetworkingService extends NetworkingService {
                 try {
                     handler.accept(client);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    OpenAudioLogger.toConsole("Failed to handle destroy listener " + id + " for " + client.getOwner().getName());
+                    OpenAudioLogger.error(e, "Failed to handle destroy listener " + id + " for " + client.getOwner().getName());
                 }
             });
 
@@ -249,7 +246,7 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void stop() {
-        socketIoConnector.disconnect();
+        socketConnection.disconnect();
     }
 
     @Override
