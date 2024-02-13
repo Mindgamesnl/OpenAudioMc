@@ -12,4 +12,6 @@ public class RelayLoginResponse extends AbstractRestResponse {
     @SerializedName("endpoint")
     private String relayEndpoint; // relay endpoint
 
+    private String[] files; // files in a ccount
+
 }

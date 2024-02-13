@@ -15,10 +15,6 @@ public class OpenAudioMcBungeeCommand extends Command {
 
     private final CommandService commandService = OpenAudioMc.getService(CommandService.class);
 
-    /**
-     * A set of middleware that to catch commands when the plugin isn't in a running state
-     */
-
 
     public OpenAudioMcBungeeCommand() {
         super("openaudiomc", null, "oam", "oa", "openaudio");

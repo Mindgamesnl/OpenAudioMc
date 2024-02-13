@@ -33,6 +33,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 import com.google.gson.Gson;
 import lombok.Getter;
@@ -155,7 +156,8 @@ public class OpenAudioMc {
                 OpenaudioAccountService.class,  // platform specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
                 ClientDataService.class,        // manage player profiles
-                ApiService.class                // initialize api implementations
+                ApiService.class,               // initialize api implementations
+                UploadIndexService.class        // track uploaded content
         );
 
         getService(ModuleLoaderService.class).fire(ModuleEvent.SERVICES_LOADED);

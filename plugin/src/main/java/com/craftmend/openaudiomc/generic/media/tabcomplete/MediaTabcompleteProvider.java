@@ -4,11 +4,13 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.TabCompleteProvider;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.playlists.PlaylistService;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.Playlist;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +33,14 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
 
         boolean hasFiles = false;
 
+        if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(UploadIndexService.class)) {
+            Collection<String> all = OpenAudioMc.getService(UploadIndexService.class).getAll();
+            if (!all.isEmpty()) {
+                options.addAll(all);
+                hasFiles = true;
+            }
+        }
+
         // do we have playlists on this service?
         if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(PlaylistService.class)) {
             // this might be false if we're not running on spigot
@@ -41,7 +51,7 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
             hasFiles = true;
         }
 
-        if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(MediaService.class)) {
+        if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(AliasService.class)) {
             AliasService aliasService = OpenAudioMc.getService(AliasService.class);
             for (String s : aliasService.getAliasMap().keySet()) {
                 options.add("a:" + s);
@@ -51,7 +61,7 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
 
         // did we find anything?
         if (!hasFiles) {
-            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Couldn't tab-complete any media options because the command was caught by a proxy.");
+            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Couldn't find any media to tab complete. Is your server linked or do you have any media uploaded?");
         }
 
         return options.toArray(new String[0]);
