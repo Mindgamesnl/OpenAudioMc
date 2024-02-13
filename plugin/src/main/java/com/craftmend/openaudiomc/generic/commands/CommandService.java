@@ -169,6 +169,12 @@ public class CommandService extends Service {
             if (completions.isEmpty()) {
                 SubCommand subCommand = getSubCommand(context, args[0].toLowerCase());
                 if (subCommand == null) return new ArrayList<>();
+
+                if (!subCommand.isAllowed(sender)) {
+                    sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to complete this command. Sorry!");
+                    return new ArrayList<>();
+                }
+
                 for (Argument argument : subCommand.getArguments()) {
                     String[] argumentSyntaxParts = argument.getSyntax().split(" ");
                     int localArgIndex = args.length - 2;
