@@ -11,8 +11,8 @@ public enum Endpoint {
     // accounts
     GET_ACCOUNT_SETTINGS("https://account.openaudiomc.net", "/api/v1/installation/settings/_public_key_", true),
     REGISTER("https://account.openaudiomc.net", "/api/v1/installation/register", false),
-    RELAY_LOGIN("https://account.openaudiomc.net", "/api/v1/installation/login-relay/_public_key_/_private_key_", true),
-    RELAY_LOGOUT("https://account.openaudiomc.net", "/api/v1/installation/logout-relay/_public_key_/_private_key_", true),
+    RELAY_LOGIN("https://gateway.openaudiomc.net", "/api/v1/installation/login-relay/_public_key_/_private_key_", true),
+    RELAY_LOGOUT("https://gateway.openaudiomc.net", "/api/v1/installation/logout-relay/_public_key_/_private_key_", true),
     CLAIM_CODE("https://account.openaudiomc.net", "/api/v1/installation/claim-code/_public_key_/_private_key_", true),
 
     // services

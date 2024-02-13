@@ -26,6 +26,7 @@ import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.ConnectingState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 
+import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
@@ -36,8 +37,6 @@ import okhttp3.OkHttpClient;
 import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
 
 public class SocketConnection {
 
@@ -103,8 +102,6 @@ public class SocketConnection {
             }
         }, 20 * 35);
 
-        Instant request = Instant.now();
-
         relayLoginRequest.run();
 
         if (relayLoginRequest.hasError()) {
@@ -119,9 +116,9 @@ public class SocketConnection {
         }
 
         RelayLoginResponse loginResponse = relayLoginRequest.getResponse();
-        Instant finish = Instant.now();
 
         lastUsedRelay = loginResponse.getRelay();
+        OpenAudioMc.getService(UploadIndexService.class).setContent(loginResponse.getFiles());
 
         try {
             String endpoint = loginResponse.getRelayEndpoint();

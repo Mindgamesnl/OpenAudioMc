@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.drivers.handler.CdnBucketUpdateNotification;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -24,6 +25,8 @@ public class NotificationDriver implements SocketDriver {
             put("admin-message", new AdminNotification());
             // Handlers for craftmend accounts
             put("craftmend-update", new AccountUpdateNotification());
+            // cdn updates
+            put("cdn-bucket-update", new CdnBucketUpdateNotification());
 
     }};
 
