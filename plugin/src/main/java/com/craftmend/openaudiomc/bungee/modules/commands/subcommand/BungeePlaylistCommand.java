@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.bungee.modules.commands.subcommand;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.node.enums.ProxiedCommand;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -29,6 +30,7 @@ public class BungeePlaylistCommand extends SubCommand {
                 new Argument("remove <playlistName> <index>", "remove a track from a playlist"),
                 new Argument("view <playlistName>", "view a playlist contents"),
                 new Argument("add <playlistName> <source>", "add a track to a playlist")
+                        .addTabCompleteProvider(2, MediaTabcompleteProvider.getInstance())
         );
     }
 
