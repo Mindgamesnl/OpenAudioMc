@@ -225,7 +225,7 @@ export class Sound extends AudioSourceProcessor {
   addNode(player, node) {
     if (this.controller == null) {
       this.soundElement.crossOrigin = 'anonymous';
-      const ownDomain = 'getDomain()';
+      const ownDomain = getDomain();
       // proxy if we're on a different domain
       if (ownDomain != null) {
         const isOfficial = isDomainOfficial(ownDomain);
