@@ -225,11 +225,11 @@ export class Sound extends AudioSourceProcessor {
   addNode(player, node) {
     if (this.controller == null) {
       this.soundElement.crossOrigin = 'anonymous';
-      const ownDomain = getDomain();
+      const ownDomain = 'getDomain()';
       // proxy if we're on a different domain
       if (ownDomain != null) {
         const isOfficial = isDomainOfficial(ownDomain);
-        const isSourceOfficial = isDomainOfficial(this.soundElement.src);
+        const isSourceOfficial = isDomainOfficial(getDomainOfStr(this.soundElement.src));
         if (!isOfficial && !isSourceOfficial) {
           if (!this.soundElement.src.includes(getDomain())) {
             this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
@@ -360,8 +360,13 @@ if (
 
 /* eslint-enable */
 
-function getDomain() {
-  const fullHostname = window.location.hostname;
+function getDomainOfStr(str) {
+  const url = new URL(str);
+  return getDomain(url.hostname);
+}
+
+function getDomain(of = window.location.hostname) {
+  const fullHostname = of;
   const hostnameParts = fullHostname.split('.');
   if (hostnameParts.length > 2) {
     return hostnameParts.slice(-2).join('.');
