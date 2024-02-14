@@ -226,12 +226,19 @@ export class Sound extends AudioSourceProcessor {
     if (this.controller == null) {
       this.soundElement.crossOrigin = 'anonymous';
       const ownDomain = getDomain();
-      // proxy if we're on a different domain
+      // we seem to be running on a local domain, so ignore the cross origin
       if (ownDomain != null) {
+        // compare origins
         const isOfficial = isDomainOfficial(ownDomain);
         const isSourceOfficial = isDomainOfficial(getDomainOfStr(this.soundElement.src));
+
+        // only cors of neither the source nor the current domain is official
+        // we cannot expect the user to be serving cors headers
         if (!isOfficial && !isSourceOfficial) {
+          // we don't need cors if the source is the same webserver as this client, assuming cors policy is set up correctly
+          // and we aren't running on a different subdomain
           if (!this.soundElement.src.includes(getDomain())) {
+            // we need to proxy the audio, unfortunately
             this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
           }
         }
