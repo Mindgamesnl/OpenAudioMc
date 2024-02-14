@@ -1,5 +1,6 @@
-package com.craftmend.openaudiomc.generic.user.adapters;
+package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
@@ -8,38 +9,47 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.UUID;
 
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
+@Deprecated
 @AllArgsConstructor
-public class SpigotUserAdapter implements User<CommandSender> {
+public class LegacySpigotUserAdapter implements User<CommandSender> {
 
-    private CommandSender player;
+    private CommandSender sender;
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\\\\n")) {
-            player.sendMessage(s);
+        String[] lines = string.split("\\\\n");
+        for (String line : lines) {
+            sender.sendMessage(Platform.translateColors(line));
         }
     }
 
     @Override
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        if (player instanceof Player) {
-            ((Player) player).sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            // 1.8 DOES support legacy titles
+            p.sendTitle(Platform.translateColors(title), Platform.translateColors(subtitle));
         }
     }
 
     @Override
     public void sendMessage(TextComponent textComponent) {
-        player.spigot().sendMessage(textComponent);
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            p.spigot().sendMessage(textComponent);
+        } else {
+            sender.sendMessage(Platform.translateColors(textComponent.getText()));
+        }
     }
 
     @Override
@@ -69,18 +79,12 @@ public class SpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
-        // break up in multiple lines if needed, by splitting on \n
         String[] lines = msgText.split("\\\\n");
         if (lines.length > 1) {
             for (String line : lines) {
                 sendClickableUrlMessage(line, hoverMessage, url);
             }
             return;
-        }
-
-        // are we a console? then add the url to the message
-        if (player instanceof org.bukkit.command.ConsoleCommandSender) {
-            msgText = msgText + " " + ChatColor.GRAY + "(" + url + " for console users)";
         }
 
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
@@ -92,7 +96,6 @@ public class SpigotUserAdapter implements User<CommandSender> {
                         hoverMessage
                 ))
         };
-
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
@@ -101,31 +104,31 @@ public class SpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public boolean isAdministrator() {
-        return player.isOp() || player.hasPermission("openaudiomc.*") || player.hasPermission("openaudiomc.tips");
+        return sender.isOp() || sender.hasPermission("openaudiomc.*") || sender.hasPermission("openaudiomc.tips");
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return player.isOp() || player.hasPermission(permission);
+        return sender.isOp() || sender.hasPermission(permission);
     }
 
     @Override
     public void makeExecuteCommand(String command) {
-        Bukkit.dispatchCommand(player, command);
+        Bukkit.dispatchCommand(sender, command);
     }
 
     @Override
     public UUID getUniqueId() {
-        if (player instanceof Player) {
-            return ((Player) player).getUniqueId();
+        if (sender instanceof Player) {
+            return ((Player) sender).getUniqueId();
         }
         return null;
     }
 
     @Override
     public String getIpAddress() {
-        if (player instanceof Player) {
-            Player p = (Player) player;
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
             if (p.getAddress() == null) return "unknown";
             String ip = p.getAddress().getHostName();
             if (ip != null) {
@@ -137,35 +140,66 @@ public class SpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendActionbarMessage(String text) {
-        Player sp = (Player) player;
-        sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
+        Player sp = (Player) sender;
+        sendActionbar(new TextComponent(text));
     }
 
     @Override
     public CommandSender getOriginal() {
-        return player;
+        return sender;
     }
 
     @Override
     public String getName() {
-        return player.getName();
+        return sender.getName();
+    }
+
+    private void sendActionbar(TextComponent tc) {
+        String nmsver = getServerVersion();
+        try {
+            Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + nmsver + ".entity.CraftPlayer");
+            Object craftPlayer = craftPlayerClass.cast(sender);
+            Object ppoc;
+            Class<?> c4 = Class.forName("net.minecraft.server." + nmsver + ".PacketPlayOutChat");
+            Class<?> c5 = Class.forName("net.minecraft.server." + nmsver + ".Packet");
+            Class<?> c2 = Class.forName("net.minecraft.server." + nmsver + ".ChatComponentText");
+            Class<?> c3 = Class.forName("net.minecraft.server." + nmsver + ".IChatBaseComponent");
+            Object o = c2.getConstructor(new Class<?>[]{String.class}).newInstance(tc.getText());
+            ppoc = c4.getConstructor(new Class<?>[]{c3, byte.class}).newInstance(o, (byte) 2);
+            Method m1 = craftPlayerClass.getDeclaredMethod("getHandle");
+            Object h = m1.invoke(craftPlayer);
+            Field f1 = h.getClass().getDeclaredField("playerConnection");
+            Object pc = f1.get(h);
+            Method m5 = pc.getClass().getDeclaredMethod("sendPacket", c5);
+            m5.invoke(pc, ppoc);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static String getServerVersion() {
+        try {
+            return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
+            return null;
+        }
     }
 
     @Override
     public String getWorld() {
         // player
-        if (player instanceof Player) {
-            return ((Player) player).getWorld().getName();
+        if (sender instanceof Player) {
+            return ((Player) sender).getWorld().getName();
         }
 
         // entity
-        if (player instanceof org.bukkit.entity.Entity) {
-            return ((org.bukkit.entity.Entity) player).getWorld().getName();
+        if (sender instanceof org.bukkit.entity.Entity) {
+            return ((org.bukkit.entity.Entity) sender).getWorld().getName();
         }
 
         // commandblock
-        if (player instanceof org.bukkit.command.BlockCommandSender) {
-            return ((org.bukkit.command.BlockCommandSender) player).getBlock().getWorld().getName();
+        if (sender instanceof org.bukkit.command.BlockCommandSender) {
+            return ((org.bukkit.command.BlockCommandSender) sender).getBlock().getWorld().getName();
         }
 
         return StorageKey.SETTINGS_DEFAULT_WORLD_NAME.getString();

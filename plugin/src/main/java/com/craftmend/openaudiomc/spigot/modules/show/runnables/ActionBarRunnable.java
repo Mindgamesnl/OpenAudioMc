@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
@@ -14,8 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.InvokeUserPacket;
 import com.craftmend.openaudiomc.vistas.client.reflection.SerializedCall;
 import com.craftmend.openaudiomc.vistas.client.reflection.SerializedParameter;
@@ -15,7 +14,6 @@ import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServ
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.HashSet;
