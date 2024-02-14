@@ -287,7 +287,7 @@ export class Sound extends AudioSourceProcessor {
       // debugLog('Starting synced media');
       const start = new Date(date);
       const predictedNow = TimeService.getPredictedTime();
-      const msDiff = predictedNow.getTime() - start.getTime();
+      const msDiff = Math.max(predictedNow.getTime() - start.getTime(), 1);
       let seconds = msDiff / 1000;
 
       // add at startAt timestamp to the seconds to still apply the offset
