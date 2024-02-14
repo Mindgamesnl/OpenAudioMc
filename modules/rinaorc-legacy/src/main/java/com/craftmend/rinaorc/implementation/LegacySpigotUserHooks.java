@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.CommandSenderUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.LegacySpigotUserAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

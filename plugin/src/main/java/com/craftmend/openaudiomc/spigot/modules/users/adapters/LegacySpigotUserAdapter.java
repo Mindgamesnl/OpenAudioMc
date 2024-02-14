@@ -1,4 +1,4 @@
-package com.craftmend.rinaorc.implementation;
+package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -27,7 +27,10 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(Platform.translateColors(string));
+        String[] lines = string.split("\\\\n");
+        for (String line : lines) {
+            sender.sendMessage(Platform.translateColors(line));
+        }
     }
 
     @Override
@@ -51,6 +54,14 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendClickableCommandMessage(String msgText, String hoverMessage, String command) {
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableCommandMessage(line, hoverMessage, command);
+            }
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));
@@ -68,6 +79,14 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendClickableUrlMessage(String msgText, String hoverMessage, String url) {
+        String[] lines = msgText.split("\\\\n");
+        if (lines.length > 1) {
+            for (String line : lines) {
+                sendClickableUrlMessage(line, hoverMessage, url);
+            }
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));
