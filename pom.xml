@@ -81,7 +81,6 @@
         <module>modules/voice-join-permission</module>
         <module>modules/vistas-client</module>
         <module>modules/vistas-server</module>
-        <module>modules/rinaorc-legacy</module>
         <module>modules/mapdb-migrator</module>
         <module>modules/parties-module</module>
         <module>modules/skywars-module</module>
