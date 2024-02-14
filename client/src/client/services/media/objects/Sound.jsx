@@ -229,7 +229,8 @@ export class Sound extends AudioSourceProcessor {
       // proxy if we're on a different domain
       if (ownDomain != null) {
         const isOfficial = isDomainOfficial(ownDomain);
-        if (!isOfficial) {
+        const isSourceOfficial = isDomainOfficial(this.soundElement.src);
+        if (!isOfficial && !isSourceOfficial) {
           if (!this.soundElement.src.includes(getDomain())) {
             this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
           }
