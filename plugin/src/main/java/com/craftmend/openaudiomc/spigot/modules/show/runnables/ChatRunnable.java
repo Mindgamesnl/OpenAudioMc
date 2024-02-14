@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
-
-import java.lang.ref.PhantomReference;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

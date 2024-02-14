@@ -3,11 +3,10 @@ package com.craftmend.openaudiomc.spigot.modules.players.objects;
 import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
-import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 

@@ -1,6 +1,6 @@
 package com.craftmend.rinaorc.implementation;
 
-import com.craftmend.openaudiomc.generic.proxy.SpigotUserHooks;
+import com.craftmend.openaudiomc.spigot.modules.users.SpigotUserHooks;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;

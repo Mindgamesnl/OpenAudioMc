@@ -1,17 +1,15 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.interfaces.Client;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerCommandEvent;

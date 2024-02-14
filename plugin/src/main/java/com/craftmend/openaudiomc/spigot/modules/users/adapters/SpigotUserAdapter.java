@@ -1,4 +1,4 @@
-package com.craftmend.openaudiomc.generic.user.adapters;
+package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;

@@ -11,7 +11,6 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.Client
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
