@@ -24,7 +24,7 @@ export class SpeakerPlayer {
     this.whenInitialized = [];
   }
 
-  async initialize() {
+  async initializeSpeaker() {
     const createdChannel = new Channel(this.id);
     createdChannel.trackable = true;
     createdChannel.setTag('SPEAKER');
@@ -50,21 +50,20 @@ export class SpeakerPlayer {
     createdChannel.addSound(createdMedia);
     MediaManager.mixer.addChannel(createdChannel);
 
-    createdMedia.whenInitialized(async () => {
+    await createdMedia.load(this.source);
+
+    createdMedia.whenInitialized(() => {
       createdChannel.setChannelVolume(100);
       createdMedia.setLooping(this.doLoop);
       if (this.doPickup) {
         createdMedia.startDate(this.startInstant, true);
       }
-      await createdMedia.finalize();
       MediaManager.mixer.updateCurrent();
-
-      if (this.doPickup) {
-        createdMedia.startDate(this.startInstant, true);
-      }
 
       createdMedia.finish();
     });
+
+    await createdMedia.finalize();
 
     this.initialized = true;
   }
@@ -105,8 +104,6 @@ export class SpeakerPlayer {
       if (!this.media.destroyed) {
         console.log('Failed to destroy a world sound, so I had to do it again.');
         this.media.destroy();
-      } else {
-        console.log('It got destroyed successfully');
       }
     });
   }

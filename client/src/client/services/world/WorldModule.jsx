@@ -56,7 +56,7 @@ export const WorldModule = new class IWorldModule {
 
     const created = new SpeakerPlayer(source, startInstant, doLoop, doPickup, cancelRegions);
     this.audioMap.set(source, created);
-    await created.initialize();
+    created.initializeSpeaker();
     return created;
   }
 

@@ -73,7 +73,7 @@ export const MediaManager = new class IMediaManager {
   }
 
   destroySounds(soundId, all, instantly, transition, atTheEnd = () => {}) {
-    debugLog('Destroying sounds', soundId, all, instantly, transition, atTheEnd);
+    debugLog('Destroying sounds', soundId, all, instantly, transition);
     let time = transition;
     if (time == null) {
       time = 500;

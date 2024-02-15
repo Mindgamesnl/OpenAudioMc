@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { AUDIO_ENDPOINTS, AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
 import { TimeService } from '../../time/TimeService';
 import { SocketManager } from '../../socket/SocketModule';
@@ -17,7 +18,7 @@ export class Sound extends AudioSourceProcessor {
 
     this.options = {};
 
-    // eslint-disable-next-line no-prototype-builtins
+     
     this.options.startMuted = (opts.hasOwnProperty('startMuted') ? opts.startMuted : true);
 
     this.onFinish = [];
@@ -43,12 +44,15 @@ export class Sound extends AudioSourceProcessor {
   }
 
   async load(source) {
-    if (this.startedLoading) return;
+    if (this.startedLoading) {
+      console.warn('Tried to load a sound that was already loading');
+      return;
+    }
     this.startedLoading = true;
     this.rawSource = source;
 
     this.soundElement = await AudioPreloader.getResource(source);
-    source = await this.translate(source);
+    this.source = this.soundElement.src;
 
     // mute default
     if (this.options.startMuted) {
@@ -61,10 +65,6 @@ export class Sound extends AudioSourceProcessor {
       this.error = error;
       this.handleError();
     };
-
-    // set source
-    this.soundElement.src = source;
-    this.source = source;
 
     // set attributes
     this.soundElement.setAttribute('preload', 'auto');
@@ -137,9 +137,11 @@ export class Sound extends AudioSourceProcessor {
   tick() {
     if (!this.loaded && this.soundElement != null) {
       // do we have metadata?
-      if (this.soundElement.readyState >= 2) {
-        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available`);
+      if (this.soundElement.readyState >= 4 && this.soundElement.hasAttribute('stopwatchReady')) {
+        const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime'));
+        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s.`);
         this.loaded = true;
+
         for (let i = 0; i < this.initCallbacks.length; i++) {
           const shouldStop = this.initCallbacks[i].bind(this)();
           if (shouldStop) {
@@ -160,9 +162,11 @@ export class Sound extends AudioSourceProcessor {
         if (this.gotShutDown) {
           this.soundElement.pause();
           this.mixer.removeChannel(this.channel);
-          // eslint-disable-next-line no-console
+           
           console.warn('Sound got shut down while loading');
         }
+      } else {
+        debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
       }
     }
   }
@@ -224,25 +228,6 @@ export class Sound extends AudioSourceProcessor {
 
   addNode(player, node) {
     if (this.controller == null) {
-      this.soundElement.crossOrigin = 'anonymous';
-      const ownDomain = getDomain();
-      // we seem to be running on a local domain, so ignore the cross origin
-      if (ownDomain != null) {
-        // compare origins
-        const isOfficial = isDomainOfficial(ownDomain);
-        const isSourceOfficial = isDomainOfficial(getDomainOfStr(this.soundElement.src));
-
-        // only cors of neither the source nor the current domain is official
-        // we cannot expect the user to be serving cors headers
-        if (!isOfficial && !isSourceOfficial) {
-          // we don't need cors if the source is the same webserver as this client, assuming cors policy is set up correctly
-          // and we aren't running on a different subdomain
-          if (!this.soundElement.src.includes(getDomain())) {
-            // we need to proxy the audio, unfortunately
-            this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
-          }
-        }
-      }
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
     }
     this.controller.connect(node);
@@ -277,7 +262,7 @@ export class Sound extends AudioSourceProcessor {
       if (volume > 100) volume = 100;
       let v = volume / 100;
       // is v non-finite?
-      // eslint-disable-next-line no-self-compare
+       
       if (v !== v || v === Infinity || v === -Infinity) {
         // Yes.
         // Setting volume to NaN is the same as setting it to 1, according to the
@@ -302,10 +287,9 @@ export class Sound extends AudioSourceProcessor {
         seconds += this.startAtMillis / 1000;
       }
 
-      // debugLog(`Started ${seconds} ago`);
       const length = this.soundElement.duration;
-      // debugLog(`Length ${length} seconds`);
       const loops = Math.floor(seconds / length);
+      debugLog('Loops', loops, 'Seconds', seconds, 'Length', length, this.destroyed, this.soundElement.readyState);
       const remainingSeconds = seconds % length;
 
       // are we allowed to loop?
@@ -366,23 +350,3 @@ if (
 }
 
 /* eslint-enable */
-
-function getDomainOfStr(str) {
-  const url = new URL(str);
-  return getDomain(url.hostname);
-}
-
-function getDomain(of = window.location.hostname) {
-  const fullHostname = of;
-  const hostnameParts = fullHostname.split('.');
-  if (hostnameParts.length > 2) {
-    return hostnameParts.slice(-2).join('.');
-  }
-
-  // are there no parts? then just return null because we're likely on localhost
-  if (hostnameParts.length === 1) {
-    return null;
-  }
-
-  return fullHostname;
-}

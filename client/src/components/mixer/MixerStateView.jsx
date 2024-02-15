@@ -77,6 +77,13 @@ export default class MixerStateView extends React.Component {
                   {String(sound.loaded)}
                 </li>
                 <li>
+                  <b>Position</b>
+                  :
+                  {' '}
+                  {(sound.soundElement && sound.soundElement.duration && sound.soundElement.currentTime)
+                    ? `${sound.soundElement.currentTime.toFixed(2)} / ${sound.soundElement.duration.toFixed(2)}` : 'null'}
+                </li>
+                <li>
                   <b>Started Loading</b>
                   :
                   {' '}

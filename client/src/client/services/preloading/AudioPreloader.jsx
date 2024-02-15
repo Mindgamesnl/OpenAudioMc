@@ -2,6 +2,7 @@ import { AudioSourceProcessor } from '../../util/AudioSourceProcessor';
 import { PreloadedMedia } from './PreloadedMedia';
 import { debugLog, feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
+import { isProxyRequired, proxifyUrl } from '../media/utils/corsutil';
 
 export const AudioPreloader = new class IAudPreload {
   constructor() {
@@ -10,6 +11,7 @@ export const AudioPreloader = new class IAudPreload {
   }
 
   async fetch(source, namespace) {
+    debugLog(`Preloading audio: ${source}`);
     source = await this.sourceRewriter.translate(source);
     const media = new PreloadedMedia(source, namespace);
 
@@ -28,10 +30,15 @@ export const AudioPreloader = new class IAudPreload {
     }
 
     // loop through all media in the namespace
+    let deleteCount = 0;
     this.namespaces[namespace].forEach((media) => {
       // remove the media from the source
       media.preDelete();
+      deleteCount += 1;
     });
+
+    // eslint-disable-next-line no-console
+    console.log(`Dropped ${deleteCount} media from namespace ${namespace}`);
 
     // delete the namespace
     delete this.namespaces[namespace];
@@ -64,21 +71,35 @@ export const AudioPreloader = new class IAudPreload {
         }
       }
     }
-
     return null;
   }
 
-  async getResource(source) {
+  async getResource(source, corsRequired = false) {
     source = await this.sourceRewriter.translate(source);
 
     // find a preloaded media that matches the source
     let media = this.findAndRemoveMedia(source);
 
-    if (media == null) {
-      // create new
-      media = new PreloadedMedia(source, null);
+    let cacheCorsSafe = true;
+    if (corsRequired) {
+      if (isProxyRequired(source)) {
+        cacheCorsSafe = false;
+      }
+    }
+
+    // ignore cache if we need cors and the source is not cors safe
+    if (media == null || !cacheCorsSafe) {
+      // possibly adapt source
+      if (corsRequired && !cacheCorsSafe) {
+        source = proxifyUrl(source);
+        // log
+        if (media != null) {
+          debugLog(`Preloaded media was not cors safe, adapting source to ${source}`);
+        }
+      }
+      media = new PreloadedMedia(source, null, corsRequired);
     } else {
-      debugLog(`Using preloaded media, found ${media.source} in namespace ${media.namespace}, and it already has ready state ${media.audio.readyState}`);
+      debugLog(`Using preloaded media, found ${media.source} in namespace ${media.namespace}, and it already has ready state ${media.audio.readyState} with stopwatch value ${media.audio.hasAttribute('stopwatchReady')}`);
     }
 
     return media.audio;
