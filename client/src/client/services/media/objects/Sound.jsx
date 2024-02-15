@@ -49,7 +49,7 @@ export class Sound extends AudioSourceProcessor {
 
   async load(source) {
     if (this.startedLoading) {
-      console.warn('Tried to load a sound that was already loading');
+      debugLog('Tried to load a sound that was already loading');
       return;
     }
     this.startedLoading = true;
@@ -177,7 +177,7 @@ export class Sound extends AudioSourceProcessor {
         if (this.gotShutDown) {
           this.soundElement.pause();
           this.mixer.removeChannel(this.channel);
-
+          // eslint-disable-next-line no-console
           console.warn('Sound got shut down while loading');
         }
       } else {
