@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { AUDIO_ENDPOINTS, AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
+import { AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
 import { TimeService } from '../../time/TimeService';
 import { SocketManager } from '../../socket/SocketModule';
 import * as PluginChannel from '../../../util/PluginChannel';
@@ -7,7 +6,7 @@ import { ReportError } from '../../../util/ErrorReporter';
 import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
-import {isProxyRequired, proxifyUrl} from "../utils/corsutil.js";
+import { isProxyRequired, proxifyUrl } from '../utils/corsutil';
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -18,7 +17,7 @@ export class Sound extends AudioSourceProcessor {
 
     this.options = {};
 
-     
+    // eslint-disable-next-line no-prototype-builtins
     this.options.startMuted = (opts.hasOwnProperty('startMuted') ? opts.startMuted : true);
 
     this.onFinish = [];
@@ -178,7 +177,7 @@ export class Sound extends AudioSourceProcessor {
         if (this.gotShutDown) {
           this.soundElement.pause();
           this.mixer.removeChannel(this.channel);
-           
+
           console.warn('Sound got shut down while loading');
         }
       } else {
@@ -278,7 +277,7 @@ export class Sound extends AudioSourceProcessor {
       if (volume > 100) volume = 100;
       let v = volume / 100;
       // is v non-finite?
-       
+      // eslint-disable-next-line no-self-compare
       if (v !== v || v === Infinity || v === -Infinity) {
         // Yes.
         // Setting volume to NaN is the same as setting it to 1, according to the
@@ -364,5 +363,3 @@ if (
     )
   ;
 }
-
-/* eslint-enable */

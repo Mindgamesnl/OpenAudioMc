@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { debugLog, feedDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 
@@ -13,7 +12,7 @@ export class MediaPerformanceWatcher {
     this.running = false;
     this.finished = false;
 
-    this.soundElement.addEventListener('canplaythrough', (event) => {
+    this.soundElement.addEventListener('canplaythrough', () => {
       this.stop();
     });
 
@@ -57,15 +56,15 @@ export class MediaPerformanceWatcher {
     integ /= 1000;
 
     // set ready
-    this.soundElement.setAttribute('stopwatchReady', 'true')
+    this.soundElement.setAttribute('stopwatchReady', 'true');
     this.soundElement.setAttribute('stopwatchTime', integ);
 
     if (earlyStop) {
-      debugLog('Early stop of media load ' + this.soundElement.src + ' after ' + integ + 's');
+      debugLog(`Early stop of media load ${this.soundElement.src} after ${integ}s`);
       return 0;
-    } else {
-      debugLog(`Media load time for ${this.soundElement.src}: ${integ}s`);
     }
+    debugLog(`Media load time for ${this.soundElement.src}: ${integ}s`);
+
     return time;
   }
 }
