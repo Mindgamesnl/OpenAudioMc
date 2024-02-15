@@ -181,7 +181,7 @@ export class Sound extends AudioSourceProcessor {
           console.warn('Sound got shut down while loading');
         }
       } else {
-        debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
+        // debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
       }
     }
   }
