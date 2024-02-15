@@ -47,7 +47,7 @@ public class ChannelJoinCommand extends SubCommand {
             throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_ALREADY_MEMBER.getString());
         }
 
-        String channelName = args[0].toLowerCase();
+        String channelName = args[0];
         Channel targetChannel = getService(VoiceChannelService.class).getChannel(channelName);
         if (targetChannel == null) {
             throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NOT_FOUND.getString());
