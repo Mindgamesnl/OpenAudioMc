@@ -43,10 +43,5 @@ function getDomain(of = window.location.hostname) {
     return hostnameParts.slice(-2).join('.');
   }
 
-  // are there no parts? then just return null because we're likely on localhost
-  if (hostnameParts.length === 1) {
-    return null;
-  }
-
   return fullHostname;
 }

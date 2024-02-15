@@ -4,7 +4,17 @@ export class PreloadedMedia {
   constructor(source, namespace) {
     this.source = source;
     this.namespace = namespace;
+    this.failed = false;
+    this.failHandlers = [];
     const soundElement = new Audio();
+
+    // catch errors
+    soundElement.addEventListener('error', () => {
+      this.failed = true;
+      this.failHandlers.forEach((handler) => {
+        handler();
+      });
+    });
 
     soundElement.crossOrigin = 'anonymous';
 
@@ -14,6 +24,14 @@ export class PreloadedMedia {
     soundElement.load();
 
     this.audio = soundElement;
+  }
+
+  onErr(f) {
+    if (this.failed) {
+      f();
+    } else {
+      this.failHandlers.push(f);
+    }
   }
 
   preDelete() {

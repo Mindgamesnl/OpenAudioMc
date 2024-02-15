@@ -33,6 +33,7 @@ export class SpeakerPlayer {
 
     const createdMedia = new Sound(this.source);
     this.media = createdMedia;
+    this.media.withCors();
 
     if (this.cancelRegions) {
       MediaManager.mixer.incrementInhibitor('REGION');

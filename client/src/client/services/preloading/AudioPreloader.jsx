@@ -11,8 +11,8 @@ export const AudioPreloader = new class IAudPreload {
   }
 
   async fetch(source, namespace) {
-    debugLog(`Preloading audio: ${source}`);
     source = await this.sourceRewriter.translate(source);
+    debugLog(`Preloading audio: ${source}`);
     const media = new PreloadedMedia(source, namespace);
 
     if (this.namespaces[namespace] == null) {
@@ -21,6 +21,12 @@ export const AudioPreloader = new class IAudPreload {
 
     this.namespaces[namespace].push(media);
     this.submitStatistic();
+
+    // handle errors
+    media.onErr(() => {
+      debugLog(`Preloaded media failed: ${source}`);
+      this.findAndRemoveMedia(source);
+    });
   }
 
   drop(namespace) {

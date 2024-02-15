@@ -6,8 +6,8 @@ import * as PluginChannel from '../../../util/PluginChannel';
 import { ReportError } from '../../../util/ErrorReporter';
 import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
-import { isDomainOfficial } from '../../../config/MagicValues';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
+import {isProxyRequired, proxifyUrl} from "../utils/corsutil.js";
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -33,6 +33,11 @@ export class Sound extends AudioSourceProcessor {
     this.destroyed = false;
     this.usesDateSync = false;
     this.startAtMillis = 0;
+    this.needsCors = false;
+  }
+
+  withCors() {
+    this.needsCors = true;
   }
 
   whenInitialized(f) {
@@ -51,7 +56,7 @@ export class Sound extends AudioSourceProcessor {
     this.startedLoading = true;
     this.rawSource = source;
 
-    this.soundElement = await AudioPreloader.getResource(source);
+    this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
     this.source = this.soundElement.src;
 
     // mute default
@@ -96,7 +101,18 @@ export class Sound extends AudioSourceProcessor {
           runnable();
         });
         if (this.loop) {
-          this.soundElement.src = await this.translate(this.rawSource);
+          // possibly fetch next playlist entry
+          const nextSource = await this.translate(this.rawSource);
+          // Did it change? then re-handle
+          if (nextSource !== this.source) {
+            if (this.needsCors && isProxyRequired(nextSource)) {
+              this.soundElement.src = proxifyUrl(nextSource);
+            } else {
+              // no cors needed, just yeet
+              this.soundElement.src = nextSource;
+            }
+            this.source = nextSource;
+          }
           this.setTime(0);
           this.soundElement.play();
         } else {
