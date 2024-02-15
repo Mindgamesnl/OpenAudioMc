@@ -2,22 +2,17 @@ import { isDomainOfficial } from '../../../config/MagicValues';
 import { AUDIO_ENDPOINTS } from '../../../util/AudioSourceProcessor';
 
 export function isProxyRequired(url) {
-  const ownDomain = getDomain();
-  // we seem to be running on a local domain, so ignore the cross origin
-  if (ownDomain != null) {
-    // compare origins
-    const isOfficial = isDomainOfficial(ownDomain);
-    const isSourceOfficial = isDomainOfficial(getDomainOfStr(url));
+  // compare origins
+  const isSourceOfficial = isDomainOfficial(getDomainOfStr(url));
 
-    // only cors of neither the source nor the current domain is official
-    // we cannot expect the user to be serving cors headers
-    if (!isOfficial && !isSourceOfficial) {
-      // we don't need cors if the source is the same webserver as this client, assuming cors policy is set up correctly
-      // and we aren't running on a different subdomain
-      if (!url.includes(getDomain())) {
-        // we need to proxy the audio, unfortunately
-        return true;
-      }
+  // only cors of neither the source nor the current domain is official
+  // we cannot expect the user to be serving cors headers
+  if (!isSourceOfficial) {
+    // we don't need cors if the source is the same webserver as this client, assuming cors policy is set up correctly
+    // and we aren't running on a different subdomain
+    if (!url.includes(getDomain())) {
+      // we need to proxy the audio, unfortunately
+      return true;
     }
   }
   return false;
