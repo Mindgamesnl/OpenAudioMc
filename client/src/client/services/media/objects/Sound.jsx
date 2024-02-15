@@ -49,7 +49,6 @@ export class Sound extends AudioSourceProcessor {
 
   async load(source) {
     if (this.startedLoading) {
-      debugLog('Tried to load a sound that was already loading');
       return;
     }
     this.startedLoading = true;
