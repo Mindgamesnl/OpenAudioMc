@@ -19,4 +19,5 @@ public class ClientVersionPayload extends AbstractPacketPayload {
     private int protocolRevision = 6;
     private int locationUpdateTicks = MagicValue.LOCATION_TRACK_INTERVAL.get(Integer.class);
 
+
 }

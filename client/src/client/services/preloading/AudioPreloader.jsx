@@ -10,10 +10,10 @@ export const AudioPreloader = new class IAudPreload {
     this.namespaces = {}; // each namespace has a list of media
   }
 
-  async fetch(source, namespace) {
+  async fetch(source, namespace, replenish = false) {
     source = await this.sourceRewriter.translate(source);
     debugLog(`Preloading audio: ${source}`);
-    const media = new PreloadedMedia(source, namespace);
+    const media = new PreloadedMedia(source, namespace, replenish);
 
     if (this.namespaces[namespace] == null) {
       this.namespaces[namespace] = [];
@@ -25,7 +25,7 @@ export const AudioPreloader = new class IAudPreload {
     // handle errors
     media.onErr(() => {
       debugLog(`Preloaded media failed: ${source}`);
-      this.findAndRemoveMedia(source);
+      this.findAndRemoveMedia(source, true);
     });
   }
 
@@ -51,7 +51,7 @@ export const AudioPreloader = new class IAudPreload {
     this.submitStatistic();
   }
 
-  findAndRemoveMedia(source) {
+  findAndRemoveMedia(source, skipReplenish = false) {
     // loop through all namespaces
     // eslint-disable-next-line no-restricted-syntax
     for (const namespace in this.namespaces) {
@@ -71,6 +71,11 @@ export const AudioPreloader = new class IAudPreload {
               console.warn('Could not remove media from namespace');
             } else {
               this.submitStatistic();
+              if (media.keepCopy && !skipReplenish) {
+                // this media is set to replenish, so we need to fetch it again
+                debugLog(`Replenishing media: ${source}`);
+                this.fetch(source, namespace, true);
+              }
             }
             return media;
           }

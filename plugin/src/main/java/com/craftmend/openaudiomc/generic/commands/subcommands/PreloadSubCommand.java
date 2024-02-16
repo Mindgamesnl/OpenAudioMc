@@ -34,7 +34,7 @@ public class PreloadSubCommand extends SubCommand {
         if (args.length == 2) {
             int affected = 0;
 
-            ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(args[1]), "command", false);
+            ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(args[1]), "command", false, false);
 
             for (User<?> user : resolveSelector(sender, args[0])) {
                 Optional<Client> client = user.findClient();

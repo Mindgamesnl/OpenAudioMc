@@ -1,8 +1,9 @@
 import { WatchMediaPerformance } from '../media/utils/MediaLoadStopwatch';
 
 export class PreloadedMedia {
-  constructor(source, namespace) {
+  constructor(source, namespace, keepCopy = false) {
     this.source = source;
+    this.keepCopy = keepCopy;
     this.namespace = namespace;
     this.failed = false;
     this.failHandlers = [];

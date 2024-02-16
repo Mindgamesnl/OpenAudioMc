@@ -331,7 +331,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
 
     @Override
     public void preloadMedia(String source) {
-        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false);
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false, false);
         sendPacket(new PacketClientPreFetch(payload));
     }
 
