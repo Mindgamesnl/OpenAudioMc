@@ -74,6 +74,7 @@ public class Repository<T extends DataStore> {
 
     @SneakyThrows
     public void delete(StormModel key) {
+        OpenAudioLogger.warn("Deleting " + key.getClass().getSimpleName() + " from the database with id " + key.getId());
         storm.delete(key);
     }
 }

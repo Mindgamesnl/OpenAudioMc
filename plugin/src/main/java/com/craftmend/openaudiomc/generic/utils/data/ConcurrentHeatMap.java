@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.utils.data;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ConcurrentHeatMap<T, S> {
@@ -17,6 +19,7 @@ public class ConcurrentHeatMap<T, S> {
     private final int maxAgeInSeconds;
     private final int maxElements;
     private final ContextFactory contextFactory;
+    @Setter private Consumer<T> deleteConsumer = null;
 
     public ConcurrentHeatMap(int maxAgeInSeconds, int maxElements, ContextFactory contextFactory) {
         this.maxAgeInSeconds = maxAgeInSeconds;
@@ -31,6 +34,10 @@ public class ConcurrentHeatMap<T, S> {
         data.put(value, incremental);
     }
 
+    public int size() {
+        return data.size();
+    }
+
     public void delete(T key)  {
         data.remove(key);
     }
@@ -40,7 +47,7 @@ public class ConcurrentHeatMap<T, S> {
     }
 
     public Value get(T value) {
-        return data.getOrDefault(value, new Value(value, (S) contextFactory.buildContext()));
+        return data.computeIfAbsent(value, k -> new Value(value, (S) contextFactory.buildContext()));
     }
 
     public Map<T, Value> getMap() {
@@ -75,6 +82,13 @@ public class ConcurrentHeatMap<T, S> {
 
         for (T removal : removals) {
             data.remove(removal);
+            if (deleteConsumer != null) {
+                try {
+                    deleteConsumer.accept(removal);
+                } catch (Exception e) {
+                    OpenAudioLogger.error(e , "Failed to delete " + removal + " from heat map");
+                }
+            }
         }
     }
 
