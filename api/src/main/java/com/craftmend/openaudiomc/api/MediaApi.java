@@ -13,6 +13,7 @@ public interface MediaApi {
 
     /**
      * Get an instance of the media api. May be null if the plugin is not loaded yet
+     *
      * @return instance
      */
     static MediaApi getInstance() {
@@ -37,24 +38,37 @@ public interface MediaApi {
      * This will force the client to download the entire file and cache it. Once a media is played
      * (through any method) it will look in the cache and take it from there if it's available.
      * This method is useful for preloading media sources that are not played often, but should be
-     * ready to play at any time (like a sound effects, shows, etc)
+     * ready to play at any time (like a sound effects, shows, etc).
+     * You can also make the client make a new copy after being taken by the pool so there'll always be a copy in the cache,
+     * which can be useful for frequently played media as long as you take really good care of clearing it too (to prevent memory leaks)
      *
-     * @param client the client to preload the media for
+     * @param client      the client to preload the media for
      * @param mediaSource the media source to preload
+     * @param keepCopy    if the client should keep a copy of the media after being taken by the pool
      */
-    void preloadMediaSource(Client client, String mediaSource);
+    void preloadMediaSource(Client client, String mediaSource, boolean keepCopy);
 
     /**
      * Force a client to preload a media, so it's ready to play when needed.
      * This will force the client to download the entire file and cache it. Once a media is played
      * (through any method) it will look in the cache and take it from there if it's available.
      * This method is useful for preloading media sources that are not played often, but should be
-     * ready to play at any time (like a sound effects, shows, etc)
+     * ready to play at any time (like a sound effects, shows, etc).
+     * You can also make the client make a new copy after being taken by the pool so there'll always be a copy in the cache,
+     * which can be useful for frequently played media as long as you take really good care of clearing it too (to prevent memory leaks)
      *
      * @param client the client to preload the media for
-     * @param media the media to preload
+     * @param media  the media to preload
+     * @param keepCopy if the client should keep a copy of the media after being taken by the pool
      */
-    void preloadMedia(Client client, Media media);
+    void preloadMedia(Client client, Media media, boolean keepCopy);
+
+    /**
+     * Clear all preloaded media for a client, including entries with keepCopy set to true
+     *
+     * @param client the client to clear the preloaded media for
+     */
+    void clearPreloadedMedia(Client client);
 
     /**
      * Translate server-sided aliases, playlists or other sources to a valid source.
@@ -71,8 +85,8 @@ public interface MediaApi {
      * An example use case would be a custom media server aliased by hypixel:, which can be resolved
      * to https://hypixel.com/media/* by a mutation.
      *
-     * @param prefix the prefix to register the mutation for,
-     *               the mutation will only be called for media sources starting with this prefix
+     * @param prefix   the prefix to register the mutation for,
+     *                 the mutation will only be called for media sources starting with this prefix
      * @param mutation the mutation to register
      */
     void registerMutation(@NotNull String prefix, @NotNull UrlMutation mutation);
@@ -88,20 +102,23 @@ public interface MediaApi {
 
     /**
      * Play a media for a client
+     *
      * @param clients Target clients
-     * @param media Media instance
+     * @param media   Media instance
      */
     void playFor(@NotNull Media media, @NotNull Client... clients);
 
     /**
      * Stop all media (except regions and speakers) for a client
+     *
      * @param clients Target clients
      */
     void stopFor(@NotNull Client... clients);
 
     /**
      * Stop a specific media by ID for a client
-     * @param id Media ID
+     *
+     * @param id      Media ID
      * @param clients Target clients
      */
     void stopFor(@NotNull String id, @NotNull Client... clients);

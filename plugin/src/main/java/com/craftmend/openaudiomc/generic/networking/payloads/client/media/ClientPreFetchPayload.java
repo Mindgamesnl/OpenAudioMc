@@ -13,5 +13,6 @@ public class ClientPreFetchPayload extends AbstractPacketPayload {
     private String source;
     private String origin = "automatic"; // or command, if invoked manually
     private boolean clear = false;
+    private boolean keepCopy = false;
 
 }

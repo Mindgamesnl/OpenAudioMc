@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class AudioChunkHandler implements ITickableHandler {
             hasPrefetchedContent = !media.isEmpty();
 
             for (String s : media) {
-                spigotConnection.getClientConnection().sendPacket(new PacketClientPreFetch(s));
+                spigotConnection.getClientConnection().sendPacket(new PacketClientPreFetch(s, StorageKey.SETTINGS_PRELOAD_REPLENISH_POOL.getBoolean()));
             }
         }
     }

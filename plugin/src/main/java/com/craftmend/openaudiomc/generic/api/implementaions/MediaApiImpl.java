@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,16 +24,28 @@ public class MediaApiImpl implements MediaApi {
     }
 
     @Override
-    public void preloadMediaSource(Client client, String mediaSource) {
-        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(mediaSource), "api", false);
+    public void preloadMediaSource(Client client, String mediaSource, boolean keepCopy) {
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(mediaSource), "api", false, keepCopy);
         if (client.isConnected()) {
-            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null));
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client),
+                    new PacketClientPreFetch(payload)
+            );
         }
     }
 
     @Override
-    public void preloadMedia(Client client, Media media) {
-        this.preloadMediaSource(client, media.getSource());
+    public void preloadMedia(Client client, Media media, boolean keepCopy) {
+        this.preloadMediaSource(client, media.getSource(), keepCopy);
+    }
+
+    @Override
+    public void clearPreloadedMedia(Client client) {
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(null, "api", true, false);
+        if (client.isConnected()) {
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client),
+                    new PacketClientPreFetch(payload)
+            );
+        }
     }
 
     @NotNull
