@@ -80,10 +80,6 @@ public class PredictiveMediaService extends Service {
                 OpenAudioLogger.warn("Purging media chunk " + value.getChunkName());
                 scm.delete(value);
                 deleted++;
-                // check if its actually gone
-                if (scm.getWhere("chunk_name", value.getChunkName()) != null) {
-                    OpenAudioLogger.warn("Failed to delete media chunk " + value.getChunkName() + " from database.");
-                }
                 continue;
             }
             cm.getData().put(value.getChunkName(), value.getAudioChunk());
