@@ -309,10 +309,11 @@ vc-filter:
 # You can use this feature in cases where individuals don't have permissions to create their own channels, but sitll want to offer
 # some groups for global voicechat (like a channel for minigames, off-topic, and roleplay). You can add more values here if you wish,
 # or disable the feature entirely. Keep in mind to include all sub values if you add a new channel, and to respect yaml formatting.
-# These values are only used on spigot instances
+# These values are only used on spigot instances.
 static-channels:
   enabled: true
   list:
+      # Channel names must not be duplicate, empty, or contain spaces
     - name: survival
       permission: channels.survival
       requirePermission: true
