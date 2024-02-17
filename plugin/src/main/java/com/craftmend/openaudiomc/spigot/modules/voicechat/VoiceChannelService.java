@@ -81,8 +81,16 @@ public class VoiceChannelService extends Service {
                     Bukkit.getPluginManager().addPermission(registeredPermission);
                 }
 
+                String name = (String) obj.get("name");
+
+                if (!isChannelNameValid(name)) {
+                    OpenAudioLogger.warn("Failed to load a static voice channel, invalid name (cannot be empty, already taken or contain spaces). Read:");
+                    OpenAudioLogger.warn(obj.toString());
+                    continue;
+                }
+
                 Channel staticChannel = new Channel(
-                        (String) obj.get("name"),
+                        name,
                         requirePermission ? permission : null,
                         this
                 );
@@ -110,6 +118,13 @@ public class VoiceChannelService extends Service {
         created.addMember(creator);
 
         // success
+        return true;
+    }
+
+    private boolean isChannelNameValid(String s) {
+        if (s.isEmpty()) return false;
+        if (s.contains(" ")) return false;
+        if (channelMap.containsKey(s)) return false;
         return true;
     }
 
