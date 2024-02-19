@@ -59,6 +59,7 @@
                 <configuration>
                     <source>8</source>
                     <sourcepath>${delombok.output}</sourcepath>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
