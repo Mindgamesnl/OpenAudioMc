@@ -18,8 +18,13 @@ export function isProxyRequired(url) {
   return false;
 }
 
+function getQueryParam(url, key, defaultValue = null) {
+  const urlObj = new URL(url);
+  return urlObj.searchParams.get(key) || defaultValue;
+}
+
 export function proxifyUrl(url) {
-  if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1) {
+  if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1 && getQueryParam(url, 'oaNoCors') !== 'true') {
     return AUDIO_ENDPOINTS.PROXY + encodeURIComponent(url);
   }
   // already proxified

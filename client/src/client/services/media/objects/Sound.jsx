@@ -53,7 +53,6 @@ export class Sound extends AudioSourceProcessor {
     }
     this.startedLoading = true;
     this.rawSource = source;
-
     this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
     this.source = this.soundElement.src;
 
@@ -88,6 +87,11 @@ export class Sound extends AudioSourceProcessor {
       this.soundElement.remove();
       return true;
     });
+  }
+
+  getMediaQueryParam(key, defaultValue = null) {
+    const url = new URL(this.source);
+    return url.searchParams.get(key) || defaultValue;
   }
 
   finalize() {
@@ -151,8 +155,19 @@ export class Sound extends AudioSourceProcessor {
   tick() {
     if (!this.loaded && this.soundElement != null) {
       // do we have metadata?
-      if (this.soundElement.readyState >= 4 && this.soundElement.hasAttribute('stopwatchReady')) {
-        const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime'));
+
+      const bypassBuffer = this.getMediaQueryParam('oaSkipBuffer') === 'true';
+
+      const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
+        || bypassBuffer; // alternatively allow a bypass
+
+      let requiredReadyState = 4;
+      if (bypassBuffer) {
+        requiredReadyState = 3;
+      }
+
+      if (this.soundElement.readyState >= requiredReadyState && loadedFinished) {
+        const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime') || 0);
         debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s.`);
         this.loaded = true;
 
