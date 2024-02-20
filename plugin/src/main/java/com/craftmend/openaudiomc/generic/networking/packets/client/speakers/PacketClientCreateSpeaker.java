@@ -12,6 +12,7 @@ public class PacketClientCreateSpeaker extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_SPEAKER_CREATE,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

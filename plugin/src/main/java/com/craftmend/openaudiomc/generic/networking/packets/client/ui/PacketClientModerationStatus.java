@@ -12,6 +12,7 @@ public class PacketClientModerationStatus extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_MODERATION_STATUS,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

@@ -12,6 +12,7 @@ public class PacketClientUnlockVoiceChat extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_VOICE_UNLOCK,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

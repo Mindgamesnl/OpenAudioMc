@@ -12,6 +12,7 @@ public class PacketClientBlurVoiceUi extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_VOICE_BLUR,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

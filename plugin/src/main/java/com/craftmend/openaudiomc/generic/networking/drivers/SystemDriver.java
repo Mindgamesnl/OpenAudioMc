@@ -150,9 +150,7 @@ public class SystemDriver implements SocketDriver {
                     OpenAudioMc.getService(StateService.class).setState(reconnect);
                 }
                 OpenAudioLogger.warn("The server closed the primary connection unexpectedly, attempting reconnect in 2 seconds.");
-                OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
-                    parent.setupConnection();
-                }, 20 * 2);
+                OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(parent::setupConnection, 20 * 2);
             } else {
                 OpenAudioLogger.warn("The server closed the primary connection unexpectedly, and the system has given up trying to reconnect.");
                 shutdown("Reached reconnect limit.");

@@ -12,6 +12,7 @@ public class PacketClientVoiceOptionsUpdate extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_PEER_OPTIONS,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

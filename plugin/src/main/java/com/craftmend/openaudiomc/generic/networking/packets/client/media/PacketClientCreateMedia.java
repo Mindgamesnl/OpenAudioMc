@@ -9,10 +9,12 @@ public class PacketClientCreateMedia extends AbstractPacket {
 
     public PacketClientCreateMedia(Media media) {
         super(new ClientCreateMediaPayload(media), PacketChannel.CLIENT_OUT_CREATE_MEDIA, null);
+        this.queueableIfReconnecting = true;
     }
 
     public PacketClientCreateMedia(Media media, int distance, int maxDistance) {
         super(new ClientCreateMediaPayload(media, distance, maxDistance), PacketChannel.CLIENT_OUT_CREATE_MEDIA, null);
+        this.queueableIfReconnecting = true;
     }
 
 }

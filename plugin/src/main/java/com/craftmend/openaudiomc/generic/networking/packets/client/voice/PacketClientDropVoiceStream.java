@@ -12,6 +12,7 @@ public class PacketClientDropVoiceStream extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_VOICE_DROP_STREAM,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }
