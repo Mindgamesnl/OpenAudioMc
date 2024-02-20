@@ -15,10 +15,16 @@ import com.craftmend.openaudiomc.generic.networking.io.SocketConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
+import com.google.gson.JsonArray;
 import io.socket.client.Socket;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SystemDriver implements SocketDriver {
@@ -57,6 +63,48 @@ public class SystemDriver implements SocketDriver {
         socket.on("announce-shutdown", args -> {
             OpenAudioLogger.info("The server announced its intention to close our connection..");
             announcedShutdown = true;
+        });
+
+        socket.on("reconnect-clients", args -> {
+            JSONArray rawData = (JSONArray) args[0];
+            String[] data = new String[rawData.length()];
+            for (int i = 0; i < rawData.length(); i++) {
+                try {
+                    data[i] = rawData.getString(i);
+                } catch (JSONException e) {
+                    OpenAudioLogger.error(e, "Failed to parse reconnect data");
+                }
+            }
+            Set<UUID> stillConnected = new HashSet<>();
+            // get the UUID's of all connected clients, we need this to update our local list of connected clients
+            for (String s : data) {
+                if (s != null && !s.isEmpty()) {
+                    stillConnected.add(UUID.fromString(s));
+                }
+            }
+
+            for (ClientConnection client : this.parent.getParent().getClients()) {
+                if (stillConnected.contains(client.getOwner().getUniqueId())) {
+                    // are they still connected?
+                    if (!client.isConnected()) {
+                        // no, so reconnect
+                        client.onConnect();
+                    }
+                } else {
+                    // they are not in the list, so they should be disconnected
+                    if (client.isConnected()) {
+                        client.onDisconnect();
+                    }
+                }
+            }
+        });
+
+        socket.on("flush-queue", args -> {
+            this.parent.getParent().flushQueue();
+        });
+
+        socket.on("discard-queue", args -> {
+            this.parent.getParent().discardQueue();
         });
 
         socket.on(Socket.EVENT_CONNECT, args -> {

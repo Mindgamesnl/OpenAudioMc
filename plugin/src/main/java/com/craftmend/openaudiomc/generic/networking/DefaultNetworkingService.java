@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.api.events.client.ClientAuthenticationEvent;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.queue.PacketQueue;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -22,6 +23,7 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.states.ReconnectingState;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
@@ -37,6 +39,7 @@ public class DefaultNetworkingService extends NetworkingService {
     private final Set<INetworkingEvents> eventHandlers = new HashSet<>();
     private final Map<UUID, ClientConnection> clientMap = new ConcurrentHashMap<>();
     private final Map<PacketChannel, PayloadHandler<?>> packetHandlerMap = new HashMap<>();
+    private final PacketQueue packetQueue = new PacketQueue();
     private SocketConnection socketConnection;
     private int packetThroughput = 0;
 
@@ -99,7 +102,7 @@ public class DefaultNetworkingService extends NetworkingService {
                         20, 20);
 
         try {
-            socketConnection = new SocketConnection(OpenAudioMc.getService(AuthenticationService.class).getServerKeySet());
+            socketConnection = new SocketConnection(getService(AuthenticationService.class).getServerKeySet(), this);
         } catch (Exception e) {
             OpenAudioLogger.error(e, "The plugin was unable to start because of a connection problem when requesting the initial private key. Please contact support in https://discord.openaudiomc.net/");
         }
@@ -129,6 +132,20 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void send(Authenticatable client, AbstractPacket packet) {
         for (INetworkingEvents event : getEvents()) event.onPacketSend(client, packet);
+
+        // are we in a compromised state?
+        if (getService(StateService.class).getCurrentState() instanceof ReconnectingState) {
+            // is this packet important?
+            if (packet.isQueueableIfReconnecting()) {
+                // we need to queue it
+                packetQueue.addPacket(client.getOwner().getUniqueId(), packet);
+                return;
+            } else {
+                // drop this packet
+                return;
+            }
+        }
+
         socketConnection.send(client, packet);
     }
 
@@ -259,4 +276,11 @@ public class DefaultNetworkingService extends NetworkingService {
         eventHandlers.add(events);
     }
 
+    public void discardQueue() {
+        this.packetQueue.clearAll();
+    }
+
+    public void flushQueue() {
+        this.packetQueue.flush(this);
+    }
 }

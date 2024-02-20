@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.ServerKeySet;
 import com.craftmend.openaudiomc.generic.events.events.StateChangeEvent;
+import com.craftmend.openaudiomc.generic.networking.DefaultNetworkingService;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper;
@@ -19,13 +20,11 @@ import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.RelayLoginResponse;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.states.*;
-import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 
 import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import io.socket.client.IO;
-import io.socket.client.Manager;
 import io.socket.client.Socket;
 
 import lombok.Getter;
@@ -35,17 +34,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.WebSocket;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 public class SocketConnection {
+
+    @Getter private final DefaultNetworkingService parent;
 
     private Socket socket;
     @Getter
@@ -62,8 +57,9 @@ public class SocketConnection {
             new ClientDriver(),
     };
 
-    public SocketConnection(ServerKeySet keySet) {
+    public SocketConnection(ServerKeySet keySet, DefaultNetworkingService defaultNetworkingService) {
         this.keySet = keySet;
+        this.parent = defaultNetworkingService;
     }
 
     public void setupConnection() {
