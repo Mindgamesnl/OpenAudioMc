@@ -143,4 +143,6 @@ settings.interpolation.title=Location smoothing
 settings.interpolation.body=Automatically smooth movements to minimize speaker/voicechat stuttering while walking. This adds extra movement delay, but sounds better.
 settings.interpolation.button=Enable smoothing
 
+network.serverUnhealthy={serverName}'s connection to OpenAudioMc is unhealthy, client functionality may be limited until the connection is restored.
+
 tooltip.close=Close

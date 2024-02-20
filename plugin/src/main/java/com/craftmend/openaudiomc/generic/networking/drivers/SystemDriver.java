@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.states.ReconnectingState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
@@ -18,17 +19,26 @@ import io.socket.client.Socket;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SystemDriver implements SocketDriver {
 
-    private TaskService taskService = OpenAudioMc.resolveDependency(TaskService.class);
-    private StateService stateService = OpenAudioMc.getService(StateService.class);
+    private final TaskService taskService = OpenAudioMc.resolveDependency(TaskService.class);
+    private final StateService stateService = OpenAudioMc.getService(StateService.class);
+    private final SocketConnection parent;
+
     private Instant lastHeartbeat = Instant.now();
     private Socket lastSocket;
+    private boolean announcedShutdown = false;
+
+    public SystemDriver(SocketConnection socketConnection) {
+        this.parent = socketConnection;
+    }
 
     @Override
     public void boot(Socket socket, SocketConnection connector) {
         this.lastSocket = socket;
+        final AtomicBoolean died = new AtomicBoolean(false);
 
         taskService.scheduleAsyncRepeatingTask(() -> {
             if (stateService.getCurrentState().isConnected()) {
@@ -44,18 +54,40 @@ public class SystemDriver implements SocketDriver {
             OpenAudioMc.getService(TimeService.class).pushServerUpdate(timeStamp, offset);
         });
 
+        socket.on("announce-shutdown", args -> {
+            OpenAudioLogger.info("The server announced its intention to close our connection..");
+            announcedShutdown = true;
+        });
+
         socket.on(Socket.EVENT_CONNECT, args -> {
             // connected with success
-            OpenAudioMc.getService(StateService.class).setState(new ConnectedState(connector.getLastUsedRelay()));
+            announcedShutdown = false;
+            OpenAudioMc.getService(StateService.class).setState(new ConnectedState(connector.getPreviousLogin().getRelay()));
             pingHeartbeat();
             OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
         });
 
-        socket.on(Socket.EVENT_DISCONNECT, args -> handleDisconnect());
+        socket.on(Socket.EVENT_DISCONNECT, args -> {
+            if (!died.get()) {
+                handleDisconnect();
+                died.set(true);
+            }
+        });
 
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
             // failed to connect
-            OpenAudioMc.getService(StateService.class).setState(new IdleState("Connecting timed out, something wrong with the api, network or token?"));
+            if (!died.get()) {
+                handleDisconnect();
+                died.set(true);
+            }
+        });
+
+        socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
+            // failed to connect
+            if (!died.get()) {
+                handleDisconnect();
+                died.set(true);
+            }
         });
     }
 
@@ -87,8 +119,52 @@ public class SystemDriver implements SocketDriver {
     }
 
     private void handleDisconnect() {
+        boolean mayReconnect = true;
+        if (stateService.getCurrentState() instanceof ReconnectingState) {
+            ReconnectingState state = (ReconnectingState) stateService.getCurrentState();
+            if (state.getAttempts() >= ReconnectingState.MAX_ATTEMPTS) {
+                mayReconnect = false;
+            }
+        }
+
+        try {
+            lastSocket.disconnect();
+        } catch (Exception e) {
+            // ignored
+        }
+
+
+        if (announcedShutdown) {
+            OpenAudioLogger.info("The server closed the primary connection, but we were already aware of this. Ignoring.");
+            shutdown("Graceful.");
+        } else {
+            if (mayReconnect) {
+                // lets try again lol
+                // are we currently reconnecting?
+                if (stateService.getCurrentState() instanceof ReconnectingState) {
+                    ReconnectingState state = (ReconnectingState) stateService.getCurrentState();
+                    state.incrementAttempts();
+                } else {
+                    ReconnectingState reconnect = new ReconnectingState();
+                    reconnect.incrementAttempts();
+                    OpenAudioMc.getService(StateService.class).setState(reconnect);
+                }
+                OpenAudioLogger.warn("The server closed the primary connection unexpectedly, attempting reconnect in 2 seconds.");
+                OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                    parent.setupConnection();
+                }, 20 * 2);
+            } else {
+                OpenAudioLogger.warn("The server closed the primary connection unexpectedly, and the system has given up trying to reconnect.");
+                shutdown("Reached reconnect limit.");
+                // set to idle
+                OpenAudioMc.getService(StateService.class).setState(new IdleState("Disconnected from the socket. Reached reconnect limit."));
+            }
+        }
+    }
+
+    private void shutdown(String reason) {
         // disconnected, probably with a reason or something
-        OpenAudioMc.getService(StateService.class).setState(new IdleState("Disconnected from the socket"));
+        OpenAudioMc.getService(StateService.class).setState(new IdleState("Disconnected from the socket. " + reason));
 
         String message = Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_LINK_EXPIRED));
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
@@ -100,13 +176,9 @@ public class SystemDriver implements SocketDriver {
                 client.onDisconnect();
             }
         }
-
-        try {
-            lastSocket.disconnect();
-        } catch (Exception e) {
-            // ignored
-        }
-
         OpenAudioMc.getService(OpenaudioAccountService.class).getVoiceApiConnection().stop();
+
+        // reset
+        announcedShutdown = false;
     }
 }
