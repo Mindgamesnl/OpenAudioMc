@@ -176,11 +176,11 @@ public class OpenAudioMc {
         serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 
         try {
-            serviceManager.getService(OpenaudioAccountService.class).shutdown();
-            serviceManager.getService(RedisService.class).shutdown();
             if (serviceManager.getService(StateService.class).getCurrentState().isConnected()) {
                 serviceManager.getService(NetworkingService.class).stop();
             }
+            serviceManager.getService(OpenaudioAccountService.class).shutdown();
+            serviceManager.getService(RedisService.class).shutdown();
         } catch (NoClassDefFoundError exception) {
             OpenAudioLogger.warn("Core dependencies were already unloaded by the classloader, skipping shutdown");
         }
