@@ -281,6 +281,6 @@ public class DefaultNetworkingService extends NetworkingService {
     }
 
     public void flushQueue() {
-        this.packetQueue.flush(this);
+        thi1.packetQueue.flush(this);
     }
 }

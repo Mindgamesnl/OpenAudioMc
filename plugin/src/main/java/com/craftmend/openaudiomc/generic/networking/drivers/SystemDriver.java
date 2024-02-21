@@ -18,6 +18,7 @@ import com.craftmend.openaudiomc.generic.state.states.ConnectedState;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
 import com.google.gson.JsonArray;
 import io.socket.client.Socket;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -36,7 +37,7 @@ public class SystemDriver implements SocketDriver {
 
     private Instant lastHeartbeat = Instant.now();
     private Socket lastSocket;
-    private boolean announcedShutdown = false;
+    @Setter private boolean announcedShutdown = false;
 
     public SystemDriver(SocketConnection socketConnection) {
         this.parent = socketConnection;

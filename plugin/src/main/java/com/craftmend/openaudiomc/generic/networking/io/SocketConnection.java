@@ -50,10 +50,11 @@ public class SocketConnection {
     @Getter
     private RelayLoginResponse previousLogin;
     private ServerKeySet keySet;
+    private SystemDriver systemDriver = new SystemDriver(this);
 
     private final SocketDriver[] drivers = new SocketDriver[]{
             new NotificationDriver(),
-            new SystemDriver(this),
+            systemDriver,
             new ClientDriver(),
     };
 
@@ -189,6 +190,7 @@ public class SocketConnection {
         }
         if (this.socket != null) {
             // let them know that we intend to shut down
+            systemDriver.setAnnouncedShutdown(true);
             this.socket.emit("announce-shutdown", "goodbye");
             this.socket.disconnect();
         }
