@@ -95,7 +95,7 @@ public class VoiceSocket extends WebSocketListener {
 
     @Override
     public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-        if (code != 1000) {
+        if (code != 1000 && code != 1005) {
             OpenAudioLogger.warn("RTC connection closed with code " + code + " and reason " + reason);
         }
         handleError(false);
@@ -105,7 +105,7 @@ public class VoiceSocket extends WebSocketListener {
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
         // closed by server
         webSocket.close(1000, null);
-        if (code != 1000) {
+        if (code != 1000 && code != 1005) {
             OpenAudioLogger.warn("Voicechat ws closing: " + reason + " - " + code);
         }
         handleError(false);
