@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import lombok.Getter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,21 +18,27 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-public class VoiceWebsocket extends WebSocketListener {
+public class VoiceSocket extends WebSocketListener {
+
+    private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
+            .connectTimeout(2, TimeUnit.SECONDS).build();
 
     private final Set<Runnable> onEerror = new HashSet<>();
     private final Set<Runnable> onReady = new HashSet<>();
-    private final OkHttpClient client = new OkHttpClient.Builder().build();
     private boolean isReady = false;
     private final String server;
     private final String password;
-    private boolean closed;
+    private boolean closed = false;
     private WebSocket webSocket;
+    private final boolean isReconnectAttempt;
+    @Getter private boolean announcedShutdown = false;
 
-    public VoiceWebsocket(String server, String password) {
+    public VoiceSocket(String server, String password, boolean isReconnectAttempt) {
         this.server = server;
         this.password = password;
+        this.isReconnectAttempt = isReconnectAttempt;
     }
 
     public boolean start() {
@@ -41,6 +48,7 @@ public class VoiceWebsocket extends WebSocketListener {
         preAuthCheck.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
         preAuthCheck.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
         preAuthCheck.setQuery("password", this.password);
+        preAuthCheck.setQuery("reconnect", String.valueOf(this.isReconnectAttempt));
         preAuthCheck.setBaseUrl(this.server);
         preAuthCheck.run();
 
@@ -55,6 +63,7 @@ public class VoiceWebsocket extends WebSocketListener {
                 .setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue())
                 .setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue())
                 .setQuery("password", this.password)
+                .setQuery("reconnect", String.valueOf(this.isReconnectAttempt))
                 .setBaseUrl(this.server)
                 .buildURL();
 
@@ -65,17 +74,16 @@ public class VoiceWebsocket extends WebSocketListener {
                 .build();
         this.isReady = false;
 
-        webSocket = client.newWebSocket(request, this);
+        webSocket = CLIENT.newWebSocket(request, this);
+        CLIENT.connectionPool().evictAll();
         return true;
     }
 
     public void stop() {
         closed = true;
+        announcedShutdown = true;
         if (webSocket != null) {
             webSocket.close(1000, "Goodbye");
-        }
-        if (client != null && client.dispatcher() != null) {
-            client.dispatcher().executorService().shutdown();
         }
         this.isReady = false;
     }
@@ -90,28 +98,43 @@ public class VoiceWebsocket extends WebSocketListener {
         if (code != 1000) {
             OpenAudioLogger.warn("RTC connection closed with code " + code + " and reason " + reason);
         }
-        handleError();
+        handleError(false);
     }
 
     @Override
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        // closed by server
+        webSocket.close(1000, null);
         if (code != 1000) {
             OpenAudioLogger.warn("Voicechat ws closing: " + reason + " - " + code);
         }
-        handleError();
+        handleError(false);
     }
 
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
+        // Second Change
+        webSocket.close(1000, null);
+
         String nullableMessage = "";
         if (response != null) nullableMessage = response.message();
+        // did we get a normal http response?
+        if (response != null && response.code() != 101) {
+            OpenAudioLogger.warn("Got unexpected http: " + t.getMessage() + " - " + nullableMessage);
+            handleError(true);
+            return;
+        }
         OpenAudioLogger.warn("Voicechat ws error: " + t.getMessage() + " - " + nullableMessage);
-        handleError();
+        handleError(false);
     }
 
     @Override
     public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
-
+        switch (text) {
+            case "INTENT_TO_DISCONNECT":
+                announcedShutdown = true;
+                return;
+        }
     }
 
     @Override
@@ -136,8 +159,8 @@ public class VoiceWebsocket extends WebSocketListener {
         this.onReady.add(runnable);
     }
 
-    private void handleError() {
-        if (!this.isReady) return;
+    private void handleError(boolean ignoreReady) {
+        if (!this.isReady && !ignoreReady) return;
         if (closed) return;
         this.isReady = false;
         for (Runnable runnable : this.onEerror) {

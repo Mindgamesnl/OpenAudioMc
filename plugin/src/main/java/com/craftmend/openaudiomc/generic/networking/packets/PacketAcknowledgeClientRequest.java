@@ -8,6 +8,7 @@ public class PacketAcknowledgeClientRequest extends AbstractPacket {
 
     public PacketAcknowledgeClientRequest(AcknowledgeClientPayload data) {
         super(data, PacketChannel.SOCKET_OUT_ACKNOWLEDGEMENT, null);
+        this.queueableIfReconnecting = true;
     }
 
 }

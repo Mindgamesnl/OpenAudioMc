@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.generic.networking.abstracts;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class AbstractPacket {
 
     /**
@@ -20,5 +18,13 @@ public class AbstractPacket {
     private AbstractPacketPayload data;
     private PacketChannel packetChannel;
     @Setter private UUID client;
+
+    public AbstractPacket(AbstractPacketPayload data, PacketChannel packetChannel, UUID client) {
+        this.data = data;
+        this.packetChannel = packetChannel;
+        this.client = client;
+    }
+
+    protected transient boolean queueableIfReconnecting = false;
 
 }

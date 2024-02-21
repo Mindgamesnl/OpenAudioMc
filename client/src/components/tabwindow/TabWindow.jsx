@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { showTextModal } from '../modal/InputModal';
 import { setGlobalState } from '../../state/store';
 import { msg } from '../../client/OpenAudioAppContainer';
+import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -57,6 +58,7 @@ class TabWindow extends Component {
       <div className="flex flex-col-reverse bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
         <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
+            <ServerConnectionWarning />
             {pages[this.props.currentTab].content}
           </div>
         </main>

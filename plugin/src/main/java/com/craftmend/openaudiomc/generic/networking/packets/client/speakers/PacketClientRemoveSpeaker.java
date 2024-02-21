@@ -12,6 +12,7 @@ public class PacketClientRemoveSpeaker extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_SPEAKER_DESTROY,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

@@ -16,12 +16,15 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import com.craftmend.openaudiomc.generic.state.StateService;
+import com.craftmend.openaudiomc.generic.state.states.ReconnectingState;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.net.ConnectException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +33,13 @@ public class VoiceApiConnection {
 
     private static final Map<String, String> EMPTY_PAYLOAD = new HashMap<>();
     @Setter @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
-    private VoiceWebsocket voiceWebsocket;
+    private VoiceSocket voiceSocket;
     private final TaskService taskService;
 
     @Getter private int maxSlots = 0;
     @Getter private String host = "none";
+    private String lastToken = "";
+    private int reconnectAttempts = 0;
 
     public VoiceApiConnection() {
         // setup tasks
@@ -108,30 +113,44 @@ public class VoiceApiConnection {
 
     public void start(String server, String password, int slots) {
         // only connect when idle
-        if (status != VoiceApiStatus.IDLE) return;
+        if (status != VoiceApiStatus.IDLE && status != VoiceApiStatus.RECONNECTING) return;
+        boolean isReconnect = status == VoiceApiStatus.RECONNECTING;
         status = VoiceApiStatus.CONNECTING;
+        lastToken = password;
         maxSlots = slots;
         host = server;
         taskService.runAsync(() -> {
             // setup link
-            voiceWebsocket = new VoiceWebsocket(server, password);
+            voiceSocket = new VoiceSocket(server, password, isReconnect);
             // setup hooks
-            voiceWebsocket.onError(this::onWsClose);
-            voiceWebsocket.onReady(this::onWsOpen);
+            voiceSocket.onError(this::onWsClose);
+            voiceSocket.onReady(this::onWsOpen);
             // start?
-            boolean success = voiceWebsocket.start();
-            if (success) {
-                OpenAudioLogger.info("Attempting to login to voice chat...");
-            } else {
-                OpenAudioLogger.warn("Failed to initialize voice events.");
-                status = VoiceApiStatus.IDLE;
+            try {
+                boolean success = voiceSocket.start();
+                if (success) {
+                    OpenAudioLogger.info("Attempting to login to voice chat...");
+                } else {
+                    OpenAudioLogger.warn("Failed to initialize voice events.");
+                    status = VoiceApiStatus.IDLE;
+                }
+            } catch (Exception e) {
+                // is it a connect exception?
+                if (e instanceof ConnectException) {
+                    OpenAudioLogger.warn("Failed to connect to voice chat (ConnectException)");
+                    onWsClose();
+                } else {
+                    OpenAudioLogger.error(e, "Failed to initialize voice events.");
+                    onWsClose();
+                }
             }
         });
     }
 
     public void stop() {
-        if (voiceWebsocket == null) return;
-        this.voiceWebsocket.stop();
+        if (voiceSocket == null) return;
+        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
+        this.voiceSocket.stop();
         this.onWsClose();
     }
 
@@ -139,26 +158,56 @@ public class VoiceApiConnection {
         if (!(status == VoiceApiStatus.CONNECTED || status == VoiceApiStatus.CONNECTING)) {
             return;
         }
-        pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
-        status = VoiceApiStatus.IDLE;
-        // we disconnected! only fires once
-        // logout, since we're not using this session anymore
-        new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
-        for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
-            if (client.getRtcSessionManager().isReady()) {
-                client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
-                client.kick(() -> {
-                    OpenAudioLogger.warn("Kicked " + client.getUser().getName() + " because the voicechat connection was lost");
-                });
+
+        StateService stateService = OpenAudioMc.getService(StateService.class);
+        boolean shouldAttemptReconnect = stateService.getCurrentState().isConnected() || stateService.getCurrentState() instanceof ReconnectingState;
+
+        // or was it intentional?
+        if (this.voiceSocket != null && this.voiceSocket.isAnnouncedShutdown()) {
+            shouldAttemptReconnect = false;
+        }
+
+        if (reconnectAttempts >= 5) {
+            OpenAudioLogger.warn("Failed to reconnect to voice chat 5 times, giving up.");
+            status = VoiceApiStatus.IDLE;
+            reconnectAttempts = 0;
+            return;
+        }
+
+
+        if (shouldAttemptReconnect) {
+            reconnectAttempts++;
+            OpenAudioLogger.warn("Voice chat connection lost, attempting to reconnect in 2 seconds... (attempt " + reconnectAttempts + "/5)");
+            status = VoiceApiStatus.RECONNECTING;
+            OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
+                OpenAudioLogger.warn("Reconnecting to voice chat...");
+                start(host, lastToken, maxSlots);
+            }, 20 * 2);
+            return;
+        } else {
+            reconnectAttempts = 0;
+            pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
+            status = VoiceApiStatus.IDLE;
+            // we disconnected! only fires once
+            // logout, since we're not using this session anymore
+            new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
+            for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
+                if (client.getRtcSessionManager().isReady()) {
+                    client.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_UNSTABLE.getString()));
+                    client.kick(() -> {
+                        OpenAudioLogger.warn("Kicked " + client.getUser().getName() + " because the voicechat connection was lost");
+                    });
+                }
             }
         }
     }
 
     private void onWsOpen() {
         if (status == VoiceApiStatus.CONNECTED) return;
-        Thread.currentThread().setName("OaVoiceAPI");
-        OpenAudioLogger.info("VoiceChat prepared and connected!");
+        Thread.currentThread().setName("OaVoiceWorker");
+        OpenAudioLogger.info("Voice chat connected!");
         status = VoiceApiStatus.CONNECTED;
+        reconnectAttempts = 0;
         // seed online players
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
         pushEvent(VoiceServerEventType.HEARTBEAT, EMPTY_PAYLOAD);
@@ -236,7 +285,7 @@ public class VoiceApiConnection {
             eventData.append("~").append(entry.getKey()).append("=").append(entry.getValue());
         }
 
-        this.voiceWebsocket.pushEventBody(eventData.toString());
+        this.voiceSocket.pushEventBody(eventData.toString());
     }
 
 }

@@ -181,9 +181,6 @@ public class OpenaudioAccountService extends Service {
             return;
         }
 
-        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
-            OpenAudioLogger.info("Preparing voice chat...");
-        }
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
         RestRequest<VoiceSessionRequestResponse> voiceLoginRequest = new RestRequest<>(VoiceSessionRequestResponse.class, Endpoint.VOICE_REQUEST_PASSWORD);

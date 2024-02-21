@@ -159,7 +159,7 @@ public class CommandService extends Service {
         try {
             Set<String> completions = new HashSet<>();
             for (String subCommand : getSubCommands(context)) {
-                if (args.length <= 1 && subCommand.startsWith(args[0])) {
+                if (args.length <= 1 && subCommand.toLowerCase(Locale.ROOT).startsWith(args[0].toLowerCase(Locale.ROOT))) {
                     // Not typing yet, add the entire damn thing
                     completions.add(subCommand);
                 }
@@ -180,6 +180,7 @@ public class CommandService extends Service {
                     int localArgIndex = args.length - 2;
 
                     boolean isMatch = true;
+
                     for (int i = 0; i < localArgIndex; i++) {
                         if (args.length - 1 < i + 1 || argumentSyntaxParts.length < i + 1) {
                             isMatch = false;

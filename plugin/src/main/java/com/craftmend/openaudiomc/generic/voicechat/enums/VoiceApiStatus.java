@@ -4,6 +4,7 @@ public enum VoiceApiStatus {
 
     IDLE,
     CONNECTING,
+    RECONNECTING,
     CONNECTED
 
 }
