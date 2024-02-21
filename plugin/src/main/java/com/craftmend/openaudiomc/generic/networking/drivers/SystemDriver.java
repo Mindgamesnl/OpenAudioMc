@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -63,6 +64,10 @@ public class SystemDriver implements SocketDriver {
         socket.on("announce-shutdown", args -> {
             OpenAudioLogger.info("The server announced its intention to close our connection..");
             announcedShutdown = true;
+        });
+
+        socket.on("client-token-cache", args -> {
+            OpenAudioMc.getService(AuthenticationService.class).getDriver().initCache();
         });
 
         socket.on("reconnect-clients", args -> {

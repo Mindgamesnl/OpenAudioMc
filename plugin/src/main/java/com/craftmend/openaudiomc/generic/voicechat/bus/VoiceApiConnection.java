@@ -23,19 +23,17 @@ import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceApiStatus;
 import com.craftmend.openaudiomc.generic.voicechat.enums.VoiceServerEventType;
 import lombok.Getter;
 import lombok.Setter;
-import okhttp3.OkHttpClient;
 
+import java.net.ConnectException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class VoiceApiConnection {
 
     private static final Map<String, String> EMPTY_PAYLOAD = new HashMap<>();
     @Setter @Getter private VoiceApiStatus status = VoiceApiStatus.IDLE;
-    private VoiceWebsocket voiceWebsocket;
+    private VoiceSocket voiceSocket;
     private final TaskService taskService;
 
     @Getter private int maxSlots = 0;
@@ -123,13 +121,13 @@ public class VoiceApiConnection {
         host = server;
         taskService.runAsync(() -> {
             // setup link
-            voiceWebsocket = new VoiceWebsocket(server, password, isReconnect);
+            voiceSocket = new VoiceSocket(server, password, isReconnect);
             // setup hooks
-            voiceWebsocket.onError(this::onWsClose);
-            voiceWebsocket.onReady(this::onWsOpen);
+            voiceSocket.onError(this::onWsClose);
+            voiceSocket.onReady(this::onWsOpen);
             // start?
             try {
-                boolean success = voiceWebsocket.start();
+                boolean success = voiceSocket.start();
                 if (success) {
                     OpenAudioLogger.info("Attempting to login to voice chat...");
                 } else {
@@ -137,16 +135,22 @@ public class VoiceApiConnection {
                     status = VoiceApiStatus.IDLE;
                 }
             } catch (Exception e) {
-                OpenAudioLogger.error(e, "Failed to initialize voice events.");
-                onWsClose();
+                // is it a connect exception?
+                if (e instanceof ConnectException) {
+                    OpenAudioLogger.warn("Failed to connect to voice chat (ConnectException)");
+                    onWsClose();
+                } else {
+                    OpenAudioLogger.error(e, "Failed to initialize voice events.");
+                    onWsClose();
+                }
             }
         });
     }
 
     public void stop() {
-        if (voiceWebsocket == null) return;
+        if (voiceSocket == null) return;
         pushEvent(VoiceServerEventType.LOGOUT, new HashMap<>());
-        this.voiceWebsocket.stop();
+        this.voiceSocket.stop();
         this.onWsClose();
     }
 
@@ -159,7 +163,7 @@ public class VoiceApiConnection {
         boolean shouldAttemptReconnect = stateService.getCurrentState().isConnected() || stateService.getCurrentState() instanceof ReconnectingState;
 
         // or was it intentional?
-        if (this.voiceWebsocket != null && this.voiceWebsocket.isAnnouncedShutdown()) {
+        if (this.voiceSocket != null && this.voiceSocket.isAnnouncedShutdown()) {
             shouldAttemptReconnect = false;
         }
 
@@ -281,7 +285,7 @@ public class VoiceApiConnection {
             eventData.append("~").append(entry.getKey()).append("=").append(entry.getValue());
         }
 
-        this.voiceWebsocket.pushEventBody(eventData.toString());
+        this.voiceSocket.pushEventBody(eventData.toString());
     }
 
 }

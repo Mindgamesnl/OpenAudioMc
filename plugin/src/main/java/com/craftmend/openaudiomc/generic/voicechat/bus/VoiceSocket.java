@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class VoiceWebsocket extends WebSocketListener {
+public class VoiceSocket extends WebSocketListener {
 
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
             .connectTimeout(2, TimeUnit.SECONDS).build();
@@ -35,7 +35,7 @@ public class VoiceWebsocket extends WebSocketListener {
     private final boolean isReconnectAttempt;
     @Getter private boolean announcedShutdown = false;
 
-    public VoiceWebsocket(String server, String password, boolean isReconnectAttempt) {
+    public VoiceSocket(String server, String password, boolean isReconnectAttempt) {
         this.server = server;
         this.password = password;
         this.isReconnectAttempt = isReconnectAttempt;
