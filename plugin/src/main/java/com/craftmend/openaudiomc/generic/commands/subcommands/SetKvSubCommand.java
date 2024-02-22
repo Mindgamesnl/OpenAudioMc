@@ -15,6 +15,7 @@ public class SetKvSubCommand extends SubCommand {
             StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE,
             StorageKey.SETTINGS_VOICE_FILTERS_TEAM,
             StorageKey.SETTINGS_VOICE_FILTERS_CHANNEL,
+            StorageKey.SETTINGS_AUTO_RECONNECT
     };
 
     public SetKvSubCommand() {
