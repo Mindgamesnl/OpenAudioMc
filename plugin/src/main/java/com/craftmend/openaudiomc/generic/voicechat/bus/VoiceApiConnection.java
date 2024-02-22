@@ -174,6 +174,10 @@ public class VoiceApiConnection {
             return;
         }
 
+        if (shouldAttemptReconnect && !StorageKey.SETTINGS_AUTO_RECONNECT.getBoolean()) {
+            shouldAttemptReconnect = false;
+            OpenAudioLogger.warn("Voice chat connection lost, but auto reconnect is disabled.");
+        }
 
         if (shouldAttemptReconnect) {
             reconnectAttempts++;

@@ -61,6 +61,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_CHANNEL_COMMAND_ENABLED, "Add migrations for the new static channels"),
                 new AddConfigKeyMigration(SETTINGS_VOICE_FILTERS_CHANNEL, "Add migrations for the new voicechat channel filter"),
                 new AddConfigKeyMigration(SETTINGS_PRELOAD_REPLENISH_POOL, "Add config value for better pool management"),
+                new AddConfigKeyMigration(SETTINGS_AUTO_RECONNECT, "Add a migration setting for auto reconnect"),
         };
 
         for (SimpleMigration migration : migrations) {

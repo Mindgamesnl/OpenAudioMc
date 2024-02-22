@@ -143,6 +143,14 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
             OpenAudioLogger.error(e, "A fatal error occurred while enabling OpenAudioMc. The plugin will now disable itself.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            StateService stateService = OpenAudioMc.getService(StateService.class);
+            if (stateService.getCurrentState().canConnect()) {
+                OpenAudioLogger.debug("COnnecting from loop...");
+                OpenAudioMc.getService(NetworkingService.class).connectIfDown();
+            }
+        }, 30 * 20, 30 * 20);
     }
 
     /**

@@ -192,6 +192,11 @@ public class SystemDriver implements SocketDriver {
             OpenAudioLogger.info("The server closed the primary connection, but we were already aware of this. Ignoring.");
             shutdown("Graceful.");
         } else {
+            if (mayReconnect && !StorageKey.SETTINGS_AUTO_RECONNECT.getBoolean()) {
+                mayReconnect = false;
+                OpenAudioLogger.warn("Core connection lost, but auto reconnect is disabled.");
+            }
+
             if (mayReconnect) {
                 // lets try again lol
                 // are we currently reconnecting?

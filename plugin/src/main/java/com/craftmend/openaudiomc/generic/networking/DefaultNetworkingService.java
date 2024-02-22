@@ -275,7 +275,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public void addEventHandler(INetworkingEvents events) {
         eventHandlers.add(events);
     }
-
+    
     public void discardQueue() {
         this.packetQueue.clearAll();
     }

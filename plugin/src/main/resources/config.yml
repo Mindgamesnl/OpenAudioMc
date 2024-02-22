@@ -291,6 +291,10 @@ options:
   # This setting determines if the /channel command will be enabled. If this is set to false, then none of the channel features will be available.
   enable-channel-command: true
 
+  # These settings determine if networking should automatically try to reconnect when the connection is lost.
+  # This is useful for when you have a bad connection, but it can be disabled if its causing issues.
+  auto-reconnect: true
+
 # Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
 # You can implement custom filters through the API, or enable some of the default ones below.
 vc-filter:
