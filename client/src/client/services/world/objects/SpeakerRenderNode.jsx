@@ -26,5 +26,8 @@ export class SpeakerRenderNode {
 
   preDelete() {
     untrackPanner(this.pannerId);
+    if (this.pannerNode) {
+      this.pannerNode.disconnect();
+    }
   }
 }
