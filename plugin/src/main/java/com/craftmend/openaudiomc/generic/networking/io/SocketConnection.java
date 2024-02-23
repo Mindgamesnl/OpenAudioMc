@@ -23,6 +23,7 @@ import com.craftmend.openaudiomc.generic.state.states.*;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
 
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -102,13 +103,20 @@ public class SocketConnection {
         opts.forceNew = true;
         opts.rememberUpgrade = false;
 
-        // authentication headers
-        opts.query = String.format(
-                "type=server&private=%s&public=%s&reconnect=%s",
-                keySet.getPrivateKey().getValue(),
-                keySet.getPublicKey().getValue(),
-                isReconnect ? "true" : "false"
-        );
+        if (StorageKey.SETTINGS_AUTO_RECONNECT.getBoolean()) {
+            opts.query = String.format(
+                    "type=server&private=%s&public=%s&reconnect=%s",
+                    keySet.getPrivateKey().getValue(),
+                    keySet.getPublicKey().getValue(),
+                    isReconnect ? "true" : "false"
+            );
+        } else {
+            opts.query = String.format(
+                    "type=server&private=%s&public=%s",
+                    keySet.getPrivateKey().getValue(),
+                    keySet.getPublicKey().getValue()
+            );
+        }
 
         // only do login handling if we're not reconnecting, because then we'd be re-using the same config
         if (!isReconnect) {

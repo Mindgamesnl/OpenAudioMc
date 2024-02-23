@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.response.NoResponse;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -43,12 +44,16 @@ public class VoiceSocket extends WebSocketListener {
 
     public boolean start() {
         // check if connections are allowed
-        RestRequest preAuthCheck = new RestRequest(NoResponse.class, Endpoint.VOICE_PREFLIGHT_CHECK);
+        RestRequest<NoResponse> preAuthCheck = new RestRequest<>(NoResponse.class, Endpoint.VOICE_PREFLIGHT_CHECK);
         AuthenticationService authenticationService = OpenAudioMc.getService(AuthenticationService.class);
         preAuthCheck.setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue());
         preAuthCheck.setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue());
         preAuthCheck.setQuery("password", this.password);
-        preAuthCheck.setQuery("reconnect", String.valueOf(this.isReconnectAttempt));
+
+        if (StorageKey.SETTINGS_AUTO_RECONNECT.getBoolean()) {
+            preAuthCheck.setQuery("reconnect", String.valueOf(this.isReconnectAttempt));
+        }
+
         preAuthCheck.setBaseUrl(this.server);
         preAuthCheck.run();
 
@@ -59,13 +64,18 @@ public class VoiceSocket extends WebSocketListener {
         }
 
         // translate url to websocket
-        String ebUri = new RestRequest<>(NoResponse.class, Endpoint.VOICE_BUS)
+        RestRequest<NoResponse> urlBuilder = new RestRequest<>(NoResponse.class, Endpoint.VOICE_BUS)
                 .setQuery("publicKey", authenticationService.getServerKeySet().getPublicKey().getValue())
                 .setQuery("privateKey", authenticationService.getServerKeySet().getPrivateKey().getValue())
-                .setQuery("password", this.password)
-                .setQuery("reconnect", String.valueOf(this.isReconnectAttempt))
-                .setBaseUrl(this.server)
-                .buildURL();
+                .setQuery("password", this.password);
+
+        if (StorageKey.SETTINGS_AUTO_RECONNECT.getBoolean()) {
+            urlBuilder.setQuery("reconnect", String.valueOf(this.isReconnectAttempt));
+        }
+
+        urlBuilder.setBaseUrl(this.server);
+
+        String ebUri = urlBuilder.buildURL();
 
         ebUri = ebUri.replace("http", "ws"); // https:// => wss:// and http:// => ws://
 
