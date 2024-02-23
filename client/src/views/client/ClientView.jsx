@@ -36,7 +36,10 @@ function ClientView(props) {
             hidden={!props.voiceState.ready}
             buttonContent={<VoiceChatSvg />}
             content={<VoicePage />}
-            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${getTranslation(null, 'vc.people')}` : null}
+            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${
+              Object.keys(props.voiceState.peers).length === 1 ? getTranslation(null, 'vc.person')
+                : getTranslation(null, 'vc.people')
+            }` : null}
             colorWhenHasSubtext
           />
           <TabPage

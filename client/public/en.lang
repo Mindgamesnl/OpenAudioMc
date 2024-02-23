@@ -96,6 +96,7 @@ vc.peersHiddenTitle=Voicechat players are hidden
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 vc.isTalking=is talking
 vc.people=people
+vc.person=person
 vc.deafened=You are currently deafened
 vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
