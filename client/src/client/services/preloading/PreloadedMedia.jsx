@@ -1,4 +1,5 @@
 import { WatchMediaPerformance } from '../media/utils/MediaLoadStopwatch';
+import { API_ENDPOINT } from '../../config/ApiEndpoints';
 
 export class PreloadedMedia {
   constructor(source, namespace, keepCopy = false) {
@@ -17,10 +18,14 @@ export class PreloadedMedia {
       });
     });
 
-    soundElement.crossOrigin = 'anonymous';
-
     WatchMediaPerformance(soundElement);
     soundElement.autoplay = false;
+
+    const usesProxy = source.indexOf(API_ENDPOINT.CONTENT_PROXY) !== -1;
+    if (usesProxy) {
+      soundElement.crossOrigin = 'anonymous';
+    }
+
     soundElement.src = source;
     soundElement.load();
 

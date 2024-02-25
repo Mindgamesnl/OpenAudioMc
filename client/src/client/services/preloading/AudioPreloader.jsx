@@ -99,7 +99,6 @@ export const AudioPreloader = new class IAudPreload {
     let cacheCorsSafe = true;
     if (isProxyRequired(source)) {
       cacheCorsSafe = false;
-      corsRequired = true;
     }
 
     // ignore cache if we need cors and the source is not cors safe
