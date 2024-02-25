@@ -18,7 +18,12 @@ export function isProxyRequired(url) {
   return false;
 }
 
+function isValidUrl(url) {
+  return URL.canParse(url);
+}
+
 function getQueryParam(url, key, defaultValue = null) {
+  if (!isValidUrl(url)) return defaultValue;
   const urlObj = new URL(url);
   return urlObj.searchParams.get(key) || defaultValue;
 }
