@@ -2,26 +2,26 @@
 
 ![header](.github/header.png)
 
-OpenAudioMc is a plugin for Minecraft that provides proximity voice chat and audio system without the need for mods. It works on servers running Bungeecord, Velocity, Spigot, and more.
+OpenAudioMc is a plugin for Minecraft that provides proximity voice chat and audio system without needing mods. It works on servers running Bungeecord, Velocity, Spigot, and more.
 
 ## Features
 
-- Proximity Voice Chat (with spatial and normal audio)
+- Chanel or Proximity Voice Chat (with spatial and normal audio)
 - Full built-in moderation support
-- Music and sound effects without resource pack
+- Music and sound effects without a resource pack
 - Native Worldguard integration to assign music to regions and query for key locations
 - Speaker blocks you can place throughout your world to add audio in special places
 - Built-in TrainCarts hook to adding on-board music for rides
-- LiteBans support to syncronize mutes with voice chat
-- Feature rich java API
-- Easy to use web clients (players receive their own personal link, no downloads or accounts required)
+- LiteBans support to synchronize mutes with voice chat
+- Feature-rich Java API
+- Easy to use web clients (players receive their link, no downloads or accounts required)
 - Automatic client translation in 9 languages
 - Automatic CDN infrastructure to speed up file delivery without any configuration
 - Active support and community
-- User preferences and client settings
+- User Preferences and client settings
 
 ## Supported platforms
-- [Spigot (1.12 and up, with primitive support for lower versions)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
+- [Spigot (1.8 and up)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 - [BungeeCord (recent builds)](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 - [Velocity](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
@@ -50,6 +50,5 @@ Please note that the test for `vistas-server` test cases require a redis server 
 - `modules/migrator` contains the migrator that converts legacy MapDB database stores to Sqlite through Storm
 - `modules/parties` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
 - `modules/skywars` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
-- `modules/rinoarc-legacy` contains the commissioned module from Rinoarc for legacy 1.8 support
 - `modules/vistas-server` a standalone OpenAudioMc installation that links over redis, for enterprise deployments with multiple bungee or lilypad proxies
 - `modules/vistas-client` a plugin runtime implementation for vistas, to hook into a redis based mesh network
