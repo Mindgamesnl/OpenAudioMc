@@ -12,6 +12,11 @@ export const AudioPreloader = new class IAudPreload {
 
   async fetch(source, namespace, replenish = false) {
     source = await this.sourceRewriter.translate(source);
+
+    if (isProxyRequired(source)) {
+      source = proxifyUrl(source);
+    }
+
     debugLog(`Preloading audio: ${source}`);
     const media = new PreloadedMedia(source, namespace, replenish);
 
@@ -92,10 +97,9 @@ export const AudioPreloader = new class IAudPreload {
     let media = this.findAndRemoveMedia(source);
 
     let cacheCorsSafe = true;
-    if (corsRequired) {
-      if (isProxyRequired(source)) {
-        cacheCorsSafe = false;
-      }
+    if (isProxyRequired(source)) {
+      cacheCorsSafe = false;
+      corsRequired = true;
     }
 
     // ignore cache if we need cors and the source is not cors safe
