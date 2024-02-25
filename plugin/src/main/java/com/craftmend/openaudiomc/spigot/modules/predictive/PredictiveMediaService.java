@@ -77,7 +77,6 @@ public class PredictiveMediaService extends Service {
             // it might be worthless
             // delete optional chunk if applicable
             if (value.getAudioChunk().getResources().isEmpty()) {
-                OpenAudioLogger.warn("Purging media chunk " + value.getChunkName());
                 scm.delete(value);
                 deleted++;
                 continue;
