@@ -2,6 +2,12 @@ import { isDomainOfficial } from '../../../config/MagicValues';
 import { AUDIO_ENDPOINTS } from '../../../util/AudioSourceProcessor';
 
 export function isProxyRequired(url) {
+  // does the url begin with http or https?
+  if (!url.startsWith('http')) {
+    // local or invalid url
+    return false;
+  }
+
   // compare origins
   const isSourceOfficial = isDomainOfficial(getDomainOfStr(url));
 
@@ -37,6 +43,7 @@ export function proxifyUrl(url) {
 }
 
 function getDomainOfStr(str) {
+  if (!isValidUrl(str)) return getDomain();
   const url = new URL(str);
   return getDomain(url.hostname);
 }
