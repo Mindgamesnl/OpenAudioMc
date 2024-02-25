@@ -37,7 +37,7 @@ import java.time.Instant;
 @Plugin(
         id = "openaudiomc",
         name = "OpenAudioMc Bungee Plugin Port for Velocity",
-        version = "6.8.9",
+        version = "6.10.0",
         authors = {"Mindgamesnl", "fluse1367"},
         description = "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more.",
         url = "https://openaudiomc.net/"
@@ -80,13 +80,13 @@ public class OpenAudioMcVelocity implements OpenAudioInvoker {
 
             // timing end and calc
             Instant finish = Instant.now();
-            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+            OpenAudioLogger.info("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
 
             this.messageReceiver.registerListener(new CommandPacketListener());
 
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            OpenAudioLogger.error(ex, "Failed to start OpenAudioMc");
         }
     }
 

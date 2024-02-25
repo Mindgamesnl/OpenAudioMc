@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.networking.drivers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.networking.drivers.handler.CdnBucketUpdateNotification;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -9,7 +10,7 @@ import com.craftmend.openaudiomc.generic.networking.drivers.handler.AdminNotific
 import com.craftmend.openaudiomc.generic.networking.drivers.interfaces.NotificationHandler;
 import com.craftmend.openaudiomc.generic.networking.drivers.models.BackendNotification;
 import com.craftmend.openaudiomc.generic.networking.interfaces.SocketDriver;
-import com.craftmend.openaudiomc.generic.networking.io.SocketIoConnector;
+import com.craftmend.openaudiomc.generic.networking.io.SocketConnection;
 import io.socket.client.Socket;
 
 import java.util.HashMap;
@@ -24,11 +25,13 @@ public class NotificationDriver implements SocketDriver {
             put("admin-message", new AdminNotification());
             // Handlers for craftmend accounts
             put("craftmend-update", new AccountUpdateNotification());
+            // cdn updates
+            put("cdn-bucket-update", new CdnBucketUpdateNotification());
 
     }};
 
     @Override
-    public void boot(Socket socket, SocketIoConnector connector) {
+    public void boot(Socket socket, SocketConnection connector) {
         socket.on("oa-notification", args -> {
             BackendNotification payload = OpenAudioMc.getGson().fromJson(((String) args[args.length - 1]), BackendNotification.class);
 
@@ -38,7 +41,7 @@ public class NotificationDriver implements SocketDriver {
             // handle type
             NotificationHandler handler = handlers.get(payload.getNotificationType());
             if (handler == null) {
-                OpenAudioLogger.toConsole("WARNING: Received notification " + payload.getNotificationType() + " but it doesn't have a handler. Is this plugin outdated?");
+                OpenAudioLogger.warn("Received notification " + payload.getNotificationType() + " but it doesn't have a handler. Is this plugin outdated?");
             } else {
                 handler.handle(payload);
             }

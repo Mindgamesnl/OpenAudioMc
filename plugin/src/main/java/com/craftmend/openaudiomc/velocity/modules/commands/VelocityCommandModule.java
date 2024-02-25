@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.velocity.modules.commands;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.bungee.modules.commands.subcommand.BungeeVoiceCommand;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.subcommands.AcceptSubCommand;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -39,9 +40,7 @@ public class VelocityCommandModule {
         CommandService commandService = OpenAudioMc.getService(CommandService.class);
 
         commandService.registerSubCommands(
-                new HelpSubCommand(),
-                new VelocityPlayCommand(OpenAudioMc.getInstance()),
-                new VelocityStopCommand(OpenAudioMc.getInstance()),
+                CommandContext.OPENAUDIOMC,
                 new VelocityRegionCommand(),
                 new VelocitySpeakerCommand(),
                 new VelocityShowCommand(),
@@ -50,12 +49,6 @@ public class VelocityCommandModule {
                 new VelocityVoiceCommand(),
                 new VelocityPlaylistCommand()
         );
-
-        // add accept sub command if the player is new
-        if (!OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY)) {
-            commandService.registerSubCommands(new AcceptSubCommand());
-        }
-
     }
 
 }

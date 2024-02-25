@@ -4,6 +4,7 @@ package com.craftmend.openaudiomc.velocity.modules.commands.subcommand;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.node.enums.ProxiedCommand;
 import com.craftmend.openaudiomc.generic.node.packets.CommandProxyPacket;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
@@ -17,10 +18,14 @@ public class VelocityRegionCommand extends SubCommand {
         super("region");
         registerArguments(
                 new Argument("create <WG-region> <source> [volume]",
-                        "Assigns a sound to a WorldGuard region by name, with optional volume"),
+                        "Assigns a sound to a WorldGuard region by name, with optional volume")
+                        .addTabCompleteProvider(1, (sender) -> new String[]{"<region-name>"})
+                        .addTabCompleteProvider(2, MediaTabcompleteProvider.getInstance()),
 
                 new Argument("temp <WG-region> <source> <duration>",
-                        "Create a temporary region with it's own synced sound"),
+                        "Create a temporary region with it's own synced sound")
+                        .addTabCompleteProvider(1, (sender) -> new String[]{"<region-name>"})
+                        .addTabCompleteProvider(2, MediaTabcompleteProvider.getInstance()),
 
                 new Argument("delete <WG-region>",
                         "Unlink the sound from a WorldGuard specific region by name"),

@@ -28,26 +28,26 @@ public class MojangLookupService extends Service {
     public MojangLookupService(DatabaseService databaseService, TaskService ts, OpenAudioMc openAudioMc) {
         profileRepository = databaseService.getRepository(MojangProfile.class);
         ts.scheduleAsyncRepeatingTask(() -> {
-            OpenAudioLogger.toConsole("Starting mojang cleanup, this can take a while...");
+            OpenAudioLogger.info("Starting mojang cleanup, this can take a while...");
             // check every hour if the server is empty
             if (openAudioMc.getInvoker().getUserHooks().getOnlineUsers().isEmpty()) {
                 cleanup();
             }
-            OpenAudioLogger.toConsole("Finished cleanup");
+            OpenAudioLogger.info("Finished cleanup");
         }, 36000 * 20, 36000 * 20);
         // once every 10 bloody hours
     }
 
     private void cleanup() {
         int removed = 0;
-        OpenAudioLogger.toConsole("Purging old accounts of inactive players");
+        OpenAudioLogger.info("Purging old accounts of inactive players");
         for (MojangProfile value : profileRepository.values()) {
             if (value.getLastSeen() == null || Duration.between(value.getLastSeen(), Instant.now()).getSeconds() > 604800) {
                 removed++;
                 profileRepository.delete(value);
             }
         }
-        OpenAudioLogger.toConsole("Removed the profile of " + removed + " players");
+        OpenAudioLogger.info("Removed the profile of " + removed + " players");
     }
 
     public void save(User user) {

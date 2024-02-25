@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -9,6 +11,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
@@ -24,6 +27,8 @@ public abstract class SubCommand {
     private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
     protected boolean trimArguments = false;
     protected boolean ignorePermissions = false;
+    @Setter protected CommandService commandService;
+    protected String permissionScope = "openaudiomc.commands.";
 
     /**
      * @param argument Your command name. For example "select"
@@ -33,7 +38,9 @@ public abstract class SubCommand {
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT) {
             // try, could already be registered
             try {
-                Bukkit.getPluginManager().addPermission(new Permission("openaudiomc.commands." + command));
+                Permission permission = new Permission(permissionScope + command);
+                permission.setDescription("Allows access to the " + command + " command");
+                Bukkit.getPluginManager().addPermission(permission);
             } catch (IllegalArgumentException e) {
                 // ignored
             }
@@ -52,7 +59,7 @@ public abstract class SubCommand {
      * @param message Your message
      */
     protected void message(User sender, String message) {
-        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + message);
+        sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(message));
     }
 
     /**
@@ -64,8 +71,8 @@ public abstract class SubCommand {
      */
     public boolean isAllowed(User commandSender) {
         if (ignorePermissions) return true;
-        return commandSender.hasPermission("openaudiomc.commands." + command)
-                || commandSender.hasPermission("openaudiomc.commands.*")
+        return commandSender.hasPermission(permissionScope + command)
+                || commandSender.hasPermission(permissionScope + "*")
                 || commandSender.hasPermission("openaudiomc.*");
     }
 
@@ -145,6 +152,13 @@ public abstract class SubCommand {
 
     protected <T extends Service> T getService(Class<T> service) {
         return service.cast(OpenAudioMc.getInstance().getServiceManager().loadService(service));
+    }
+
+    protected List<User<?>> resolveSelector(User<?> sender, String selector) {
+        SelectorTranslator<?> translator = Platform.getSelectorTranslator();
+        translator.setString(selector);
+        translator.setSenderGeneric(sender);
+        return translator.getResultsGeneric();
     }
 
     @SneakyThrows

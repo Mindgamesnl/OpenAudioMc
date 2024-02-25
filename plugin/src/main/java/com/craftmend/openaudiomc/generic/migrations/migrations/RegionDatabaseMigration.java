@@ -24,12 +24,12 @@ public class RegionDatabaseMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating regions from the data.yml");
+        OpenAudioLogger.info("Migrating regions from the data.yml");
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
 
         for (String id : config.getStringSet("regions", StorageLocation.DATA_FILE)) {
-            OpenAudioLogger.toConsole("Migrating region " + id + " to the the new storage format");
+            OpenAudioLogger.info("Migrating region " + id + " to the the new storage format");
 
             String source = config.getStringFromPath("regions." + id, StorageLocation.DATA_FILE);
 

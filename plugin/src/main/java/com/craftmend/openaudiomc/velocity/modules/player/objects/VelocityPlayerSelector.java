@@ -1,11 +1,15 @@
 package com.craftmend.openaudiomc.velocity.modules.player.objects;
 
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,10 +17,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class VelocityPlayerSelector {
+public class VelocityPlayerSelector implements SelectorTranslator<CommandSource> {
 
-    private final String selector;
+    private String selector;
+    private CommandSource source;
+
+    @Override
+    public void setString(String selector) {
+        this.selector = selector;
+    }
+
+    @Override
+    public void setSender(User<CommandSource> sender) {
+        this.source = sender.getOriginal();
+    }
+
+    @Override
+    public List<User<CommandSource>> getResults() {
+        List<Player> players = getPlayers(source);
+        List<User<CommandSource>> users = new ArrayList<>();
+        for (Player player : players) {
+            users.add(new VelocityUserAdapter(player));
+        }
+        return users;
+    }
 
     /**
      * this turns selectors like @a[r=5] into a usable list, since
@@ -25,7 +49,7 @@ public class VelocityPlayerSelector {
      * @param source the sender
      * @return players following the selector
      */
-    public List<Player> getPlayers(CommandSource source) {
+    private List<Player> getPlayers(CommandSource source) {
         List<Player> players = new ArrayList<>();
 
         if (selector.startsWith("@a")) {
@@ -45,7 +69,7 @@ public class VelocityPlayerSelector {
                 return Collections.singletonList(player.get());
         } else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
             source.sendMessage(Component.text("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments."));
         }
         return players;

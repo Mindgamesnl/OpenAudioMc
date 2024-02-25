@@ -1,0 +1,28 @@
+name: Deploy Javadoc
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - development # build from development branch (for now)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy JavaDoc 🚀
+        uses: MathieuSoysal/Javadoc-publisher.yml@v2.4.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          javadoc-branch: javadoc
+          java-version: 17
+          target-folder: javadoc # url will be https://<username>.github.io/<repo>/javadoc, This can be left as nothing to generate javadocs in the root folder.
+          project: maven # or gradle
+          subdirectories: api
+          custom-command:  mvn javadoc:aggregate -pl :openaudiomc-api
+      - name: Ensure docs directory exists
+        run: mkdir -p docs
+
+      - name: Copy API docs
+        run: cp -r api/target/site/apidocs/* docs/

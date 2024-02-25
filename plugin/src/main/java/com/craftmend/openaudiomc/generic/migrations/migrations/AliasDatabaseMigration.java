@@ -22,12 +22,12 @@ public class AliasDatabaseMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating aliases from the data.yml");
+        OpenAudioLogger.info("Migrating aliases from the data.yml");
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
 
         for (String id : config.getStringSet("aliases", StorageLocation.DATA_FILE)) {
-            OpenAudioLogger.toConsole("Migrating alias " + id);
+            OpenAudioLogger.info("Migrating alias " + id);
             service.getRepository(Alias.class)
                     .save(new Alias(id, config.getStringFromPath("aliases." + id, StorageLocation.DATA_FILE)));
             config.setString(StorageLocation.DATA_FILE, "aliases." + id, null);

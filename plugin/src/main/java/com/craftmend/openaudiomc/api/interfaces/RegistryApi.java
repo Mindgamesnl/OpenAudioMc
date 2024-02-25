@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.api.exceptions.RegionException;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.api.media.UrlMutation;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.utils.data.Filter;
@@ -10,6 +10,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public interface RegistryApi {
 
     /**

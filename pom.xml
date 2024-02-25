@@ -14,23 +14,76 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.8.9</oa.version>
+        <oa.version>6.10.0</oa.version>
+
+        <!-- dev deps -->
+        <deps.lombok.version>1.18.30</deps.lombok.version>
+        <deps.lombokmvn.version>1.18.20.0</deps.lombokmvn.version>
+        <deps.jetbrainsannot.version>24.1.0</deps.jetbrainsannot.version>
+
+        <!-- production deps -->
+        <deps.spigot.version>1.13.2-R0.1-SNAPSHOT</deps.spigot.version>
+        <deps.okhttp.version>4.7.0</deps.okhttp.version>
+        <deps.velocityapi.version>3.0.1</deps.velocityapi.version>
+        <deps.storm.version>e1f961b</deps.storm.version>
+        <deps.nbtapi.version>2.12.0</deps.nbtapi.version>
+
+        <!-- Bungeecord uses some special deps from jitpack to work around protocol bugs -->
+        <deps.bungee.proxy.version>b23a51825e</deps.bungee.proxy.version>
+        <deps.bungee.protocol.version>${deps.bungee.proxy.version}</deps.bungee.protocol.version>
+        <deps.bungee.api.version>${deps.bungee.proxy.version}</deps.bungee.api.version>
+
+        <!-- Integrations -->
+        <deps.legacyworldguard.version>6.1</deps.legacyworldguard.version>
+        <deps.worldguard.version>7.0.5</deps.worldguard.version>
+        <deps.worldedit.version>7.0.0-SNAPSHOT</deps.worldedit.version>
+        <deps.traincarts.version>1.15.2-v2-SNAPSHOT</deps.traincarts.version>
+        <deps.bkcommonlib.version>${deps.traincarts.version}</deps.bkcommonlib.version>
+        <deps.litebans.version>0.3.4</deps.litebans.version>
+        <deps.essentialsx.version>2.19.0-SNAPSHOT</deps.essentialsx.version>
+        <deps.placeholderapi.version>2.10.9</deps.placeholderapi.version>
     </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>24.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <url>https://openaudiomc.net/</url>
 
     <modules>
         <module>modules/jutils</module>
+        <module>api</module>
         <module>plugin</module>
         <module>modules/voice-join-permission</module>
-        <module>modules/gamemode-voice-filter-module</module>
         <module>modules/vistas-client</module>
         <module>modules/vistas-server</module>
-        <module>modules/rinaorc-legacy</module>
         <module>modules/mapdb-migrator</module>
         <module>modules/parties-module</module>
         <module>modules/skywars-module</module>
-        <module>modules/survival-audio-rules-module</module>
     </modules>
 
 </project>

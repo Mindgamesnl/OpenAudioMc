@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc;
 
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
+import com.craftmend.openaudiomc.generic.api.ApiService;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.backups.BackupService;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
@@ -10,6 +11,7 @@ import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.environment.EnvironmentService;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.events.EventService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
@@ -31,6 +33,7 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.service.ServiceManager;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
+import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import com.craftmend.openaudiomc.generic.utils.data.GsonFactory;
 import com.google.gson.Gson;
 import lombok.Getter;
@@ -88,15 +91,18 @@ public class OpenAudioMc {
         MagicValue.loadArguments();
         if (env != null && !env.equals("")) {
             SERVER_ENVIRONMENT = ServerEnvironment.valueOf(env);
-            OpenAudioLogger.toConsole("WARNING! STARTING IN " + env + " MODE!");
+            OpenAudioLogger.info("WARNING! STARTING IN " + env + " MODE!");
         }
 
         // random bullshit, go!
         instance = this;
-        OpenAudioLogger.toConsole("Initializing build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
+        OpenAudioLogger.info("Starting OpenAudioMc, build " + BUILD.getBuildNumber() + " by " + BUILD.getBuildAuthor());
 
-        // load runtime shit
-        serviceManager.loadService(RuntimeDependencyService.class);
+        // load core internal API's which are heavily used by the rest of the plugin
+        serviceManager.loadServices(
+                RuntimeDependencyService.class,
+                EventService.class             // platform agnostic event manager
+        );
 
         // setup
         this.invoker = invoker;
@@ -149,7 +155,9 @@ public class OpenAudioMc {
                 RedisService.class,             // redis hook/service implementation
                 OpenaudioAccountService.class,  // platform specific features, like voice chat
                 RestDirectService.class,        // manage rest direct
-                ClientDataService.class         // manage player profiles
+                ClientDataService.class,        // manage player profiles
+                ApiService.class,               // initialize api implementations
+                UploadIndexService.class        // track uploaded content
         );
 
         getService(ModuleLoaderService.class).fire(ModuleEvent.SERVICES_LOADED);
@@ -168,13 +176,13 @@ public class OpenAudioMc {
         serviceManager.getService(ModuleLoaderService.class).fire(ModuleEvent.SHUTDOWN);
 
         try {
-            serviceManager.getService(OpenaudioAccountService.class).shutdown();
-            serviceManager.getService(RedisService.class).shutdown();
             if (serviceManager.getService(StateService.class).getCurrentState().isConnected()) {
                 serviceManager.getService(NetworkingService.class).stop();
             }
+            serviceManager.getService(OpenaudioAccountService.class).shutdown();
+            serviceManager.getService(RedisService.class).shutdown();
         } catch (NoClassDefFoundError exception) {
-            OpenAudioLogger.toConsole("Bukkit already unloaded the OA+ classes, can't kill tokens.");
+            OpenAudioLogger.warn("Core dependencies were already unloaded by the classloader, skipping shutdown");
         }
     }
 

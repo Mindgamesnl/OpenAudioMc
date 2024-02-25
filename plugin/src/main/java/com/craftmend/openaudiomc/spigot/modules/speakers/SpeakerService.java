@@ -9,25 +9,22 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
 import com.craftmend.openaudiomc.spigot.modules.speakers.tasks.SpeakerGarbageCollection;
 import com.craftmend.openaudiomc.spigot.services.world.tracing.DummyTracer;
-import com.craftmend.openaudiomc.spigot.services.world.tracing.EstimatedRayTracer;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerCreateListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerDestroyListener;
 
-import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -82,7 +79,7 @@ public class SpeakerService extends Service {
         if (StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED.getBoolean()) {
             int interval = StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL.getInt();
 
-            OpenAudioLogger.toConsole("Starting redstone speaker tick task with interval " + interval + " ticks");
+            OpenAudioLogger.info("Starting redstone speaker tick task with interval " + interval + " ticks");
 
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(OpenAudioMcSpigot.getInstance(), () -> {
                 for (Speaker speaker : speakerMap.values()) {
@@ -119,7 +116,7 @@ public class SpeakerService extends Service {
                 }
             }, interval, interval);
         } else {
-            OpenAudioLogger.toConsole("Redstone speaker tick task is disabled");
+            OpenAudioLogger.info("Redstone speaker tick task is disabled");
         }
     }
 
@@ -132,21 +129,21 @@ public class SpeakerService extends Service {
         version = OpenAudioMc.getService(ServerService.class).getVersion();
 
         if (version == ServerVersion.MODERN) {
-            OpenAudioLogger.toConsole("Enabling the 1.13 speaker system");
+            OpenAudioLogger.info("Enabling the 1.13 speaker system");
             playerSkullItem = Material.PLAYER_HEAD;
             playerSkullBlock = Material.PLAYER_HEAD;
         } else {
-            OpenAudioLogger.toConsole("Enabling the 1.12 speaker system");
+            OpenAudioLogger.info("Enabling the 1.12 speaker system");
             try {
-                OpenAudioLogger.toConsole("Hooking speakers attempt 1..");
+                OpenAudioLogger.info("Hooking speakers attempt 1..");
                 playerSkullItem = Material.valueOf("SKULL_ITEM");
                 playerSkullBlock = Material.valueOf("SKULL");
             } catch (Exception e) {
-                OpenAudioLogger.toConsole("Failed hook speakers attempt 1..");
+                OpenAudioLogger.info("Failed hook speakers attempt 1..");
             }
 
             if (playerSkullItem == null) {
-                OpenAudioLogger.toConsole("Speakers failed to hook. Hooking to a block.");
+                OpenAudioLogger.info("Speakers failed to hook. Hooking to a block.");
                 playerSkullItem = Material.JUKEBOX;
                 playerSkullBlock = Material.JUKEBOX;
             }
@@ -155,7 +152,7 @@ public class SpeakerService extends Service {
 
     public Speaker registerSpeaker(Speaker speaker) {
         if (speaker.getLocation() == null) {
-            OpenAudioLogger.toConsole("WARNING! Registering speaker with nil location " + speaker.getSpeakerId());
+            OpenAudioLogger.warn("Registering speaker with nil location " + speaker.getSpeakerId());
         }
         speakerMap.put(speaker.getLocation(), speaker);
         return speaker;

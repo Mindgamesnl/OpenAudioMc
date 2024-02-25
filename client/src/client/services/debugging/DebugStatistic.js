@@ -9,4 +9,5 @@ export const DebugStatistic = {
   VB_EVENTS: { name: 'VB Events', fill: false, advancesItself: false },
   CACHED_STREAMS: { name: 'Cached Streams', fill: false, advancesItself: false },
   PRELOADED_SOUNDS: { name: 'Preloaded Sounds', fill: false, advancesItself: false },
+  MEDIA_LOAD_TIME: { name: 'Media Load Time (MS)', fill: false, advancesItself: false },
 };

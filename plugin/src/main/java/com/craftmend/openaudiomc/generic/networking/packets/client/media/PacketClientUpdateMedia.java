@@ -9,6 +9,7 @@ public class PacketClientUpdateMedia extends AbstractPacket {
 
     public PacketClientUpdateMedia(MediaUpdate update) {
         super(new ClientUpdateMediaPayload(update), PacketChannel.CLIENT_OUT_UPDATE_MEDIA, null);
+        this.queueableIfReconnecting = true;
     }
 
 }

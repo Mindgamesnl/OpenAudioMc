@@ -37,7 +37,8 @@ public class PredictiveMediaService extends Service {
     private final int maxChunkCache = 15;      // keep 15 sounds per chunk
 
     // map "active" audio chunks of the world
-    @Getter private ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> chunkTracker = new ConcurrentHeatMap<>(
+    @Getter
+    private ConcurrentHeatMap<String, ConcurrentHeatMap<String, Byte>> chunkTracker = new ConcurrentHeatMap<>(
             chunkAge,
             maxChunkData,
             () -> new ConcurrentHeatMap<String, Byte>(chunkAge, maxChunkCache, ConcurrentHeatMap.BYTE_CONTEXT)
@@ -46,21 +47,45 @@ public class PredictiveMediaService extends Service {
     @Override
     public void onEnable() {
         OpenAudioMc.getService(NetworkingService.class).addEventHandler(getPacketHook());
+
+        chunkTracker.setDeleteConsumer((deletable) -> {
+            Repository<StoredWorldChunk> repo = databaseService.getRepository(StoredWorldChunk.class);
+            StoredWorldChunk c = repo.getWhere("chunk_name", deletable);
+            if (c != null) {
+                OpenAudioLogger.info("Deleted stale media chunk " + c.getChunkName() + " from database.");
+                repo.delete(c);
+            } else {
+                OpenAudioLogger.warn("Failed to delete media chunk " + deletable + " from database, not found.");
+            }
+        });
+
         try {
             loadFromFile();
+            OpenAudioLogger.info("Loaded " + chunkTracker.size() + " media chunks from file.");
         } catch (IOException e) {
-            OpenAudioLogger.toConsole("Failed to load chunk-cache from file.");
+            OpenAudioLogger.warn("Failed to load chunk-cache from file.");
         }
     }
 
     public void loadFromFile() throws IOException {
         // load SerializedAudioChunk.ChunkMap.class
         Repository<StoredWorldChunk> scm = databaseService.getRepository(StoredWorldChunk.class);
-
         SerializedAudioChunk.ChunkMap cm = new SerializedAudioChunk.ChunkMap();
 
+        int deleted = 0;
         for (StoredWorldChunk value : scm.values()) {
+            // it might be worthless
+            // delete optional chunk if applicable
+            if (value.getAudioChunk().getResources().isEmpty()) {
+                scm.delete(value);
+                deleted++;
+                continue;
+            }
             cm.getData().put(value.getChunkName(), value.getAudioChunk());
+        }
+
+        if (deleted > 0) {
+            OpenAudioLogger.info("Purged " + deleted + " stale media chunks from database.");
         }
 
         chunkTracker = chunkMapSerializer.applyFromChunkMap(cm, chunkTracker);
@@ -68,14 +93,17 @@ public class PredictiveMediaService extends Service {
 
     public void onDisable() {
         // save
-        OpenAudioLogger.toConsole("Saving world cache...");
+        OpenAudioLogger.info("Saving world cache...");
         Repository<StoredWorldChunk> repo = databaseService.getRepository(StoredWorldChunk.class);
+        int written = 0;
         for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : chunkMapSerializer.serialize(chunkTracker).getData().entrySet()) {
             String name = entry.getKey();
             SerializedAudioChunk.Chunk chunk = entry.getValue();
             StoredWorldChunk swc = new StoredWorldChunk(name, chunk);
             repo.save(swc);
+            written++;
         }
+        OpenAudioLogger.info("Saved " + written + " media chunks to db.");
     }
 
     private INetworkingEvents getPacketHook() {

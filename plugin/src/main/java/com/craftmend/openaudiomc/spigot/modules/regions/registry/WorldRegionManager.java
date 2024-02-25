@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.registry;
 
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionMedia;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +24,6 @@ public class WorldRegionManager {
     }
 
     public void registerRegion(RegionProperties addedRegion) {
-
         // check if we already have this region
         if (regionPropertiesMap.containsKey(addedRegion.getRegionName())) {
             // is the one we are adding newer?
@@ -40,6 +41,10 @@ public class WorldRegionManager {
         if (regionMediaMap.get(addedRegion.getSource()) != null) {
             regionMediaMap.get(addedRegion.getSource()).setVolume(addedRegion.getVolume());
             regionMediaMap.get(addedRegion.getSource()).setFadeTime(addedRegion.getFadeTimeMs());
+        }
+
+        if (StorageKey.SETTINGS_HYDRATE_REGIONS_ON_BOOT.getBoolean()) {
+            addedRegion.getMediaForWorld(this);
         }
     }
 
@@ -60,6 +65,10 @@ public class WorldRegionManager {
         RegionMedia regionMedia = new RegionMedia(source, volume, fadeTimeMs, loop);
         regionMediaMap.put(source, regionMedia);
         return regionMedia;
+    }
+
+    public Collection<RegionProperties> getRegions() {
+        return regionPropertiesMap.values();
     }
 
     public void unregisterRegionMedia(String source) {

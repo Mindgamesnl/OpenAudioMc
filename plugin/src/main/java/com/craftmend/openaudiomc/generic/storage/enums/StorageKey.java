@@ -3,6 +3,9 @@ package com.craftmend.openaudiomc.generic.storage.enums;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.Map;
+
 public enum StorageKey {
 
     MESSAGE_GENERATING_SESSION(false, "messages.preparing-session", StorageLocation.CONFIG_FILE),
@@ -34,6 +37,35 @@ public enum StorageKey {
     MESSAGE_VC_RECOVERED(false, "messages.voicechat-service-recovered", StorageLocation.CONFIG_FILE),
     MESSAGE_VOICE_IN_VICINITY(false, "messages.voicechat-players-in-vicinity", StorageLocation.CONFIG_FILE),
 
+    MESSAGE_VOICE_CHANNEL_ABANDONED(false, "messages.voicechat-channel-abandoned", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_KICKED(false, "messages.voicechat-channel-kicked", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITED(false, "messages.voicechat-channel-invited", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NOT_A_PLAYER(false, "messages.voicechat-channel-not-a-player", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NO_NAME(false, "messages.voicechat-channel-name-unknown", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NAME_TAKEN(false, "messages.voicechat-channel-name-already-exists", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_CREATED(false, "messages.voicechat-channel-created", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_ALREADY_MEMBER(false, "messages.voicechat-channel-already-in", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NOT_FOUND(false, "messages.voicechat-channel-name-not-found", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_JOINED(false, "messages.voicechat-channel-joined", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITE_ONLY(false, "messages.voicechat-channel-invite-only", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NO_PERMISSION_TO_JOIN(false, "messages.voicechat-channel-no-permission-to-join", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_USER(false, "messages.voicechat-channel-type-user", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_STATIC(false, "messages.voicechat-channel-type-static", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TYPE_STATIC_LOCKED(false, "messages.voicechat-channel-type-static-permission", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NOT_A_MEMBER(false, "messages.voicechat-channel-not-a-member", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_NOT_THE_OWNER(false, "messages.voicechat-channel-not-owner", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_MEMBER_NOT_FOUND(false, "messages.voicechat-channel-player-not-found", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TARGET_ALREADY_MEMBER(false, "messages.voicechat-channel-player-already-in-channel", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_TARGET_NOT_CONNECTED(false, "messages.voicechat-target-not-connected", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITATION_SENT(false, "messages.voicechat-target-invitation-sent", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_INVITATION_EXPIRED(false, "messages.voicechat-target-invitation-expired", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_LEFT(false, "messages.voicechat-channel-left", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_LIST_NO_CHANNELS(false, "messages.voicechat-channel-list-no-channels", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_LIST_HEADER(false, "messages.voicechat-channel-list-header", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_CHANNEL_LIST_ITEM(false, "messages.voicechat-channel-list-item", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_COMMAND_HELP_HEADER(false, "messages.voicechat-command-help-header", StorageLocation.CONFIG_FILE),
+    MESSAGE_VOICE_COMMAND_ERROR_FORMAT(false, "messages.voicechat-command-error-format", StorageLocation.CONFIG_FILE),
+
     MESSAGE_TOKEN_ACTIVATION_LOADING(false, "messages.token-activation-loading", StorageLocation.CONFIG_FILE),
     MESSAGE_TOKEN_ACTIVATION_SUCCESS(false, "messages.token-activation-success", StorageLocation.CONFIG_FILE),
     MESSAGE_TOKEN_ACTIVATION_FAILED(false, "messages.token-activation-failed", StorageLocation.CONFIG_FILE),
@@ -63,6 +95,7 @@ public enum StorageKey {
     SETTINGS_NOTIFY_UPDATES(false, "options.notify-updates", StorageLocation.CONFIG_FILE),
     SETTINGS_NOTIFY_ANNOUNCEMENTS(false, "options.notify-announcements", StorageLocation.CONFIG_FILE),
     SETTINGS_PRELOAD_SOUNDS(false, "options.preload-resources", StorageLocation.CONFIG_FILE),
+    SETTINGS_PRELOAD_REPLENISH_POOL(false, "options.replenish-preload-cache", StorageLocation.CONFIG_FILE),
     SETTINGS_GC_STRATEGY(false, "options.gc-strategy", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_RADIUS(false, "options.voicechat-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_TOGGLE_MIC_SWAP(false, "options.voicechat-toggle-mic-on-swap-and-sneak", StorageLocation.CONFIG_FILE),
@@ -73,9 +106,20 @@ public enum StorageKey {
     SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED(false, "options.redstone-tick-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_REDSTONE_TICK_INTERVAL(false, "options.redstone-tick-speakers-interval", StorageLocation.CONFIG_FILE),
     SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE(false, "options.ignore-regions-on-vehicles", StorageLocation.CONFIG_FILE),
+    SETTINGS_HYDRATE_REGIONS_ON_BOOT(false, "options.hydrate-regions-on-boot", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_STATIC_CHANNELS_ENABLED(false, "static-channels.enabled", StorageLocation.CONFIG_FILE),
+    SETTINGS_STATIC_CHANNELS_BASE(false, "static-channels.list", StorageLocation.CONFIG_FILE),
+    SETTINGS_CHANNEL_COMMAND_ENABLED(false, "options.enable-channel-command", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_VOICE_FILTERS_GAMEMODE(false, "vc-filter.require-same-gamemode", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICE_FILTERS_TEAM(false, "vc-filter.require-common-team", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICE_FILTERS_CHANNEL(false, "vc-filter.require-no-channel", StorageLocation.CONFIG_FILE),
 
     SETTINGS_BEDROCK_PREFIX(false, "options.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
     SETTINGS_TOKEN_AUTO_LOGIN(false, "options.token-auto-login", StorageLocation.CONFIG_FILE),
+
+    SETTINGS_AUTO_RECONNECT(false, "options.auto-reconnect", StorageLocation.CONFIG_FILE),
 
     SETTINGS_PAPI_CLIENT_CONNECTED(false, "papi.client-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_CLIENT_DISCONNECTED(false, "papi.client-disconnected", StorageLocation.CONFIG_FILE),
@@ -96,6 +140,7 @@ public enum StorageKey {
     REDIS_PASSWORD(false, "redis.password", StorageLocation.CONFIG_FILE),
     REDIS_USE_SSL(false, "redis.useSSL", StorageLocation.CONFIG_FILE),
     REDIS_SECTION(false, "redis.section", StorageLocation.CONFIG_FILE),
+    REDIS_SENTINEL_MASTER_SET(false, "redis.sentinel-master-set", StorageLocation.CONFIG_FILE),
 
     CDN_PREFERRED_PORT(false, "cdn.preferred-bridge-port", StorageLocation.CONFIG_FILE),
     CDN_TIMEOUT(false, "cdn.timeout-seconds", StorageLocation.CONFIG_FILE),
@@ -133,5 +178,9 @@ public enum StorageKey {
 
     public String getString() {
         return OpenAudioMc.getInstance().getConfiguration().getString(this);
+    }
+
+    public List<Map<String, Object>> getObjectList() {
+        return OpenAudioMc.getInstance().getConfiguration().getObjectList(this.getPath(), this.getStorageLocation());
     }
 }

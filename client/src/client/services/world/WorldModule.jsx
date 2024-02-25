@@ -45,7 +45,7 @@ export const WorldModule = new class IWorldModule {
     return locations;
   }
 
-  async getMediaForSource(source, startInstant, doLoop = true, doPickup = true) {
+  async getMediaForSource(source, startInstant, doLoop = true, doPickup = true, cancelRegions = false) {
     const loaded = this.audioMap.get(source);
     if (loaded != null) return loaded;
 
@@ -54,9 +54,9 @@ export const WorldModule = new class IWorldModule {
       return null;
     }
 
-    const created = new SpeakerPlayer(source, startInstant, doLoop, doPickup);
+    const created = new SpeakerPlayer(source, startInstant, doLoop, doPickup, cancelRegions);
     this.audioMap.set(source, created);
-    await created.initialize();
+    created.initializeSpeaker();
     return created;
   }
 
@@ -125,7 +125,7 @@ export const WorldModule = new class IWorldModule {
       // eslint-disable-next-line no-restricted-syntax
       for (const element of doFor) {
         // eslint-disable-next-line no-await-in-loop
-        const media = await this.getMediaForSource(element.source, element.speaker.startInstant, element.speaker.doLoop, element.speaker.doPickup);
+        const media = await this.getMediaForSource(element.source, element.speaker.startInstant, element.speaker.doLoop, element.speaker.doPickup, element.speaker.cancelRegions);
         media.updateLocation(element.speaker, this, this.player);
       }
     }

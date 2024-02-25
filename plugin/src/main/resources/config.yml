@@ -83,6 +83,85 @@ messages:
   # or you can disable it entirely by following the settings below.
   voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
+  # The message a channel owner receives when their chanel has been abandoned
+  voicechat-channel-abandoned: '&7&oYour voicechat channel has been abandoned and got removed'
+
+  # The message a player receives when they are kicked from a voicechat channel
+  # This gets triggered when they were forcefully removed from a channel, for example when it gets deleted
+  voicechat-channel-kicked: '&7&oYou have been kicked from the voicechat channel'
+
+  # The message a player receives when they are invited to a voicechat channel
+  voicechat-channel-invited: ' \n&b&lYou have been invited to a voice chat channel!\n&3Click &ahere&3 to join &d{channel}&3 by &d{inviter}&3!\n&7&oYou have 30 seconds  to accept the invitation.\n '
+
+  # Error message seen by players when the command is executed through anything other than chat
+  voicechat-channel-not-a-player: '&cOnly players can use this command'
+
+  # Seen when a player tries to join or create a channel with an invalid name
+  voicechat-channel-name-unknown: '&cPlease enter a valid channel name'
+
+  # Error seen when a player tries to join a channel that doesn't exist
+  voicechat-channel-name-not-found: '&cThe channel you are trying to join does not exist'
+
+  # Error seen when a player tries to create a channel with a name that already exists
+  voicechat-channel-name-already-exists: '&cA channel with that name already exists'
+
+  # Validation message after creating a new channel
+  voicechat-channel-created: '&7&oSuccessfully created the voice chat channel &d{channel}'
+
+  # Message a player receives while trying to create or join a channel while already in one
+  voicechat-channel-already-in: '&cYou are already in a voice chat channel, please leave it first'
+
+  # A message a player receives after accepting an invitation to a voicechat channel
+  voicechat-channel-joined: '&7&oYou have joined the voice chat channel &d{channel}'
+
+  # The type name for a channel which is created by a user
+  voicechat-channel-type-user: 'Private Temporary Channel'
+
+  # The type name for a static channel without a permission requirement
+  voicechat-channel-type-static: 'Public Channel'
+
+  # The type name for a static channel with a permission requirement
+  voicechat-channel-type-static-permission: 'Private Channel'
+
+  # The message a player receives when they try to join a non-static channel without the required permission to bypass the invite
+  voicechat-channel-invite-only: '&7&oThis channel is invite only, you need to be invited to join. Ask {owner} to invite you.'
+
+  # The message a player receives when they try to join a channel but miss the required permission
+  voicechat-channel-no-permission-to-join: '&cYou do not have permission to join this channel'
+
+  # A message a player receives after running a command while not in a voicechat channel
+  voicechat-channel-not-a-member: '&cYou can only perform this action if you are a member of the channel'
+
+  # A message a player receives while trying to invite someone to a channel they do not own
+  voicechat-channel-not-owner: '&cOnly the creator of the channel can do this'
+
+  # A message a player receives while trying to invite an invalid player
+  voicechat-channel-player-not-found: '&cThe player you are trying to invite is not online'
+
+  # A message a player receives after trying to invite someone who is already in another channel
+  voicechat-channel-player-already-in-channel: '&cThe player you are trying to invite is already in a voice chat channel'
+
+  # A message a player receives after trying to invite someone who is not connected to voice chat
+  voicechat-target-not-connected: '&cThe player you are trying to invite is not connected to voice chat, please ask them to connect first'
+
+  # Good job! the invitation was sent
+  voicechat-target-invitation-sent: '&7&oAn invitation has been sent to {player}'
+  voicechat-target-invitation-expired: '&7&oThe invitation to {player} has expired'
+
+  # A player receives after leaving a channel voluntarily
+  voicechat-channel-left: '&7&oYou have left the voice chat channel'
+
+  # Format messages for the channel list command
+  voicechat-channel-list-no-channels: '&7&oThere are no voice chat channels available'
+  voicechat-channel-list-header: '&7&oAvailable voice chat channels and their occupants:'
+  voicechat-channel-list-item: '&f┌ &b{channel}\n&8├─ &3{type}\n&8└─ &7&o&d{participants}&7&o'
+
+  # Header of the base /channel help command
+  voicechat-command-help-header: 'Welcome to OpenAudioMc! Please click the sub command you need help with.'
+
+  # The format most error messages will be shown in, including prefix
+  voicechat-command-error-format: '&3[&bVoice Channel&3] &c&oError: &7&o{message}'
+
   # The following messages are for the new "revised" authentication flow.
   # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
   # but users who don't have a tab open will be prompted to login with a code.
@@ -133,6 +212,9 @@ options:
 
   # The amount of resources you want to have preloaded in the client
   preload-resources: 7
+
+  # If media files should be re-absorbed/added to the cache pool after being played once, until the pool is dropped.
+  replenish-preload-cache: true
 
   # Garbage collection strategy, it only removes it from the cache by default but you can set it to "INVALIDATE" to keep values until reboot
   gc-strategy: DELETE
@@ -201,6 +283,52 @@ options:
   # This is useful for some themepark servers, but should be used with caution.
   ignore-regions-on-vehicles: false
 
+  # This feature will hydrate region media for all regions on boot. This means that if you hae two regions, with different sources but equal durations
+  # they will be played in sync. Having this feature enable might have an additional memory footprint if you have a *ton* of regions (hundreds)
+  # but it's recommended to leave this on.
+  hydrate-regions-on-boot: true
+
+  # This setting determines if the /channel command will be enabled. If this is set to false, then none of the channel features will be available.
+  enable-channel-command: true
+
+  # These settings determine if networking should automatically try to reconnect when the connection is lost.
+  # This is useful for when you have a bad connection, but it can be disabled if its causing issues.
+  auto-reconnect: true
+
+# Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
+# You can implement custom filters through the API, or enable some of the default ones below.
+vc-filter:
+
+  # When enabled, players will only be able to hear eachother if they both share the same gamemode (survival, creative, adventure, spectator)
+  require-same-gamemode: false
+
+  # When enabled, players will only be able to hear eachother if they both share the same team. Edge cases:
+  # - Players without a team can only hear other players without a team
+  require-common-team: false
+
+  # When enabled, players will be excluded from *proximity* voicechat as long as they are in a channel
+  require-no-channel: true
+
+# Static channels are a set of channels that will always exist (even if they are empty), and can be locked behind certain permissions
+# You can use this feature in cases where individuals don't have permissions to create their own channels, but sitll want to offer
+# some groups for global voicechat (like a channel for minigames, off-topic, and roleplay). You can add more values here if you wish,
+# or disable the feature entirely. Keep in mind to include all sub values if you add a new channel, and to respect yaml formatting.
+# These values are only used on spigot instances.
+static-channels:
+  enabled: true
+  list:
+      # Channel names must not be duplicate, empty, or contain spaces
+    - name: survival
+      permission: channels.survival
+      requirePermission: true
+
+    - name: off-topic
+      permission: channels.offtopic
+      requirePermission: true
+
+    - name: staff-chat
+      permission: channels.staffchat
+      requirePermission: true
 
 # PlaceholderAPI
 papi:
@@ -244,3 +372,5 @@ redis:
   useSSL: false
   # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event
+  # When using Redis Sentinel, you should set the master set to use. Leaves empty to use a single server Redis cluster
+  sentinel-master-set: ''

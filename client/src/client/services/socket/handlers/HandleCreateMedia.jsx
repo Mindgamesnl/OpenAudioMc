@@ -18,6 +18,7 @@ export async function handleCreateMedia(data) {
   const { flag } = data.media;
   const { maxDistance } = data;
   const { muteRegions, muteSpeakers } = data.media;
+  const { startAt } = data.media;
   let volume = 100;
 
   // only if its a new version and provided, then use that volume
@@ -67,7 +68,7 @@ export async function handleCreateMedia(data) {
   await createdMedia.load(source);
   createdChannel.setChannelVolume(0);
   createdMedia.setLooping(looping);
-
+  createdMedia.setStartAt(startAt);
   // convert distance
   if (maxDistance !== 0) {
     const startVolume = convertDistanceToVolume(maxDistance, distance);

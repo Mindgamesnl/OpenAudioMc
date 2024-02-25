@@ -4,14 +4,14 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.impl.RegistryApiImpl;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.logging.platform.SpigotLogger;
-import com.craftmend.openaudiomc.generic.proxy.SpigotUserHooks;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.logging.platform.GenericLogAdapter;
+import com.craftmend.openaudiomc.spigot.modules.users.SpigotUserHooks;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
@@ -34,6 +34,7 @@ import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.TrainCartsModule;
 import com.craftmend.openaudiomc.spigot.modules.traincarts.service.TrainCartsService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.SpigotVoiceChatService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.services.dependency.SpigotDependencyService;
 import com.craftmend.openaudiomc.spigot.services.scheduling.SpigotTaskService;
@@ -80,10 +81,10 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         MagicValue.loadArguments();
 
         // set logger
-        OpenAudioLogger.setLogger(new SpigotLogger(this));
+        OpenAudioLogger.setLogAdapter(new GenericLogAdapter(getLogger()));
 
         if (MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) != null && MagicValue.PLATFORM_FORCE_LATE_FIND.get(Boolean.class) && !bound) {
-            OpenAudioLogger.toConsole("Using late bind! not doing anything for now...");
+            OpenAudioLogger.warn("Using late bind! not doing anything for now...");
             bound = true;
             return;
         }
@@ -112,6 +113,7 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
                     ShowService.class,
                     PredictiveMediaService.class,
                     SpigotVoiceChatService.class,
+                    VoiceChannelService.class,
                     FilterService.class,
                     MediaRuleService.class,
                     PlaylistService.class
@@ -134,12 +136,11 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
 
             // timing end and calc
             Instant finish = Instant.now();
-            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+            OpenAudioLogger.info("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
 
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "A fatal error occurred while enabling OpenAudioMc. The plugin will now disable itself.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -149,12 +150,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
      */
     @Override
     public void onDisable() {
-        OpenAudioLogger.toConsole("Shutting down");
+        OpenAudioLogger.info("Shutting down");
         OpenAudioMc.getService(SpigotPlayerService.class).onDisable();
         OpenAudioMc.getService(PredictiveMediaService.class).onDisable();
         openAudioMc.disable();
         HandlerList.unregisterAll(this);
-        OpenAudioLogger.toConsole("Stopped OpenAudioMc. Goodbye.");
+        OpenAudioLogger.info("Stopped OpenAudioMc. Goodbye.");
     }
 
     public void registerEvents(Listener... listeners) {
@@ -183,12 +184,12 @@ public final class OpenAudioMcSpigot extends JavaPlugin implements OpenAudioInvo
         // check if there's a forced service
         Class<? extends NetworkingService> forced = ((RegistryApiImpl) AudioApi.getInstance().getRegistryApi()).getForcedService();
         if (forced != null) {
-            OpenAudioLogger.toConsole("Using forced networking class " + forced.getName());
+            OpenAudioLogger.warn("Using forced networking class " + forced.getName());
             return forced;
         }
 
         proxyModule.refresh();
-        OpenAudioLogger.toConsole("Using networking class " + proxyModule.getMode().getServiceClass().getName());
+        OpenAudioLogger.info("Using networking class " + proxyModule.getMode().getServiceClass().getName());
         return proxyModule.getMode().getServiceClass();
     }
 

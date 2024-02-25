@@ -1,10 +1,12 @@
 package com.craftmend.openaudiomc.spigot.modules.players.objects;
 
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
-import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -17,10 +19,30 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class SpigotPlayerSelector {
+public class SpigotPlayerSelector implements SelectorTranslator<CommandSender> {
 
     private String selector;
+    private CommandSender sender;
+
+    @Override
+    public void setString(String selector) {
+        this.selector = selector;
+    }
+
+    @Override
+    public void setSender(User<CommandSender> sender) {
+        this.sender = sender.getOriginal();
+    }
+
+    @Override
+    public List<User<CommandSender>> getResults() {
+        List<Player> players = getPlayers(sender);
+        List<User<CommandSender>> users = new ArrayList<>();
+        for (Player player : players) {
+            users.add(new SpigotUserAdapter(player));
+        }
+        return users;
+    }
 
     /**
      * this turns selectors like @a[r=5] into a usable list, since
@@ -29,7 +51,7 @@ public class SpigotPlayerSelector {
      * @param commandSender the sender
      * @return players following the selector
      */
-    public List<Player> getPlayers(CommandSender commandSender) {
+    private List<Player> getPlayers(CommandSender commandSender) {
         List<Player> players = new ArrayList<>();
 
         if (selector.startsWith("@p")) {
@@ -109,7 +131,7 @@ public class SpigotPlayerSelector {
         }
         else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @p, username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @p, username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @p, username or other arguments.");
         }
         return players;
@@ -166,5 +188,4 @@ public class SpigotPlayerSelector {
 
         return result.toString().replaceAll(".", "");
     }
-
 }

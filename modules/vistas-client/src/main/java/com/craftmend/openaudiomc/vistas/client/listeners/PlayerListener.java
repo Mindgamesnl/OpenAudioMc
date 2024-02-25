@@ -37,7 +37,7 @@ public class PlayerListener implements Listener {
             User user = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(event.getPlayer().getUniqueId());
 
             if (user == null) {
-                OpenAudioLogger.toConsole("WARNING! Vistas player join user is null");
+                OpenAudioLogger.warn("Vistas player join user is null");
                 return;
             }
 

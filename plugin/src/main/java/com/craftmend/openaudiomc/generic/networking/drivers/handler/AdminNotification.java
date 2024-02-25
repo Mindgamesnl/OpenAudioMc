@@ -25,7 +25,7 @@ public class AdminNotification implements NotificationHandler {
         String messageWithPrefix = MagicValue.COMMAND_PREFIX.get(String.class);
         messageWithPrefix += coloredMessage;
 
-        OpenAudioLogger.toConsole(coloredMessage);
+        OpenAudioLogger.warn(coloredMessage);
 
         for (ClientConnection client : OpenAudioMc.getService(NetworkingService.class).getClients()) {
             if (client.getUser().isAdministrator()) {

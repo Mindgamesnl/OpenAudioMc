@@ -1,10 +1,9 @@
 package com.craftmend.openaudiomc.generic.proxy;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-import com.craftmend.openaudiomc.api.impl.event.events.TimeServiceUpdateEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.events.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -32,15 +31,11 @@ public class ProxyHostService extends Service {
     public ProxyHostService(UserHooks adapter) {
         // syncronize task updates
         this.userHooks = adapter;
-        ApiEventDriver driver = AudioApi.getInstance().getEventDriver();
-        if (driver.isSupported(TimeServiceUpdateEvent.class)) {
-            driver.on(TimeServiceUpdateEvent.class)
-                    .setHandler(service -> {
-                        for (ProxyNode node : adapter.getNodes()) {
-                            node.sendPacket(new ServerUpdateTimePacket(service.getTimeService()));
-                        }
-                    });
-        }
+        EventApi.getInstance().registerHandler(TimeServiceUpdateEvent.class, event -> {
+            for (ProxyNode node : adapter.getNodes()) {
+                node.sendPacket(new ServerUpdateTimePacket(event.getTimeService()));
+            }
+        });
     }
 
     public void onServerSwitch(User user, ProxyNode from, ProxyNode to) {

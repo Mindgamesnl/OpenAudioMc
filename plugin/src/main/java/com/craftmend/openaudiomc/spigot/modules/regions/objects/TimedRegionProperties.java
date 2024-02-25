@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;

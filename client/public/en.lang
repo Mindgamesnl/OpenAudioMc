@@ -64,7 +64,7 @@ vc.settingsDisablePositionalAudio=Disable Positional Audio
 vc.automaticAdjustments=Adjust automatically
 vc.sensitivity=Noise Gate
 vc.aboutSensitivity=Configure the noise gate of your microphone, this will automatically mute your microphone when you're not talking. <b>Fully to the left</b> will disable the noise gate, <b>fully to the right</b> will mute your microphone all the time.
-vc.peerTable={total} people within voice range, {talking} talking
+vc.peerTable=connected to {total} players, {talking} talking
 vc.toggleMicrophone=Toggle Microphone
 vc.you=you
 vc.safetyTitle=For your safety
@@ -96,7 +96,11 @@ vc.peersHiddenTitle=Voicechat players are hidden
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 vc.isTalking=is talking
 vc.people=people
+vc.person=person
 vc.deafened=You are currently deafened
+vc.tooltip.local=Proximity Voice Chat
+vc.tooltip.global=Global Voice Chat
+
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.
@@ -139,5 +143,7 @@ settings.spatial.legacy=Legacy (old system)
 settings.interpolation.title=Location smoothing
 settings.interpolation.body=Automatically smooth movements to minimize speaker/voicechat stuttering while walking. This adds extra movement delay, but sounds better.
 settings.interpolation.button=Enable smoothing
+
+network.serverUnhealthy={serverName}'s connection to OpenAudioMc is unstable, client functionality may be limited until the connection is restored.
 
 tooltip.close=Close

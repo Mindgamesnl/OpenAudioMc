@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.commands.subcommands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.SystemReloadEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.SystemReloadEvent;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
@@ -35,7 +35,7 @@ public class ReloadSubCommand extends SubCommand {
         message(sender, Platform.makeColor("RED") + "Re-activating account...");
         OpenAudioMc.getService(NetworkingService.class).connectIfDown();
 
-        AudioApi.getInstance().getEventDriver().fire(new SystemReloadEvent());
+        EventApi.getInstance().callEvent(new SystemReloadEvent());
 
         message(sender, Platform.makeColor("GREEN") + "Reloaded system! Welcome back.");
     }

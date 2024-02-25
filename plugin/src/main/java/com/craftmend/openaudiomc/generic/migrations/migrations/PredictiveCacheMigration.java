@@ -29,7 +29,7 @@ public class PredictiveCacheMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating world audio heatmap");
+        OpenAudioLogger.info("Migrating world audio heatmap");
         DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
         Repository<StoredWorldChunk> repo = service.getRepository(StoredWorldChunk.class);
         try {
@@ -43,7 +43,7 @@ public class PredictiveCacheMigration extends SimpleMigration {
             for (Map.Entry<String, SerializedAudioChunk.Chunk> entry : filemap.getData().entrySet()) {
                 String name = entry.getKey();
                 SerializedAudioChunk.Chunk chunk = entry.getValue();
-                OpenAudioLogger.toConsole("Migrating world section " + name);
+                OpenAudioLogger.info("Migrating world section " + name);
 
                 StoredWorldChunk swc = new StoredWorldChunk(name, chunk);
                 repo.save(swc);
@@ -53,7 +53,7 @@ public class PredictiveCacheMigration extends SimpleMigration {
                     OpenAudioMcSpigot.getInstance().getDataFolder(), "cache.json"
             ).delete();
         } catch (IOException e) {
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to migrate world audio heatmap");
         }
     }
 

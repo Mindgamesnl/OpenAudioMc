@@ -9,13 +9,13 @@ import { LoadingSpinnerBox } from '../../components/loading/LoadingSpinnerBox';
 import { GrayoutPage } from '../../components/layout/GrayoutPage';
 import { StaticFooter } from '../../components/footer/StaticFooter';
 import { InputModal } from '../../components/modal/InputModal';
-import { SpeakerSvg } from '../../components/icons/speaker';
-import { MicrophoneSVG } from '../../components/icons/microphone';
 import { CogSVG } from '../../components/icons/cog';
 import { DebugSVG } from '../../components/icons/debug';
 import { getTranslation } from '../../client/OpenAudioAppContainer';
 import { OaStyleCard } from '../../components/card/OaStyleCard';
 import DebugPage from './pages/debug/DebugPage';
+import { MusicNoteSvg } from '../../components/icons/musicnote';
+import { VoiceChatSvg } from '../../components/icons/voicechat';
 
 function ClientView(props) {
   const { title, message, footer } = props.loadingOverlay;
@@ -27,16 +27,19 @@ function ClientView(props) {
           <TabPage
             name={getTranslation(null, 'navbar.audio')}
             content={<AudioPage />}
-            buttonContent={<SpeakerSvg />}
+            buttonContent={<MusicNoteSvg />}
             subtext={props.hasPlayingMedia ? getTranslation(null, 'navbar.isPlaying') : null}
             colorWhenHasSubtext
           />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
             hidden={!props.voiceState.ready}
-            buttonContent={<MicrophoneSVG />}
+            buttonContent={<VoiceChatSvg />}
             content={<VoicePage />}
-            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${getTranslation(null, 'vc.people')}` : null}
+            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${
+              Object.keys(props.voiceState.peers).length === 1 ? getTranslation(null, 'vc.person')
+                : getTranslation(null, 'vc.people')
+            }` : null}
             colorWhenHasSubtext
           />
           <TabPage

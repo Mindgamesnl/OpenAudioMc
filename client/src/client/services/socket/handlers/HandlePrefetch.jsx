@@ -1,20 +1,33 @@
-import { ClearPrefetchedMedia, PreFetch } from '../../../util/AudioFactory';
 import { getGlobalState } from '../../../../state/store';
+import { AudioPreloader } from '../../preloading/AudioPreloader';
 
 export function handlePrefetchPacket(data) {
-  if (data.clear) {
-    // clear all prefetched bullshit
+  const { clear, source } = data;
+  let { origin, keepCopy } = data;
+  // clear = bool, whether the origin context should be cleared
+  // origin = string, the origin context
+  // source = untranslated media source
+
+  // if origin is null, default to global
+  if (origin == null) {
+    origin = 'global';
+  }
+
+  if (keepCopy == null) {
+    keepCopy = false;
+  }
+
+  if (clear) {
     setTimeout(() => {
-      ClearPrefetchedMedia();
-    }, 2500);
+      AudioPreloader.drop(origin);
+    }, 500);
   } else {
     if (!getGlobalState().settings.prefetchMedia) {
       return;
     }
-    const toFetch = data.source;
-    // fetch a file
+
     setTimeout(() => {
-      PreFetch(toFetch);
-    }, 2500);
+      AudioPreloader.fetch(source, origin, keepCopy);
+    }, 500);
   }
 }

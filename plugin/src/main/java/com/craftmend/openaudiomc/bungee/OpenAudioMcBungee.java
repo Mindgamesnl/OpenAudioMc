@@ -79,11 +79,10 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
 
             // timing end and calc
             Instant finish = Instant.now();
-            OpenAudioLogger.toConsole("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
+            OpenAudioLogger.info("Starting and loading took " + Duration.between(boot, finish).toMillis() + "MS");
             OpenAudioMc.getInstance().postBoot();
         } catch (Exception e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to boot OpenAudioMc, please report this stacktrace");
         }
     }
 

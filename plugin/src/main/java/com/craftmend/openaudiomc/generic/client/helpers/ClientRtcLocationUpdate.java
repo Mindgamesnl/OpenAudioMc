@@ -43,7 +43,7 @@ public class ClientRtcLocationUpdate {
         );
     }
 
-    public static ClientRtcLocationUpdate fromClient(ClientConnection clientConnection, Vector3 targetLocation) {
+    public static ClientRtcLocationUpdate fromClient(ClientConnection clientConnection, Vector3 originLocation) {
         Player player = (Player) clientConnection.getUser().getOriginal();
 
         int obstructions = 0;
@@ -52,7 +52,7 @@ public class ClientRtcLocationUpdate {
             // check line-of-sight
             obstructions = rayTracer.obstructionsBetweenLocations(
                     player.getLocation(),
-                    targetLocation
+                    originLocation
             );
 
         }

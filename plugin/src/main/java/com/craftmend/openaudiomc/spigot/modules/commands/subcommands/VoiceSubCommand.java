@@ -20,7 +20,7 @@ public class VoiceSubCommand extends SubCommand {
         registerArguments(
                 new Argument("extend", "Renew your moderation lease"),
                 new Argument("mod", "Toggle moderation mode for voicechat"),
-                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them")
+                new Argument("inspect <username>", "Open the moderation menu to view the status of a player or ban them", 1)
         );
     }
 

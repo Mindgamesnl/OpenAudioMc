@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.generic.utils.data.TypeCounter;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;

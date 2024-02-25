@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.velocity.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 
@@ -16,6 +18,8 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 
+import java.util.Optional;
+
 public class VelocityAudioCommand implements SimpleCommand {
 
     private final CommandMiddleware[] commandMiddleware = new CommandMiddleware[]{
@@ -27,7 +31,7 @@ public class VelocityAudioCommand implements SimpleCommand {
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
-        User user = new VelocityUserAdapter(source);
+        User<CommandSource> user = new VelocityUserAdapter(source);
         if (CommandMiddewareExecutor.shouldBeCanceled(user, null, commandMiddleware)) return;
 
         if (source instanceof Player) {
@@ -51,8 +55,13 @@ public class VelocityAudioCommand implements SimpleCommand {
                 return;
             }
 
-            for (Player player : new VelocityPlayerSelector(args[0]).getPlayers(source)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
+            VelocityPlayerSelector velocityPlayerSelector = new VelocityPlayerSelector();
+            velocityPlayerSelector.setSender(user);
+            velocityPlayerSelector.setString(args[0]);
+
+            for (User<CommandSource> result : velocityPlayerSelector.getResults()) {
+                Optional<Client> client = result.findClient ();
+                client.ifPresent(value -> ((ClientConnection) value).getAuth().publishSessionUrl());
             }
         }
     }

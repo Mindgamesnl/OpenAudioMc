@@ -101,6 +101,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.craftmend.openaudiomc</groupId>
+            <artifactId>openaudiomc-api</artifactId>
+            <version>${oa.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.coreoz</groupId>
@@ -112,14 +117,14 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.12.0</version>
+            <version>${deps.nbtapi.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+            <version>${deps.spigot.version}</version>
         </dependency>
 
         <dependency>
@@ -132,21 +137,21 @@
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
-            <version>6.1</version>
+            <version>${deps.legacyworldguard.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-core</artifactId>
-            <version>7.0.5</version>
+            <version>${deps.worldguard.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-maven</artifactId>
-            <version>1.18.20.0</version>
+            <version>${deps.lombokmvn.version}</version>
             <type>pom</type>
         </dependency>
 
@@ -154,7 +159,7 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <!--suppress MavenPackageUpdate -->
-            <version>4.7.0</version>
+            <version>${deps.okhttp.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.android</groupId>
@@ -173,34 +178,34 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${deps.lombok.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.0.0-SNAPSHOT</version>
+            <version>${deps.worldedit.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.SpigotMC.BungeeCord</groupId>
             <artifactId>bungeecord-proxy</artifactId>
-            <version>b23a51825e</version>
+            <version>${deps.bungee.proxy.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.SpigotMC.BungeeCord</groupId>
             <artifactId>bungeecord-protocol</artifactId>
-            <version>b23a51825e</version>
+            <version>${deps.bungee.protocol.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.SpigotMC.BungeeCord</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>b23a51825e</version>
+            <version>${deps.bungee.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -213,14 +218,14 @@
         <dependency>
             <groupId>com.bergerkiller.bukkit</groupId>
             <artifactId>TrainCarts</artifactId>
-            <version>1.15.2-v2-SNAPSHOT</version>
+            <version>${deps.traincarts.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.bergerkiller.bukkit</groupId>
             <artifactId>BKCommonLib</artifactId>
-            <version>1.15.2-v2-SNAPSHOT</version>
+            <version>${deps.bkcommonlib.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -228,7 +233,7 @@
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
-            <version>3.0.1</version>
+            <version>${deps.velocityapi.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- velocity-plugin by fluse1367 end -->
@@ -236,7 +241,7 @@
         <dependency>
             <groupId>com.gitlab.ruany</groupId>
             <artifactId>LiteBansAPI</artifactId>
-            <version>0.3.4</version>
+            <version>${deps.litebans.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -250,7 +255,7 @@
         <dependency>
             <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.19.0-SNAPSHOT</version>
+            <version>${deps.essentialsx.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -263,7 +268,7 @@
         <dependency>
             <groupId>com.github.Mindgamesnl</groupId>
             <artifactId>storm</artifactId>
-            <version>e1f961b</version>
+            <version>${deps.storm.version}</version>
         </dependency>
 
         <dependency>
@@ -275,13 +280,13 @@
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.9</version>
+            <version>${deps.placeholderapi.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${deps.lombok.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -188,8 +188,7 @@ public abstract class PacketManager {
             }
         } catch (ClassNotFoundException ignored){ // silently ignore packets we don't know about
         } catch (Throwable e){
-            OpenAudioLogger.toConsole("Error whilst receiving packet " + packetName);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Error whilst receiving packet " + packetName);
         }
     }
 
@@ -205,8 +204,7 @@ public abstract class PacketManager {
                             try {
                                 method.invoke(packetListener, user, packet);
                             } catch (InvocationTargetException e) {
-                                OpenAudioLogger.toConsole("Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
-                                e.printStackTrace();
+                                OpenAudioLogger.error(e, "Error whilst passing packet to listener " + packetListener.getClass() + "#" + method.getName());
                             }
                         }
                     }
@@ -286,9 +284,7 @@ public abstract class PacketManager {
                 sendPluginMessage(packetPlayer, figureChannel(packet), packet.write().toByteArray());
             }
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            OpenAudioLogger.toConsole("Error whilst writing packet " + getClass().getSimpleName());
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to send packet/flush " + packet.getClass().getSimpleName());
         }
     }
 

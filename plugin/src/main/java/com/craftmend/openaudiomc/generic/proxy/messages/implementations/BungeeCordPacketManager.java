@@ -30,7 +30,7 @@ public class BungeeCordPacketManager extends PacketManager implements Listener {
     protected void sendPluginMessage(PacketPlayer packetPlayer, String channel, byte[] bytes) {
         if (packetPlayer.getBungeePlayer().getServer() == null) {
             if (OpenAudioMc.BUILD.IS_TESTING) {
-                OpenAudioLogger.toConsole("Couldn't send bungee packet because the user moved");
+                OpenAudioLogger.warn("Couldn't send bungee packet because the user isn't on a server");
             }
             return;
         }

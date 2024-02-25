@@ -137,4 +137,6 @@ settings.interpolation.title=Locatie versoepelen
 settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidsprekers/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
 settings.interpolation.button=Versoepelen inschakelen
 
+network.serverUnhealthy=De verbinding tussen {serverName} en OpenAudioMc ondervindt problemen. Sommige functies werken mogelijk niet goed tot dit is opgelost.
+
 tooltip.close=Sluiten

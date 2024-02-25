@@ -1,5 +1,0 @@
-target/
-target/*
-.DS_Store
-test-storage/
-test-server/

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.media.middleware;
 
-import com.craftmend.openaudiomc.generic.media.interfaces.UrlMutation;
+import com.craftmend.openaudiomc.api.media.UrlMutation;
 
 public class DropBoxMiddleware implements UrlMutation {
 

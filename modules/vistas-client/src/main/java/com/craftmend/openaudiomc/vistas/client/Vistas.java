@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.enums.ModuleEvent;
 import com.craftmend.openaudiomc.api.interfaces.ExternalModule;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.state.StateService;
@@ -27,8 +28,10 @@ import java.util.UUID;
 
 public final class Vistas extends ExternalModule implements Listener {
 
-    @Getter private static Vistas instance;
-    @Getter private UUID serverId = UUID.randomUUID();
+    @Getter
+    private static Vistas instance;
+    @Getter
+    private UUID serverId = UUID.randomUUID();
 
     public Vistas() {
         instance = this;
@@ -59,8 +62,11 @@ public final class Vistas extends ExternalModule implements Listener {
         OpenAudioMc.getService(ProxyModule.class).refresh();
         if (event == ModuleEvent.PLATFORM_LOADED) {
             // finished startup
-            OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasEvalCommand());
-            OpenAudioMc.getService(CommandService.class).registerSubCommand(new VistasLinkCommand());
+            OpenAudioMc.getService(CommandService.class).registerSubCommands(
+                    CommandContext.OPENAUDIOMC,
+                    new VistasEvalCommand(),
+                    new VistasLinkCommand()
+            );
         }
 
         if (event == ModuleEvent.MODULES_LOADED) {

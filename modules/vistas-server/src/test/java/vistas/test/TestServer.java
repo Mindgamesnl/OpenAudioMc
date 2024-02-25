@@ -48,9 +48,7 @@ public class TestServer extends TestCase {
         // re-use other unit test dir
         VistasConfiguration.BASE_PATH = VistasConfiguration.BASE_PATH + "/../test-storage";
 
-        OpenAudioLogger.mute();
         testVistasServer = new TestVistasServer();
-        OpenAudioLogger.unmute();
     }
 
     @Override

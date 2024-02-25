@@ -15,9 +15,7 @@ import org.bukkit.event.world.WorldSaveEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SpigotConfiguration implements Configuration, Listener {
@@ -36,12 +34,12 @@ public class SpigotConfiguration implements Configuration, Listener {
 
         loadConfig(openAudioMcSpigot);
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
     public void loadConfig(OpenAudioMcSpigot openAudioMcSpigot) {
-        OpenAudioLogger.toConsole("Using the main config file..");
+        OpenAudioLogger.info("Using the main config file..");
         openAudioMcSpigot.saveDefaultConfig();
         mainConfig = openAudioMcSpigot.getConfig();
     }
@@ -146,6 +144,21 @@ public class SpigotConfiguration implements Configuration, Listener {
         ConfigurationSection section = dataConfig.getConfigurationSection(path);
         if (section == null) return new HashSet<>();
         return section.getKeys(false);
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        FileConfiguration t = storageLocation == StorageLocation.DATA_FILE ? dataConfig : mainConfig;
+        List<Map<?, ?>> list = t.getMapList(path);
+        List<Map<String, Object>> values = new ArrayList<>();
+        for (Map<?, ?> map : list) {
+            Map<String, Object> newMap = new HashMap<>();
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                newMap.put(entry.getKey().toString(), entry.getValue());
+            }
+            values.add(newMap);
+        }
+        return values;
     }
 
     /**
@@ -284,10 +297,9 @@ public class SpigotConfiguration implements Configuration, Listener {
             if (includeConfig) {
                 mainConfig.save(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml"));
             }
-            dataConfig.save("plugins/OpenAudioMc/data.yml");
+            dataConfig.save("plugins"+ File.separator + "OpenAudioMc" + File.separator + "data.yml");
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config/data");
         }
     }
 
@@ -298,7 +310,7 @@ public class SpigotConfiguration implements Configuration, Listener {
 
     @Override
     public boolean hasDataFile() {
-        File dataFile = new File("plugins/OpenAudioMc/data.yml");
+        File dataFile = new File("plugins" + File.separator + "OpenAudioMc" + File.separator + "data.yml");
         return dataFile.exists();
     }
 

@@ -25,7 +25,6 @@ import java.util.*;
  */
 public class ServiceManager {
 
-
     private final Map<Class<?>, Object> otherInjectables = new HashMap<>();
     private final Map<Class<? extends Service>, Service> serviceMap = new HashMap<>();
 
@@ -64,9 +63,9 @@ public class ServiceManager {
                         field.set(i, v);
                     } else {
                         if (v == null) {
-                            OpenAudioLogger.toConsole("Field " + field.getName() + " in " + target.getSimpleName() + " is null, this is probably a bug");
+                            OpenAudioLogger.warn("Field " + field.getName() + " in " + target.getSimpleName() + " is null, this is probably a bug");
                         } else {
-                            OpenAudioLogger.toConsole("WARNING! field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
+                            OpenAudioLogger.warn("field " + field.getName() + " in " + target.getSimpleName() + " doesn't have the inject annotation, but it was resolved as " + v.getClass().getName());
                         }
                     }
                 }
@@ -76,7 +75,7 @@ public class ServiceManager {
             i.onEnable();
             return i;
         } catch (Exception e) {
-            OpenAudioLogger.toConsole("Failed to load service: " + target.getName());
+            OpenAudioLogger.warn("Failed to load service: " + target.getName() + " - " + e.getMessage());
             throw e;
         }
     }

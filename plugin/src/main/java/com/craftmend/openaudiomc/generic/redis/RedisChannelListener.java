@@ -20,8 +20,7 @@ public class RedisChannelListener extends RedisPubSubAdapter<String, String> {
                 sacreficcialPlayerPackets.put(value, value.getPacketClass().getConstructor().newInstance());
                 channelNameMap.put(value.getRedisChannelName(), value);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to create packet instance for " + value.name());
             }
         }
     }

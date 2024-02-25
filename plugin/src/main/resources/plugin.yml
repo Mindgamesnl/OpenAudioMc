@@ -1,5 +1,5 @@
 name: OpenAudioMc
-version: 6.8.9
+version: 6.10.0
 softdepend: [WorldGuard, Train_Carts, LiteBans, Essentials, PlaceholderAPI]
 main: com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot
 api-version: 1.13
@@ -8,13 +8,16 @@ description: "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no
 website: https://openaudiomc.net/
 commands:
   audio:
-    aliases: [sound, connect, media, muziek, geluid, voice, vc, voicechat]
+    aliases: [sound, connect, media, muziek, geluid, vc, voicechat, voice]
     description: Generate a link to the audio web client
+  channel:
+    aliases: [ch, vch, voicechannel]
+    description: Manage/join voice channels
   volume:
     aliases: [setvolume, vol]
     description: Change the volume of the audio web client
   openaudiomc:
-    aliases: [oam, oa, openaudio]
+    aliases: [oam, oa, openaudio, oams, oas, openaudiospigot]
     description: The command that does all of the magic
   mutemic:
     aliases: [mm, micmute]

@@ -28,7 +28,7 @@ public class TemporalFaker implements TemporalAccessor {
         if (field == INSTANT_SECONDS) {
             return seconds;
         }
-        OpenAudioLogger.toConsole("Invalid invocation to TemporalFaker getLong with field " + field.getDisplayName(Locale.US));
+        OpenAudioLogger.warn("Invalid invocation to TemporalFaker getLong with field " + field.getDisplayName(Locale.US));
         return 0;
     }
 
@@ -37,7 +37,7 @@ public class TemporalFaker implements TemporalAccessor {
         if (field == NANO_OF_SECOND) {
             return nanos;
         }
-        OpenAudioLogger.toConsole("Invalid invocation to TemporalFaker get with field " + field.getDisplayName(Locale.US));
+        OpenAudioLogger.warn("Invalid invocation to TemporalFaker get with field " + field.getDisplayName(Locale.US));
         return 0;
     }
 }

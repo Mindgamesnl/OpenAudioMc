@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +38,7 @@ public class BungeeConfiguration implements Configuration {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
@@ -132,6 +133,13 @@ public class BungeeConfiguration implements Configuration {
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
         throw new UnsupportedOperationException("Not supported in bungeecord mode");
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        net.md_5.bungee.config.Configuration config = storageLocation == StorageLocation.DATA_FILE ? dataConfig : mainConfig;
+        List<?> list = config.getList(path);
+        return (List<Map<String, Object>>) list;
     }
 
     /**
@@ -258,8 +266,7 @@ public class BungeeConfiguration implements Configuration {
             }
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config/data");
         }
     }
 
@@ -286,8 +293,7 @@ public class BungeeConfiguration implements Configuration {
         try {
             load = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(OpenAudioMcBungee.getInstance().getDataFolder(), filename));
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Could not load file: " + filename);
         }
         return load;
     }
@@ -302,8 +308,7 @@ public class BungeeConfiguration implements Configuration {
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Could not delete file: " + filename);
             }
         }
 
@@ -311,8 +316,7 @@ public class BungeeConfiguration implements Configuration {
             try (InputStream in = OpenAudioMcBungee.getInstance().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Could not save default file: " + filename);
             }
         }
     }

@@ -17,6 +17,7 @@ export function handleSpeakerCreate(data) {
   const hasExtraProperties = speaker.hasOwnProperty('doLoop');
   const doLoop = hasExtraProperties ? speaker.doLoop : true;
   const doPickup = hasExtraProperties ? speaker.doPickup : true;
+  const cancelRegions = hasExtraProperties ? speaker.cancelRegions : false;
 
   // create speaker
   const speakerData = new Speaker(
@@ -28,6 +29,7 @@ export function handleSpeakerCreate(data) {
     speaker.startInstant,
     doLoop,
     doPickup,
+    cancelRegions,
   );
 
   // add it to the render queue

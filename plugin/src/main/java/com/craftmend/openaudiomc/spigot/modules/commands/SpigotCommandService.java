@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
-import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.spigot.modules.commands.command.*;
@@ -31,17 +31,19 @@ public class SpigotCommandService extends Service {
         openAudioMcSpigot.getCommand("volume").setExecutor(new VolumeCommand());
         openAudioMcSpigot.getCommand("mutemic").setExecutor(new MicMuteCommand());
         openAudioMcSpigot.getCommand("deafen").setExecutor(new DeafenCommand());
-        //openAudioMcSpigot.getCommand("audiosettings").setExecutor(new AudioSettingsCommand());
+
+
+        ChannelCommand channelCommand = new ChannelCommand();
+        openAudioMcSpigot.getCommand("channel").setExecutor(channelCommand);
+        openAudioMcSpigot.getCommand("channel").setTabCompleter(channelCommand);
 
         commandService.getAliases().addAll(openAudioMcSpigot.getCommand("openaudiomc").getAliases());
         commandService.getAliases().add("openaudiomc");
 
         commandService.registerSubCommands(
-                new HelpSubCommand(),
+                CommandContext.OPENAUDIOMC,
                 new RegionsSubCommand(openAudioMcSpigot),
-                new PlaySubCommand(openAudioMcSpigot),
                 new SpeakersSubCommand(openAudioMcSpigot),
-                new StopSubCommand(openAudioMcSpigot),
                 new ShowSubCommand(openAudioMcSpigot),
                 new AliasSubCommand(),
                 new VoiceSubCommand(),

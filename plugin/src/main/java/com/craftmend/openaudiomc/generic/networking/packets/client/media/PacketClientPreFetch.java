@@ -6,12 +6,16 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.media.Client
 
 public class PacketClientPreFetch extends AbstractPacket {
 
-    public PacketClientPreFetch(String source) {
-        super(new ClientPreFetchPayload(source, false), PacketChannel.CLIENT_OUT_PREFETCH, null);
+    public PacketClientPreFetch(String source, boolean keepCopy) {
+        super(new ClientPreFetchPayload(source, "automatic", false, keepCopy), PacketChannel.CLIENT_OUT_PREFETCH, null);
     }
 
     public PacketClientPreFetch(boolean clear) {
-        super(new ClientPreFetchPayload(null, clear), PacketChannel.CLIENT_OUT_PREFETCH, null);
+        super(new ClientPreFetchPayload(null, "automatic", clear, false), PacketChannel.CLIENT_OUT_PREFETCH, null);
+    }
+
+    public PacketClientPreFetch(ClientPreFetchPayload payload) {
+        super(payload, PacketChannel.CLIENT_OUT_PREFETCH, null);
     }
 
 }

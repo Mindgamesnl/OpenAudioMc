@@ -20,7 +20,7 @@ public class AddAutoClaimMigration extends SimpleMigration {
         forceOverwrittenValues.put(StorageKey.SETTINGS_VC_AUTOCLAIM.getSubSection(), false);
         migrateFilesFromResources();
         // we've been running migrations, so we need to set it to false as to not break anything
-        OpenAudioLogger.toConsole("Overwriting default for " + getClass().getSimpleName() + " to maintain compatibility");
+        OpenAudioLogger.info("Overwriting default for " + getClass().getSimpleName() + " to maintain compatibility");
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         forceOverwrittenValues.put(StorageKey.SETTINGS_VC_AUTOCLAIM.getSubSection(), false);
         config.setBoolean(StorageKey.SETTINGS_VC_AUTOCLAIM, false);

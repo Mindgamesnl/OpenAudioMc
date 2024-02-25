@@ -2,11 +2,11 @@ package com.craftmend.openaudiomc.spigot.modules.regions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.OpenAudioMcBuild;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.backups.BackupService;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -39,14 +39,14 @@ public class RegionModule {
     @Getter private Set<RegionProperties> regionsWithoutWorld = new HashSet<>();
 
     public RegionModule(@Nullable AbstractRegionAdapter customAdapter) {
-        OpenAudioLogger.toConsole("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
+        OpenAudioLogger.info("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
         if (customAdapter == null) {
             if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
-                OpenAudioLogger.toConsole("Enabling the newer 1.13 regions");
+                OpenAudioLogger.info("Enabling the newer 1.13 regions");
                 regionAdapter = new ModernRegionAdapter(this);
             } else {
-                OpenAudioLogger.toConsole("Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
+                OpenAudioLogger.warn("Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
                 regionAdapter = new LegacyRegionAdapter(this);
             }
         } else {
@@ -59,7 +59,7 @@ public class RegionModule {
             try {
                 Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
             } catch (ClassNotFoundException e) {
-                OpenAudioLogger.toConsole("Wrong world guard detection! re-switching to 1.13");
+                OpenAudioLogger.warn("Wrong world guard detection! re-switching to 1.13");
                 regionAdapter = new ModernRegionAdapter(this);
             }
         }
@@ -71,6 +71,7 @@ public class RegionModule {
 
             // update null values should be set to defaults
             if (region.getLoop() == null) region.setLoop(true);
+            if (region.getDoSync() == null) region.setDoSync(true);
 
             // does this region adhere to a specific world?
             if (region.hasWorlds()) {
@@ -103,6 +104,16 @@ public class RegionModule {
             Bukkit.getPluginManager().registerEvents(new WorldLoadListener(this), OpenAudioMcSpigot.getInstance());
         }
 
+        if (StorageKey.SETTINGS_HYDRATE_REGIONS_ON_BOOT.getBoolean()) {
+            // hydrate all regions
+            for (World world : Bukkit.getWorlds()) {
+                WorldRegionManager worldManager = getWorld(world.getName());
+                for (RegionProperties region : worldManager.getRegions()) {
+                    region.getMediaForWorld(worldManager);
+                }
+            }
+        }
+
         this.regionAdapter.postLoad();
     }
 
@@ -115,7 +126,7 @@ public class RegionModule {
         Collection<RegionProperties> allRegions = OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).values();
         int totalCount = OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).count();
 
-        OpenAudioLogger.toConsole("Scanning " + allRegions.size() + " regions for duplicates (out of " + totalCount + " total regions)");
+        OpenAudioLogger.info("Scanning " + allRegions.size() + " regions for duplicates (out of " + totalCount + " total regions)");
 
         //loop through all regions
         for (RegionProperties region : allRegions) {
@@ -179,21 +190,20 @@ public class RegionModule {
         }
 
         if (discardedRegions.isEmpty()) {
-            OpenAudioLogger.toConsole("No duplicate regions found, skipping cleanup...");
+            OpenAudioLogger.info("No duplicate regions found, skipping cleanup...");
             return;
         }
 
-        OpenAudioLogger.toConsole("Found " + discardedRegions.size() + " duplicate regions with old ID's, making a backup and then cleaning up...");
+        OpenAudioLogger.warn("Found " + discardedRegions.size() + " duplicate regions with old ID's, making a backup and then cleaning up...");
         OpenAudioMc.getService(BackupService.class).makeBackup(true);
 
         // remove all old regions
         for (RegionProperties discardedRegion : discardedRegions) {
-            OpenAudioLogger.toConsole("Removing region " + discardedRegion.getRegionName() + " with ID " + discardedRegion.getId());
+            OpenAudioLogger.info("Removing region " + discardedRegion.getRegionName() + " with ID " + discardedRegion.getId());
             try {
                 OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class).delete(discardedRegion);
             } catch (Exception e) {
-                OpenAudioLogger.toConsole("Failed to remove region " + discardedRegion.getRegionName() + " with ID " + discardedRegion.getId());
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to remove region " + discardedRegion.getRegionName() + " with ID " + discardedRegion.getId());
             }
         }
     }
@@ -247,8 +257,7 @@ public class RegionModule {
                     mutator.feed(region, media);
                     changedCount++;
                 } catch (Exception e) {
-                    OpenAudioLogger.toConsole("Failed to mutate region " + regionName + " in world " + world);
-                    e.printStackTrace();
+                    OpenAudioLogger.error(e, "Failed to mutate region " + regionName + " in world " + world);
                 }
             }
         }

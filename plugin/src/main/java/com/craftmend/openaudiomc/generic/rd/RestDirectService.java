@@ -51,7 +51,7 @@ public class RestDirectService extends Service {
     public void boot() {
         // is it enabled?
         if (!StorageKey.CDN_ENABLED.getBoolean()) {
-            OpenAudioLogger.toConsole("CDN is disabled, skipping boot");
+            OpenAudioLogger.info("The legacy cdn exporter is disabled, skipping boot.");
             return;
         }
 
@@ -64,8 +64,7 @@ public class RestDirectService extends Service {
         try {
             attemptServerBoot();
         } catch (Exception e) {
-            OpenAudioLogger.toConsole("Failed to start a cdn injector, falling back to http");
-            OpenAudioLogger.toConsole("Error: " + e.getMessage());
+            OpenAudioLogger.error(e, "Failed to start a cdn injector.");
         }
     }
 
@@ -76,7 +75,7 @@ public class RestDirectService extends Service {
         }
 
         if (StorageKey.CDN_IP_OVERWRITE.getString() != null && !StorageKey.CDN_IP_OVERWRITE.getString().equals("none")) {
-            OpenAudioLogger.toConsole("Attempting to use IP overwrite with " + StorageKey.CDN_IP_OVERWRITE.getString());
+            OpenAudioLogger.info("Attempting to use IP overwrite with " + StorageKey.CDN_IP_OVERWRITE.getString());
             ip = StorageKey.CDN_IP_OVERWRITE.getString();
         }
 
@@ -85,7 +84,7 @@ public class RestDirectService extends Service {
             String verificationString = UUID.randomUUID().toString();
             try {
                 int timeout = StorageKey.CDN_TIMEOUT.getInt();
-                OpenAudioLogger.toConsole("Attempting to start a cdn injector at port " + port + ". Timeout=" + timeout+"-seconds");
+                OpenAudioLogger.info("Attempting to start a cdn injector at port " + port + ". Timeout=" + timeout+"-seconds");
                 RestDirectServer restDirectServer = new RestDirectServer(port, verificationString, this);
                 // it booted! wow, that's, surprising actually
                 // now verify it
@@ -107,7 +106,7 @@ public class RestDirectService extends Service {
 
                     if (request.hasError()) {
                         restDirectServer.stop();
-                        OpenAudioLogger.toConsole("The direct rest registration failed");
+                        OpenAudioLogger.warn("The direct rest registration failed");
                         return null;
                     }
 
@@ -119,7 +118,7 @@ public class RestDirectService extends Service {
                 e.printStackTrace();
             }
         }
-        OpenAudioLogger.toConsole("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
+        OpenAudioLogger.info("Continuing without the RestDirect feature! None of the listed ports were accessible or available. Please contact support, your server/host might not be compatible!");
         return null;
     }
 

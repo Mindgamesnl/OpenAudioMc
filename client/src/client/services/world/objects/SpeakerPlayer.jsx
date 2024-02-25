@@ -8,7 +8,7 @@ import { debugLog } from '../../debugging/DebugService';
 /* eslint-disable no-console */
 
 export class SpeakerPlayer {
-  constructor(source, startInstant, doLoop = true, doPickup = true) {
+  constructor(source, startInstant, doLoop = true, doPickup = true, cancelRegions = false) {
     this.id = `SPEAKER__${source}`;
 
     this.speakerNodes = new Map();
@@ -16,40 +16,55 @@ export class SpeakerPlayer {
     this.startInstant = startInstant;
     this.doLoop = doLoop;
     this.doPickup = doPickup;
+    this.cancelRegions = cancelRegions;
 
-    debugLog('Speaker props: ', this.id, this.source, this.startInstant, this.doLoop, this.doPickup, 'initialized: ', this.initialized);
+    debugLog('Speaker props: ', this.id, this.source, this.startInstant, this.doLoop, this.doPickup, this.cancelRegions, 'initialized: ', this.initialized);
 
     this.initialized = false;
     this.whenInitialized = [];
   }
 
-  async initialize() {
+  async initializeSpeaker() {
     const createdChannel = new Channel(this.id);
     createdChannel.trackable = true;
     createdChannel.setTag('SPEAKER');
     createdChannel.setTag(this.id);
     this.channel = createdChannel;
+
     const createdMedia = new Sound(this.source);
     this.media = createdMedia;
+    this.media.withCors();
+
+    if (this.cancelRegions) {
+      MediaManager.mixer.incrementInhibitor('REGION');
+    }
+
+    MediaManager.mixer.whenFinished(this.id, () => {
+      // undo inhibit
+      if (this.cancelRegions) {
+        debugLog('Decrementing region inhibit from speaker');
+        MediaManager.mixer.decrementInhibitor('REGION');
+      }
+    });
+
     createdChannel.mixer = MediaManager.mixer;
     createdChannel.addSound(createdMedia);
     MediaManager.mixer.addChannel(createdChannel);
 
-    createdMedia.whenInitialized(async () => {
+    await createdMedia.load(this.source);
+
+    createdMedia.whenInitialized(() => {
       createdChannel.setChannelVolume(100);
       createdMedia.setLooping(this.doLoop);
       if (this.doPickup) {
         createdMedia.startDate(this.startInstant, true);
       }
-      await createdMedia.finalize();
       MediaManager.mixer.updateCurrent();
-
-      if (this.doPickup) {
-        createdMedia.startDate(this.startInstant, true);
-      }
 
       createdMedia.finish();
     });
+
+    await createdMedia.finalize();
 
     this.initialized = true;
   }
@@ -90,8 +105,6 @@ export class SpeakerPlayer {
       if (!this.media.destroyed) {
         console.log('Failed to destroy a world sound, so I had to do it again.');
         this.media.destroy();
-      } else {
-        console.log('It got destroyed successfully');
       }
     });
   }

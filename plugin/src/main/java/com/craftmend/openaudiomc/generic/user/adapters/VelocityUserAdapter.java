@@ -18,13 +18,13 @@ import java.util.UUID;
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
-public class VelocityUserAdapter implements User {
+public class VelocityUserAdapter implements User<CommandSource> {
 
     private CommandSource sender;
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\n")) {
+        for (String s : string.split("\\\\n")) {
             sender.sendMessage(Component.text(s));
         }
     }
@@ -135,7 +135,7 @@ public class VelocityUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSource getOriginal() {
         return sender;
     }
 

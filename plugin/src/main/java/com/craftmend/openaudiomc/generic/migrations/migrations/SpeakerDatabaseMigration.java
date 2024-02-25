@@ -9,8 +9,8 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 
@@ -30,13 +30,13 @@ public class SpeakerDatabaseMigration extends SimpleMigration {
 
     @Override
     public void execute(MigrationWorker migrationWorker) {
-        OpenAudioLogger.toConsole("Migrating speakers from the data.yml");
+        OpenAudioLogger.info("Migrating speakers from the data.yml");
         Configuration config = OpenAudioMc.getInstance().getConfiguration();
         DatabaseService service = OpenAudioMc.getService(DatabaseService.class);
 
         for (String id : config.getStringSet("speakers", StorageLocation.DATA_FILE)) {
             // check if said world is loaded
-            OpenAudioLogger.toConsole("Migrating speaker " + id);
+            OpenAudioLogger.info("Migrating speaker " + id);
 
             if (id.equals("none") || !isUuid(id)) {
                 config.setString(StorageLocation.DATA_FILE, "speakers." + id, null);

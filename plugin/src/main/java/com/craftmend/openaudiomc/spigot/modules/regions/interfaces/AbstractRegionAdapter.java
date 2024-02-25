@@ -7,7 +7,6 @@ import java.util.*;
 
 public abstract class AbstractRegionAdapter extends RegionAdapterBase {
 
-
     /**
      * Expose the RegionModule instance to the implementing class
      */

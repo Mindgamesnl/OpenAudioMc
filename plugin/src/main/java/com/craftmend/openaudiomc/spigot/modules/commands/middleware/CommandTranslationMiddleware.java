@@ -2,12 +2,14 @@ package com.craftmend.openaudiomc.spigot.modules.commands.middleware;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
+import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerCommandEvent;
@@ -32,7 +34,7 @@ public class CommandTranslationMiddleware implements Listener {
         if (!OpenAudioMc.getService(CommandService.class).getAliases().contains(parts[0])) return;
 
         // get the command
-        SubCommand subCommand = OpenAudioMc.getService(CommandService.class).getSubCommand(parts[1].toLowerCase());
+        SubCommand subCommand = OpenAudioMc.getService(CommandService.class).getSubCommand(CommandContext.OPENAUDIOMC, parts[1].toLowerCase());
         if (subCommand == null) return;
 
         String selector = null;
@@ -48,11 +50,21 @@ public class CommandTranslationMiddleware implements Listener {
         if (commandPreset.charAt(0) == '/') commandPreset = commandPreset.replace("/", "");
         commandPreset = commandPreset.replaceAll(Pattern.quote(selector), "%%player%%");
 
+        SpigotPlayerSelector spigotPlayerSelector = new SpigotPlayerSelector();
+        spigotPlayerSelector.setSender(new SpigotUserAdapter(event.getSender()));
+        spigotPlayerSelector.setString(selector);
+
+        if (spigotPlayerSelector.getResults().isEmpty()) {
+            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "No players found for selector " + selector);
+            event.setCancelled(true);
+            return;
+        }
+
         // process the selector, build a new command and re-run
-        for (Player player : new SpigotPlayerSelector(selector).getPlayers(event.getSender())) {
-            String playerCommand = commandPreset.replaceAll("%%player%%", player.getName());
+        for (User<?> target : spigotPlayerSelector.getResults()) {
+            String playerCommand = commandPreset.replaceAll("%%player%%", target.getName());
             Bukkit.getServer().dispatchCommand(event.getSender(), playerCommand);
-            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Changed selector to execute for " + player.getName());
+            event.getSender().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Changed selector to execute for " + target.getName());
         }
 
         event.setCancelled(true);

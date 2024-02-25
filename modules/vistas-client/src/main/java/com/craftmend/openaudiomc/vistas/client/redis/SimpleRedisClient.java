@@ -9,14 +9,21 @@ public class SimpleRedisClient extends RedisPubSubAdapter<String, String> {
     private RedisConnection senderConnection;
     private RedisConnection listenerConnection;
 
-    public SimpleRedisClient(String host, int port, String password, IRedisHandler handler, String... channels) {
+    public SimpleRedisClient(String host,
+                             int port,
+                             String password,
+                             boolean useSSL,
+                             String sentinelMasterSet,
+                             IRedisHandler handler,
+                             String... channels
+    ) {
         this.handler = handler;
-        this.senderConnection = new RedisConnection(host, port, password)
+        this.senderConnection = new RedisConnection(host, port, password, useSSL, sentinelMasterSet)
             .connectPubSub();
-        this.listenerConnection = new RedisConnection(host, port, password)
+        this.listenerConnection = new RedisConnection(host, port, password, useSSL, sentinelMasterSet)
             .connectPubSub();
 
-        // listen to packets from Spigot To Deputy
+        // listen to packets from Spigot To vistas
         this.listenerConnection.getPubSubHandler().subscribe(channels);
         this.listenerConnection.addPubSubListener(new RedisPubSubAdapter<String, String>() {
             // received data

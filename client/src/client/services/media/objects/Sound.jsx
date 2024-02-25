@@ -1,12 +1,12 @@
-import { GetAudio } from '../../../util/AudioFactory';
-import { AUDIO_ENDPOINTS, AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
+import { AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
 import { TimeService } from '../../time/TimeService';
 import { SocketManager } from '../../socket/SocketModule';
 import * as PluginChannel from '../../../util/PluginChannel';
 import { ReportError } from '../../../util/ErrorReporter';
 import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
-import { isDomainOfficial } from '../../../config/MagicValues';
+import { AudioPreloader } from '../../preloading/AudioPreloader';
+import { isProxyRequired, proxifyUrl } from '../utils/corsutil';
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -30,24 +30,32 @@ export class Sound extends AudioSourceProcessor {
     this.initCallbacks = [];
     this.startedLoading = false;
     this.destroyed = false;
+    this.usesDateSync = false;
+    this.startAtMillis = 0;
+    this.needsCors = false;
+  }
+
+  withCors() {
+    this.needsCors = true;
   }
 
   whenInitialized(f) {
     if (this.loaded) {
-      f();
+      f.bind(this)();
     } else {
       this.initCallbacks.push(f);
     }
   }
 
-  async load(source, allowCaching = true) {
-    if (this.startedLoading) return;
+  async load(source) {
+    if (this.startedLoading) {
+      return;
+    }
     this.startedLoading = true;
     this.rawSource = source;
+    this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
+    this.source = this.soundElement.src;
 
-    source = await this.translate(source);
-
-    this.soundElement = await GetAudio(source, true, allowCaching);
     // mute default
     if (this.options.startMuted) {
       this.soundElement.volume = 0;
@@ -59,10 +67,6 @@ export class Sound extends AudioSourceProcessor {
       this.error = error;
       this.handleError();
     };
-
-    // set source
-    this.soundElement.src = source;
-    this.source = source;
 
     // set attributes
     this.soundElement.setAttribute('preload', 'auto');
@@ -85,6 +89,11 @@ export class Sound extends AudioSourceProcessor {
     });
   }
 
+  getMediaQueryParam(key, defaultValue = null) {
+    const url = new URL(this.source);
+    return url.searchParams.get(key) || defaultValue;
+  }
+
   finalize() {
     return new Promise(((resolve) => {
       this.soundElement.onended = async () => {
@@ -94,7 +103,18 @@ export class Sound extends AudioSourceProcessor {
           runnable();
         });
         if (this.loop) {
-          this.soundElement.src = await this.translate(this.rawSource);
+          // possibly fetch next playlist entry
+          const nextSource = await this.translate(this.rawSource);
+          // Did it change? then re-handle
+          if (nextSource !== this.source) {
+            if (this.needsCors && isProxyRequired(nextSource)) {
+              this.soundElement.src = proxifyUrl(nextSource);
+            } else {
+              // no cors needed, just yeet
+              this.soundElement.src = nextSource;
+            }
+            this.source = nextSource;
+          }
           this.setTime(0);
           this.soundElement.play();
         } else {
@@ -135,15 +155,35 @@ export class Sound extends AudioSourceProcessor {
   tick() {
     if (!this.loaded && this.soundElement != null) {
       // do we have metadata?
-      if (this.soundElement.readyState >= 2) {
-        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available`);
+
+      const bypassBuffer = this.getMediaQueryParam('oaSkipBuffer') === 'true';
+
+      const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
+        || bypassBuffer; // alternatively allow a bypass
+
+      let requiredReadyState = 4;
+      if (bypassBuffer) {
+        requiredReadyState = 3;
+      }
+
+      if (this.soundElement.readyState >= requiredReadyState && loadedFinished) {
+        const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime') || 0);
+        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s.`);
         this.loaded = true;
+
         for (let i = 0; i < this.initCallbacks.length; i++) {
-          const shouldStop = this.initCallbacks[i]();
+          const shouldStop = this.initCallbacks[i].bind(this)();
           if (shouldStop) {
             debugLog('Stopping init callbacks');
             this.initCallbacks = [];
             return;
+          }
+        }
+
+        // are we not syncing? in that case, we may need to set our own start time
+        if (!this.usesDateSync) {
+          if (this.startAtMillis > 0) {
+            this.setTime(this.startAtMillis / 1000);
           }
         }
 
@@ -154,8 +194,14 @@ export class Sound extends AudioSourceProcessor {
           // eslint-disable-next-line no-console
           console.warn('Sound got shut down while loading');
         }
+      } else {
+        // debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
       }
     }
+  }
+
+  setStartAt(startAt) {
+    this.startAtMillis = startAt;
   }
 
   handleError() {
@@ -211,17 +257,6 @@ export class Sound extends AudioSourceProcessor {
 
   addNode(player, node) {
     if (this.controller == null) {
-      this.soundElement.crossOrigin = 'anonymous';
-      const ownDomain = getDomain();
-      // proxy if we're on a different domain
-      if (ownDomain != null) {
-        const isOfficial = isDomainOfficial(ownDomain);
-        if (!isOfficial) {
-          if (!this.soundElement.src.includes(getDomain())) {
-            this.soundElement.src = AUDIO_ENDPOINTS.PROXY + this.soundElement.src;
-          }
-        }
-      }
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
     }
     this.controller.connect(node);
@@ -268,15 +303,22 @@ export class Sound extends AudioSourceProcessor {
   }
 
   startDate(date) {
+    this.usesDateSync = true;
     this.whenInitialized(() => {
       // debugLog('Starting synced media');
       const start = new Date(date);
       const predictedNow = TimeService.getPredictedTime();
-      const seconds = (predictedNow - start) / 1000;
-      // debugLog(`Started ${seconds} ago`);
+      const msDiff = Math.max(predictedNow.getTime() - start.getTime(), 1);
+      let seconds = msDiff / 1000;
+
+      // add at startAt timestamp to the seconds to still apply the offset
+      if (this.startAtMillis) {
+        seconds += this.startAtMillis / 1000;
+      }
+
       const length = this.soundElement.duration;
-      // debugLog(`Length ${length} seconds`);
       const loops = Math.floor(seconds / length);
+      debugLog('Loops', loops, 'Seconds', seconds, 'Length', length, this.destroyed, this.soundElement.readyState);
       const remainingSeconds = seconds % length;
 
       // are we allowed to loop?
@@ -288,7 +330,6 @@ export class Sound extends AudioSourceProcessor {
           return;
         }
       }
-
       this.setTime(remainingSeconds);
     });
   }
@@ -335,21 +376,4 @@ if (
       }
     )
   ;
-}
-
-/* eslint-enable */
-
-function getDomain() {
-  const fullHostname = window.location.hostname;
-  const hostnameParts = fullHostname.split('.');
-  if (hostnameParts.length > 2) {
-    return hostnameParts.slice(-2).join('.');
-  }
-
-  // are there no parts? then just return null because we're likely on localhost
-  if (hostnameParts.length === 1) {
-    return null;
-  }
-
-  return fullHostname;
 }

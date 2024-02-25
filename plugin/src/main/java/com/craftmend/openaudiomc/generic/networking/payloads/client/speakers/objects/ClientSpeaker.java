@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.objects;
 
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +20,6 @@ public class ClientSpeaker implements Serializable {
     private int obstructions;
     private boolean doLoop = true;
     private boolean doPickup = true;
+    private boolean cancelRegions = false;
 
 }

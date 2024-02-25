@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.networking.payloads.client.voice;
 
+import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayload;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
@@ -23,13 +24,15 @@ public class ClientVoiceSubscribePayload extends AbstractPacketPayload {
         private String playerName;
         private UUID playerUuid;
         private ClientRtcLocationUpdate location;
+        private VoicePeerOptions options;
 
-        public static SerializedPeer fromClient(ClientConnection clientConnection, ClientConnection locationTarget) {
+        public static SerializedPeer fromClient(ClientConnection clientConnection, ClientConnection originLocation, VoicePeerOptions options) {
             return new SerializedPeer(
                     clientConnection.getRtcSessionManager().getStreamKey(),
                     clientConnection.getOwner().getName(),
                     clientConnection.getOwner().getUniqueId(),
-                    ClientRtcLocationUpdate.fromClient(clientConnection, Vector3.from(locationTarget))
+                    ClientRtcLocationUpdate.fromClient(clientConnection, Vector3.from(originLocation)),
+                    options
             );
         }
 

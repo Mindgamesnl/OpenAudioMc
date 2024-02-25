@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.google.common.reflect.TypeToken;
 import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.apache.commons.lang.Validate;
 import org.yaml.snakeyaml.DumperOptions;
@@ -16,9 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class VelocityConfiguration implements Configuration {
@@ -35,7 +34,7 @@ public class VelocityConfiguration implements Configuration {
         dataConfig = getFile("data.yml");
         mainConfig = getFile("config.yml");
 
-        OpenAudioLogger.toConsole("Starting configuration module");
+        OpenAudioLogger.info("Starting configuration module");
         this.loadSettings();
     }
 
@@ -144,6 +143,22 @@ public class VelocityConfiguration implements Configuration {
     @Override
     public Set<String> getStringSet(String path, StorageLocation storageLocation) {
         throw new UnsupportedOperationException("Not supported in velocity (proxy) mode");
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjectList(String path, StorageLocation storageLocation) {
+        ConfigurationNode node = storageLocation == StorageLocation.DATA_FILE ? dataConfig : mainConfig;
+        try {
+            List<Map> lm = node.getNode((Object[]) path.split("\\.")).getList(TypeToken.of(Map.class));
+            List<Map<String, Object>> result = new ArrayList<>();
+            for (Map map : lm) {
+                result.add(map);
+            }
+            return result;
+        } catch (ObjectMappingException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -293,8 +308,7 @@ public class VelocityConfiguration implements Configuration {
                     .setFile(data)
                     .build().save(dataConfig);
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to save config files");
         }
     }
 
@@ -326,8 +340,7 @@ public class VelocityConfiguration implements Configuration {
         try {
             return yamlLoader.load();
         } catch (IOException e) {
-            OpenAudioLogger.handleException(e);
-            e.printStackTrace();
+            OpenAudioLogger.error(e, "Failed to load file " + filename);
         }
         return null;
     }
@@ -342,8 +355,7 @@ public class VelocityConfiguration implements Configuration {
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to delete file " + filename);
             }
         }
 
@@ -351,8 +363,7 @@ public class VelocityConfiguration implements Configuration {
             try (InputStream in = OpenAudioMcVelocity.getInstance().getClass().getClassLoader().getResourceAsStream(filename)) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                OpenAudioLogger.handleException(e);
-                e.printStackTrace();
+                OpenAudioLogger.error(e, "Failed to save default file " + filename);
             }
         }
     }

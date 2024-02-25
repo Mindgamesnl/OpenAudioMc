@@ -40,7 +40,7 @@ public class NetworkedRepositoryCommit extends StandardPacket {
             Class<? extends LegacyStore> dataStore = (Class<? extends LegacyStore>) Class.forName(repositoryTypeClass);
             dbs.getRepository(dataStore).saveString(key, dataString);
         } catch (ClassNotFoundException e) {
-            OpenAudioLogger.toConsole("Couldn't commit " + repositoryTypeClass + " because the class type is unknown");
+            OpenAudioLogger.info("Couldn't commit " + repositoryTypeClass + " because the class type is unknown");
         }
     }
 

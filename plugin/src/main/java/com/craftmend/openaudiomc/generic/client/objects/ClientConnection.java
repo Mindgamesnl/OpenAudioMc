@@ -1,63 +1,74 @@
 package com.craftmend.openaudiomc.generic.client.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-
-import com.craftmend.openaudiomc.api.impl.event.events.ClientConnectEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientDisconnectEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.ClientErrorEvent;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.basic.Actor;
+import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.events.client.ClientConnectEvent;
+import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.api.events.client.MediaErrorEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
-import com.craftmend.openaudiomc.api.interfaces.Client;
-
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.client.ClientDataService;
+import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
+import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
+import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
+import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.client.session.SessionData;
 import com.craftmend.openaudiomc.generic.client.store.ClientDataStore;
 import com.craftmend.openaudiomc.generic.environment.GlobalConstantService;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
-import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
-import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
-import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
-import com.craftmend.openaudiomc.generic.client.session.SessionData;
-import com.craftmend.openaudiomc.generic.client.helpers.TokenFactory;
-import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
+import com.craftmend.openaudiomc.api.media.MediaError;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientCreateMedia;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientModerationStatus;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientProtocolRevisionPacket;
 import com.craftmend.openaudiomc.generic.networking.packets.client.ui.PacketClientSetVolume;
-import com.craftmend.openaudiomc.generic.rest.Task;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import com.craftmend.openaudiomc.generic.node.packets.ClientConnectedPacket;
 import com.craftmend.openaudiomc.generic.node.packets.ClientDisconnectedPacket;
+import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.networking.packets.*;
-import com.craftmend.openaudiomc.generic.platform.Platform;
-
+import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ClientConnection implements Authenticatable, Client, Serializable {
+public class ClientConnection implements Authenticatable, Client, Serializable,
+        com.craftmend.openaudiomc.api.interfaces.Client {
 
-    @Getter private transient final User user;
+    @Getter
+    private transient final User<?> user;
 
-    @Getter private final SessionData session;
-    @Setter private ClientAuth auth;
-    @Getter private final RtcSessionManager rtcSessionManager;
+    @Getter
+    private final SessionData session;
+    @Setter
+    private ClientAuth auth;
+    @Getter
+    private final RtcSessionManager rtcSessionManager;
     private transient final List<Runnable> connectHandlers = new ArrayList<>();
     private transient final List<Runnable> disconnectHandlers = new ArrayList<>();
-    @Setter @Getter private ClientDataStore dataCache;
-    @Getter private PeerQueue peerQueue = new PeerQueue();
+    @Setter
+    @Getter
+    private ClientDataStore dataCache;
+    @Getter
+    private PeerQueue peerQueue = new PeerQueue();
 
     public ClientConnection(User playerContainer, SerializableClient fromSerialized) {
         this.user = playerContainer;
@@ -113,7 +124,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientConnectedPacket(user.getUniqueId()));
 
-        AudioApi.getInstance().getEventDriver().fire(new ClientConnectEvent(this));
+        EventApi.getInstance().callEvent(new ClientConnectEvent(this));
 
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
             return;
@@ -135,7 +146,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         // am I a proxy thingy? then send it to my other thingy
         OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientDisconnectedPacket(user.getUniqueId()));
 
-        AudioApi.getInstance().getEventDriver().fire(new ClientDisconnectEvent(this));
+        EventApi.getInstance().callEvent(new ClientDisconnectEvent(this));
 
         // Don't send if i'm spigot and a node
         if (OpenAudioMc.getInstance().getPlatform() == Platform.SPIGOT && OpenAudioMcSpigot.getInstance().getProxyModule().getMode() == OAClientMode.NODE)
@@ -202,12 +213,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
         }
     }
 
-    /**
-     * send media to the client to play
-     *
-     * @param media media to be send
-     */
-    @Override
     public void sendMedia(Media media) {
         if (media.getKeepTimeout() != -1 && !session.getOngoingMedia().contains(media)) {
             session.getOngoingMedia().add(media);
@@ -233,7 +238,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     @Override
-    public User getOwner() {
+    public User<?> getOwner() {
         return this.getUser();
     }
 
@@ -244,7 +249,7 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
 
     @Override
     public void handleError(MediaError error, String source) {
-        AudioApi.getInstance().getEventDriver().fire(new ClientErrorEvent(this, error, source));
+        EventApi.getInstance().callEvent(new MediaErrorEvent(this, source, error));
         if (this.getUser().isAdministrator() && OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_STAFF_TIPS)) {
             String prefix = MagicValue.COMMAND_PREFIX.get(String.class);
             this.getUser().sendMessage(prefix + "Something went wrong while playing a sound for you, here's what we know:");
@@ -255,13 +260,33 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     }
 
     @Override
+    public Actor getActor() {
+        return getOwner();
+    }
+
+    @Override
     public boolean isConnected() {
         return this.session.isConnected();
     }
 
     @Override
+    public boolean hasVoicechatEnabled() {
+        return this.rtcSessionManager.isReady();
+    }
+
+    @Override
+    public boolean isMicrophoneMuted() {
+        return !this.rtcSessionManager.isMicrophoneEnabled();
+    }
+
+    @Override
     public void onConnect(Runnable runnable) {
         addOnConnectHandler(runnable);
+    }
+
+    @Override
+    public void sendMedia(com.craftmend.openaudiomc.generic.media.objects.Media media) {
+        sendMedia(media);
     }
 
     @Override
@@ -288,4 +313,26 @@ public class ClientConnection implements Authenticatable, Client, Serializable {
     public boolean isModerating() {
         return session.isModerating();
     }
+
+    @Override
+    public void playMedia(@NotNull Media media) {
+        sendMedia(media);
+    }
+
+    @Override
+    public void kickProximityPeer(@NotNull Client otherClient) {
+        if (this.rtcSessionManager.isPeer(otherClient.getActor().getUniqueId())) {
+            // remove the peer
+            ClientConnection other = (ClientConnection) otherClient;
+            this.rtcSessionManager.getCurrentProximityPeers().remove(other.getActor().getUniqueId());
+            this.getPeerQueue().drop(other.getRtcSessionManager().getStreamKey());
+        }
+    }
+
+    @Override
+    public void preloadMedia(String source) {
+        ClientPreFetchPayload payload = new ClientPreFetchPayload(OpenAudioMc.getService(MediaService.class).process(source), "api", false, false);
+        sendPacket(new PacketClientPreFetch(payload));
+    }
+
 }

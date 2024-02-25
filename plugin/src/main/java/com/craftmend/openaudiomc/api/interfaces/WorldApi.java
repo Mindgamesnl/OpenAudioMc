@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
+@Deprecated
 public interface WorldApi {
 
     /**

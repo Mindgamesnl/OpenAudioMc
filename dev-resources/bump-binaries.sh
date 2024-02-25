@@ -9,6 +9,4 @@ cp modules/vistas-server/target/vistas-server.jar modules/vistas-server.jar
 cp modules/vistas-client/target/vistas-client.jar modules/vistas-client.jar
 cp modules/mapdb-migrator/target/migrate.* modules/
 cp modules/parties-module/target/parties* modules/
-cp modules/rinaorc-legacy/target/rinaorc-legacy-users.jar modules/
 cp modules/skywars-module/target/skywars-hook.jar modules/
-cp modules/gamemode-voice-filter-module/target/gamemode-filter.jar modules/

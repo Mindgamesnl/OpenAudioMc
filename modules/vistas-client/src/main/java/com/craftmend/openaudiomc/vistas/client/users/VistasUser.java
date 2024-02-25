@@ -7,7 +7,6 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.generic.user.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.vistas.client.redis.packets.InvokeUserPacket;
 import com.craftmend.openaudiomc.vistas.client.reflection.SerializedCall;
 import com.craftmend.openaudiomc.vistas.client.reflection.SerializedParameter;
@@ -15,14 +14,13 @@ import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServ
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class VistasUser implements User {
+public class VistasUser implements User<Object> {
 
     private String name;
     private UUID uuid;
@@ -34,7 +32,7 @@ public class VistasUser implements User {
     @Getter private Instant offlineSince = Instant.now();
     @Getter private Set<UUID> currentServers = new HashSet<>();
     private boolean isSpigot = false;
-    private User original = null;
+    private User<?> original = null;
 
     public VistasUser(String name, UUID uuid, String ip) {
         this.name = name;
@@ -42,7 +40,7 @@ public class VistasUser implements User {
         this.ip = ip;
     }
 
-    public VistasUser(String name, UUID uuid, User player) {
+    public VistasUser(String name, UUID uuid, User<?> player) {
         this.name = name;
         this.uuid = uuid;
         this.isSpigot = true;
@@ -81,7 +79,7 @@ public class VistasUser implements User {
     }
 
     public void handleDefiniteDisconnect() {
-        OpenAudioLogger.toConsole("Handling disconnect for " + getName());
+        OpenAudioLogger.info("Handling disconnect for " + getName());
         OpenAudioMc.getService(NetworkingService.class).getClient(uuid).kickConnection();
     }
 

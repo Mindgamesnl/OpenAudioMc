@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.traincarts.models;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.media.objects.Media;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import lombok.Data;
 

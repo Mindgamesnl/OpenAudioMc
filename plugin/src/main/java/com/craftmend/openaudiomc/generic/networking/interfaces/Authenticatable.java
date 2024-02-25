@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.interfaces;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.ClientAuth;
-import com.craftmend.openaudiomc.generic.networking.enums.MediaError;
+import com.craftmend.openaudiomc.api.media.MediaError;
 import com.craftmend.openaudiomc.generic.networking.packets.PacketSocketKickClient;
 import com.craftmend.openaudiomc.generic.user.User;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

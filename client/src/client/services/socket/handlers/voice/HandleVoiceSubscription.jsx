@@ -3,6 +3,7 @@ import { reportVital } from '../../../../util/vitalreporter';
 import { StringifyError } from '../../../../util/errorreformat';
 import { debugLog } from '../../../debugging/DebugService';
 import { closeSessionTab } from '../../../../util/closure';
+import { peerOptionsFromObj, VoicePeerOptions } from '../../../voice/peers/VoicePeerOptions';
 
 export function HandleVoiceSubscription(data) {
   // We need to separate this into two cases:
@@ -22,13 +23,30 @@ export function HandleVoiceSubscription(data) {
   // modern handling
   const { peers } = data;
   for (let i = 0; i < peers.length; i++) {
-    addPeer(peers[i].playerUuid, peers[i].playerName, peers[i].streamKey, peers[i].location);
+    const {
+      playerUuid, playerName, streamKey, location,
+    } = peers[i];
+
+    let options = null;
+    if (peers[i].options) {
+      options = peerOptionsFromObj(peers[i].options);
+    } else {
+      options = new VoicePeerOptions();
+    }
+
+    addPeer(
+      playerUuid,
+      playerName,
+      streamKey,
+      location,
+      options,
+    );
   }
 }
 
-function addPeer(uuid, playerName, streamKey, location) {
+function addPeer(uuid, playerName, streamKey, location, options) {
   try {
-    VoiceModule.addPeer(uuid, playerName, streamKey, location);
+    VoiceModule.addPeer(uuid, playerName, streamKey, location, options);
   } catch (e) {
     // check if its not a ConnectionClosedError
     if (e.name !== 'ConnectionClosedError') {

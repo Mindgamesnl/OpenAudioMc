@@ -25,12 +25,12 @@ public class RuntimeDependencyService extends Service {
         // check if its already loaded
         for (LoadedDependency loadedDependency : loadedDependencies) {
             if (loadedDependency.getSource().getFileName().equals(source.getFileName())) {
-                OpenAudioLogger.toConsole("WARNING! Skipping resource " + source.getFileName() + " because it's already loaded");
+                OpenAudioLogger.warn("Skipping resource " + source.getFileName() + " because it's already loaded");
                 return;
             }
         }
         // load and register
-        OpenAudioLogger.toConsole("Loading resource " + source.getFileName());
+        OpenAudioLogger.info("Loading resource " + source.getFileName());
 
         // download, mock this for now and just do it locally
         File magicallyHere = new File(MagicValue.STORAGE_DIRECTORY.get(File.class), "libs" + File.separator + source.getFileName());

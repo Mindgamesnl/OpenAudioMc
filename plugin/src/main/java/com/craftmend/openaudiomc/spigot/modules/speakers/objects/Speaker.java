@@ -1,10 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.speakers.BasicSpeaker;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.storm.api.markers.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 import java.util.*;
 
 @NoArgsConstructor
-public class Speaker extends DataStore {
+public class Speaker extends DataStore implements BasicSpeaker {
 
     @Column @Getter private String source;
     @Column @Getter private UUID speakerId;

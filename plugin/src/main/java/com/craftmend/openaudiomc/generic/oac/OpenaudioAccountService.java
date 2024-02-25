@@ -1,10 +1,10 @@
 package com.craftmend.openaudiomc.generic.oac;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.AccountAddTagEvent;
-import com.craftmend.openaudiomc.api.impl.event.events.AccountRemoveTagEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
+import com.craftmend.openaudiomc.generic.events.events.AccountAddTagEvent;
+import com.craftmend.openaudiomc.generic.events.events.AccountRemoveTagEvent;
 import com.craftmend.openaudiomc.generic.oac.enums.AccountState;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.oac.response.OpenaudioSettingsResponse;
@@ -63,7 +63,7 @@ public class OpenaudioAccountService extends Service {
         // wait after buut if its a new account
         if (OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
             delayedInit = true;
-            OpenAudioLogger.toConsole("Delaying account init because we're a fresh installation");
+            OpenAudioLogger.info("Delaying account init because we're a fresh installation");
             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(this::initialize, 20 * 3);
         } else {
             delayedInit = false;
@@ -77,7 +77,7 @@ public class OpenaudioAccountService extends Service {
     }
 
     private void initialize() {
-        OpenAudioLogger.toConsole("Initializing account details");
+        OpenAudioLogger.info("Initializing account details");
         syncAccount();
         initialized = true;
 
@@ -99,17 +99,17 @@ public class OpenaudioAccountService extends Service {
 
         // are there any errors?
         if (settingsRequest.hasError()) {
-            OpenAudioLogger.toConsole("Failed to sync account details. Error: " + settingsRequest.getError().getMessage());
-            OpenAudioLogger.toConsole("This is probably because the account got deleted, or the server key is invalid.");
+            OpenAudioLogger.warn("Failed to sync account details. Error: " + settingsRequest.getError().getMessage());
+            OpenAudioLogger.warn("This is probably because the account got deleted, or the server key is invalid.");
             if (!OpenAudioMc.getService(AuthenticationService.class).isNewAccount()) {
                 // drop old
                 Configuration config = OpenAudioMc.getInstance().getConfiguration();
                 config.setString(StorageKey.AUTH_PRIVATE_KEY, "not-set");
                 config.setString(StorageKey.AUTH_PUBLIC_KEY, "not-set");
 
-                OpenAudioLogger.toConsole("This is not a new account, so I'm going to invalidate the server key and try again.");
+                OpenAudioLogger.warn("This is not a new account, so I'm going to invalidate the server key and try again.");
                 TOKEN_PROVIDER.inject(taskService, OpenAudioMc.getService(AuthenticationService.class));
-                OpenAudioLogger.toConsole("Retrying...");
+                OpenAudioLogger.warn("Retrying...");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -123,7 +123,7 @@ public class OpenaudioAccountService extends Service {
         }
 
         for (CraftmendTag tag : tags) {
-            AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
+            EventApi.getInstance().callEvent(new AccountRemoveTagEvent(tag));
         }
 
         tags.clear();
@@ -150,12 +150,12 @@ public class OpenaudioAccountService extends Service {
 
     public void addTag(CraftmendTag tag) {
         tags.add(tag);
-        AudioApi.getInstance().getEventDriver().fire(new AccountAddTagEvent(tag));
+        EventApi.getInstance().callEvent(new AccountAddTagEvent(tag));
     }
 
     private void removeTag(CraftmendTag tag) {
         tags.remove(tag);
-        AudioApi.getInstance().getEventDriver().fire(new AccountRemoveTagEvent(tag));
+        EventApi.getInstance().callEvent(new AccountRemoveTagEvent(tag));
     }
 
     public void startVoiceHandshake() {
@@ -177,13 +177,10 @@ public class OpenaudioAccountService extends Service {
         }
 
         if (OpenAudioMc.resolveDependency(UserHooks.class).getOnlineUsers().isEmpty()) {
-            OpenAudioLogger.toConsole("The server is empty! ignoring voice chat.");
+            OpenAudioLogger.info("The server is empty! ignoring voice chat.");
             return;
         }
 
-        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.PRODUCTION) {
-            OpenAudioLogger.toConsole("VoiceChat seems to be enabled for this account! Requesting RTC and Password...");
-        }
         // do magic, somehow fail, or login to the voice server
         isAttemptingVcConnect = true;
         RestRequest<VoiceSessionRequestResponse> voiceLoginRequest = new RestRequest<>(VoiceSessionRequestResponse.class, Endpoint.VOICE_REQUEST_PASSWORD);
@@ -196,7 +193,7 @@ public class OpenaudioAccountService extends Service {
                         SectionError errorCode = voiceLoginRequest.getError();
 
                         if (errorCode == SectionError.VOICECHAT_DISABLED) {
-                            OpenAudioLogger.toConsole("Your account doesn't actually have permissions for voicechat, shutting down.");
+                            OpenAudioLogger.warn("Voicechat is disabled for this server.");
                             removeTag(CraftmendTag.VOICECHAT);
                             isAttemptingVcConnect = false;
                             lockVcAttempt = false;
@@ -206,7 +203,7 @@ public class OpenaudioAccountService extends Service {
 
                         if (errorCode == SectionError.VOICECHAT_ALREADY_CONNECTED) {
                             new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
-                            OpenAudioLogger.toConsole("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
+                            OpenAudioLogger.warn("This server still has a session running with voice chat, terminating and trying again in 20 seconds.");
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
@@ -216,7 +213,7 @@ public class OpenaudioAccountService extends Service {
 
                         if (errorCode == SectionError.SERVER_ERROR) {
                             new RestRequest(NoResponse.class, Endpoint.VOICE_INVALIDATE_PASSWORD).run();
-                            OpenAudioLogger.toConsole("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
+                            OpenAudioLogger.warn("Failed to claim a voicechat session, terminating and trying again in 20 seconds.");
                             OpenAudioMc.resolveDependency(TaskService.class).schduleSyncDelayedTask(() -> {
                                 startVoiceHandshake(true);
                             }, 20 * 20);
@@ -224,7 +221,7 @@ public class OpenaudioAccountService extends Service {
                             return;
                         }
 
-                        OpenAudioLogger.toConsole("Failed to initialize voice chat. Error: " + errorCode.getMessage());
+                        OpenAudioLogger.warn("Failed to initialize voice chat. Error: " + errorCode.getMessage());
                         voiceApiConnection.setStatus(VoiceApiStatus.IDLE);
                         isAttemptingVcConnect = false;
                         lockVcAttempt = false;

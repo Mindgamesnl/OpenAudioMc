@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { showTextModal } from '../modal/InputModal';
 import { setGlobalState } from '../../state/store';
 import { msg } from '../../client/OpenAudioAppContainer';
+import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -57,6 +58,7 @@ class TabWindow extends Component {
       <div className="flex flex-col-reverse bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
         <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
+            <ServerConnectionWarning />
             {pages[this.props.currentTab].content}
           </div>
         </main>
@@ -71,12 +73,12 @@ class TabWindow extends Component {
             </div>
 
             <div className="basis-1/3">
-              <div className="flex flex-row gap-1 p-1 mx-auto rounded-lg bg-gray-600 w-min" role="group">
+              <div className="flex flex-row gap-1 p-1 mx-auto rounded-lg navbar-bg-button w-min" role="group">
                 {pages.map((page, index) => (
                   <button
                     key={page.name}
                     type="button"
-                    className={`px-5 whitespace-nowrap py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'bg-gray-200 text-gray-900 rounded-lg' : 'text-white hover:bg-gray-700'}`}
+                    className={`px-5 whitespace-nowrap py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${this.props.currentTab === index ? 'navbar-button-active rounded-lg' : 'text-white hover:bg-gray-700'}`}
                     onClick={() => setTab(index)}
                   >
                     {page.buttonContent ? page.buttonContent : null}

@@ -9,7 +9,7 @@ import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;

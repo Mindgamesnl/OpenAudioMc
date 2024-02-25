@@ -17,13 +17,13 @@ import java.util.UUID;
 import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
-public class BungeeUserAdapter implements User {
+public class BungeeUserAdapter implements User<CommandSender> {
 
     private CommandSender sender;
 
     @Override
     public void sendMessage(String string) {
-        for (String s : string.split("\n")) {
+        for (String s : string.split("\\\\n")) {
             sender.sendMessage(s);
         }
     }
@@ -134,7 +134,7 @@ public class BungeeUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSender getOriginal() {
         return sender;
     }
 

@@ -11,13 +11,15 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class CommandSenderUserAdapter implements User {
+public class CommandSenderUserAdapter implements User<CommandSender> {
 
     private CommandSender sender;
 
     @Override
     public void sendMessage(String string) {
-        sender.sendMessage(string);
+        for (String s : string.split("\\\\n")) {
+            sender.sendMessage(s);
+        }
     }
 
     @Override
@@ -68,7 +70,7 @@ public class CommandSenderUserAdapter implements User {
     }
 
     @Override
-    public Object getOriginal() {
+    public CommandSender getOriginal() {
         return sender;
     }
 

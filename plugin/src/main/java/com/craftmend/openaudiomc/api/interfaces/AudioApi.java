@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.UUID;
 
+@Deprecated
 public interface AudioApi {
 
     /**
@@ -17,6 +18,7 @@ public interface AudioApi {
      * @return Client instance
      */
     @Nullable
+    @Deprecated
     Client getClient(UUID uuid);
 
     /**
@@ -28,30 +30,35 @@ public interface AudioApi {
      * @param uuid Player UUID to check
      * @return If the client is connected or not
      */
+    @Deprecated
     boolean isClientConnected(UUID uuid);
 
     /**
      * Get the internal event driver
      * @return Internal event driver
      */
+    @Deprecated
     ApiEventDriver getEventDriver();
 
     /**
      * Fetch all clients that are currently known to the server
      * @return All clients
      */
+    @Deprecated
     Collection<Client> getAllClients();
 
     /**
      * Get the World Api (used for regions and speakers)
      * @return World API instance
      */
+    @Deprecated
     WorldApi getWorldApi();
 
     /**
      * Get the media API instance (used for media management)
      * @return Media API instance
      */
+    @Deprecated
     MediaApi getMediaApi();
 
     /**
@@ -59,8 +66,10 @@ public interface AudioApi {
      * on a low level
      * @return Registry api instance
      */
+    @Deprecated
     RegistryApi getRegistryApi();
 
+    @Deprecated
     static AudioApi getInstance() {
         return DefaultApi.i();
     }

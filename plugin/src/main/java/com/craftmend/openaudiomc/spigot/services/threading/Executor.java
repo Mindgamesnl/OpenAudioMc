@@ -36,8 +36,7 @@ public class Executor {
                         try {
                             task.run();
                         } catch (Exception e) {
-                            OpenAudioLogger.toConsole(getClass().getName() + " failed");
-                            OpenAudioLogger.toConsole(e.toString());
+                            OpenAudioLogger.error(e, "Failed to execute executor task");
                         }
                     }
                     Instant end = Instant.now();
@@ -61,8 +60,7 @@ public class Executor {
                     try {
                         Thread.sleep(delayTime);
                     } catch (InterruptedException e) {
-                        OpenAudioLogger.handleException(e);
-                        OpenAudioLogger.toConsole(e.getMessage());
+                        OpenAudioLogger.error(e, "Failed to sleep executor thread");
                     }
                 }
             });

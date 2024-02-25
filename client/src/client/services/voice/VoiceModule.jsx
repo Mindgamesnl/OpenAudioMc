@@ -8,7 +8,7 @@ import { MicrophoneProcessor } from './processing/MicrophoneProcessor';
 import { SocketManager } from '../socket/SocketModule';
 import * as PluginChannel from '../../util/PluginChannel';
 import { VoicePeer } from './peers/VoicePeer';
-import { feedDebugValue } from '../debugging/DebugService';
+import { debugLog, feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
 import { setTab } from '../../../components/tabwindow/TabWindow';
 import { StringifyError } from '../../util/errorreformat';
@@ -46,20 +46,12 @@ export const VoiceModule = new class IVoiceModule {
     this.isUpdatingMic = false;
 
     let lastPreferredMic = getGlobalState().settings.preferredMicId;
-    let lastSurroundValue = getGlobalState().settings.voicechatSurroundSound;
     let onSettingsChange = () => {
       const state = getGlobalState().settings;
       if (lastPreferredMic !== state.preferredMicId) {
         lastPreferredMic = state.preferredMicId;
         if (!this.isUpdatingMic && this.isReady()) {
           this.changeInput(lastPreferredMic);
-        }
-      }
-
-      if (lastSurroundValue !== state.voicechatSurroundSound) {
-        lastSurroundValue = state.voicechatSurroundSound;
-        if (this.isReady()) {
-          this.onSurroundUpdate();
         }
       }
     };
@@ -132,27 +124,6 @@ export const VoiceModule = new class IVoiceModule {
     deviceLoader.getUserMedia(getGlobalState().settings.preferredMicId);
   }
 
-  onSurroundUpdate() {
-    SocketManager.send(PluginChannel.RTC_READY, { enabled: false });
-
-    setGlobalState({
-      loadingOverlay: {
-        visible: true,
-        title: getTranslation(null, 'vc.reloadingPopupTitle'),
-        message: getTranslation(null, 'vc.reloadingPopup'),
-      },
-      voiceState: {
-        peers: [],
-      },
-    });
-
-    setTimeout(() => {
-      // hide the loading popup
-      setGlobalState({ loadingOverlay: { visible: false } });
-      SocketManager.send(PluginChannel.RTC_READY, { enabled: true });
-    }, 2000);
-  }
-
   panic() {
     setGlobalState({
       loadingOverlay: {
@@ -210,8 +181,8 @@ export const VoiceModule = new class IVoiceModule {
     }, 3500);
   }
 
-  addPeer(playerUuid, playerName, playerStreamKey, location) {
-    this.peerMap.set(playerStreamKey, new VoicePeer(playerName, playerUuid, playerStreamKey, location));
+  addPeer(playerUuid, playerName, playerStreamKey, location, options) {
+    this.peerMap.set(playerStreamKey, new VoicePeer(playerName, playerUuid, playerStreamKey, location, options));
     feedDebugValue(DebugStatistic.VOICE_PEERS, this.peerMap.size);
   }
 
@@ -236,6 +207,23 @@ export const VoiceModule = new class IVoiceModule {
   }
 
   removePeer(playerStreamKey) {
+    // FALLBACK! IF WE GET A UUID WE NEED TO RECOVER AND FIND THE PEER'S STREAM KEY
+    if (playerStreamKey.length > 32) {
+      debugLog('FALLBACK: UUID DETECTED, TRYING TO RECOVER STREAM KEY');
+      let foundKey = null;
+      this.peerMap.forEach((peer, key) => {
+        if (peer.peerUuid === playerStreamKey) {
+          foundKey = key;
+        }
+      });
+      if (foundKey) {
+        playerStreamKey = foundKey;
+      } else {
+        debugLog('FALLBACK: COULD NOT RECOVER STREAM KEY, ABORTING');
+        return;
+      }
+    }
+
     const peer = this.peerMap.get(playerStreamKey);
     if (peer) {
       peer.stop();

@@ -1,6 +1,10 @@
 package com.craftmend.openaudiomc.generic.platform;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
+import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
+import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.craftmend.openaudiomc.velocity.utils.VelocityChatColor;
 
 public enum Platform {
@@ -13,7 +17,7 @@ public enum Platform {
     ;
 
     public static String translateColors(String input) {
-        switch (OpenAudioMc.getInstance().getPlatform()){
+        switch (OpenAudioMc.getInstance().getPlatform()) {
             case SPIGOT:
                 return org.bukkit.ChatColor.translateAlternateColorCodes('&', input);
             case BUNGEE:
@@ -23,7 +27,19 @@ public enum Platform {
             default:
                 return input; // unknown platform
         }
+    }
 
+    public static SelectorTranslator<?> getSelectorTranslator() {
+        switch (OpenAudioMc.getInstance().getPlatform()){
+            case SPIGOT:
+                return new SpigotPlayerSelector();
+            case BUNGEE:
+                return new BungeePlayerSelector();
+            case VELOCITY:
+                return new VelocityPlayerSelector();
+            default:
+                return new FallbackPlayerSelector();
+        }
     }
 
     public static String makeColor(String color) {

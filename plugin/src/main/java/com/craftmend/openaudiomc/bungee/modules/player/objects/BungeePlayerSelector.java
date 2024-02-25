@@ -1,7 +1,9 @@
 package com.craftmend.openaudiomc.bungee.modules.player.objects;
 
+import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import lombok.AllArgsConstructor;
+import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -9,10 +11,30 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-public class BungeePlayerSelector {
+public class BungeePlayerSelector implements SelectorTranslator<CommandSender> {
 
     private String selector;
+    private CommandSender sender;
+
+    @Override
+    public void setString(String selector) {
+        this.selector = selector;
+    }
+
+    @Override
+    public void setSender(User<CommandSender> sender) {
+        this.sender = sender.getOriginal();
+    }
+
+    @Override
+    public List<User<CommandSender>> getResults() {
+        List<ProxiedPlayer> players = getPlayers(sender);
+        List<User<CommandSender>> users = new ArrayList<>();
+        for (ProxiedPlayer player : players) {
+            users.add(new BungeeUserAdapter(player));
+        }
+        return users;
+    }
 
     /**
      * this turns selectors like @a[r=5] into a usable list, since
@@ -21,7 +43,7 @@ public class BungeePlayerSelector {
      * @param commandSender the sender
      * @return players following the selector
      */
-    public List<ProxiedPlayer> getPlayers(CommandSender commandSender) {
+    private List<ProxiedPlayer> getPlayers(CommandSender commandSender) {
         List<ProxiedPlayer> players = new ArrayList<>();
 
         if (selector.startsWith("@a")) {
@@ -43,7 +65,7 @@ public class BungeePlayerSelector {
             if (proxiedPlayer != null) players.add(proxiedPlayer);
         } else {
             //you fucked it
-            OpenAudioLogger.toConsole("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
+            OpenAudioLogger.warn("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
             commandSender.sendMessage("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
         }
         return players;

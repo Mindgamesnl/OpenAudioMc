@@ -53,6 +53,14 @@ export const SocketManager = new class ISocketManager {
       TimeService.sync(timeStamp, hoursOffset);
     });
 
+    this.socket.on('server-reconnecting', () => {
+      setGlobalState({ isServerHealthy: false });
+    });
+
+    this.socket.on('server-reconnected', () => {
+      setGlobalState({ isServerHealthy: true });
+    });
+
     this.socket.on('disconnect', () => {
       MediaManager.destroySounds(null, true);
 

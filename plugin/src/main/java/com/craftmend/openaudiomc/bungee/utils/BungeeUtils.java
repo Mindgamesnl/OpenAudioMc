@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.bungee.utils;
 
-import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import lombok.SneakyThrows;
 import net.md_5.bungee.ServerConnection;
 import net.md_5.bungee.UserConnection;

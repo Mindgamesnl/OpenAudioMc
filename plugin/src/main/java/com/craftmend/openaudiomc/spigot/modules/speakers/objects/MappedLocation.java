@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers.objects;
 
+import com.craftmend.openaudiomc.api.speakers.Loc;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import org.bukkit.block.Block;
 
 @Data
 @AllArgsConstructor
-public class MappedLocation {
+public class MappedLocation implements Loc {
 
     private int x;
     private int y;

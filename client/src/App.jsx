@@ -1,4 +1,5 @@
 import './App.css';
+import 'react-tooltip/dist/react-tooltip.css';
 import React from 'react';
 import { Provider } from 'react-redux';
 import OpenAudioAppContainer from './client/OpenAudioAppContainer';

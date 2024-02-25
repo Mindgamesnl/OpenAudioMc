@@ -12,6 +12,7 @@ public class PacketClientSubscribeToVoice extends AbstractPacket {
                 PacketChannel.CLIENT_OUT_VOICE_SUBSCRIBE,
                 null
         );
+        this.queueableIfReconnecting = true;
     }
 
 }

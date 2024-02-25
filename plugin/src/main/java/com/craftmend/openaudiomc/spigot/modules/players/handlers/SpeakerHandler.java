@@ -11,8 +11,8 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.obj
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import com.craftmend.openaudiomc.spigot.modules.players.enums.PlayerLocationFollower;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.ExtraSpeakerOptions;
-import com.craftmend.openaudiomc.spigot.modules.speakers.enums.SpeakerType;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHandler;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
@@ -112,6 +112,7 @@ public class SpeakerHandler implements ITickableHandler {
                         0,
                         0,
                         false,
+                        false,
                         false
                 )
         )));
@@ -138,7 +139,8 @@ public class SpeakerHandler implements ITickableHandler {
                 speaker.getSpeaker().getMedia().getStartInstant(),
                 obstructions,
                 true,
-                true
+                true,
+                ExtraSpeakerOptions.OVERWRITE_REGIONS.isEnabledFor(speaker.getSpeaker())
         );
     }
 

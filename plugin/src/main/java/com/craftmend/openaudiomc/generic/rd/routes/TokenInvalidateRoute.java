@@ -39,7 +39,7 @@ public class TokenInvalidateRoute extends Route {
         }
 
         // ready save to do the thing
-        OpenAudioLogger.toConsole(cc.getUser().getName() + " activated a streamer mode reset");
+        OpenAudioLogger.info(cc.getUser().getName() + " activated a streamer mode reset");
         OpenAudioMc.getService(AuthenticationService.class).getDriver().removePlayerFromCache(clientUuid);
         cc.setAuth(new TokenFactory().build(cc));
 

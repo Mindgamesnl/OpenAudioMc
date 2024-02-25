@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.bungee.modules.commands.commands;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.bungee.modules.player.objects.BungeePlayerSelector;
 
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
@@ -17,6 +19,8 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.Optional;
+
 public class BungeeAudioCommand extends Command {
 
     /**
@@ -29,7 +33,7 @@ public class BungeeAudioCommand extends Command {
     };
 
     public BungeeAudioCommand() {
-        super("audio", null, "sound", "connect", "media", "muziek", "geluid", "voice", "vc", "voicechat");
+        super("audio", null, "sound", "connect", "media", "muziek", "geluid", "vc", "voicechat", "voice");
     }
 
     @Override
@@ -58,8 +62,13 @@ public class BungeeAudioCommand extends Command {
                 return;
             }
 
-            for (ProxiedPlayer player : new BungeePlayerSelector(args[0]).getPlayers(sender)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
+            BungeePlayerSelector selector = new BungeePlayerSelector();
+            selector.setSender(new BungeeUserAdapter(sender));
+            selector.setString(args[0]);
+
+            for (User<CommandSender> result : selector.getResults()) {
+                Optional<Client> client = result.findClient();
+                client.ifPresent(value -> ((ClientConnection) value).getAuth().publishSessionUrl());
             }
         }
     }

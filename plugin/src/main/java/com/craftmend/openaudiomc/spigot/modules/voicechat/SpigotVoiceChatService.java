@@ -1,13 +1,13 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.ApiEventDriver;
-import com.craftmend.openaudiomc.api.impl.event.enums.TickEventType;
-import com.craftmend.openaudiomc.api.impl.event.enums.VoiceEventCause;
-import com.craftmend.openaudiomc.api.impl.event.events.*;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.basic.Actor;
+import com.craftmend.openaudiomc.api.events.client.*;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
+import com.craftmend.openaudiomc.generic.events.events.AccountAddTagEvent;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
@@ -15,10 +15,13 @@ import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
-import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.PeerFilter;
-import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerProximityTicker;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.GamemodeFilterCustom;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.PlayerInChannelFilter;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.impl.TeamFilterCustom;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerPeerTicker;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.PlayerVicinityMessageTask;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.tasks.TickVoicePacketQueue;
 import lombok.AllArgsConstructor;
@@ -37,13 +40,13 @@ public class SpigotVoiceChatService extends Service {
     private NetworkingService networkingService;
 
     @Getter
-    private PlayerProximityTicker proximityTicker;
+    private PlayerPeerTicker peerTicker;
     private boolean firstRun = true;
     private int broadcastTickLoop = 0;
 
     @Override
     public void onEnable() {
-        ApiEventDriver eventDriver = AudioApi.getInstance().getEventDriver();
+        EventApi eventApi = EventApi.getInstance();
 
         if (StorageKey.SETTINGS_VOICECHAT_VICINITY_REMINDER_ENABLED.getBoolean()) {
             taskService.scheduleAsyncRepeatingTask(
@@ -54,53 +57,50 @@ public class SpigotVoiceChatService extends Service {
         }
 
         // enable voice chat when the tag gets added
-        eventDriver.on(AccountAddTagEvent.class)
-                .setHandler(handler -> {
-                    if (firstRun) {
-                        int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
+        eventApi.registerHandler(AccountAddTagEvent.class, handler -> {
+            if (firstRun) {
+                int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
-                        // tick every second
-                        proximityTicker = new PlayerProximityTicker(maxDistance, new PeerFilter());
-                        taskService.scheduleAsyncRepeatingTask(proximityTicker, 20, 20);
-                        taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
-                    }
-                    firstRun = false;
-                });
-
-        // register events to notify players when player enter, leave, and whatever
-        eventDriver.on(PlayerEnterVoiceProximityEvent.class).setHandler(event -> {
-            // skip if this is disabled in the settings
-            if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
-
-            // only notify normal events, we don't really care about special things
-            if (event.getCause() != VoiceEventCause.NORMAL) return;
-
-            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
-                return;
+                // tick every second
+                peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
+                taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);
+                taskService.scheduleAsyncRepeatingTask(new TickVoicePacketQueue(), 3, 3);
             }
-
-            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().remove(event.getListener().getOwner().getUniqueId());
+            firstRun = false;
         });
 
-        eventDriver.on(PlayerLeaveVoiceProximityEvent.class).setHandler(event -> {
+        eventApi.registerHandler(ClientPeerAddEvent.class, event -> {
             // skip if this is disabled in the settings
+            if (!event.getOptions().isSpatialAudio()) return; // exclude non-spatial audio clients
             if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
 
-            // only notify normal events, we don't really care about special things
-            if (event.getCause() != VoiceEventCause.NORMAL) return;
-
-            if (event.getListener().isModerating() && !event.getSpeaker().isModerating()) {
+            if (event.getClient().isModerating() && !event.getPeer().isModerating()) {
                 return;
             }
 
-            event.getSpeaker().getRtcSessionManager().getRecentPeerRemovals().add(event.getListener().getOwner().getUniqueId());
-            event.getSpeaker().getRtcSessionManager().getRecentPeerAdditions().remove(event.getListener().getOwner().getUniqueId());
+            ClientConnection listener = (ClientConnection) event.getClient();
+
+            listener.getRtcSessionManager().getCurrentProximityAdditions().add(event.getPeer().getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityDrops().remove(event.getPeer().getActor().getUniqueId());
+        });
+
+        eventApi.registerHandler(ClientPeerRemovedEvent.class, event -> {
+            // skip if this is disabled in the settings
+            if (!StorageKey.SETTINGS_VC_ANNOUNCEMENTS.getBoolean()) return;
+
+            if (event.getClient().isModerating() && !event.getPeer().isModerating()) {
+                return;
+            }
+
+            ClientConnection peer = (ClientConnection) event.getPeer();
+            ClientConnection listener = (ClientConnection) event.getClient();
+
+            listener.getRtcSessionManager().getCurrentProximityAdditions().remove(event.getPeer().getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityDrops().add(event.getPeer().getActor().getUniqueId());
         });
 
         // do vc tick loop
-        eventDriver.on(VoiceChatPeerTickEvent.class).setHandler(event -> {
-            if (event.getWhen() == TickEventType.BEFORE_TICK) return;
+        eventApi.registerHandler(VoicechatPeerTickEvent.class, handler -> {
             if (broadcastTickLoop > 2) {
                 broadcastTickLoop = 0;
                 return;
@@ -111,11 +111,11 @@ public class SpigotVoiceChatService extends Service {
             for (ClientConnection client : networkingService.getClients()) {
                 RtcSessionManager manager = client.getRtcSessionManager();
                 // handle their join messages, if any
-                if (!manager.getRecentPeerAdditions().isEmpty()) {
+                if (!manager.getCurrentProximityAdditions().isEmpty()) {
                     // do these
-                    if (manager.getRecentPeerAdditions().size() == 1) {
+                    if (manager.getCurrentProximityAdditions().size() == 1) {
                         // do single
-                        ClientConnection other = clientFromId(manager.getRecentPeerAdditions().stream().findFirst().get());
+                        ClientConnection other = clientFromId(manager.getCurrentProximityAdditions().stream().findFirst().get());
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_ADDED.getString()
@@ -124,21 +124,21 @@ public class SpigotVoiceChatService extends Service {
                         }
                     } else {
                         // do multiple
-                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerAdditions());
+                        MultiNameReference mnr = new MultiNameReference(manager.getCurrentProximityAdditions());
                         sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_ADDED.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
                         );
                     }
-                    manager.getRecentPeerAdditions().clear();
+                    manager.getCurrentProximityAdditions().clear();
                 }
 
-                if (!manager.getRecentPeerRemovals().isEmpty()) {
+                if (!manager.getCurrentProximityDrops().isEmpty()) {
                     // do these
-                    if (manager.getRecentPeerRemovals().size() == 1) {
+                    if (manager.getCurrentProximityDrops().size() == 1) {
                         // do single
-                        ClientConnection other = clientFromId(manager.getRecentPeerRemovals().stream().findFirst().get());
+                        ClientConnection other = clientFromId(manager.getCurrentProximityDrops().stream().findFirst().get());
                         if (other != null) {
                             sendMessage(client.getUser(), Platform.translateColors(
                                     StorageKey.MESSAGE_VC_USER_LEFT.getString()
@@ -147,45 +147,61 @@ public class SpigotVoiceChatService extends Service {
                         }
                     } else {
                         // do multiple
-                        MultiNameReference mnr = new MultiNameReference(manager.getRecentPeerRemovals());
+                        MultiNameReference mnr = new MultiNameReference(manager.getCurrentProximityDrops());
                         sendMessage(client.getUser(), Platform.translateColors(
                                 StorageKey.MESSAGE_VC_USERS_LEFT.getString()
                                         .replace("%count", mnr.getOtherCount() + "")
                                         .replace("%name", mnr.getFirstName()))
                         );
                     }
-                    manager.getRecentPeerRemovals().clear();
+                    manager.getCurrentProximityDrops().clear();
                 }
             }
         });
 
         // mute messages
-        eventDriver.on(MicrophoneMuteEvent.class).setHandler(event -> {
+        eventApi.registerHandler(MicrophoneMuteEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_MUTE.getString()));
         });
 
-        eventDriver.on(MicrophoneUnmuteEvent.class).setHandler(event -> {
+        eventApi.registerHandler(MicrophoneUnmuteEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_MIC_UNMUTE.getString()));
         });
 
-        // deafen messages
-        eventDriver.on(VoicechatDeafenEvent.class).setHandler(event -> {
+        eventApi.registerHandler(VoicechatDeafenEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_DEAFEN.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_DEAFEN.getString()));
         });
 
-        eventDriver.on(VoicechatUndeafenEvent.class).setHandler(event -> {
+        eventApi.registerHandler(VoicechatUndeafenEvent.class, event -> {
             if (!event.getClient().isConnected()) return;
-            sendMessage(event.getClient().getUser(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
+            sendMessage(event.getClient().getActor(), Platform.translateColors(StorageKey.MESSAGE_VC_UNDEAFEN.getString()));
         });
+
+        // enable default rules
+        if (StorageKey.SETTINGS_VOICE_FILTERS_GAMEMODE.getBoolean()) {
+            OpenAudioLogger.info("Enabling voicechat gamemode filter");
+            getService(FilterService.class).addCustomFilter(new GamemodeFilterCustom());
+        }
+
+        if (StorageKey.SETTINGS_VOICE_FILTERS_TEAM.getBoolean()) {
+            OpenAudioLogger.info("Enabling voicechat team filter");
+            getService(FilterService.class).addCustomFilter(new TeamFilterCustom());
+        }
+
+        if (StorageKey.SETTINGS_VOICE_FILTERS_CHANNEL.getBoolean()) {
+            OpenAudioLogger.info("Enabling voicechat channel filter");
+            getService(FilterService.class).addCustomFilter(new PlayerInChannelFilter(networkingService));
+        }
     }
 
-    private void sendMessage(User player, String message) {
+    private void sendMessage(Actor player, String message) {
         if (StorageKey.SETTINGS_VC_USE_HOTBAR.getBoolean()) {
             // use hotbar
-            player.sendActionbarMessage(message);
+            User<?> user = (User<?>) player;
+            user.sendActionbarMessage(message);
         } else {
             // normal
             player.sendMessage(message);

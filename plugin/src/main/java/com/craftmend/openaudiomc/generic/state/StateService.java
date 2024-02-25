@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.generic.state;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.StateChangeEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.generic.events.events.StateChangeEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.service.Service;
@@ -54,10 +54,10 @@ public class StateService extends Service {
     }
 
     public void setState(State state) {
-        AudioApi.getInstance().getEventDriver().fire(new StateChangeEvent(currentState, state));
+        EventApi.getInstance().callEvent(new StateChangeEvent(currentState, state));
 
         if (StorageKey.DEBUG_LOG_STATE_CHANGES.getBoolean()) {
-            OpenAudioLogger.toConsole("Updating state to: " + state.getClass().getSimpleName() + " - " + state.getDescription());
+            OpenAudioLogger.debug("Updating state to: " + state.getClass().getSimpleName() + " - " + state.getDescription(), 1);
         }
 
         this.currentState = state;

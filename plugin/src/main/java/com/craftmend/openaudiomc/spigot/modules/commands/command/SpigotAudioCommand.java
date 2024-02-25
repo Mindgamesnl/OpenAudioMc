@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.command;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.api.impl.event.events.SpigotAudioCommandEvent;
-import com.craftmend.openaudiomc.api.interfaces.AudioApi;
+import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandMiddewareExecutor;
+import com.craftmend.openaudiomc.generic.commands.helpers.PromptProxyError;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchCrashMiddleware;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
@@ -17,13 +19,18 @@ import com.craftmend.openaudiomc.generic.state.StateService;
 import com.craftmend.openaudiomc.generic.state.interfaces.State;
 import com.craftmend.openaudiomc.generic.state.states.WorkerState;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
+import com.craftmend.openaudiomc.spigot.modules.events.SpigotAudioCommandEvent;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
+
 import lombok.NoArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 
 @NoArgsConstructor
@@ -37,14 +44,12 @@ public class SpigotAudioCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        SpigotAudioCommandEvent event = AudioApi.getInstance().getEventDriver().fire(new SpigotAudioCommandEvent(commandSender, args));
-        if (event.isCanceled()) {
+        SpigotAudioCommandEvent event = (SpigotAudioCommandEvent) EventApi.getInstance().callEvent(new SpigotAudioCommandEvent(commandSender, args));
+        if (event.isCancelled()) {
             return true;
         }
 
-
-
-        User sua = OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(commandSender);
+        User<CommandSender> sua = new SpigotUserAdapter(commandSender);
 
         if (CommandMiddewareExecutor.shouldBeCanceled(sua, null, commandMiddleware))
             return true;
@@ -66,8 +71,7 @@ public class SpigotAudioCommand implements CommandExecutor {
                 OpenAudioMc.resolveDependency(UserHooks.class).sendPacket(user, new ClientRunAudioPacket(user.getUniqueId(), enteredToken));
             } else {
                 // its on a sub-server without an activated proxy, so completely ignore it
-                commandSender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) +
-                        state.getDescription());
+                PromptProxyError.sendTo(sua);
             }
             return true;
         }
@@ -90,8 +94,13 @@ public class SpigotAudioCommand implements CommandExecutor {
                 return true;
             }
 
-            for (Player player : new SpigotPlayerSelector(args[0]).getPlayers(commandSender)) {
-                OpenAudioMc.getService(NetworkingService.class).getClient(player.getUniqueId()).getAuth().publishSessionUrl();
+            SpigotPlayerSelector selector = new SpigotPlayerSelector();
+            selector.setSender(sua);
+            selector.setString(args[0]);
+
+            for (User<CommandSender> result : selector.getResults()) {
+                Optional<Client> client = result.findClient();
+                client.ifPresent(value -> ((ClientConnection) value).getAuth().publishSessionUrl());
             }
         }
         return true;

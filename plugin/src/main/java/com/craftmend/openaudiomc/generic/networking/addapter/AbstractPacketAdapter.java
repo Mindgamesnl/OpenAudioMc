@@ -57,7 +57,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
 
             return context.deserialize(element, loadClassModuleFallback("com.craftmend.openaudiomc.generic.networking.payloads." + type));
         } catch (ClassNotFoundException cnfe) {
-            OpenAudioLogger.handleException(cnfe);
+            OpenAudioLogger.error(cnfe, "Failed to deserialize packet type " + type);
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
     }
@@ -91,7 +91,7 @@ public class AbstractPacketAdapter implements JsonSerializer<AbstractPacketPaylo
             for (ExternalModule module : OpenAudioMc.getService(ModuleLoaderService.class).getModules()) {
                 try {
                     if (!walkedClassLoader) {
-                        OpenAudioLogger.toConsole("Handling a packet type that isn't in the native class loader, searching modules for the first time instead.");
+                        OpenAudioLogger.info("Handling a packet type that isn't in the native class loader, searching modules for the first time instead.");
                         walkedClassLoader = true;
                     }
                     return Class.forName(classname, true, module.getLoader());

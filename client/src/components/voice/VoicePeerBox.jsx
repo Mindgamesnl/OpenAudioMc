@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Tooltip } from 'react-tooltip';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
 
@@ -8,21 +9,24 @@ function VoicePeerBox(props) {
   let total = 0;
   let talking = 0;
 
-  const peers = Object.values(props.voicePeers).map((peer) => {
-    total++;
-    if (peer.speaking) talking++;
-    return (
-      <VoicePeerRow
-        loading={peer.loading}
-        name={peer.name}
-        key={peer.uuid}
-        streamKey={peer.streamKey}
-        uuid={peer.uuid}
-        speaking={peer.speaking}
-        muted={peer.muted}
-      />
-    );
-  });
+  const peers = Object.values(props.voicePeers)
+    .filter((peer) => peer.options.visible)
+    .map((peer) => {
+      total++;
+      if (peer.speaking) talking++;
+      return (
+        <VoicePeerRow
+          loading={peer.loading}
+          name={peer.name}
+          key={peer.uuid}
+          streamKey={peer.streamKey}
+          uuid={peer.uuid}
+          speaking={peer.speaking}
+          muted={peer.muted}
+          spatialAudio={peer.options.spatialAudio}
+        />
+      );
+    });
 
   // split array in two
   const half = Math.ceil(peers.length / 2);
@@ -112,6 +116,8 @@ function VoicePeerBox(props) {
           </div>
         </div>
       </div>
+      <Tooltip id="proximity-voice-tooltip" />
+      <Tooltip id="global-voice-tooltip" />
     </div>
   );
 }
