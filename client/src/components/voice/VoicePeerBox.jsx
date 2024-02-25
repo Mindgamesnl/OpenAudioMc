@@ -10,7 +10,7 @@ function VoicePeerBox(props) {
   let talking = 0;
 
   const peers = Object.values(props.voicePeers)
-    .filter((peer) => peer.options.visible)
+    .filter((peer) => (peer.options != null ? peer.options.visible : true))
     .map((peer) => {
       total++;
       if (peer.speaking) talking++;
