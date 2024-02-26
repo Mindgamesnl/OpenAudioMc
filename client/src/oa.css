@@ -1086,8 +1086,8 @@ footer {
 
 .navbar-bg {
     background: linear-gradient(
-            156deg, #07020D 50%,
-            color-mix(in srgb, var(--primary-accent), #07020D 60%),
+            167deg, #07020D 50%,
+            color-mix(in srgb, var(--primary-accent), #07020D 65%),
             #07020D 100%
     );
 }
@@ -1210,9 +1210,9 @@ pre {
 
 .audio-page-bg {
     background: linear-gradient(
-            78deg, #07020D 50%,
+            78deg, #07020D 43%,
             transparent,
-            #07020D 100%
+            color-mix(in srgb, transparent, #07020D 70%) 100%
     ), var(--background-image);
 }
 
