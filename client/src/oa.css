@@ -24,6 +24,7 @@
     --scrollbar-bg: rgb(1 2 3 / 40%);
     --primary-accent: #f8e047;
     --background-image: url("../assets/clientbg.jpg");
+    --dark-primary-background: color-mix(in srgb, var(--primary-accent), #07020D 75%);
 
     --common-border-radius: 6px;
 }
@@ -587,7 +588,7 @@ body.light-mode .video-bg:before {
     display: flex;
     flex-direction: column;
     font-size: 16px;
-    background-color: color-mix(in srgb, var(--content-bg), #07020D 80%);
+    background-color: color-mix(in srgb, var(--content-bg), var(--dark-primary-background) 80%);
     border-radius: var(--common-border-radius);
     border: 1px solid var(--theme-bg-color);
     padding: 20px;
@@ -1086,9 +1087,9 @@ footer {
 
 .navbar-bg {
     background: linear-gradient(
-            167deg, #07020D 50%,
-            color-mix(in srgb, var(--primary-accent), #07020D 65%),
-            #07020D 100%
+            167deg, var(--dark-primary-background) 50%,
+            color-mix(in srgb, var(--primary-accent), var(--dark-primary-background) 65%),
+            var(--dark-primary-background) 100%
     );
 }
 
@@ -1210,10 +1211,11 @@ pre {
 
 .audio-page-bg {
     background: linear-gradient(
-            78deg, #07020D 43%,
+            78deg, var(--dark-primary-background) 43%,
             transparent,
-            color-mix(in srgb, transparent, #07020D 70%) 100%
+            color-mix(in srgb, transparent, var(--dark-primary-background) 70%) 100%
     ), var(--background-image);
+    background-position-y: center;
 }
 
 .dark-bg {
