@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { msg } from '../../client/OpenAudioAppContainer';
+import { getTranslation, msg } from '../../client/OpenAudioAppContainer';
 import { setGlobalState } from '../../state/store';
 import './audiovolume.css';
 
@@ -40,6 +40,7 @@ class AudioVolume extends React.Component {
                       {' '}
                       {this.props.volume}
                       %
+                      <span className="float-right text-green-400 font-normal">{this.props.hasPlayingMedia ? getTranslation(null, 'navbar.isPlaying') : null}</span>
                     </label>
                     <div className="pt-1">
                       <input
@@ -70,5 +71,6 @@ function mapStateToProps(state) {
   return {
     volume: state.settings.normalVolume,
     settings: state.settings,
+    hasPlayingMedia: state.hasPlayingMedia,
   };
 }
