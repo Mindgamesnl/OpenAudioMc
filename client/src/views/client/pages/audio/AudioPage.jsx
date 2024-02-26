@@ -14,21 +14,29 @@ function AudioPage(props) {
   }
 
   return (
-    <div className="pb-4">
-      <Header />
-      {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat
-        ? <VcOnboarding /> : null}
-      {props.voiceState.enabled && !props.browserSupportsVoiceChat
-        ? <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner> : null}
-      {props.voiceState.enabled && !props.clientSupportsVoiceChat
-        ? <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner> : null}
-      <AudioVolume />
+    <>
+      <div className="h-full w-full audio-page-bg flex justify-center items-center">
+        <div className="xl:w-1/2">
+          <AudioVolume />
+          <Header />
+        </div>
+        <div className="xl:w-1/2">
+          {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat
+            ? <VcOnboarding /> : null}
+          {props.voiceState.enabled && !props.browserSupportsVoiceChat
+            ? <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner> : null}
+          {props.voiceState.enabled && !props.clientSupportsVoiceChat
+            ? <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner> : null}
+        </div>
+
+      </div>
       <SoundCloudPlayer />
-    </div>
+    </>
   );
 }
 
 export default connect(mapStateToProps)(AudioPage);
+
 function mapStateToProps(state) {
   return {
     browserSupportsVoiceChat: state.browserSupportsVoiceChat,

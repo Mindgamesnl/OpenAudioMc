@@ -6,6 +6,7 @@ import { showTextModal } from '../modal/InputModal';
 import { setGlobalState } from '../../state/store';
 import { msg } from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
+import UserAvatar from '../avatar/UserAvatar';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -41,10 +42,8 @@ class TabWindow extends Component {
 
     pages = pages.filter((page) => !page.hidden);
 
-    let playerUuid = '00000000-0000-0000-0000-000000000000';
     let playerName = 'Unknown';
     if (this.props.currentUser) {
-      playerUuid = this.props.currentUser.uuid;
       playerName = this.props.currentUser.userName;
     }
 
@@ -98,11 +97,7 @@ class TabWindow extends Component {
             <div className="basis-1/3 flex float-right w-1/3 place-content-end align-top ">
               <div className="flex h-full justify-center align-middle items-center items-end">
                 <p className="text-sm text-gray-300">{playerName}</p>
-                <img
-                  src={`https://visage.surgeplay.com/face/512/${playerUuid}`}
-                  className="h-8 w-8 rounded-xl mx-2"
-                  alt="avatar"
-                />
+                <UserAvatar />
               </div>
             </div>
           </nav>

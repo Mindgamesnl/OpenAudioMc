@@ -23,12 +23,12 @@ export class VcOnboarding extends React.Component {
 
   render() {
     return (
-      <div className="content-section shockwave">
+      <div className="content-section">
         <div
           className="content-card-collection items-stretch"
         >
           <div className="flex justify-center">
-            <div className="content-card wide-card pt-0 pb-0">
+            <div className="content-card wide-card pt-0 pb-0 audio-page-bg">
               <div className="content-card-content pt-0 pb-0">
                 <span className="pt-5 inline">
                   <svg
@@ -74,9 +74,9 @@ export class VcOnboarding extends React.Component {
                   </div>
                   <div className="flex justify-center z-50 -mt-8 hidden-on-mobile">
                     <img
-                      className="transform rounded-xl object-cover w-2/5 object-left-top"
+                      className="transform rounded-xl object-cover w-full object-left-top"
                       src="assets/bust.png"
-                      alt="App screenshot"
+                      alt="Minecraft player with a microphone"
                     />
                   </div>
                 </div>

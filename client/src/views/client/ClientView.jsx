@@ -28,7 +28,6 @@ function ClientView(props) {
             name={getTranslation(null, 'navbar.audio')}
             content={<AudioPage />}
             buttonContent={<MusicNoteSvg />}
-            subtext={props.hasPlayingMedia ? getTranslation(null, 'navbar.isPlaying') : null}
             colorWhenHasSubtext
           />
           <TabPage
@@ -90,6 +89,5 @@ function mapStateToProps(state) {
     voiceState: state.voiceState,
     browserSupportIsLimited: state.browserSupportIsLimited,
     navbarDetails: state.navbarDetails,
-    hasPlayingMedia: state.hasPlayingMedia,
   };
 }

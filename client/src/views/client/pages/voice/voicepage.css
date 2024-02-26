@@ -1,0 +1,7 @@
+.voice-page-bg {
+    background: linear-gradient(
+            85deg, color-mix(in srgb, transparent, #07020D 80%) 20%,
+            color-mix(in srgb, transparent, #07020D 60%),
+            color-mix(in srgb, transparent, #07020D 70%) 100%
+    ), var(--background-image);
+}
