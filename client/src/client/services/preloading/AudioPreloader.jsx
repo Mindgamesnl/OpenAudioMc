@@ -97,7 +97,7 @@ export const AudioPreloader = new class IAudPreload {
     let media = this.findAndRemoveMedia(source);
 
     let cacheCorsSafe = true;
-    if (isProxyRequired(source)) {
+    if (isProxyRequired(source) || corsRequired) {
       cacheCorsSafe = false;
     }
 
@@ -111,7 +111,7 @@ export const AudioPreloader = new class IAudPreload {
           debugLog(`Preloaded media was not cors safe, adapting source to ${source}`);
         }
       }
-      media = new PreloadedMedia(source, null, corsRequired);
+      media = new PreloadedMedia(source, null, false, corsRequired);
     } else {
       debugLog(`Using preloaded media, found ${media.source} in namespace ${media.namespace}, and it already has ready state ${media.audio.readyState} with stopwatch value ${media.audio.hasAttribute('stopwatchReady')}`);
     }

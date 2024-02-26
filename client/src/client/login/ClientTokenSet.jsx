@@ -73,7 +73,7 @@ export default class ClientTokenSet {
       } else if (url.split('#').length >= 2) {
         // try to load via fetch
         const token = url.split('#')[1];
-        fetch(`${API_ENDPOINT.CLIENT_SESSION_SERVER}?token=${token}`)
+        fetch(`${API_ENDPOINT.CLIENT_SESSION_SERVER}?token=${token}`, { cache: 'no-store' })
           .then((body) => {
             // is the response okay?
             if (body.status === 403) {

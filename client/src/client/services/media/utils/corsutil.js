@@ -35,6 +35,10 @@ function getQueryParam(url, key, defaultValue = null) {
 }
 
 export function proxifyUrl(url) {
+  // is it official?
+  if (isDomainOfficial(getDomainOfStr(url))) {
+    return url;
+  }
   if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1 && getQueryParam(url, 'oaNoCors') !== 'true') {
     return AUDIO_ENDPOINTS.PROXY + encodeURIComponent(url);
   }
