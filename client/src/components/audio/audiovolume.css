@@ -1,7 +1,8 @@
-:root{
-    --main-volume-color: #fff;
+.main-vol-slider::-webkit-slider-thumb{
+    box-shadow: -908px 0 0 900px var(--primary-accent) !important;
+}
+/* white outline for the track */
+.main-vol-slider::-webkit-slider-runnable-track{
+    background-color: color-mix(in srgb, var(--primary-accent), #07020D 60%) !important;
 }
 
-.main-vol-slider::-webkit-slider-thumb{
-    box-shadow: -908px 0 0 900px var(--main-volume-color) !important;
-}

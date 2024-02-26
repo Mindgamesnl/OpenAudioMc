@@ -7,10 +7,11 @@ import VoicePeerBox from '../../../../components/voice/VoicePeerBox';
 import { DisabledRegionBanner } from '../../../../components/voice/DisabledRegionBanner';
 import VoiceChatPiP from '../../../../components/dpip/VoiceChatPiP';
 import { DocumentPictureInPicture } from '../../../../components/dpip/DocumentPictureInPicture';
+import './voicepage.css';
 
 function VoicePage(props) {
   return (
-    <div className="w-full">
+    <div className="w-full h-full voice-page-bg">
       {props.voiceState.serverHasModeration ? <ModerationWarning /> : null}
       <VoiceSettings />
       {(props.voiceState.isTemporarilyDisabled || props.voiceState.isMutedServerSide) ? <DisabledRegionBanner /> : null}
