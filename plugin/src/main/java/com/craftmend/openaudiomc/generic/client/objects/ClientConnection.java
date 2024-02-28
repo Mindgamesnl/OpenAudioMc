@@ -86,7 +86,6 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
                     this.getAuth().publishSessionUrl();
                 }
             }, 20 * StorageKey.SETTINGS_SEND_URL_ON_JOIN_DELAY.getInt());
-
         if (!OpenAudioMc.getInstance().getInvoker().isNodeServer()) {
             OpenAudioMc.getService(GlobalConstantService.class).sendNotifications(user);
         }

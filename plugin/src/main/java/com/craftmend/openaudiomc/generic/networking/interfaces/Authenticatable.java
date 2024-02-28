@@ -24,17 +24,4 @@ public interface Authenticatable {
         OpenAudioMc.getService(NetworkingService.class).send(this, new PacketSocketKickClient());
     }
 
-    static Authenticatable get(Player player) {
-        return get(player.getUniqueId());
-    }
-
-    static Authenticatable get(ProxiedPlayer player) {
-        return get(player.getUniqueId());
-    }
-
-    static Authenticatable get(UUID uuid) {
-        ClientConnection clientConnection = OpenAudioMc.getService(NetworkingService.class).getClient(uuid);
-        return clientConnection;
-    }
-
 }

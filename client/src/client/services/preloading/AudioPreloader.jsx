@@ -13,9 +13,10 @@ export const AudioPreloader = new class IAudPreload {
   async fetch(source, namespace, replenish = false) {
     source = await this.sourceRewriter.translate(source);
 
-    if (isProxyRequired(source)) {
-      source = proxifyUrl(source);
-    }
+    // assume that we don't need cors for this, its a boring opp
+    // if (isProxyRequired(source)) {
+    //   source = proxifyUrl(source);
+    // }
 
     debugLog(`Preloading audio: ${source}`);
     const media = new PreloadedMedia(source, namespace, replenish);
