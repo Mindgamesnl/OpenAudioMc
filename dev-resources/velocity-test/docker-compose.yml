@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  velocity-paper1:
+    restart: on-failure
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=PAPER
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+      - VERSION=1.20.2
+      #- BUILD_FROM_SOURCE=true
+    volumes:
+      - ./velocity-spigot1:/data
+      - ./plugins:/plugins
+
+  velocity-paper2:
+    restart: on-failure
+    image: itzg/minecraft-server
+    environment:
+      - EULA=TRUE
+      - ONLINE_MODE=FALSE
+      - TYPE=PAPER
+      - SPIGOT_BUNGEE=true
+      - BUNGEECORD_IP=0.0.0.0
+      - VERSION=1.20.2
+     # - BUILD_FROM_SOURCE=true
+    volumes:
+      - ./velocity-spigot2:/data
+      - ./plugins:/plugins
+
+  velocity:
+    restart: on-failure
+    image: itzg/bungeecord
+    ports:
+      - 25565:25565
+    environment:
+      - TYPE=VELOCITY
+      - EULA=TRUE
+    volumes:
+      - ./plugins:/plugins
+      - ./velocity:/config

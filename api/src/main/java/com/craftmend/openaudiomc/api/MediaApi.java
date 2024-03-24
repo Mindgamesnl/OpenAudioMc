@@ -123,4 +123,21 @@ public interface MediaApi {
      */
     void stopFor(@NotNull String id, @NotNull Client... clients);
 
+    /**
+     * Stop a specific media by ID for a client
+     *
+     * @param id      Media ID
+     * @param fadeTime Fade time in milliseconds
+     * @param clients Target clients
+     */
+    void stopFor(@NotNull String id, int fadeTime, @NotNull Client... clients);
+
+    /**
+     * Stop all media (except regions and speakers) for a client
+     *
+     * @param fadeTime Fade time in milliseconds
+     * @param clients Target clients
+     */
+    void stopFor(int fadeTime, @NotNull Client... clients);
+
 }

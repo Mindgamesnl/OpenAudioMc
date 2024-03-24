@@ -44,6 +44,13 @@ public class AuthenticationService extends Service {
     public void initialize() {
         driver = new AuthenticationDriver(this);
         registrationProvider = new RestRequest(RegistrationResponse.class, Endpoint.REGISTER);
+
+        // add provisioning key, if we have it, look for it in the launch properties
+        String provisioningKey = System.getProperty("openaudio.provisioningKey");
+        if (provisioningKey != null) {
+            registrationProvider.setQuery("provisioningKey", provisioningKey);
+        }
+
         OpenAudioLogger.info("Starting authentication module");
         loadData();
         explicitParentPublicKey = serverKeySet.getPublicKey();

@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SpigotConfiguration implements Configuration, Listener {
 
     private FileConfiguration mainConfig;
-    private final FileConfiguration dataConfig;
+    private FileConfiguration dataConfig;
 
     private final Map<StorageKey, String> cachedConfigStrings = new ConcurrentHashMap<>();
 
@@ -285,6 +285,7 @@ public class SpigotConfiguration implements Configuration, Listener {
         this.cachedConfigStrings.clear();
         OpenAudioMcSpigot.getInstance().reloadConfig();
         mainConfig = OpenAudioMcSpigot.getInstance().getConfig();
+        dataConfig = YamlConfiguration.loadConfiguration(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "data.yml"));
         this.loadSettings();
     }
 
