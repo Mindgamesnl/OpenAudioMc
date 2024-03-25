@@ -100,6 +100,7 @@ vc.person=person
 vc.deafened=You are currently deafened
 vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
+vc.peerLoading=Loading {name}
 
 
 settings.voicechat.echocancel.title=Echo cancellation
