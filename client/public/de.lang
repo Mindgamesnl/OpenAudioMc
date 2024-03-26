@@ -96,6 +96,12 @@ vc.peersHiddenTitle=Sprachchat-Spieler sind versteckt
 vc.peersHiddenText=Dieser Server hat die Möglichkeit, zu sehen, wer im Sprachchat ist, deaktiviert, um unfaire Vorteile zu verhindern. Du kannst die Spieler jedoch immer noch hören.
 vc.isTalking=spricht
 vc.people=Personen
+vc.person=Person
+vc.deafened=Du bist derzeit stummgeschaltet
+vc.tooltip.local=Umgebungsabhängiger Sprachchat
+vc.tooltip.global=Globaler Sprachchat
+vc.peerLoading=Lade {name}
+
 
 settings.voicechat.echocancel.title=Echo-Unterdrückung
 settings.voicechat.echocancel.body=Die Echo-Unterdrückung wird versuchen, das aufgenommene Echo zu reduzieren. Dies könnte hilfreich sein, wenn du Lautsprecher anstelle von Kopfhörern verwendest. Deine Audioqualität und Hörbarkeit könnte sich dadurch jedoch auf einigen Plattformen verschlechtern.
@@ -138,5 +144,7 @@ settings.spatial.legacy=Legacy (altes System)
 settings.interpolation.title=Glättung der Übergänge
 settings.interpolation.body=Übergänge werden automatisch geglättet, um das Stottern des Sprechers/Voicechats beim Gehen zu minimieren. Dies führt zu einer zusätzlichen Verzögerung, klingt aber besser.
 settings.interpolation.button=Aktiviere Übergangsglättung
+
+network.serverUnhealthy=Die Verbindung von {serverName} zu OpenAudioMc ist instabil. Die Funktionalität des Clients könnte eingeschränkt sein, bis die Verbindung wiederhergestellt ist.
 
 tooltip.close=Schließen
