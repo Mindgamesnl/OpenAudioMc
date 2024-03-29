@@ -21,7 +21,6 @@ function AudioPage(props) {
           <Header />
         </div>
         <div className="xl:w-1/2">
-          <VcOnboarding />
           {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat
             ? <VcOnboarding /> : null}
           {props.voiceState.enabled && !props.browserSupportsVoiceChat
