@@ -34,6 +34,7 @@ class DebugPage extends React.Component {
         'grey',
         'magenta',
       ],
+      transceiverNames: [],
       playerLocation: {
         x: 0,
         y: 0,
@@ -57,6 +58,7 @@ class DebugPage extends React.Component {
               z: WorldModule.player.location.z,
               yaw: WorldModule.player.yaw,
             },
+            transceiverNames: VoiceModule.peerManager.getChannelNames(),
             peers: VoiceModule.getPeerLocations(),
             speakers: WorldModule.getSpeakerLocations(),
           });
@@ -144,6 +146,18 @@ class DebugPage extends React.Component {
               <i className="text-blue-200">{getGlobalState().currentUser.userName}</i>
             </p>
           </OaStyleCard>
+
+          <OaStyleCard title="Tranceivers">
+            <p className="text-black">
+              {this.state.transceiverNames.map((name) => (
+                <span key={`${name}-`}>
+                  {name}
+                  <br />
+                </span>
+              ))}
+            </p>
+          </OaStyleCard>
+
           {this.state.panels}
 
           <OaStyleCard title="Spatial Rendering">

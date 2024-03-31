@@ -157,6 +157,7 @@ export const VoiceModule = new class IVoiceModule {
       error,
     };
     reportVital(`voice-panic:${JSON.stringify(readable)}`);
+    // eslint-disable-next-line no-console
     console.error('Voice chat has crashed:', readable);
   }
 

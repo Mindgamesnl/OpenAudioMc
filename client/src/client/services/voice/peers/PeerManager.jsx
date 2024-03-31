@@ -270,6 +270,18 @@ export class PeerManager {
     });
   }
 
+  getChannelNames() {
+    const names = [];
+    this.peerConnection.getTransceivers().forEach((transceiver) => {
+      let receiverString = '???';
+      if (transceiver.receiver.track) {
+        receiverString = `${transceiver.receiver.track.id}/${transceiver.receiver.track.label}`;
+      }
+      names.push(`${transceiver.direction}|${receiverString}`);
+    });
+    return names;
+  }
+
   gatherDebugState() {
     return {
       peerConnection: this.peerConnection ? this.peerConnection.connectionState : '(null)',
