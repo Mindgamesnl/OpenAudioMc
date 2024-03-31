@@ -136,25 +136,28 @@ export const VoiceModule = new class IVoiceModule {
     });
     toast.error('Voice chat has crashed, please reload the page to try again. Feel free to contact support if this keeps happening, as you might have a permission issue.', { autoClose: false });
 
-    if (source) {
-      const fileName = source.fileName || 'unknown';
-      const lineNumber = source.lineNumber || 'unknown';
-      const columnNumber = source.columnNumber || 'unknown';
-      const stack = source.stack || 'unknown';
-      const error = source.error || 'unknown';
-      const errorMessage = source.message || 'unknown';
-      const readable = {
-        source: 'voice:panic',
-        readableMessage: message,
-        errorMessage,
-        fileName,
-        lineNumber,
-        columnNumber,
-        stack,
-        error,
-      };
-      reportVital(`voice-panic:${JSON.stringify(readable)}`);
+    if (source == null) {
+      source = {};
     }
+
+    const fileName = source.fileName || 'unknown';
+    const lineNumber = source.lineNumber || 'unknown';
+    const columnNumber = source.columnNumber || 'unknown';
+    const stack = source.stack || 'unknown';
+    const error = source.error || 'unknown';
+    const errorMessage = source.message || 'unknown';
+    const readable = {
+      source: 'voice:panic',
+      readableMessage: message,
+      errorMessage,
+      fileName,
+      lineNumber,
+      columnNumber,
+      stack,
+      error,
+    };
+    reportVital(`voice-panic:${JSON.stringify(readable)}`);
+    console.error('Voice chat has crashed:', readable);
   }
 
   isReady() {
