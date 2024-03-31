@@ -271,6 +271,9 @@ export class PeerManager {
   }
 
   getChannelNames() {
+    if (!this.peerConnection) {
+      return [];
+    }
     const names = [];
     this.peerConnection.getTransceivers().forEach((transceiver) => {
       let receiverString = '???';
