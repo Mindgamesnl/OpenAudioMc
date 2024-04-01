@@ -159,7 +159,10 @@ export class Sound extends AudioSourceProcessor {
       const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
         || bypassBuffer; // alternatively allow a bypass
 
-      const requiredReadyState = 2;
+      let requiredReadyState = 3;
+      if (bypassBuffer) {
+        requiredReadyState = 2;
+      }
 
       if (this.soundElement.readyState >= requiredReadyState && loadedFinished) {
         const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime') || 0);
