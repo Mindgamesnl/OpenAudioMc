@@ -12,19 +12,33 @@ export class MediaPerformanceWatcher {
     this.running = false;
     this.finished = false;
 
+    // force bind the functions
+    this.start = this.start.bind(this);
+    this.handleDehydration = this.handleDehydration.bind(this);
+    this.stop = this.stop.bind(this);
+    this.handleProgress = this.handleProgress.bind(this);
+
+    this.start();
+
     this.soundElement.addEventListener('canplaythrough', () => {
       this.stop();
     });
-
-    // is it loading?
-    this.soundElement.addEventListener('loadstart', this.start.bind(this));
-
-    // register waiting
-    this.soundElement.addEventListener('waiting', this.handleDehydration.bind(this));
+    this.soundElement.addEventListener('waiting', this.handleDehydration);
+    this.soundElement.addEventListener('progress', this.handleProgress);
+    this.soundElement.addEventListener('canplay', () => {
+      this.stop();
+    });
 
     // is ready state already 4?
     if (this.soundElement.readyState === 4) {
       this.start();
+      this.stop(true);
+    }
+  }
+
+  handleProgress() {
+    // is ready state already 4?
+    if (this.soundElement.readyState === 4) {
       this.stop(true);
     }
   }
@@ -38,7 +52,7 @@ export class MediaPerformanceWatcher {
   }
 
   handleDehydration() {
-
+    debugLog(`Media load waiting state for ${this.soundElement.src}`);
   }
 
   stop(earlyStop = false) {

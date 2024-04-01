@@ -193,6 +193,13 @@ export class Sound extends AudioSourceProcessor {
           this.mixer.removeChannel(this.channel);
           // eslint-disable-next-line no-console
           console.warn('Sound got shut down while loading');
+        } else if (this.soundElement.paused) {
+          // attempt to play
+          this.soundElement.play().catch((e) => {
+            // eslint-disable-next-line no-console
+            console.warn('Failed to play sound', e);
+          });
+          debugLog('Finally starting sound', this.source);
         }
       } else {
         // debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));

@@ -7,7 +7,7 @@ export class PreloadedMedia {
     this.namespace = namespace;
     this.failed = false;
     this.failHandlers = [];
-    const soundElement = new Audio();
+    const soundElement = document.createElement('audio');
 
     // catch errors
     soundElement.addEventListener('error', () => {
@@ -18,7 +18,6 @@ export class PreloadedMedia {
     });
 
     WatchMediaPerformance(soundElement);
-    soundElement.autoplay = false;
 
     if (corsRequired) {
       soundElement.crossOrigin = 'anonymous';
