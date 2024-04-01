@@ -3,7 +3,7 @@ import { TimeService } from '../../time/TimeService';
 import { SocketManager } from '../../socket/SocketModule';
 import * as PluginChannel from '../../../util/PluginChannel';
 import { ReportError } from '../../../util/ErrorReporter';
-import { getGlobalState } from '../../../../state/store';
+import { getGlobalState, setGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
 import { isProxyRequired, proxifyUrl } from '../utils/corsutil';
@@ -69,10 +69,8 @@ export class Sound extends AudioSourceProcessor {
     };
 
     // set attributes
-    this.soundElement.setAttribute('preload', 'auto');
     this.soundElement.setAttribute('controls', 'none');
     this.soundElement.setAttribute('display', 'none');
-    this.soundElement.preload = 'auto';
   }
 
   destroy() {
@@ -161,14 +159,19 @@ export class Sound extends AudioSourceProcessor {
       const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
         || bypassBuffer; // alternatively allow a bypass
 
-      let requiredReadyState = 4;
-      if (bypassBuffer) {
-        requiredReadyState = 3;
-      }
+      const requiredReadyState = 2;
 
       if (this.soundElement.readyState >= requiredReadyState && loadedFinished) {
         const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime') || 0);
         debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s.`);
+
+        // is duration longer than 15 seconds?
+        if (loadDuration > 15) {
+          setGlobalState({
+            isMediaSlow: true,
+          });
+        }
+
         this.loaded = true;
 
         for (let i = 0; i < this.initCallbacks.length; i++) {
@@ -202,7 +205,7 @@ export class Sound extends AudioSourceProcessor {
           debugLog('Finally starting sound', this.source);
         }
       } else {
-        // debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
+        debugLog('Media not ready yet', this.soundElement.readyState, this.soundElement.hasAttribute('stopwatchReady'));
       }
     }
   }

@@ -146,5 +146,6 @@ settings.interpolation.body=Automatically smooth movements to minimize speaker/v
 settings.interpolation.button=Enable smoothing
 
 network.serverUnhealthy={serverName}'s connection to OpenAudioMc is unstable, client functionality may be limited until the connection is restored.
+network.mediaSlow=Some audio files are taking a while to load, this may be due to a slow connection or media being too large. Please be patient.
 
 tooltip.close=Close

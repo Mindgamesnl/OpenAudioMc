@@ -29,6 +29,7 @@ const initialState = {
   isPremium: false,
   isClaimed: false,
   isServerHealthy: true,
+  isMediaSlow: false,
   clientSupportsVoiceChat: false, // not valid https
   browserSupportsVoiceChat: false, // no webrtc at all
   browserSupportIsLimited: false, // operagx, broken settings?

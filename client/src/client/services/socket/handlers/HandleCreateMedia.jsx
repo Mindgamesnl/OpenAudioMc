@@ -66,6 +66,7 @@ export async function handleCreateMedia(data) {
 
   // load file and play
   await createdMedia.load(source);
+
   createdChannel.setChannelVolume(0);
   createdMedia.setLooping(looping);
   createdMedia.setStartAt(startAt);

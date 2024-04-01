@@ -80,7 +80,7 @@ export const AudioPreloader = new class IAudPreload {
               if (media.keepCopy && !skipReplenish) {
                 // this media is set to replenish, so we need to fetch it again
                 debugLog(`Replenishing media: ${source}`);
-                this.fetch(source, namespace, true);
+                // this.fetch(source, namespace, true);
               }
             }
             return media;

@@ -7,6 +7,7 @@ import { setGlobalState } from '../../state/store';
 import { msg } from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 import UserAvatar from '../avatar/UserAvatar';
+import MediaSlowWarning from '../connectionwarning/SlowMediaWarning';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -58,6 +59,7 @@ class TabWindow extends Component {
         <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
             <ServerConnectionWarning />
+            <MediaSlowWarning />
             {pages[this.props.currentTab].content}
           </div>
         </main>

@@ -25,12 +25,9 @@ export class MediaPerformanceWatcher {
     });
     this.soundElement.addEventListener('waiting', this.handleDehydration);
     this.soundElement.addEventListener('progress', this.handleProgress);
-    this.soundElement.addEventListener('canplay', () => {
-      this.stop();
-    });
 
     // is ready state already 4?
-    if (this.soundElement.readyState === 4) {
+    if (this.soundElement.readyState === 2) {
       this.start();
       this.stop(true);
     }
