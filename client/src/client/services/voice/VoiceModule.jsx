@@ -134,7 +134,7 @@ export const VoiceModule = new class IVoiceModule {
         enabled: false,
       },
     });
-    toast.error('Voice chat has crashed, please reload the page to try again. Feel free to contact support if this keeps happening, as you might have a permission issue.', { autoClose: false });
+    toast.error('VoiceChat ran into an issue. This might be because of an error or the server running out of available slots.', { autoClose: false });
 
     if (source == null) {
       source = {};
