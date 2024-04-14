@@ -121,7 +121,7 @@ settings.mix-and-fade.button=Abilita mixaggio
 settings.preload.title=Precarica automaticamente i file audio
 settings.preload.body=Se abilitato, OpenAudioMc precarichera' automaticamente i file che vengono utilizzati spesso nella tua posizione di gioco. Questo rendera' l'audio piu' reattivo, ma utilizzera' piu' dati.
 settings.preload.button=Abilita il precaricamento
-settings.rolloff.title=Attenuazione Audio 3D
+settings.rolloff.title=Attenuazione audio 3D
 settings.rolloff.body=Controlla la quantita' di smorzamento applicata all'audio 3D in base alla distanza. Lo 0% non smorza, il 100% smorza completamente. Si applica sia agli altoparlanti che alla chat vocale.
 settings.rolloff.01=1% (minimo)
 settings.rolloff.5=50%
@@ -130,7 +130,7 @@ settings.rolloff.1=100% (normale)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (estremo)
 settings.language.title=Lingua
-settings.language.body=Seleziona la lingua preferita
+settings.language.body=Seleziona la lingua preferita.
 settings.distancemodel.title=Volume audio a distanza
 settings.distancemodel.body=Decidi quale algoritmo deve essere usato per ridurre il volume della sorgente audio quando l'ascoltatore si allontana da essa.
 settings.distancemodel.linear=Lineare
@@ -142,7 +142,7 @@ settings.spatial.modern=Preciso
 settings.spatial.legacy=Legacy (vecchio sistema)
 
 settings.interpolation.title=Posizione livellamento
-settings.interpolation.body=Smussa automaticamente i movimento per ridurre al minimo le balbuzie dell'altoparlante/chat vocale mentre si cammina. Cio' aggiunge ulteriore ritardo al movimento, ma suona meglio.
+settings.interpolation.body=Smussa automaticamente i movimenti per ridurre al minimo le balbuzie dell'altoparlante/chat vocale mentre si cammina. Cio' aggiunge ulteriore ritardo al movimento, ma suona meglio.
 settings.interpolation.button=Abilita livellamento
 
 network.serverUnhealthy=La connessione di {serverName} a OpenAudioMc e' instabile, le funzionalita' del client potrebbero essere limitate fino a quando la connessione verra' ripristinata.
