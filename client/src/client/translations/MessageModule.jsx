@@ -126,7 +126,7 @@ export const MessageModule = new class MessageModule {
         name: 'Polski',
         visible: true,
       },
-      ir: {
+      it: {
         file: 'it.lang',
         name: 'Italiano',
         visible: true,
