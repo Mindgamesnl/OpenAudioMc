@@ -1,11 +1,11 @@
-lang.name=English
+lang.name=Italiano
 
 lang.detectedAs=Abbiamo cambiato la tua lingua a %langName, vuoi mantenerla così?
 lang.keep=Mantieni %langName
 lang.toEn=Passa a Inglese
 
 ui.loading=Caricamento...
-ui.logout=Log out
+ui.logout=Disconnetti
 
 ui.urlChangeDetected=cambiamento URL rilevato
 ui.hashchange=L'URL e' stato cambiato. Vuoi ricaricare la pagina e avviare una nuova sessione? Questo cancellera' la tua sessione attuale.
@@ -29,7 +29,7 @@ home.activateText=Questo e' la pagina web personale che verra' utilitzzata per r
 home.clickAnywhere=Clicca da qualche parte per cominciare
 home.activateHeader=Clicca qui per connetterti
 home.welcome=Benvenuto, %player!
-home.header=Benvenuto nel nostro client audio! Tieni aperta questa pagina  keep this page open per usufruire della musica in gioco e degli effetti. Puoi tornare qui in qualunque momento durante la tua sessione per cambiare il volume e le tue impostazioni.
+home.header=Benvenuto nel nostro client audio! Tieni aperta questa pagina per usufruire della musica in gioco e degli effetti. Puoi tornare qui in qualunque momento durante la tua sessione per cambiare il volume e le tue impostazioni.
 home.volumeContext=Questo cursore controlla il volume della musica in gioco e degli effetti. Puoi anche usare <pre>/volume &lt;volume&gt;</pre> per cambiare il volume dal gioco in qualsiasi momento o per impostarlo a 0 e mutarlo temporaneamente.
 home.audioControls=Controlli audio
 home.notificationsTitle=Notifiche
@@ -57,7 +57,7 @@ vc.unmuteMic=Smuta Microfono
 vc.input=Dispositivo di Input
 vc.aboutInput=Seleziona il microfono che vuoi utilizzare, il cambiamento comportera' il riavvio della sessione.
 vc.positionalAudio=Audio Posizionale
-vc.aboutPositionalAudio=Renderizza un paesaggio sono a 360 gradi, che ti permette di capire da dove provengono le voci.
+vc.aboutPositionalAudio=Renderizza un paesaggio a 360 gradi, che ti permette di capire da dove provengono le voci.
 vc.settingsDisable=Disabilita
 vc.settingsEnablePositionalAudio=Abilita Audio Posizionale
 vc.settingsDisablePositionalAudio=Disabilita Audio Posizionale
@@ -97,14 +97,14 @@ vc.peersHiddenText=Questo server ha disabilitato la possibilita' di vedere chi s
 vc.isTalking=sta parlando
 vc.people=persone
 vc.person=persona
-vc.deafened=Attualmente sei assordato
+vc.deafened=Attualmente hai l'audio mutato
 vc.tooltip.local=Chat Vocale di Prossimita'
-vc.tooltip.global=Global Voice Chat
+vc.tooltip.global=Chat Vocale Globale
 vc.peerLoading=Caricamento {name}
 
 
 settings.voicechat.echocancel.title=Cancellazione eco
-settings.voicechat.echocancel.body=Questa opzione tenta di cancellare qualsiasi eco captato dal tuo microfono. E' molto utile se stai utilizzando le casse al posto delle cuffie ma potrebbe rendere piu' difficile l'ascolto su alcune piattaforme. but may make your harder to hear on some platforms.
+settings.voicechat.echocancel.body=Questa opzione tenta di cancellare qualsiasi eco captato dal tuo microfono. E' molto utile se stai utilizzando le casse al posto delle cuffie ma potrebbe rendere piu' difficile l'ascolto su alcune piattaforme.
 settings.voicechat.echocancel.button=Abilita cancellazione eco
 settings.voicechat.chimes.title=Rintocchi Chat Vocale
 settings.voicechat.chimes.body=I rintocchi sono piccoli suoni che vengono riprodotti ogni volta che si muta/smuta l'audio del microfono. I creatori di contenuto potrebbero voler disabilitare questa opzione.
@@ -121,7 +121,7 @@ settings.mix-and-fade.button=Abilita mixaggio
 settings.preload.title=Precarica automaticamente i file audio
 settings.preload.body=Se abilitato, OpenAudioMc precarichera' automaticamente i file che vengono utilizzati spesso nella tua posizione di gioco. Questo rendera' l'audio piu' reattivo, ma utilizzera' piu' dati.
 settings.preload.button=Abilita il precaricamento
-settings.rolloff.title=Audio 3D Rolloff
+settings.rolloff.title=Attenuazione audio 3D
 settings.rolloff.body=Controlla la quantita' di smorzamento applicata all'audio 3D in base alla distanza. Lo 0% non smorza, il 100% smorza completamente. Si applica sia agli altoparlanti che alla chat vocale.
 settings.rolloff.01=1% (minimo)
 settings.rolloff.5=50%
@@ -130,7 +130,7 @@ settings.rolloff.1=100% (normale)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (estremo)
 settings.language.title=Lingua
-settings.language.body=Seleziona la lingua preferita
+settings.language.body=Seleziona la lingua preferita.
 settings.distancemodel.title=Volume audio a distanza
 settings.distancemodel.body=Decidi quale algoritmo deve essere usato per ridurre il volume della sorgente audio quando l'ascoltatore si allontana da essa.
 settings.distancemodel.linear=Lineare
@@ -142,7 +142,7 @@ settings.spatial.modern=Preciso
 settings.spatial.legacy=Legacy (vecchio sistema)
 
 settings.interpolation.title=Posizione livellamento
-settings.interpolation.body=Smussa automaticamente i movimento per ridurre al minimo le balbuzie dell'altoparlante/chat vocale mentre si cammina. Cio' aggiunge ulteriore ritardo al movimento, ma suona meglio.
+settings.interpolation.body=Smussa automaticamente i movimenti per ridurre al minimo le balbuzie dell'altoparlante/chat vocale mentre si cammina. Cio' aggiunge ulteriore ritardo al movimento, ma suona meglio.
 settings.interpolation.button=Abilita livellamento
 
 network.serverUnhealthy=La connessione di {serverName} a OpenAudioMc e' instabile, le funzionalita' del client potrebbero essere limitate fino a quando la connessione verra' ripristinata.
