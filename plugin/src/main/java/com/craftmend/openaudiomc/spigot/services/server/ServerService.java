@@ -25,7 +25,7 @@ public class ServerService extends Service {
         }
 
         String[] packageParts = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",");
-        if (packageParts.length != 4) {
+        if (packageParts.length < 4) {
             // paper removed package versioning, so we can't detect it, but it's modern
             version = ServerVersion.MODERN;
             return;
