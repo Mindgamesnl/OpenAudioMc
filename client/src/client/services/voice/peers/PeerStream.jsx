@@ -154,7 +154,7 @@ export class PeerStream {
 
   setVolume(volume) {
     this.volume = volume;
-    if (this.gainNode !== null) {
+    if (this.gainNode != null) {
       this.gainNode.gain.value = this.listenerDeafend ? 0 : (volume / 100) * this.volBooster;
     }
   }

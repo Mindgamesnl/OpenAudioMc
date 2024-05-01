@@ -7,6 +7,7 @@ import { getVolumeForPeer } from '../../client/services/voice/peers/VoicePeer';
 import { PeerMutedSvg } from '../icons/peermuted';
 import { ProximitySvg } from '../icons/proxsvg';
 import { GlobalSvg } from '../icons/globalsvg';
+import { msg } from '../../client/OpenAudioAppContainer';
 
 export class VoicePeerRow extends React.Component {
   static propTypes = {
@@ -114,8 +115,7 @@ export class VoicePeerRow extends React.Component {
             </svg>
             <small>
               <i>
-                Loading
-                {name}
+                {msg('vc.peerLoading').replace('{name}', name)}
               </i>
             </small>
           </div>

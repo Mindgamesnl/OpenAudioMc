@@ -12,6 +12,7 @@ import { debugLog, feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
 import { setTab } from '../../../components/tabwindow/TabWindow';
 import { StringifyError } from '../../util/errorreformat';
+import { reportVital } from '../../util/vitalreporter';
 
 const gainTrackers = {};
 
@@ -86,7 +87,7 @@ export const VoiceModule = new class IVoiceModule {
           setGlobalState({ voiceState: { mics: deviceMap } });
         })
         .catch((err) => {
-          this.panic();
+          this.panic("Couldn't enumerate devices.", err);
           throw err;
         });
 
@@ -124,7 +125,7 @@ export const VoiceModule = new class IVoiceModule {
     deviceLoader.getUserMedia(getGlobalState().settings.preferredMicId);
   }
 
-  panic() {
+  panic(message = 'unknown', source = null) {
     setGlobalState({
       loadingOverlay: {
         visible: false,
@@ -133,7 +134,31 @@ export const VoiceModule = new class IVoiceModule {
         enabled: false,
       },
     });
-    toast.error('Voice chat has crashed, please reload the page to try again. Feel free to contact support if this keeps happening, as you might have a permission issue.', { autoClose: false });
+    toast.error('VoiceChat ran into an issue. This might be because of an error or the server running out of available slots.', { autoClose: false });
+
+    if (source == null) {
+      source = {};
+    }
+
+    const fileName = source.fileName || 'unknown';
+    const lineNumber = source.lineNumber || 'unknown';
+    const columnNumber = source.columnNumber || 'unknown';
+    const stack = source.stack || 'unknown';
+    const error = source.error || 'unknown';
+    const errorMessage = source.message || 'unknown';
+    const readable = {
+      source: 'voice:panic',
+      readableMessage: message,
+      errorMessage,
+      fileName,
+      lineNumber,
+      columnNumber,
+      stack,
+      error,
+    };
+    reportVital(`voice-panic:${JSON.stringify(readable)}`);
+    // eslint-disable-next-line no-console
+    console.error('Voice chat has crashed:', readable);
   }
 
   isReady() {

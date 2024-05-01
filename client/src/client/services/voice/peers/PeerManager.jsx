@@ -119,7 +119,8 @@ export class PeerManager {
       .then((response) => {
         if (response.status !== 200) {
           // server denied our negotiation/local description
-          VoiceModule.panic();
+          const error = new Error(`Server responded with status code ${response.status}`);
+          VoiceModule.panic(`The server didn't accept our negotiation request, responded with status code ${response.status}`, error);
         }
         return response;
       })
@@ -128,7 +129,7 @@ export class PeerManager {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.error(err);
-        VoiceModule.panic();
+        VoiceModule.panic("There was an error while hangling offer exchange, the server didn't respond correctly. error: ", err);
       });
 
     // Configure a timeout for 10 seconds, if we aren't connected by then, we're probably not going to be
@@ -204,12 +205,12 @@ export class PeerManager {
               packet += btoa(JSON.stringify(answer));
               this.dataChannel.send(packet);
               this.peerConnection.setLocalDescription(answer)
-                .catch(() => {
-                  VoiceModule.panic();
+                .catch((err) => {
+                  VoiceModule.panic("Couldn't set local description for answer", err);
                 });
             })
-            .catch(() => {
-              VoiceModule.panic();
+            .catch((e) => {
+              VoiceModule.panic(`Couldn't process offer, ${JSON.stringify(offer)}`, e);
             });
           break;
 
@@ -267,6 +268,21 @@ export class PeerManager {
           // ignore
       }
     });
+  }
+
+  getChannelNames() {
+    if (!this.peerConnection) {
+      return [];
+    }
+    const names = [];
+    this.peerConnection.getTransceivers().forEach((transceiver) => {
+      let receiverString = '???';
+      if (transceiver.receiver.track) {
+        receiverString = `${transceiver.receiver.track.id}/${transceiver.receiver.track.label}`;
+      }
+      names.push(`${transceiver.direction}|${receiverString}`);
+    });
+    return names;
   }
 
   gatherDebugState() {
@@ -347,8 +363,8 @@ export class PeerManager {
         packet += offer;
         this.dataChannel.send(packet);
       })
-      .catch(() => {
-        VoiceModule.panic();
+      .catch((e) => {
+        VoiceModule.panic('Failed to create offer for renegotiation', e);
       });
   }
 

@@ -23,7 +23,7 @@ function VoicePeerBox(props) {
           uuid={peer.uuid}
           speaking={peer.speaking}
           muted={peer.muted}
-          spatialAudio={peer.options.spatialAudio}
+          spatialAudio={(peer.options != null ? peer.options.spatialAudio : true)}
         />
       );
     });

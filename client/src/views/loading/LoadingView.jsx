@@ -8,7 +8,7 @@ import { VERSION } from '../../build';
 
 function LoadingView(props) {
   return (
-    <BlackoutPage coverImage="assets/clientbg.jpg">
+    <BlackoutPage>
       <LoadingSpinnerBox
         title="Loading OpenAudioMc"
         message={props.loading}

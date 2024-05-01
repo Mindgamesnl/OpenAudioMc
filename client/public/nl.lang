@@ -7,6 +7,9 @@ lang.toEn=Veranderen naar Engels
 ui.loading=Laden...
 ui.logout=Uitloggen
 
+ui.urlChangeDetected=URL aangepast
+ui.hashchange=De URL is aangepast. Wil je de pagina herladen en een nieuwe sessie starten? De huidige sessie wordt verwijderd.
+
 navbar.audio=Server Audio
 navbar.vc=VoiceChat
 navbar.settings=Instellingen
@@ -92,7 +95,12 @@ vc.noMicInputYetBody=Zorg ervoor dat je de correcte microfoon hebt geselecteerd,
 vc.peersHiddenTitle=VoiceChat spelers zijn verborgen
 vc.peersHiddenText=Deze server heeft andere VoiceChat gebruikers verborgen, maar je kan ze nog steeds horen.
 vc.isTalking=is aan het praten
+vc.people=mensen
+vc.person=persoon
 vc.deafened=Je geluid is gedempt
+vc.tooltip.local=Proximity Voice Chat
+vc.tooltip.global=Globale Voice Chat
+vc.peerLoading={name} Inladen
 
 settings.voicechat.echocancel.title=Echo onderdrukking
 settings.voicechat.echocancel.body=Deze optie zal proberen de echo die je microfoon oppikt te onderdrukken, dit is handig als je luidsprekers gebruikt, maar het kan er voor zorgen dat je op sommige platforms moeilijker te horen bent.
@@ -137,6 +145,6 @@ settings.interpolation.title=Locatie versoepelen
 settings.interpolation.body=Automatisch bewegingen versoepelen om het stotteren van de luidsprekers/voicechat tijdens het lopen te minimaliseren. Dit voegt extra bewegingsvertraging toe, maar klinkt beter.
 settings.interpolation.button=Versoepelen inschakelen
 
-network.serverUnhealthy=De verbinding tussen {serverName} en OpenAudioMc ondervindt problemen. Sommige functies werken mogelijk niet goed tot dit is opgelost.
+network.serverUnhealthy=De verbinding tussen {serverName} en OpenAudioMc is onstabiel. Sommige functies werken mogelijk niet goed tot dit is opgelost.
 
 tooltip.close=Sluiten

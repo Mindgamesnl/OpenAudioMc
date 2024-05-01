@@ -28,7 +28,7 @@ export class VcOnboarding extends React.Component {
           className="content-card-collection items-stretch"
         >
           <div className="flex justify-center">
-            <div className="content-card wide-card pt-0 pb-0 audio-page-bg">
+            <div className="content-card w-full lg:w-2/3 pt-0 pb-0 audio-page-bg">
               <div className="content-card-content pt-0 pb-0">
                 <span className="pt-5 inline">
                   <svg
@@ -53,7 +53,7 @@ export class VcOnboarding extends React.Component {
                   {msg('vc.title')}
                 </span>
                 <div className="overflow-visible lg:grid lg:grid-cols-2 lg:gap-4">
-                  <div className="lg:self-center py-3">
+                  <div className="lg:self-center py-3 overflow-visible">
                     {msg('vc.onboarding').replace('%range', getGlobalState().voiceState.radius)}
                     <div className="content-card-buttons">
                       <div
@@ -74,7 +74,7 @@ export class VcOnboarding extends React.Component {
                   </div>
                   <div className="flex justify-center z-50 -mt-8 hidden-on-mobile">
                     <img
-                      className="transform rounded-xl object-cover w-full object-left-top"
+                      className="transform rounded-xl object-cover object-center object-left-top"
                       src="assets/bust.png"
                       alt="Minecraft player with a microphone"
                     />

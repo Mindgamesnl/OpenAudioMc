@@ -1,0 +1,150 @@
+lang.name=Italiano
+
+lang.detectedAs=Abbiamo cambiato la tua lingua a %langName, vuoi mantenerla così?
+lang.keep=Mantieni %langName
+lang.toEn=Passa a Inglese
+
+ui.loading=Caricamento...
+ui.logout=Disconnetti
+
+ui.urlChangeDetected=cambiamento URL rilevato
+ui.hashchange=L'URL e' stato cambiato. Vuoi ricaricare la pagina e avviare una nuova sessione? Questo cancellera' la tua sessione attuale.
+
+navbar.audio=Server Audio
+navbar.vc=Chat Vocale
+navbar.settings=Impostazioni
+navbar.debug=Debug
+navbar.free=free
+navbar.premium=premium
+navbar.upgradeRequired=Upgrade richiesto
+navbar.isPlaying=Riproducendo musica
+
+home.confirmLoginHeader=Bentornato!
+home.confirmLoginBody=Stai provando a loggarti come <i>%player</i>?<br />Se non sei tu, per favore chiudi la finestra.
+home.confirmLoginButton=Avvia sessione audio
+home.confirmLoginWithVoicechat=Avvia sessione con Chat Vocale
+
+home.activate=Attiva sessione
+home.activateText=Questo e' la pagina web personale che verra' utilitzzata per riprodurre la tua musica e la voce durante la tua visita. Per iniziare clicca in un qualsiasi punto della pagina.
+home.clickAnywhere=Clicca da qualche parte per cominciare
+home.activateHeader=Clicca qui per connetterti
+home.welcome=Benvenuto, %player!
+home.header=Benvenuto nel nostro client audio! Tieni aperta questa pagina per usufruire della musica in gioco e degli effetti. Puoi tornare qui in qualunque momento durante la tua sessione per cambiare il volume e le tue impostazioni.
+home.volumeContext=Questo cursore controlla il volume della musica in gioco e degli effetti. Puoi anche usare <pre>/volume &lt;volume&gt;</pre> per cambiare il volume dal gioco in qualsiasi momento o per impostarlo a 0 e mutarlo temporaneamente.
+home.audioControls=Controlli audio
+home.notificationsTitle=Notifiche
+home.notificationsEmpty=Al momento non hai nessuna notifica
+
+vc.badClient=La Chat Vocale richiede un client web che utilizza il protocollo HTTPS, per favore aggiorna il tuo URL di base usando HTTPS e/o imposta dei certificati SSL validi.
+vc.notCompatible=Il tuo browser non supporta la chat vocale. Per favore, utilizza un broser (desktop) moderno come Chrome, Safari, ecc.
+vc.voiceModerationEnabled=Questo server ha la moderazione attiva. Lo staff selezionato potrebbe ascoltare mentre il tuo microfono e' attivo.
+vc.notice=Avviso
+vc.startingPopupTitle=Entrando nella chat vocale...
+vc.startingPopup=Per favore, aspetta mentre configuriamo il server vocale... tieniti forte, non dovrebbe volerci troppo tempo.
+vc.reloadingPopupTitle=Ricaricamento del sistema vocale!
+vc.reloadingPopup=Per favore, aspetta mentre la chat vocale viene riavviata per applicare le tue nuova impostazioni... Non dovrebbe volerci troppo tempo
+vc.updatingMicPopupTitle=Aggiornamento del microfono!
+vc.updatingMicPopup=Per favore, aspetta mentre la chat vocale viene riavviata per caricare il tuo nuovo microfono... Non dovrebbe volervi troppo tempo
+vc.micErrorPopupTitle=Errore del microfono
+vc.micErrorPopup=Qualcosa e' andato storto durante il tentativo di accedere al microfono. Per favvore, premi "consenti" quando il tuo browser ti chiede il permesso per usare il microfono, o visita la wiki per maggiori informazioni.
+vc.disabled=La Chat Vocale e' stata temporaneamente disabilitata da %serverName
+vc.title=Chat vocale di prossimita'
+vc.boardingTitle=Integrazione Chat Vocale
+vc.onboarding=Questo server supporta la Chat Vocale di Prossimita', che ti permette di parlare con i giocatori entro un raggio di %range blocchi. Ti piacerebbe abilitare questa funzionalita' e dare il consenso per l'utlizzo del microfono?
+vc.settings=Impostazioni Chat Vocale
+vc.muteMic=Muta Microfono
+vc.unmuteMic=Smuta Microfono
+vc.input=Dispositivo di Input
+vc.aboutInput=Seleziona il microfono che vuoi utilizzare, il cambiamento comportera' il riavvio della sessione.
+vc.positionalAudio=Audio Posizionale
+vc.aboutPositionalAudio=Renderizza un paesaggio a 360 gradi, che ti permette di capire da dove provengono le voci.
+vc.settingsDisable=Disabilita
+vc.settingsEnablePositionalAudio=Abilita Audio Posizionale
+vc.settingsDisablePositionalAudio=Disabilita Audio Posizionale
+vc.automaticAdjustments=Regola automaticamente
+vc.sensitivity=Sensibilita' Microfono
+vc.aboutSensitivity=Configura la sensibilita' del tuo microfono, questo mutera' automaticamente il tuo microfono quando non stai parlando. <b>Completamente a sinistra</b> disabilitera' la cancellazione del rumore, <b>completamente a destra</b> disabilitera' sempre il tuo microfono.
+vc.peerTable=connesso a {total} giocatori, {talking} parlano
+vc.toggleMicrophone=Attiva/Disattiva Microfono
+vc.you=tu
+vc.safetyTitle=Per la tua sicurezza
+vc.safetyDisclaimer=Riceverai message in gioco quando le persone entrano ed escono dal tuo raggio di chat vocale, e sarai in grado di visualizzare la lista delle persone che possono sentirti (e che puoi sentire), e potrai mutarle se lo desideri. OpenAudioMc fa affidamento sul tuo server per gestire la moderazione e la segnalazione di abusi quando necessario. Per favore, contatta un membro dello staff se hai domande o dubbi.
+vc.safetyFooter=<b>Vuoi un po' di privacy? Puoi mutare il tuo microfono in qualsiasi momento eseguendo il comando <pre style="display: inline;">/mm</pre>, premendo <pre style="display: inline;">shift + F</pre> in gioco, o in alternativa cliccando il bottone su questa pagina.</b>
+vc.join=Entra nella Chat Vocale
+vc.empty.title=Sei tutto solo!
+vc.empty.body=Non c'e' nessuno intorno a te a cui parlare, prova a muoverti in giro o chiedi ai tuoi amici di raggiungerti.
+vc.muteMicrophone=Muta
+vc.unmuteMicrophone=Smuta
+vc.myStatus=Stato del tuo microfono
+vc.hero.title=Benvenuto in Chat Vocale!
+vc.hero.subtitle=Questa e' la dashboard della chat vocale, qui puoi vedere chi si trova nel tuo raggio e chi puo' sentirti. Puoi anche mutare le persone se non vuoi sentirle.
+vc.statusTitle=Stato
+vc.settings.globalVolumeTitle=Volume Generale Chat Vocale
+vc.settings.surround.disable=Disabilita Surround
+vc.settings.surround.enable=Abilita Surround
+vc.settings.globalVolumeAbout=Cambia il volume principale di tutti i membri della Chat Vocale
+vc.settings.toggleMenuTitle=Impostazioni input Chat Vocale
+vc.settings.toggleMenu=Attiva/Disattiva Menu
+vc.settings.monitoring.title=Monitoraggio Microfono
+vc.settings.monitoring.about=Il monitoraggio riproduce la tua voce proprio come la sentono gli altri. E' utile per testare le impostazioni del tuo microfono e della sensibilita'.
+vc.settings.monitoring.toggle=Abilita monitoraggio
+vc.operaWarning=Sembra che il tuo accesso stia richiedendo molto tempo, ma probabilmente e' dovuto alle tue impostazioni di Opera. Per favore, apri le impostazioni del tuo browser, cerca "WebRTC", e seleziona l'opzione "abilita tutto"
+vc.youAreModerating=Attenzione! Ora sei un moderatore, percio' sarai in grado di sentire tutti, ma gli altri non possono sentirti.
+vc.noMicInputYetTitle=Abbiamo problemi a sentirti!
+vc.noMicInputYetBody=Per favore, assicurati di aver selezionato il microfono corretto, o prova ad abbassare la cancellazione del rumore.
+vc.peersHiddenTitle=I giocatori della chat vocale sono nascosti.
+vc.peersHiddenText=Questo server ha disabilitato la possibilita' di vedere chi si trova in chat vocale per prevenire vantaggi ingiusti, ma puoi comunque sentire chi parla.
+vc.isTalking=sta parlando
+vc.people=persone
+vc.person=persona
+vc.deafened=Attualmente hai l'audio mutato
+vc.tooltip.local=Chat Vocale di Prossimita'
+vc.tooltip.global=Chat Vocale Globale
+vc.peerLoading=Caricamento {name}
+
+
+settings.voicechat.echocancel.title=Cancellazione eco
+settings.voicechat.echocancel.body=Questa opzione tenta di cancellare qualsiasi eco captato dal tuo microfono. E' molto utile se stai utilizzando le casse al posto delle cuffie ma potrebbe rendere piu' difficile l'ascolto su alcune piattaforme.
+settings.voicechat.echocancel.button=Abilita cancellazione eco
+settings.voicechat.chimes.title=Rintocchi Chat Vocale
+settings.voicechat.chimes.body=I rintocchi sono piccoli suoni che vengono riprodotti ogni volta che si muta/smuta l'audio del microfono. I creatori di contenuto potrebbero voler disabilitare questa opzione.
+settings.voicechat.chimes.button=utilizza rintocchi
+settings.theme.title=Modalita' scura
+settings.theme.body=Usa la modalita' scura (default) del client web
+settings.theme.button=modalita' scura
+settings.voicechat.peer.title=Notifiche Peer
+settings.voicechat.peer.body=Ricevi notifiche sul desktop ogni volta che qualcuno entra o esce dal tuo raggio di chat vocale.
+settings.voicechat.peer.button=abilita notifiche
+settings.mix-and-fade.title=Mixaggio audio automatico
+settings.mix-and-fade.body=Cross-fade e mixaggio automatici delle sorgenti audio
+settings.mix-and-fade.button=Abilita mixaggio
+settings.preload.title=Precarica automaticamente i file audio
+settings.preload.body=Se abilitato, OpenAudioMc precarichera' automaticamente i file che vengono utilizzati spesso nella tua posizione di gioco. Questo rendera' l'audio piu' reattivo, ma utilizzera' piu' dati.
+settings.preload.button=Abilita il precaricamento
+settings.rolloff.title=Attenuazione audio 3D
+settings.rolloff.body=Controlla la quantita' di smorzamento applicata all'audio 3D in base alla distanza. Lo 0% non smorza, il 100% smorza completamente. Si applica sia agli altoparlanti che alla chat vocale.
+settings.rolloff.01=1% (minimo)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normale)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (estremo)
+settings.language.title=Lingua
+settings.language.body=Seleziona la lingua preferita.
+settings.distancemodel.title=Volume audio a distanza
+settings.distancemodel.body=Decidi quale algoritmo deve essere usato per ridurre il volume della sorgente audio quando l'ascoltatore si allontana da essa.
+settings.distancemodel.linear=Lineare
+settings.distancemodel.exponential=Esponenziale
+
+settings.spatial.title=Motore di rendering spaziale
+settings.spatial.body=Seleziona il motore di rendering che desideri utilizzare. Il motore moderno e' di qualita' superiore ed e' un po' piu' veloce, ma richiede un browser moderno.
+settings.spatial.modern=Preciso
+settings.spatial.legacy=Legacy (vecchio sistema)
+
+settings.interpolation.title=Posizione livellamento
+settings.interpolation.body=Smussa automaticamente i movimenti per ridurre al minimo le balbuzie dell'altoparlante/chat vocale mentre si cammina. Cio' aggiunge ulteriore ritardo al movimento, ma suona meglio.
+settings.interpolation.button=Abilita livellamento
+
+network.serverUnhealthy=La connessione di {serverName} a OpenAudioMc e' instabile, le funzionalita' del client potrebbero essere limitate fino a quando la connessione verra' ripristinata.
+
+tooltip.close=Chiudi

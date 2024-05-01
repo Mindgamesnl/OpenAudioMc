@@ -126,6 +126,11 @@ export const MessageModule = new class MessageModule {
         name: 'Polski',
         visible: true,
       },
+      it: {
+        file: 'it.lang',
+        name: 'Italiano',
+        visible: true,
+      },
     };
 
     this.load = this.load.bind(this);

@@ -8,7 +8,7 @@ ui.loading=Loading...
 ui.logout=Log out
 
 ui.urlChangeDetected=URL change detected
-ui.hashchange=The URL has been changed. Do you want to reload the page and start a new session? this will clear your current session.
+ui.hashchange=The URL has been changed. Do you want to reload the page and start a new session? This will clear your current session.
 
 navbar.audio=Server Audio
 navbar.vc=VoiceChat
@@ -100,7 +100,7 @@ vc.person=person
 vc.deafened=You are currently deafened
 vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
-
+vc.peerLoading=Loading {name}
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.
