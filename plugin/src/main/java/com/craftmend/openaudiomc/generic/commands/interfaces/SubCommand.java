@@ -71,9 +71,11 @@ public abstract class SubCommand {
      */
     public boolean isAllowed(User commandSender) {
         if (ignorePermissions) return true;
+
         return commandSender.hasPermission(permissionScope + command)
                 || commandSender.hasPermission(permissionScope + "*")
-                || commandSender.hasPermission("openaudiomc.*");
+                || commandSender.hasPermission("openaudiomc.*")
+                || commandSender.isAdministrator();
     }
 
     protected void registerSubCommands(SubCommand... commands) {

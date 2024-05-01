@@ -12,6 +12,9 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
+import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import lombok.SneakyThrows;
 
 public class PlayerConnectionListener {
@@ -28,14 +31,20 @@ public class PlayerConnectionListener {
     }
 
     @Subscribe
-    public void onSwitch(ServerConnectedEvent event) {
+    public void onSwitch(ServerPostConnectEvent event) {
         VelocityProxyNode from = null;
 
-        if (event.getPreviousServer().isPresent()) {
-            from = new VelocityProxyNode(event.getPreviousServer().get());
+        if (event.getPreviousServer() != null) {
+            from = new VelocityProxyNode(event.getPreviousServer());
         }
 
-        new VelocityProxyNode(event.getServer()).sendPacket(
+        ServerConnection currentServer = null;
+
+        if (event.getPlayer().getCurrentServer().isPresent()) {
+            currentServer = event.getPlayer().getCurrentServer().get();
+        }
+
+        new VelocityProxyNode(currentServer.getServer()).sendPacket(
                 new AnnouncePlatformPacket(
                     OpenAudioMc.getService(AuthenticationService.class).getServerKeySet().getPublicKey().getValue(),
                     Platform.VELOCITY
@@ -44,7 +53,7 @@ public class PlayerConnectionListener {
         OpenAudioMc.getService(ProxyHostService.class).onServerSwitch(
                 new VelocityUserAdapter(event.getPlayer()),
                 from,
-                new VelocityProxyNode(event.getServer())
+                new VelocityProxyNode(currentServer.getServer())
         );
     }
 
