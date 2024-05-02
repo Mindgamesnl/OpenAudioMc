@@ -90,12 +90,13 @@ public class PlayerPeerTicker implements Runnable {
                 Stream<ClientConnection> pre = Stream.of(allClients)
                         .filter((c) -> !c.getSession().isResetVc()) // don't check players that are resetting
                         .filter((c) -> c.getOwner().getUniqueId() != client.getOwner().getUniqueId()) // don't check yourself
+                        // only run these checks if we're either both not moderating, or I am but the other isn't
+                        .filter((c) -> client.isModerating() == c.isModerating() || client.isModerating() && !c.isModerating())
                         // mark checked, prior to filtering, because if someone isn't
                         // applicable, then they should still be marked as checked to prevent
                         // future checks
                         .filter((c) -> combinationChecker.getAndPutIfAbsent(client.getUser().getUniqueId(), c.getUser().getUniqueId(), false) == CombinationChecker.NOT_CHECKED) // don't check combinations that failed
                         .filter(c -> !client.getRtcSessionManager().getCurrentGlobalPeers().contains(c.getOwner().getUniqueId())) // exempt global peers
-                        .filter((c) -> c.isModerating() == client.isModerating()) // only allow equal moderation states
                         ;
 
                 // execute API filters
