@@ -125,6 +125,10 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public String getIpAddress() {
         if (player instanceof Player) {
+            if (!StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean()) {
+                return "unknown";
+            }
+
             Player p = (Player) player;
             if (p.getAddress() == null) return "unknown";
             String ip = p.getAddress().getHostName();
