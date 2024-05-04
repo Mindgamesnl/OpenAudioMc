@@ -20,6 +20,7 @@ public enum MagicValue {
     DYNAMIC_REGISTRATIONS(false),
     PARENT_PLATFORM(Platform.UNKNOWN),
     PLATFORM_FORCE_LATE_FIND(false),
+    FORCE_DISABLE_CLIENT_NET_LOOKUP(false),
     COMMAND_PREFIX("[OpenAudioMc - Magic]");
 
     private static final EnumMap<MagicValue, Object> tempValues = new EnumMap<>(MagicValue.class);
