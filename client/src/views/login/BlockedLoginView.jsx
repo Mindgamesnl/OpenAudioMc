@@ -35,7 +35,6 @@ function BlockedLoginView(props) {
                 <p className="w-80 text-center text-sm mb-8 text-white tracking-wide cursor-pointer">
                   This client is not whitelisted to be used on this server. Please set this client as your base url in
                   your account and try again.
-                  to appeal.
                 </p>
               ) : null}
             </div>
