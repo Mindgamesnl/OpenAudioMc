@@ -79,8 +79,6 @@ export default class ClientTokenSet {
             // is the response okay?
             if (body.status === 403) {
               setGlobalState({
-                isBlocked: true,
-                isPersonalBlock: true,
                 isLoading: false,
               });
               ReportError('Invalid token', window.tokenCache.name);
