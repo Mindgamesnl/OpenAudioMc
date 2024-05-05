@@ -4,6 +4,7 @@ import { API_ENDPOINT } from '../config/ApiEndpoints';
 import { ReportError } from '../util/ErrorReporter';
 import { setGlobalState } from '../../state/store';
 import { VERSION } from '../../build';
+import { showTextModal } from '../../components/modal/InputModal';
 
 export default class ClientTokenSet {
   constructor(publicServerKey, playerUUID, playerName, playerToken, scope) {
@@ -82,6 +83,18 @@ export default class ClientTokenSet {
                 isPersonalBlock: true,
                 isLoading: false,
               });
+              ReportError('Invalid token', window.tokenCache.name);
+              resolve(null);
+              return;
+            }
+
+            if (body.status === 409) {
+              setGlobalState({
+                isBlocked: true,
+                isPersonalBlock: true,
+                isLoading: false,
+              });
+              showTextModal('Invalid client', 'This client is not whitelisted to be used on this server. Please set this client as your base url in your account', 'and try again.');
               ReportError('Invalid token', window.tokenCache.name);
               resolve(null);
               return;
