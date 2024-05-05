@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -27,7 +28,7 @@ public class AcceptSubCommand extends SubCommand {
 
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
-        service.connectIfDown();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> service.connectIfDown());
 
         for (ClientConnection client : service.getClients()) {
             client.getAuth().publishSessionUrl();

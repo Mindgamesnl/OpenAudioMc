@@ -127,7 +127,7 @@ public class DefaultNetworkingService extends NetworkingService {
             }
             // update state
             OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
-            OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketConnection.setupConnection());
+            socketConnection.setupConnection();
         } finally {
             connectLock.unlock();
         }
