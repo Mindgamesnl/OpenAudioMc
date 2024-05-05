@@ -1,8 +1,11 @@
 package com.craftmend.openaudiomc.generic.api.implementaions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerAddEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -93,13 +96,17 @@ public class VoiceApiImpl implements VoiceApi {
             throw new IllegalStateException("Both clients must be ready (connected and have voice chat enabled) before adding a peer");
         }
 
-        if (isProximityPeer(client, peerToAdd)) {
-            updatePeerOptions(client, peerToAdd, options);
-            clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
-            clientConnection.getRtcSessionManager().getCurrentProximityPeers().remove(peerToAdd.getActor().getUniqueId());
-        } else {
-            clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
-            clientConnection.getPeerQueue().addSubscribe(peerConnection, clientConnection, options);
+        // fire event
+        ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(client, peerToAdd, options));
+        if (!event.isCancelled()) {
+            if (isProximityPeer(client, peerToAdd)) {
+                updatePeerOptions(client, peerToAdd, options);
+                clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
+                clientConnection.getRtcSessionManager().getCurrentProximityPeers().remove(peerToAdd.getActor().getUniqueId());
+            } else {
+                clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
+                clientConnection.getPeerQueue().addSubscribe(peerConnection, clientConnection, options);
+            }
         }
 
         if (mutual) {
