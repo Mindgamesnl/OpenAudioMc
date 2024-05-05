@@ -79,6 +79,8 @@ export default class ClientTokenSet {
             // is the response okay?
             if (body.status === 403) {
               setGlobalState({
+                isBlocked: true,
+                isPersonalBlock: true,
                 isLoading: false,
               });
               ReportError('Invalid token', window.tokenCache.name);
@@ -88,8 +90,6 @@ export default class ClientTokenSet {
 
             if (body.status === 409) {
               setGlobalState({
-                isBlocked: true,
-                isPersonalBlock: true,
                 isLoading: false,
               });
               showTextModal('Invalid client', 'This client is not whitelisted to be used on this server. Please set this client as your base url in your account', 'and try again.');
