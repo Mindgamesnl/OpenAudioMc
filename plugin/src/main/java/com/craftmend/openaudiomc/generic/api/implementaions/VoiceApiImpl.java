@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.events.client.ClientPeerAddEvent;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
@@ -119,6 +120,8 @@ public class VoiceApiImpl implements VoiceApi {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) {
             throw new IllegalStateException("This method is only available on the spigot platform");
         }
+
+        EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(client, peerToRemove));
 
         if (isGlobalPeer(client, peerToRemove)) {
             ClientConnection clientConnection = (ClientConnection) client;
