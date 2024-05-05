@@ -122,6 +122,7 @@ const initialState = {
   isLoading: true,
   isBlocked: false, // whenever an account is temporarily blocked (rate-limiting, abuse)
   isPersonalBlock: false, // whenever this user is personally rate-limited or blocked (due to for example, dmca abuse)
+  isValidationError: false, // whenever the client is not whitelisted to be used on this server
   loadingState: 'Preparing to load OpenAudioMc',
   fixedFooter: null,
   navbarDetails: true,
