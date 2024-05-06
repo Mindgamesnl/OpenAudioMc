@@ -1,5 +1,6 @@
 com.craftmend.openaudiomc.api
 com.craftmend.openaudiomc.api.basic
+com.craftmend.openaudiomc.api.channels
 com.craftmend.openaudiomc.api.clients
 com.craftmend.openaudiomc.api.events
 com.craftmend.openaudiomc.api.events.client
