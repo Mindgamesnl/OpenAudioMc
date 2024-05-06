@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
@@ -31,6 +32,10 @@ public class SpeakerGiveSubCommand extends SubCommand {
         int radius = 10;
         if (args.length == 2 && isInteger(args[1])) {
             radius = Integer.valueOf(args[1]);
+        }
+
+        if (radius > StorageKey.SETTINGS_SPEAKER_MAX_RANGE.getInt()) {
+            throw new CommandError("The radius is too large. The maximum radius is " + StorageKey.SETTINGS_SPEAKER_MAX_RANGE.getInt());
         }
 
         if (Validation.isStringInvalid(args[0])) {

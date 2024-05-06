@@ -87,6 +87,7 @@ public enum StorageKey {
     SETTINGS_REGIONS_SYNC(false, "options.sync-regions", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_SYNC(false, "options.sync-speakers", StorageLocation.CONFIG_FILE),
     SETTINGS_SPEAKER_RANGE(false, "options.speaker-radius", StorageLocation.CONFIG_FILE),
+    SETTINGS_SPEAKER_MAX_RANGE(false, "options.max-speaker-radius", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN(false, "options.send-on-join", StorageLocation.CONFIG_FILE),
     SETTINGS_SEND_URL_ON_JOIN_DELAY(false, "options.send-on-join-delay", StorageLocation.CONFIG_FILE),
     SETTINGS_USE_WG_PRIORITY(false, "options.use-region-priority", StorageLocation.CONFIG_FILE),

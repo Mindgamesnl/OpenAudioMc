@@ -1,4 +1,4 @@
-export JAVA_HOME=`/usr/libexec/java_home -v 17`
+export JAVA_HOME=`/usr/libexec/java_home -v 18`
 mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
 echo "Building new OpenAudioMc jar without unit tests.."
@@ -29,4 +29,4 @@ echo "Starting server.."
 rm world/session.lock
 rm world_the_end/session.lock
 rm world_nether/session.lock
-java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar spigot-1.20.2.jar nogui
+java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar paper-1.20.6-49.jar nogui
