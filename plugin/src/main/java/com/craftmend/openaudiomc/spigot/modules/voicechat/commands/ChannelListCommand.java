@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.commands;
 
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
@@ -39,14 +40,14 @@ public class ChannelListCommand extends SubCommand {
 
         for (Channel channel : channels) {
             StringBuilder readableOccupants;
-            Collection<ClientConnection> occupants = channel.getMembers();
+            Collection<Client> occupants = channel.getMembers();
             if (occupants.isEmpty()) {
                 readableOccupants = new StringBuilder(OaColor.RED + "[empty]");
             } else {
                 int size = occupants.size();
                 int i = 0;
                 readableOccupants = new StringBuilder(OaColor.GREEN + "[");
-                for (ClientConnection occupant : occupants) {
+                for (Client occupant : occupants) {
                     readableOccupants.append(occupant.getActor().getName());
                     if (i < size - 1) {
                         readableOccupants.append(", ");

@@ -109,8 +109,8 @@ public class ChannelInviteCommand extends SubCommand {
         }
 
         // is the target already in a channel?
-        for (ClientConnection member : channel.getMembers()) {
-            if (member.getOwner().getUniqueId().equals(target.getUniqueId())) {
+        for (Client member : channel.getMembers()) {
+            if (member.getActor().getUniqueId().equals(target.getUniqueId())) {
                 throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_TARGET_ALREADY_MEMBER.getString());
             }
         }
