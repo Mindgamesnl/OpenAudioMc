@@ -10,7 +10,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.*;
@@ -20,10 +19,11 @@ import org.bukkit.permissions.Permission;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VoiceChannelService extends Service {
 
-    private Map<String, Channel> channelMap = new HashMap<>();
+    private Map<String, Channel> channelMap = new ConcurrentHashMap<>();
 
     @Inject
     public VoiceChannelService(
@@ -114,7 +114,7 @@ public class VoiceChannelService extends Service {
             channelMap.put(name, previous);
             return false;
         }
- 
+
         created.addMember(creator);
 
         // success
@@ -144,4 +144,12 @@ public class VoiceChannelService extends Service {
         return deleted != null;
     }
 
+    public void handleUserDisconnect(ClientConnection player) {
+        // find any channel the player is in
+        channelMap.values().forEach(channel -> {
+            if (channel.isMember(player.getUser().getUniqueId())) {
+                channel.removeMember(player.getUser());
+            }
+        });
+    }
 }

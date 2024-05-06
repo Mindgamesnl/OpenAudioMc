@@ -108,6 +108,10 @@ public class Channel {
         checkAbandonment();
     }
 
+    public boolean isMember(UUID uuid) {
+        return members.containsKey(uuid);
+    }
+
     private void checkAbandonment() {
         if (type != ChannelType.USER_CHANNEL) return;
         if (members.size() < 2) {

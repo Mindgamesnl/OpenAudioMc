@@ -20,6 +20,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.SpeakerSettings;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.services.utils.DataWatcher;
 import lombok.Getter;
 import lombok.Setter;
@@ -117,6 +118,8 @@ public class SpigotConnection {
             OpenAudioMc.resolveDependency(TaskService.class).runSync(() -> {
                 Bukkit.getServer().getPluginManager().callEvent(new ClientDisconnectEvent(player));
             });
+
+            OpenAudioMc.getService(VoiceChannelService.class).handleUserDisconnect(clientConnection);
         });
     }
 
@@ -147,6 +150,7 @@ public class SpigotConnection {
         this.locationDataWatcher.stop();
         this.currentSpeakers.clear();
         this.currentRegions.clear();
+        OpenAudioMc.getService(VoiceChannelService.class).handleUserDisconnect(clientConnection);
     }
 
     /**
