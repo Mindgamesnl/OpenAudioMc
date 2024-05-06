@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.generic.api.implementaions;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.VoiceApi;
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.events.client.ClientPeerAddEvent;
 import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
@@ -14,11 +15,11 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientVoiceOptionsUpdate;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceOptionsPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class VoiceApiImpl implements VoiceApi {
 
@@ -143,5 +144,31 @@ public class VoiceApiImpl implements VoiceApi {
     @Override
     public List<CustomPlayerFilter> getCustomPlayerFilters() {
         return OpenAudioMc.getService(FilterService.class).getCustomPlayerFilters();
+    }
+
+    @Override
+    public Collection<VoiceChannel> getChannels() {
+        return new ArrayList<>(OpenAudioMc.getService(VoiceChannelService.class).getChannels());
+    }
+
+    @Nullable
+    @Override
+    public VoiceChannel getChannel(String name) {
+        return OpenAudioMc.getService(VoiceChannelService.class).getChannel(name);
+    }
+
+    @Override
+    public VoiceChannel createChannel(String name, Client creator, boolean requiresPermission, @Nullable String requiredPermission) {
+        return OpenAudioMc.getService(VoiceChannelService.class).createChannel(name, creator, requiresPermission, requiredPermission);
+    }
+
+    @Override
+    public void deleteChannel(VoiceChannel channel) {
+        OpenAudioMc.getService(VoiceChannelService.class).deleteChannel(channel.getName());
+    }
+
+    @Override
+    public boolean isChannelNameValid(String s) {
+        return OpenAudioMc.getService(VoiceChannelService.class).isChannelNameValid(s);
     }
 }

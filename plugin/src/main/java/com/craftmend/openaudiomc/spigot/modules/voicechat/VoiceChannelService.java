@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -121,7 +123,7 @@ public class VoiceChannelService extends Service {
         return true;
     }
 
-    private boolean isChannelNameValid(String s) {
+    public boolean isChannelNameValid(String s) {
         if (s.isEmpty()) return false;
         if (s.contains(" ")) return false;
         if (channelMap.containsKey(s)) return false;
@@ -151,5 +153,15 @@ public class VoiceChannelService extends Service {
                 channel.removeMember(player.getUser());
             }
         });
+    }
+
+    public VoiceChannel createChannel(String name, Client creator, boolean requiresPermission, String requiredPermission) {
+        if (!isChannelNameValid(name)) return null;
+        Channel channel = new Channel(name, requiresPermission ? requiredPermission : null, this);
+        if (creator != null) {
+            channel.addMember(creator);
+        }
+        channelMap.put(name, channel);
+        return channel;
     }
 }

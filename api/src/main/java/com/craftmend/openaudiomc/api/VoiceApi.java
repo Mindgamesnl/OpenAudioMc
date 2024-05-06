@@ -1,9 +1,12 @@
 package com.craftmend.openaudiomc.api;
 
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,5 +107,48 @@ public interface VoiceApi {
      * @author DiamondDagger590
      */
     List<CustomPlayerFilter> getCustomPlayerFilters();
+
+    /**
+     * Get a list of all registered channels
+     * @return a list of all registered channels
+     * @since 6.10.1
+     */
+    Collection<VoiceChannel> getChannels();
+
+    /**
+     * Get a channel by its name
+     * @param name the name of the channel
+     * @return the channel, or null if the channel does not exist
+     * @since 6.10.1
+     */
+    @Nullable
+    VoiceChannel getChannel(String name);
+
+    /**
+     * Create a new channel
+     * @param name the name of the channel
+     * @param creator the creator of the channel
+     * @param requiresPermission if the channel requires permission to join
+     * @param requiredPermission the permission required to join the channel
+     * @return the created channel
+     * @since 6.10.1
+     */
+    VoiceChannel createChannel(String name, Client creator, boolean requiresPermission, @Nullable String requiredPermission);
+
+    /**
+     * Delete a channel
+     * @param channel the channel to delete
+     * @since 6.10.1
+     */
+    void deleteChannel(VoiceChannel channel);
+
+    /**
+     * Check if a channel name is valid
+     * @param s the name to check
+     * @return true if the name is valid
+     * @since 6.10.1
+     */
+    boolean isChannelNameValid(String s);
+
 
 }
