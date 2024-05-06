@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -117,7 +118,7 @@ public class DefaultNetworkingService extends NetworkingService {
     @Override
     public void connectIfDown() {
         try {
-            if (!connectLock.tryLock())
+            if (!connectLock.tryLock(30, TimeUnit.SECONDS))
                 return;
 
             if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) {
@@ -128,6 +129,8 @@ public class DefaultNetworkingService extends NetworkingService {
             // update state
             OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
             socketConnection.setupConnection();
+        } catch (InterruptedException e) {
+            // ignore - its okay
         } finally {
             connectLock.unlock();
         }
