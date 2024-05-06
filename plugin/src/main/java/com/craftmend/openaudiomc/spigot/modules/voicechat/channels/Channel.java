@@ -1,6 +1,10 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.channels;
 
 import com.craftmend.openaudiomc.api.VoiceApi;
+import com.craftmend.openaudiomc.api.basic.Actor;
+import com.craftmend.openaudiomc.api.channels.ChannelJoinResponse;
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -9,12 +13,9 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-public class Channel {
+public class Channel implements VoiceChannel {
 
     @Nullable
     @Getter private User creator;
@@ -108,6 +109,10 @@ public class Channel {
         checkAbandonment();
     }
 
+    public boolean isMember(UUID uuid) {
+        return members.containsKey(uuid);
+    }
+
     private void checkAbandonment() {
         if (type != ChannelType.USER_CHANNEL) return;
         if (members.size() < 2) {
@@ -128,7 +133,38 @@ public class Channel {
         members.clear();
     }
 
-    public Collection<ClientConnection> getMembers() {
-        return members.values();
+    public Collection<Client> getMembers() {
+        return new ArrayList<>(members.values());
+    }
+
+    @Override
+    public boolean requiresPermission() {
+        return requiredPermission != null;
+    }
+
+    @Nullable
+    @Override
+    public String getRequiredPermission() {
+        return requiredPermission;
+    }
+
+    @Override
+    public boolean isMember(Actor actor) {
+        return members.containsKey(actor.getUniqueId());
+    }
+
+    @Override
+    public ChannelJoinResponse joinPreconditionCheck(Client client) {
+        return attemptEnter(((ClientConnection) client).getUser()).getApiValue();
+    }
+
+    @Override
+    public void addMember(Client client) {
+        addMember(((ClientConnection) client).getUser());
+    }
+
+    @Override
+    public void removeMember(Client client) {
+        removeMember(((ClientConnection) client).getUser());
     }
 }

@@ -16,7 +16,8 @@ public class Media {
     /**
      * Source value for the media. Typically, a web compatible web link or translatable OA value
      */
-    private final String source;
+    @Setter
+    private String source;
 
     /**
      * The unique id of the media, used by the client to keep track of media pools.

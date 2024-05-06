@@ -6,6 +6,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
+import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.types.ClaimCodeResponse;
@@ -28,7 +29,7 @@ public class LinkSubCommand extends SubCommand {
         }
 
         // init connection so we receive the event
-        OpenAudioMc.getService(NetworkingService.class).connectIfDown();
+        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> OpenAudioMc.getService(NetworkingService.class).connectIfDown());
 
         message(sender, OaColor.GRAY + "Generating link...");
 

@@ -24,7 +24,14 @@ public class ServerService extends Service {
             return;
         }
 
-        String versionString = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3].replace("v", "");
+        String[] packageParts = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",");
+        if (packageParts.length < 4) {
+            // paper removed package versioning, so we can't detect it, but it's modern
+            version = ServerVersion.MODERN;
+            return;
+        }
+
+        String versionString = packageParts[3].replace("v", "");
         versionString = versionString.replace("1_", "").replaceAll("_R\\d", "").replaceAll("[^\\d.]", "");
         int subVersion = Integer.parseInt(versionString);
 

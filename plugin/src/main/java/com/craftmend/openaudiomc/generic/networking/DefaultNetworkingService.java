@@ -32,6 +32,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class DefaultNetworkingService extends NetworkingService {
 
@@ -42,6 +45,7 @@ public class DefaultNetworkingService extends NetworkingService {
     private final PacketQueue packetQueue = new PacketQueue();
     private SocketConnection socketConnection;
     private int packetThroughput = 0;
+    private Lock connectLock = new ReentrantLock();
 
     public DefaultNetworkingService() {
         this.onModuleLoad();
@@ -69,7 +73,7 @@ public class DefaultNetworkingService extends NetworkingService {
         EventApi.getInstance().registerHandler(ClientAuthenticationEvent.class, event -> {
             // get Client from event
             ClientConnection client = getClient(event.getActor().getUniqueId());
-            if  (client == null) {
+            if (client == null) {
                 event.setCancelled(true);
                 return;
             }
@@ -113,14 +117,23 @@ public class DefaultNetworkingService extends NetworkingService {
      */
     @Override
     public void connectIfDown() {
-        if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) {
-            // health check for voice
+        try {
+            if (!connectLock.tryLock(30, TimeUnit.SECONDS))
+                return;
+
+            if (!OpenAudioMc.getService(StateService.class).getCurrentState().canConnect()) {
+                // health check for voice
+                OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
+                return;
+            }
+            // update state
             OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
-            return;
+            socketConnection.setupConnection();
+        } catch (InterruptedException e) {
+            // ignore - its okay
+        } finally {
+            connectLock.unlock();
         }
-        // update state
-        OpenAudioMc.getService(OpenaudioAccountService.class).startVoiceHandshake();
-        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> socketConnection.setupConnection());
     }
 
     /**
@@ -275,7 +288,7 @@ public class DefaultNetworkingService extends NetworkingService {
     public void addEventHandler(INetworkingEvents events) {
         eventHandlers.add(events);
     }
-    
+
     public void discardQueue() {
         this.packetQueue.clearAll();
     }

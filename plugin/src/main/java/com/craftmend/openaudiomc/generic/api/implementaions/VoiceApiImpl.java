@@ -1,8 +1,13 @@
 package com.craftmend.openaudiomc.generic.api.implementaions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.VoiceApi;
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerAddEvent;
+import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
+import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
@@ -10,11 +15,11 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientVoiceOptionsUpdate;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceOptionsPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class VoiceApiImpl implements VoiceApi {
 
@@ -93,13 +98,17 @@ public class VoiceApiImpl implements VoiceApi {
             throw new IllegalStateException("Both clients must be ready (connected and have voice chat enabled) before adding a peer");
         }
 
-        if (isProximityPeer(client, peerToAdd)) {
-            updatePeerOptions(client, peerToAdd, options);
-            clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
-            clientConnection.getRtcSessionManager().getCurrentProximityPeers().remove(peerToAdd.getActor().getUniqueId());
-        } else {
-            clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
-            clientConnection.getPeerQueue().addSubscribe(peerConnection, clientConnection, options);
+        // fire event
+        ClientPeerAddEvent event = (ClientPeerAddEvent) EventApi.getInstance().callEvent(new ClientPeerAddEvent(client, peerToAdd, options));
+        if (!event.isCancelled()) {
+            if (isProximityPeer(client, peerToAdd)) {
+                updatePeerOptions(client, peerToAdd, options);
+                clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
+                clientConnection.getRtcSessionManager().getCurrentProximityPeers().remove(peerToAdd.getActor().getUniqueId());
+            } else {
+                clientConnection.getRtcSessionManager().getCurrentGlobalPeers().add(peerToAdd.getActor().getUniqueId());
+                clientConnection.getPeerQueue().addSubscribe(peerConnection, clientConnection, options);
+            }
         }
 
         if (mutual) {
@@ -112,6 +121,8 @@ public class VoiceApiImpl implements VoiceApi {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) {
             throw new IllegalStateException("This method is only available on the spigot platform");
         }
+
+        EventApi.getInstance().callEvent(new ClientPeerRemovedEvent(client, peerToRemove));
 
         if (isGlobalPeer(client, peerToRemove)) {
             ClientConnection clientConnection = (ClientConnection) client;
@@ -133,5 +144,31 @@ public class VoiceApiImpl implements VoiceApi {
     @Override
     public List<CustomPlayerFilter> getCustomPlayerFilters() {
         return OpenAudioMc.getService(FilterService.class).getCustomPlayerFilters();
+    }
+
+    @Override
+    public Collection<VoiceChannel> getChannels() {
+        return new ArrayList<>(OpenAudioMc.getService(VoiceChannelService.class).getChannels());
+    }
+
+    @Nullable
+    @Override
+    public VoiceChannel getChannel(String name) {
+        return OpenAudioMc.getService(VoiceChannelService.class).getChannel(name);
+    }
+
+    @Override
+    public VoiceChannel createChannel(String name, Client creator, boolean requiresPermission, @Nullable String requiredPermission) {
+        return OpenAudioMc.getService(VoiceChannelService.class).createChannel(name, creator, requiresPermission, requiredPermission);
+    }
+
+    @Override
+    public void deleteChannel(VoiceChannel channel) {
+        OpenAudioMc.getService(VoiceChannelService.class).deleteChannel(channel.getName());
+    }
+
+    @Override
+    public boolean isChannelNameValid(String s) {
+        return OpenAudioMc.getService(VoiceChannelService.class).isChannelNameValid(s);
     }
 }

@@ -35,7 +35,7 @@ public class ModernRegionAdapter extends AbstractRegionAdapter {
         RegionQuery query = container.createQuery();
         ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(location));
 
-        int highestPriority = 0;
+        Integer highestPriority = Integer.MIN_VALUE;
         Set<ApiRegion> regions = set.getRegions()
                 .stream()
                 .map(ApiRegion::wrapWorldGuard)

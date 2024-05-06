@@ -14,4 +14,9 @@ public class ClientSpeakerCreatePayload extends AbstractPacketPayload implements
     public String getSource() {
         return clientSpeaker.getSource();
     }
+
+    @Override
+    public void setSource(String source) {
+        clientSpeaker.setSource(source);
+    }
 }

@@ -192,6 +192,9 @@ options:
   # If default radius for speakers (in blocks)
   speaker-radius: 10
 
+  # This is the maximum radius speakers can have when spawned in through the command.
+  max-speaker-radius: 75
+
   # If set to true, speakers will sync their timecodes
   sync-speakers: true
 

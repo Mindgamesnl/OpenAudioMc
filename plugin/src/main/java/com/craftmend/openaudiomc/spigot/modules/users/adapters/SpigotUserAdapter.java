@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
+import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import lombok.AllArgsConstructor;
@@ -125,6 +126,10 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public String getIpAddress() {
         if (player instanceof Player) {
+            if (!StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() && !MagicValue.FORCE_DISABLE_CLIENT_NET_LOOKUP.get(Boolean.class)) {
+                return "unknown";
+            }
+
             Player p = (Player) player;
             if (p.getAddress() == null) return "unknown";
             String ip = p.getAddress().getHostName();

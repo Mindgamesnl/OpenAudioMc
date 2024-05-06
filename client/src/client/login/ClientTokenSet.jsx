@@ -87,6 +87,17 @@ export default class ClientTokenSet {
               return;
             }
 
+            if (body.status === 409) {
+              setGlobalState({
+                isLoading: false,
+                isBlocked: true,
+                isValidationError: true,
+              });
+              ReportError('Invalid token', window.tokenCache.name);
+              resolve(null);
+              return;
+            }
+
             body.json().then((sessionValidationResponse) => {
               if (sessionValidationResponse.errors.length > 0) {
                 if (this.attempts < 3) {

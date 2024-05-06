@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EventService extends Service implements EventApi {
 
-    private final Map<Class<? extends BaseEvent>, List<EventMethod>> eventHandlers = new HashMap<>();
+    private final Map<Class<? extends BaseEvent>, List<EventMethod>> eventHandlers = new ConcurrentHashMap<>();
 
     public EventService() {
         // register register events

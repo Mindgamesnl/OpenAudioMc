@@ -56,7 +56,7 @@ public abstract class RegionAdapterBase {
     }
 
     @NotNull
-    protected Set<ApiRegion> prioritySort(Set<ApiRegion> regions, int highestPriority, boolean usePriority) {
+    protected Set<ApiRegion> prioritySort(Set<ApiRegion> regions, Integer highestPriority, boolean usePriority) {
         ApiRegion highestRegion = null;
         if (usePriority) {
             for (ApiRegion region : regions) {

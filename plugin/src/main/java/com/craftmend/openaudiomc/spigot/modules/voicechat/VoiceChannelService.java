@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.channels.VoiceChannel;
+import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -10,7 +12,6 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.*;
@@ -20,10 +21,11 @@ import org.bukkit.permissions.Permission;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VoiceChannelService extends Service {
 
-    private Map<String, Channel> channelMap = new HashMap<>();
+    private Map<String, Channel> channelMap = new ConcurrentHashMap<>();
 
     @Inject
     public VoiceChannelService(
@@ -114,14 +116,14 @@ public class VoiceChannelService extends Service {
             channelMap.put(name, previous);
             return false;
         }
- 
+
         created.addMember(creator);
 
         // success
         return true;
     }
 
-    private boolean isChannelNameValid(String s) {
+    public boolean isChannelNameValid(String s) {
         if (s.isEmpty()) return false;
         if (s.contains(" ")) return false;
         if (channelMap.containsKey(s)) return false;
@@ -144,4 +146,22 @@ public class VoiceChannelService extends Service {
         return deleted != null;
     }
 
+    public void handleUserDisconnect(ClientConnection player) {
+        // find any channel the player is in
+        channelMap.values().forEach(channel -> {
+            if (channel.isMember(player.getUser().getUniqueId())) {
+                channel.removeMember(player.getUser());
+            }
+        });
+    }
+
+    public VoiceChannel createChannel(String name, Client creator, boolean requiresPermission, String requiredPermission) {
+        if (!isChannelNameValid(name)) return null;
+        Channel channel = new Channel(name, requiresPermission ? requiredPermission : null, this);
+        if (creator != null) {
+            channel.addMember(creator);
+        }
+        channelMap.put(name, channel);
+        return channel;
+    }
 }

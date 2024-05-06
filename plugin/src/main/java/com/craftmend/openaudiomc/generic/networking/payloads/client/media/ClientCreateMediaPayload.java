@@ -24,4 +24,11 @@ public class ClientCreateMediaPayload extends AbstractPacketPayload implements S
     public String getSource() {
         return media.getSource();
     }
+
+    @Override
+    public void setSource(String source) {
+        media.setSource(source);
+    }
+
+
 }

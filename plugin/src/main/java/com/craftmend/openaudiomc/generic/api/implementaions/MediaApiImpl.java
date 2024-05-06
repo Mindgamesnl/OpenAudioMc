@@ -84,4 +84,18 @@ public class MediaApiImpl implements MediaApi {
             OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(id));
         }
     }
+
+    @Override
+    public void stopFor(@NotNull String id, int fadeTime, @NotNull Client... clients) {
+        for (Client client : clients) {
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(id, fadeTime));
+        }
+    }
+
+    @Override
+    public void stopFor(int fadeTime, @NotNull Client... clients) {
+        for (Client client : clients) {
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null, fadeTime));
+        }
+    }
 }
