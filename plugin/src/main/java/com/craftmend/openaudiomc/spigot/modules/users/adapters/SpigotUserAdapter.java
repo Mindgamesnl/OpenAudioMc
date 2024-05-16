@@ -126,7 +126,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public String getIpAddress() {
         if (player instanceof Player) {
-            if (!StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() && !MagicValue.FORCE_DISABLE_CLIENT_NET_LOOKUP.get(Boolean.class)) {
+            if (!StorageKey.SETTINGS_TOKEN_AUTO_LOGIN.getBoolean() || MagicValue.FORCE_DISABLE_CLIENT_NET_LOOKUP.get(Boolean.class)) {
                 return "unknown";
             }
 
