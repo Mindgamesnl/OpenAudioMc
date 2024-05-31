@@ -86,6 +86,7 @@ export const MediaManager = new class IMediaManager {
       const channel = chls[i];
       if (all) {
         channel.fadeChannel(0, time, () => {
+          console.log('callback reached');
           this.mixer.removeChannel(channel);
         });
         matchedAndStopped = channel;
