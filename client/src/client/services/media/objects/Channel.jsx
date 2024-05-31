@@ -20,7 +20,6 @@ export class Channel {
   }
 
   setPrefferedFadeTime(fadeTime) {
-    console.log('Setting preffered fade time to', fadeTime);
     this.prefferedFadeTime = fadeTime;
   }
 
