@@ -35,18 +35,17 @@ public class RegionTempSubCommand extends SubCommand {
 
         args[1] = args[1].toLowerCase();
 
-        int volume = 100;
+        int duration = 100;
         if (args.length == 4) {
             try {
-                volume = Integer.parseInt(args[3]);
+                duration = Integer.parseInt(args[3]);
             } catch (NumberFormatException e) {
-                message(sender, ChatColor.RED + "ERROR! Volume must be a number!");
-                return;
+                throw new CommandError("Duration must be a number!");
             }
         }
 
-        if (volume < 0 || volume > 100) {
-            message(sender, ChatColor.RED + "The volume must be between 0 and 100");
+        if (duration < 1) {
+            message(sender, ChatColor.RED + "The duration must at least be one");
             return;
         }
 
@@ -54,13 +53,11 @@ public class RegionTempSubCommand extends SubCommand {
             throw new CommandError("Invalid source url.");
         }
 
-        int duration = Integer.parseInt(args[3]);
-
         try {
             WorldApi.getInstance().registerTempRegion(
                     sender.getWorld(),
                     args[1],
-                    new RegionMediaOptions(args[2], volume),
+                    new RegionMediaOptions(args[2], 100),
                     duration
             );
         } catch (UnknownWorldException e) {
