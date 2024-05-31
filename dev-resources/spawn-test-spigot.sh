@@ -16,10 +16,10 @@ cp dev-resources/ops.json test-server-spigot/
 
 cd test-server-spigot
 echo "Cleaning server..."
-if [ ! -f ./spigot-1.20.2.jar ]; then
-    wget https://download.getbukkit.org/spigot/spigot-1.20.2.jar
+if [ ! -f ./spigot-1.20.4.jar ]; then
+    wget https://download.getbukkit.org/spigot/spigot-1.20.4.jar
     echo "eula=true" > eula.txt
-    chmod +x spigot-1.20.2.jar
+    chmod +x spigot-1.20.4.jar
 fi
 
 #export OA_ENVIRONMENT="DEVELOPMENT"
@@ -29,4 +29,4 @@ echo "Starting server.."
 rm world/session.lock
 rm world_the_end/session.lock
 rm world_nether/session.lock
-java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar paper-1.20.6-49.jar nogui
+java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar spigot-1.20.4.jar nogui

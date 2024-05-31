@@ -30,8 +30,9 @@ export async function handleCreateMedia(data) {
   MediaManager.destroySounds(id, false, true);
 
   // register with metadata
-  const createdChannel = new Channel(id);
+  const createdChannel = new Channel(id, volume);
   createdChannel.trackable = true;
+  createdChannel.setPrefferedFadeTime(fadeTime);
   const createdMedia = new Sound();
 
   createdChannel.addSound(createdMedia);
