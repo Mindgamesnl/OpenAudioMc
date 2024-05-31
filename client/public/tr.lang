@@ -1,0 +1,63 @@
+lang.name=Turkish
+
+ui.loading=Yükleniyor...
+ui.logout=Çıkış
+
+ui.urlChangeDetected=URL değişikliği algılandı
+ui.hashchange=URL değişti. Sayfayı yenilemek ve yeni bir oturum başlatmak ister misiniz? Bu, mevcut oturumunuzu temizleyecektir.
+
+navbar.audio=Sunucu Sesleri
+navbar.vc=Sesli Sohbet
+navbar.settings=Ayarlar
+navbar.debug=Hata Ayıklama
+navbar.free=ücretsiz
+navbar.premium=premium
+navbar.upgradeRequired=Güncelleme gerekiyor
+navbar.isPlaying=Şu anda müzik çalınıyor
+
+home.confirmLoginHeader=Hoş geldin!
+home.confirmLoginBody=<i>%player</i> olarak giriş yapmaya çalışıyor musunuz?<br />Eğer değilseniz, lütfen bu pencereyi kapatın.
+home.confirmLoginButton=Sesli oturumu başlat
+home.confirmLoginWithVoicechat=Sesli Sohbet ile oturumu başlat
+
+home.activate=Oturumu başlat
+home.activateText=Bu kişisel web sayfası, ziyaretiniz boyunca sesinizi ve sesinizi çalmak için kullanılacaktır. Başlamak için lütfen bu sayfanın herhangi bir yerine tıklayın.
+home.clickAnywhere=Başlamak için herhangi bir yere tıklayın
+home.activateHeader=Bağlanmak için buraya tıklayın
+home.welcome=Hoş geldiniz, %player!
+home.header=Ses istemcimize hoş geldiniz! Oyun içi müzik ve efektlerimizi deneyimlemek için bu sayfayı açık tutun. Oturumunuz sırasında sesinizi ve ayarlarınızı değiştirmek için istediğiniz zaman buraya geri dönebilirsiniz.
+home.volumeContext=Bu kaydırıcı, oyun içi müzik ve efektlerin sesini kontrol eder. Ayrıca oyun içinde <pre>/volume &lt;volume&gt;</pre> komutunu kullanarak herhangi bir zamanda sesinizi değiştirebilir veya kısa bir süre sessizleştirmek için sadece 0'a ayarlayabilirsiniz.
+home.audioControls=Ses kontrolleri
+home.notificationsTitle=Bildirimler
+home.notificationsEmpty=Şu anda herhangi bir bildiriminiz yok
+
+vc.badClient=Sesli Sohbet için bir HTTPS üzerinden sunulan bir web istemcisine ihtiyaç vardır, lütfen HTTPS kullanmak için temel URL'nizi güncelleyin ve/veya geçerli SSL sertifikaları kurun.
+vc.notCompatible=Tarayıcınız sesli sohbeti desteklemiyor. Lütfen Chrome, Safari vb. modern bir (masaüstü) tarayıcı kullanın.
+vc.voiceModerationEnabled=Bu sunucuda moderasyon etkin. Seçilen personel, mikrofonunuz etkin olduğunda dinleyebilir olabilir.
+vc.notice=Bildirim
+vc.startingPopupTitle=Sesli sohbete giriş yapılıyor...
+vc.startingPopup=Lütfen bir ses sunucusuyla kurulumunuz tamamlanana kadar bekleyin... Sabırlı olun, bu fazla uzun sürmemeli.
+vc.reloadingPopupTitle=Ses sistemi yeniden yükleniyor!
+vc.reloadingPopup=Yeni ayarlarınızı uygulamak için sesli sohbetin yeniden başlatılmasını bekleyin... Bu uzun sürmemeli
+vc.updatingMicPopupTitle=Mikrofon güncelleniyor!
+vc.updatingMicPopup=Yeni mikrofonunuzla sesli sohbetinizi yeniden başlatmayı bekleyin... Bu uzun sürmemeli
+vc.micErrorPopupTitle=Mikrofon hatası
+vc.micErrorPopup=Mikrofonunuzu erişmeye çalışırken bir sorun oluştu. Tarayıcınız mikrofon izinlerinizi istediğinde "izin ver"i seçin veya daha fazla bilgi için wiki'yi ziyaret edin.
+vc.disabled=Sesli Sohbet geçici olarak %serverName tarafından devre dışı bırakılmıştır
+vc.title=Yakınlık Tabanlı Sesli Sohbet
+vc.boardingTitle=Sesli Sohbet'e hoş geldiniz
+vc.onboarding=Bu sunucu, Yakınlık Tabanlı Sesli Sohbeti destekler, bu da %range blok yarıçapı içindeki oyuncularla konuşmanıza izin verir. Bu özelliği etkinleştirmek ve mikrofonunuza erişim vermek ister misiniz?
+vc.settings=Sesli Sohbet ayarları
+vc.muteMic=Mikrofonu Sustur
+vc.unmuteMic=Mikrofonu Aç
+vc.input=Giriş Cihazı
+vc.aboutInput=Kullanmak istediğiniz mikrofonu seçin, bunu değiştirmek oturumunuzun yeniden başlamasına neden olur.
+vc.positionalAudio=Konumsal Ses
+vc.aboutPositionalAudio=360 derece ses manzarası oluşturarak, konumsal farkındalık sağlar.
+vc.settingsDisable=Devre Dışı Bırak
+vc.settingsEnablePositionalAudio=Konumsal Ses'i Etkinleştir
+vc.settingsDisablePositionalAudio=Konumsal Ses'i Devre Dışı Bırak
+vc.automaticAdjustments=Otomatik Ayarlar
+vc.sensitivity=Gürültü Engeli
+vc.aboutSensitivity=Mikrofonunuzun gürültü engelini yapılandırın, bu siz konuşmadığınızda mikrofonunuzu otomatik olarak sessize alacaktır. <b>Tamamen sola</b> kaydırmak gürültü engelini devre dışı bırakır, <b>tamamen sağa</b> kaydırmak mikrofonunuzu her zaman sessize alır.
+vc.peerTable={total} oyuncuya bağlı, {talking}
