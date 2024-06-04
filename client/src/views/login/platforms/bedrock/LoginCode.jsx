@@ -9,7 +9,8 @@ export class LoginCode extends React.Component {
   };
 
   static defaultProps = {
-    onAccept: () => {},
+    onAccept: () => {
+    },
   };
 
   constructor(props) {
@@ -61,13 +62,18 @@ export class LoginCode extends React.Component {
         window.onerror(errorMessage, 'bedrock-auth-ws', 0, 0, error);
       }
 
-      this.setState({
+      const newState = {
         loading: false,
         connected: false,
         code: null,
         errored: true,
-        errorContext: errorMessage,
-      });
+      };
+
+      if (errorMessage) {
+        newState.errorContext = errorMessage;
+      }
+
+      this.setState(newState);
     };
 
     this.websocket.onerror = erOrClose;
