@@ -45,6 +45,7 @@ public class RegionProperties extends DataStore {
         if (loop == null) loop = true;
         Media media = worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
         media.setDoPickup(this.doSync);
+        media.setFadeTime(fadeTimeMs);
         return media;
     }
 

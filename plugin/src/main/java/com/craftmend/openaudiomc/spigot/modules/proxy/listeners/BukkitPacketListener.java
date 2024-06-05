@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.events.events.TimeServiceUpdateEvent;
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -21,6 +22,8 @@ import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.proxy.messages.ProxyPacketHandler;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketListener;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import org.bukkit.Bukkit;
 
 public class BukkitPacketListener implements PacketListener {
 
@@ -78,18 +81,20 @@ public class BukkitPacketListener implements PacketListener {
     public void onCommand(User user, CommandProxyPacket packet) {
         User<?> player = OpenAudioMc.resolveDependency(UserHooks.class).byUuid(packet.getCommandProxy().getExecutor());
         if (player == null) return;
-        try {
-            OpenAudioMc.getService(CommandService.class)
-                    .getSubCommand(CommandContext.OPENAUDIOMC, packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
-                    .onExecute(player, packet.getCommandProxy().getArgs());
-        } catch (Exception e) {
-            if (e instanceof CommandError) {
-                player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + e.getMessage());
-            } else {
-                player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Something went wrong while executing the command. Please check your console for more information.");
-                e.printStackTrace();
+        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> {
+            try {
+                OpenAudioMc.getService(CommandService.class)
+                        .getSubCommand(CommandContext.OPENAUDIOMC, packet.getCommandProxy().getProxiedCommand().toString().toLowerCase())
+                        .onExecute(player, packet.getCommandProxy().getArgs());
+            } catch (Exception e) {
+                if (e instanceof CommandError) {
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + e.getMessage());
+                } else {
+                    player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Something went wrong while executing the command. Please check your console for more information.");
+                    OpenAudioLogger.error(e, "failed to execute from proxy packet");
+                }
             }
-        }
+        });
     }
 
 }

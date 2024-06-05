@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.generic.networking;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.api.events.client.ClientAuthenticationEvent;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
