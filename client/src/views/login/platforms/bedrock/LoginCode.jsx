@@ -9,7 +9,8 @@ export class LoginCode extends React.Component {
   };
 
   static defaultProps = {
-    onAccept: () => {},
+    onAccept: () => {
+    },
   };
 
   constructor(props) {
@@ -20,6 +21,7 @@ export class LoginCode extends React.Component {
       errored: false,
       code: null,
       finished: false,
+      errorContext: null,
     };
     this.websocket = null;
     this.onMessage = this.onMessage.bind(this);
@@ -52,13 +54,26 @@ export class LoginCode extends React.Component {
 
     this.websocket.onmessage = msgHandler;
 
-    const erOrClose = () => {
-      this.setState({
+    const erOrClose = (error) => {
+      let errorMessage = null;
+      if (error && error.message) {
+        errorMessage = error.message;
+        // call window.onerror
+        window.onerror(errorMessage, 'bedrock-auth-ws', 0, 0, error);
+      }
+
+      const newState = {
         loading: false,
         connected: false,
         code: null,
         errored: true,
-      });
+      };
+
+      if (errorMessage) {
+        newState.errorContext = errorMessage;
+      }
+
+      this.setState(newState);
     };
 
     this.websocket.onerror = erOrClose;
@@ -99,7 +114,7 @@ export class LoginCode extends React.Component {
 
       if (this.state.errored) {
         text = 'Error connecting';
-        subtext = 'Something went wrong, please try again later';
+        subtext = `Something went wrong, please try again later. Error: ${this.state.errorContext}`;
       }
 
       if (this.state.connected) {
