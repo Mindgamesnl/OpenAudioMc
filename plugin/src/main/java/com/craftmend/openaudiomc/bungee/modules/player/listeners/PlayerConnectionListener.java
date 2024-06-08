@@ -48,7 +48,7 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onConnect(ServerConnectedEvent event) {
-        new BungeeProxyNode(event.getPlayer().getServer().getInfo()).sendPacket(new AnnouncePlatformPacket(
+        new BungeeProxyNode(event.getServer().getInfo()).sendPacket(new AnnouncePlatformPacket(
                 OpenAudioMc.getService(AuthenticationService.class).getServerKeySet().getPublicKey().getValue(),
                 Platform.BUNGEE
         ));
