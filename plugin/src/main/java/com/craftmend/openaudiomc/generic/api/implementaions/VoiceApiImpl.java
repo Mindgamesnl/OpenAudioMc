@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.api.events.client.ClientPeerAddEvent;
 import com.craftmend.openaudiomc.api.events.client.ClientPeerRemovedEvent;
 import com.craftmend.openaudiomc.api.interfaces.AudioApi;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
+import com.craftmend.openaudiomc.api.voice.DisplayOverride;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -83,13 +84,24 @@ public class VoiceApiImpl implements VoiceApi {
 
     @Override
     public void addStaticPeer(Client client, Client peerToAdd, boolean visible, boolean mutual) {
+        addStaticPeer(client, peerToAdd, visible, mutual, null);
+    }
+
+    @Override
+    public void addStaticPeer(Client client, Client peerToAdd, boolean visible, boolean mutual, DisplayOverride displayOverride) {
         if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) {
             throw new IllegalStateException("This method is only available on the spigot platform");
+        }
+
+        if (displayOverride != null && displayOverride.getName() != null && displayOverride.getName().length() > 32) {
+            throw new IllegalArgumentException("Display name cannot be longer than 32 characters");
         }
 
         VoicePeerOptions options = new VoicePeerOptions();
         options.setSpatialAudio(false);
         options.setVisible(visible);
+        // may put in null, that's fine.
+        options.setDisplayOverride(displayOverride);
 
         ClientConnection clientConnection = (ClientConnection) client;
         ClientConnection peerConnection = (ClientConnection) peerToAdd;

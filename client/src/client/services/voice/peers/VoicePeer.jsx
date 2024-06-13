@@ -9,6 +9,15 @@ export class VoicePeer {
   constructor(peerName, peerUuid, peerStreamKey, location, options) {
     this.options = options;
 
+    let displayName = peerName;
+    let displayUuid = peerUuid;
+
+    if (options.displayOverride) {
+      // override display name and uuid
+      displayName = options.displayOverride.name || peerName;
+      displayUuid = options.displayOverride.displayUuid || peerUuid;
+    }
+
     // register in global state
     setGlobalState({
       voiceState: {
@@ -21,6 +30,8 @@ export class VoicePeer {
             muted: false,
             loading: true,
             options: this.options,
+            displayName,
+            displayUuid,
           },
         },
       },
@@ -28,6 +39,8 @@ export class VoicePeer {
 
     this.peerName = peerName;
     this.peerUuid = peerUuid;
+    this.displayName = displayName;
+    this.displayUuid = displayUuid;
     this.peerStreamKey = peerStreamKey;
     this.location = location;
     this.killed = false;
@@ -62,9 +75,17 @@ export class VoicePeer {
       }
     }
 
+    let { displayUuid, displayName } = this;
+
+    if (changedOptions.displayOverride) {
+      // override display name and uuid
+      displayName = changedOptions.displayOverride.name || this.peerName;
+      displayUuid = changedOptions.displayOverride.displayUuid || this.peerUuid;
+    }
+
     this.options = changedOptions;
     // update global state
-    setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { options: this.options } } } });
+    setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { options: this.options, displayName, displayUuid } } } });
   }
 
   updateLocation(x, y, z) {
