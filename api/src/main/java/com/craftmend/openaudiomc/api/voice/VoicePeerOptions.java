@@ -40,6 +40,7 @@ public class VoicePeerOptions implements Cloneable {
     /**
      * An optional display override, which can be used to change the display name and skin of a player in the voice chat system.
      * This can be left null if no override is needed.
+     * @since 6.10.2
      */
     @Nullable
     private DisplayOverride displayOverride;

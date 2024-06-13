@@ -8,6 +8,7 @@ import java.util.UUID;
  * This class is used to override the display name of a player in the voice chat system.
  * This is useful for when you want to display a different name than the player's actual name,
  * to add compatibility for bedrock players or display game ranks.
+ * @since 6.10.2
  */
 public class DisplayOverride {
 

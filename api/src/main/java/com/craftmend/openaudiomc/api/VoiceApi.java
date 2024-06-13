@@ -77,6 +77,7 @@ public interface VoiceApi {
      * @param visible         Whether the peer should be visible in the client
      * @param mutual          Whether the peer should also hear the client (repeat the call for mutual)
      * @param displayOverride A display override, which can be used to change the display name and skin of a player in the voice chat system.
+     * @since 6.10.2
      */
     void addStaticPeer(Client client, Client peerToAdd, boolean visible, boolean mutual, DisplayOverride displayOverride);
 
