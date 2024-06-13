@@ -58,7 +58,7 @@ public abstract class SubCommand {
      * @param sender Command sender
      * @param message Your message
      */
-    protected void message(User sender, String message) {
+    protected void message(User<?> sender, String message) {
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + Platform.translateColors(message));
     }
 
@@ -69,7 +69,7 @@ public abstract class SubCommand {
      * @param commandSender Command sender
      * @return true if the player is allowed to execute a command
      */
-    public boolean isAllowed(User commandSender) {
+    public boolean isAllowed(User<?> commandSender) {
         if (ignorePermissions) return true;
 
         return commandSender.hasPermission(permissionScope + command)
@@ -89,7 +89,7 @@ public abstract class SubCommand {
      * @param user User
      * @param args Arguments
      */
-    protected void delegateTo(String subCommand, User user, String[] args) {
+    protected void delegateTo(String subCommand, User<?> user, String[] args) {
         SubCommand sci = moreSubCommands.get(subCommand);
         if (sci.trimArguments) {
             String[] subArgs = new String[args.length - 1];
@@ -118,7 +118,7 @@ public abstract class SubCommand {
      * @param sender the sender that executed the commands
      * @param args the arguments after your command, starting at index 0
      */
-    public abstract void onExecute(User sender, String[] args);
+    public abstract void onExecute(User<?> sender, String[] args);
 
     protected boolean isInteger(String s) {
         return isInteger(s,10);
