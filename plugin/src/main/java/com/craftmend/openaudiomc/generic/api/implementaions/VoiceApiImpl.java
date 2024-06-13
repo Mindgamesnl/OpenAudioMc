@@ -93,6 +93,10 @@ public class VoiceApiImpl implements VoiceApi {
             throw new IllegalStateException("This method is only available on the spigot platform");
         }
 
+        if (displayOverride != null && displayOverride.getName() != null && displayOverride.getName().length() > 32) {
+            throw new IllegalArgumentException("Display name cannot be longer than 32 characters");
+        }
+
         VoicePeerOptions options = new VoicePeerOptions();
         options.setSpatialAudio(false);
         options.setVisible(visible);

@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.api.voice;
 
+import lombok.Data;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
  * to add compatibility for bedrock players or display game ranks.
  * @since 6.10.2
  */
+@Data
 public class DisplayOverride {
 
     /**
