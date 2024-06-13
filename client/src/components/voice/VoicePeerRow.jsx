@@ -14,6 +14,7 @@ export class VoicePeerRow extends React.Component {
     streamKey: PropTypes.string.isRequired,
     name: PropTypes.string,
     uuid: PropTypes.string,
+    displayUuid: PropTypes.string,
     muted: PropTypes.bool,
     speaking: PropTypes.bool,
     loading: PropTypes.bool,
@@ -26,6 +27,7 @@ export class VoicePeerRow extends React.Component {
   static defaultProps = {
     name: 'Unknown',
     uuid: '00000000-0000-0000-0000-000000000000',
+    displayUuid: '00000000-0000-0000-0000-000000000000',
     muted: false,
     speaking: false,
     loading: false,
@@ -68,7 +70,7 @@ export class VoicePeerRow extends React.Component {
   render() {
     // get props
     const {
-      name, muted, speaking, uuid, loading,
+      name, muted, speaking, displayUuid, loading,
     } = this.props;
 
     let avatarClass = 'avatar w-16 rounded-2xl';
@@ -90,7 +92,7 @@ export class VoicePeerRow extends React.Component {
     const { volume } = this.state;
 
     return (
-      <li className={parentClass}>
+      <li className={`flex items-center ${parentClass}`}>
         {loading ? (
           <div className="absolute inset-0 flex items-center z-20 justify-center bg-gray-800 bg-opacity-70">
             <svg
@@ -120,16 +122,16 @@ export class VoicePeerRow extends React.Component {
             </small>
           </div>
         ) : null}
-        <div>
+        <div className="flex-shrink-0">
           <img
-            src={`https://visage.surgeplay.com/face/512/${uuid}`}
+            src={`https://visage.surgeplay.com/face/512/${displayUuid}`}
             className={avatarClass}
             alt={`Avatar for ${name}`}
           />
         </div>
-        <div className="flex-1">
-          <div className="flex items-centerhidden-on-mobile py-1">
-            <h1 className="ml-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center py-1">
+            <h1 className="ml-2 break-all text-ellipsis overflow-hidden whitespace-nowrap">
               {muted ? (<PeerMutedSvg />) : null}
               {this.props.spatialAudio ? (<ProximitySvg />) : <GlobalSvg />}
               {name}

@@ -9,6 +9,15 @@ export class VoicePeer {
   constructor(peerName, peerUuid, peerStreamKey, location, options) {
     this.options = options;
 
+    let displayName = peerName;
+    let displayUuid = peerUuid;
+
+    if (options.displayOverride) {
+      // override display name and uuid
+      displayName = options.displayOverride.name || peerName;
+      displayUuid = options.displayOverride.uuid || peerUuid;
+    }
+
     // register in global state
     setGlobalState({
       voiceState: {
@@ -21,6 +30,8 @@ export class VoicePeer {
             muted: false,
             loading: true,
             options: this.options,
+            displayName,
+            displayUuid,
           },
         },
       },
