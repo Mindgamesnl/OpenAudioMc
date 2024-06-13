@@ -4,4 +4,6 @@
             color-mix(in srgb, transparent, #07020D 60%),
             color-mix(in srgb, transparent, #07020D 70%) 100%
     ), var(--background-image);
+    background-size: cover;
+    background-position: center;
 }
