@@ -7,7 +7,7 @@ import eslint from 'vite-plugin-eslint';
 
 // some prototype
 // eslint-disable-next-line no-extend-native
-Array.prototype.some = function (fun) {
+Array.prototype.some = function someMatchUtil(fun) {
   const len = this.length;
   for (let i = 0; i < len; i += 1) {
     if (fun(this[i], i, this)) {
