@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api;
 import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.api.voice.CustomPlayerFilter;
+import com.craftmend.openaudiomc.api.voice.DisplayOverride;
 import com.craftmend.openaudiomc.api.voice.VoicePeerOptions;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,6 +67,19 @@ public interface VoiceApi {
      * @param mutual    Whether the peer should also hear the client (repeat the call for mutual)
      */
     void addStaticPeer(Client client, Client peerToAdd, boolean visible, boolean mutual);
+
+    /**
+     * Add a peer (partner) to someone's voice chat.
+     * This would let the client hear the peerToAdd as a global voice (without spatial audio/distance) until it's removed.
+     *
+     * @param client          The web client that should receive this update
+     * @param peerToAdd       The peer that should be added
+     * @param visible         Whether the peer should be visible in the client
+     * @param mutual          Whether the peer should also hear the client (repeat the call for mutual)
+     * @param displayOverride A display override, which can be used to change the display name and skin of a player in the voice chat system.
+     * @since 6.10.2
+     */
+    void addStaticPeer(Client client, Client peerToAdd, boolean visible, boolean mutual, DisplayOverride displayOverride);
 
     /**
      * Remove a global peer from someone's voice chat.

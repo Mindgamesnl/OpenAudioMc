@@ -18,6 +18,7 @@ navbar.free=free
 navbar.premium=premium
 navbar.upgradeRequired=Upgrade required
 navbar.isPlaying=Playing music
+navbar.menu=Open menu
 
 home.confirmLoginHeader=Welcome back!
 home.confirmLoginBody=Are you trying to login as <i>%player</i>?<br />If you are not, please close this window.

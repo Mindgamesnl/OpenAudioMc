@@ -28,7 +28,7 @@ public class HelpSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(User sender, String[] args) {
+    public void onExecute(User<?> sender, String[] args) {
         if (args.length == 1) {
             args[0] = args[0].toLowerCase();
             SubCommand subCommand = commandService.getSubCommand(context, args[0]);
@@ -50,7 +50,7 @@ public class HelpSubCommand extends SubCommand {
 
             // only render aliases
             if (command.equals(handler.getCommand()) && handler.isListed()) {
-                String optionalDelegates = "";
+                StringBuilder optionalDelegates = new StringBuilder();
                 boolean hasDelegates = false;
                 if (!handler.getArguments().isEmpty()) {
                     Set<String> arguments = new HashSet<>();
@@ -60,21 +60,21 @@ public class HelpSubCommand extends SubCommand {
                         if (!base.isEmpty()) arguments.add(argument.getBase());
                     }
 
-                    optionalDelegates += OaColor.GRAY + "[";
+                    optionalDelegates.append(OaColor.GRAY + "[");
                     int argCount = arguments.size();
                     int index = 0;
                     for (String argument : arguments) {
-                        optionalDelegates += OaColor.DARK_GRAY + argument;
+                        optionalDelegates.append(OaColor.DARK_GRAY).append(argument);
                         if (index != argCount - 1) {
-                            optionalDelegates += OaColor.GRAY + "|";
+                            optionalDelegates.append(OaColor.GRAY + "|");
                         }
                         index++;
                     }
-                    optionalDelegates += OaColor.GRAY + "]";
+                    optionalDelegates.append(OaColor.GRAY + "]");
                     hasDelegates = index > 0;
                 }
 
-                goldClickableMessage(sender, "/" + context.getBaseCommand() + " " + handler.getCommand() + " " + (hasDelegates ? optionalDelegates : ""), "oa help " + handler.getCommand());
+                goldClickableMessage(sender, "/" + context.getBaseCommand() + " " + handler.getCommand() + " " + (hasDelegates ? optionalDelegates.toString() : ""), context.getBaseCommand() + " help " + handler.getCommand());
             }
         }
 
@@ -82,16 +82,16 @@ public class HelpSubCommand extends SubCommand {
             message(sender, "For more personal help or other questions, please visit https://openaudiomc.net/docs");
     }
 
-    private void goldMessage(User s, String message) {
+    private void goldMessage(User<?> s, String message) {
         s.sendMessage(" " + getColor("YELLOW") + "> " + getColor("GOLD") + message);
     }
 
     @SneakyThrows
-    private void goldClickableMessage(User s, String message, String command) {
+    private void goldClickableMessage(User<?> s, String message, String command) {
         s.sendClickableCommandMessage(OaColor.GOLD + " > " + message, "Click here to run " + command, command);
     }
 
-    private void grayMessage(User s, String message) {
-        s.sendMessage("  " + getColor("DARK_GRAY") + "> " + getColor("ITALIC") + "" + getColor("GRAY") + message);
+    private void grayMessage(User<?> s, String message) {
+        s.sendMessage("  " + getColor("DARK_GRAY") + "> " + getColor("ITALIC")+ getColor("GRAY") + message);
     }
 }

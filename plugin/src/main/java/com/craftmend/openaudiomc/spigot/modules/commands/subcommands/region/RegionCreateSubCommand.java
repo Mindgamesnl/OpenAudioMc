@@ -1,6 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.WorldApi;
+import com.craftmend.openaudiomc.api.exceptions.InvalidRegionException;
+import com.craftmend.openaudiomc.api.exceptions.InvalidThreadException;
+import com.craftmend.openaudiomc.api.exceptions.UnknownWorldException;
+import com.craftmend.openaudiomc.api.regions.RegionMediaOptions;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
@@ -41,25 +46,24 @@ public class RegionCreateSubCommand extends SubCommand {
             return;
         }
 
-        if (!openAudioMcSpigot.getRegionModule().getRegionAdapter().doesRegionExist(args[1])) {
-            message(sender, ChatColor.RED + "ERROR! There is no WorldGuard region called '" + args[1]
-                    + "'. Please make the WorldGuard region before you register it in OpenAudioMc.");
-            return;
-        }
-
         if (Validation.isStringInvalid(args[2])) {
             throw new CommandError("Invalid source url.");
         }
 
-        RegionProperties rp = new RegionProperties(args[2], volume, 1000, true, args[1], sender.getWorld());
-        OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
-                .save(rp);
-
-        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
-
-        worldRegionManager.registerRegion(rp);
+        try {
+            WorldApi.getInstance().registerRegion(
+                    sender.getWorld(),
+                    args[1],
+                    new RegionMediaOptions(args[2], volume)
+            );
+        } catch (UnknownWorldException e) {
+            throw new CommandError("The world you are in is not known to the system.");
+        } catch (InvalidThreadException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidRegionException e) {
+            throw new CommandError("The region with that id already exists or the region is invalid.");
+        }
 
         message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
-        openAudioMcSpigot.getRegionModule().forceUpdateRegions();
     }
 }

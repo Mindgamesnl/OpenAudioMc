@@ -248,4 +248,12 @@ public class VistasUser implements User<Object> {
         }
     }
 
+    @Override
+    public void sendActionbarMessage(String message) {
+        if (isSpigot) {
+            original.sendActionbarMessage(message);
+            return;
+        }
+        original.sendMessage(message);
+    }
 }

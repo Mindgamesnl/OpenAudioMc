@@ -52,6 +52,8 @@ public class ProxyNetworkingService extends NetworkingService {
 
     @Override
     public void send(Authenticatable client, AbstractPacket packet) {
+        for (INetworkingEvents event : getEvents()) event.onPacketSend(client, packet);
+
         // handle packet if it should be passed to bungee
         // forward every packet starting with PacketClient
         if (!(client instanceof ClientConnection))

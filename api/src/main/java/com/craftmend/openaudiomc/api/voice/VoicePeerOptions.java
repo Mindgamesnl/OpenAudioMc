@@ -3,6 +3,7 @@ package com.craftmend.openaudiomc.api.voice;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 @NoArgsConstructor
@@ -37,12 +38,20 @@ public class VoicePeerOptions implements Cloneable {
     private boolean spatialAudio = true;
 
     /**
+     * An optional display override, which can be used to change the display name and skin of a player in the voice chat system.
+     * This can be left null if no override is needed.
+     * @since 6.10.2
+     */
+    @Nullable
+    private DisplayOverride displayOverride;
+
+    /**
      * Clone the object
      * @return a clone of the object
      */
     @Override
     public VoicePeerOptions clone() {
-        return new VoicePeerOptions(visible, spatialAudio);
+        return new VoicePeerOptions(visible, spatialAudio, null);
     }
 
 }

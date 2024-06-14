@@ -57,10 +57,22 @@ export class Mixer {
         }
       });
 
-      if (score >= 1) {
-        channel.setMediaMuted(true);
-      } else {
-        channel.setMediaMuted(false);
+      const fade = channel.getPrefferedFadeTime() > 5;
+
+      if (score >= 1 && !channel.mutedByScore) {
+        channel.mutedByScore = true;
+        if (fade) {
+          channel.fadeChannel(0, channel.getPrefferedFadeTime());
+        } else {
+          channel.setChannelVolume(0);
+        }
+      } else if (score === 0 && channel.mutedByScore) {
+        channel.mutedByScore = false;
+        if (fade) {
+          channel.fadeChannel(channel.getOriginalVolume(), channel.getPrefferedFadeTime());
+        } else {
+          channel.setChannelVolume(channel.getOriginalVolume());
+        }
       }
     });
   }

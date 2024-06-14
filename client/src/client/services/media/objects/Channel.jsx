@@ -1,10 +1,10 @@
 import { getGlobalState } from '../../../../state/store';
-import { debugLog } from '../../debugging/DebugService';
 
 export class Channel {
-  constructor(channelName) {
+  constructor(channelName, originalVolume = 100) {
     this.channelName = channelName;
-    this.channelVolume = 100;
+    this.channelVolume = originalVolume;
+    this.originalVolume = originalVolume;
     this.sounds = [];
     this.mixer = null;
     this.targetAfterFade = 0;
@@ -12,6 +12,19 @@ export class Channel {
     this.fadeTimer = [];
     this.tags = new Map();
     this.trackable = false;
+    this.prefferedFadeTime = 2;
+  }
+
+  getOriginalVolume() {
+    return this.originalVolume;
+  }
+
+  setPrefferedFadeTime(fadeTime) {
+    this.prefferedFadeTime = fadeTime;
+  }
+
+  getPrefferedFadeTime() {
+    return this.prefferedFadeTime || 2;
   }
 
   setTag(name) {
@@ -65,7 +78,6 @@ export class Channel {
 
     // is the fade time set to 0? then just set the volume, do callback and return
     if (time === 0) {
-      debugLog('Fading channel', this.channelName, 'to', targetVolume, 'instantly');
       this.setChannelVolume(targetVolume);
       extraCallback();
       return;
