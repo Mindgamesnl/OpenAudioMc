@@ -1,12 +1,17 @@
 package vistas.test;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
+import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientUpdateVoiceLocations;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceUpdatePeerLocationsPayload;
+import com.craftmend.openaudiomc.generic.node.packets.ForwardSocketPacket;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.vistas.client.redis.packets.ServerRegisterPacket;
-import com.craftmend.openaudiomc.vistas.client.redis.packets.UserJoinPacket;
-import com.craftmend.openaudiomc.vistas.client.redis.packets.UserLeavePacket;
+import com.craftmend.openaudiomc.vistas.client.Vistas;
+import com.craftmend.openaudiomc.vistas.client.client.VistasRedisClient;
+import com.craftmend.openaudiomc.vistas.client.redis.packets.*;
 import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServer;
 import com.craftmend.openaudiomc.vistas.client.users.ServerUserHooks;
 import com.craftmend.vistas.server.VistasServer;
@@ -20,6 +25,8 @@ import vistas.test.server.TestVistasServer;
 import vistas.test.utils.Waiter;
 
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class TestServer extends TestCase {
@@ -68,6 +75,7 @@ public class TestServer extends TestCase {
         // fake register a minecraft server
         UUID fakeServer1 = UUID.randomUUID();
         UUID fakeServer2 = UUID.randomUUID();
+
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new ServerRegisterPacket(fakeServer1));
         OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new ServerRegisterPacket(fakeServer2));
 
@@ -151,6 +159,70 @@ public class TestServer extends TestCase {
         assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
         assertEquals(0, OpenAudioMc.resolveDependency(ServerUserHooks.class).getRemoteUsers().size());
 
+        startLoggingMemory();
+        startStressTesting();
+    }
+
+    private void startStressTesting() {
+        // crate server
+        UUID fakeServer1 = UUID.randomUUID();
+        OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new ServerRegisterPacket(fakeServer1));
+
+        Set<ClientRtcLocationUpdate> updates = new HashSet<>();
+
+        // loop 50 times
+        for (int i = 0; i < 50; i++) {
+            ClientRtcLocationUpdate update = new ClientRtcLocationUpdate("RandomStreamKey" + i, 1, 2, 3, 4);
+            updates.add(update);
+        }
+
+        TempUser tempUser = new TempUser(UUID.randomUUID().toString(), UUID.randomUUID());
+
+        while (true) {
+            // create user, send 1000 movement packets, then leave
+            //System.out.println("Stress testing user " + tempUser.getName());
+            OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserJoinPacket(
+                    tempUser.getName(),
+                    tempUser.getUuid(),
+                    fakeServer1,
+                    "localhost"
+            ));
+
+            for (int i = 0; i < 1000; i++) {
+                // make movement update packet
+                PacketClientUpdateVoiceLocations packet = new PacketClientUpdateVoiceLocations(new ClientVoiceUpdatePeerLocationsPayload(updates));
+                OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new WrappedProxyPacket(
+                        new ForwardSocketPacket(packet),
+                        fakeServer1,
+                        tempUser.getUuid()
+                ));
+            }
+
+            // user logout
+            OpenAudioMc.getService(VistasRedisServer.class).getPacketEvents().handlePacket(null, new UserLeavePacket(
+                    tempUser.getName(),
+                    tempUser.getUuid(),
+                    fakeServer1
+            ));
+        }
+    }
+
+    private void startLoggingMemory() {
+        new Thread(() -> {
+            int max = 0;
+            while (true) {
+                int used = (int) ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024);
+                if (used > max) max = used;
+
+                System.out.println("Memory usage: " + used + "MB (max: " + max + "MB)");
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Getter

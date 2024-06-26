@@ -1,21 +1,29 @@
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
-  suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'
+  suggest-connection: '&7&oYou are currently missing out on some sounds! connect with
+    the audio client via /audio'
 
   # The message a client receives when a URL is being prepared for them to open the web client
   preparing-session: '&7&oGenerating audio session..'
 
   # The message the client gets when executing /audio of joins (if send-on-join is enabled)
-  click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
+  click-to-connect: '\n&b&lClick &ahere&b&l to open the Web Client!\n&3This lets you
+    use &dProximity Voice Chat&3 and in-game &daudio&3!\n '
+  # an alternate version of this message for bedrock users
+  connect-prompt-bedrock: \n&b&lThis server supports &aProximity Voice Chat&b&!\nGo
+    to {domain} in your web-browser to get started.\n
 
   # The message a player receives when a session error occurs
-  session-error: '&cAn error occurred while generating your audio session. please report the problem and try again later.'
+  session-error: '&cAn error occurred while generating your audio session. please
+    report the problem and try again later.'
 
   # A hover message for the click-to-connect message, only appears right before clicking when you mouse over it
-  click-to-connect-hover: '&6Minecraft will prompt you to open the web client when you click this message'
+  click-to-connect-hover: '&6Minecraft will prompt you to open the web client when
+    you click this message'
 
   # The message the client gets when their audio link has expired
-  click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3 to request a new one.'
+  click-link-expired: '&3Your link to the audio client has expired. Use &b/audio&3
+    to request a new one.'
 
   # The message a client gets when their web-client has been opened
   client-opened: '&2&oYou are now connected with the audio client!'
@@ -27,7 +35,8 @@ messages:
   client-already-connected: '&cYou are already connected to the web client'
 
   # Prints the client volume when /volume is ran without arguments
-  client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to set your volume to 40%)'
+  client-volume: '&6Your current volume is __amount__%&7 (TIP: use /volume 40 to set
+    your volume to 40%)'
 
   # The message a client gets as confirmation for executing /volume or /vol
   client-volume-change: '&6Your volume has been changed to __amount__%'
@@ -36,7 +45,8 @@ messages:
   client-volume-invalid: '&4You must enter a number between 0 and 100'
 
   # The message a client gets as warning that they aren't even connected
-  client-not-connected: '&4You need to be connected to the web client to be able to do that'
+  client-not-connected: '&4You need to be connected to the web client to be able to
+    do that'
 
   # The message a client gets when they need to be connected to voice chat to do something
   voice-not-connected: '&4An active Voice connection is required to execute this command'
@@ -64,8 +74,15 @@ messages:
   # Message a player receives when their microphone is unmuted
   voicechat-mic-unmute: '&7&oYour microphone is now &2&ounmuted'
 
+  # Message a player receives when their voicechat is deafened
+  voicechat-deafen: '&7&oYou are now &c&odeafened'
+
+  # Message a player receives when their voicechat is undeafened
+  voicechat-undeafen: '&7&oYou are now &2&oundeafened'
+
   # Message a player receives when voicechat runs into a technical issue
-  voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with the voice service.. please hold on while we try to recover your beautiful voice.'
+  voicechat-service-unstable: '&7&oWarning: we ran into one or more problems with
+    the voice service.. please hold on while we try to recover your beautiful voice.'
 
   # Message a player receives when the voicechat is back online again
   voicechat-service-recovered: '&7&oYour voicechat session got successfully recovered'
@@ -73,26 +90,100 @@ messages:
   # A message players will periodically receive when they are not connected to voice chat,
   # but others in their vicinity are. The minimum interval and range can be configured in the options section,
   # or you can disable it entirely by following the settings below.
-  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
+  voicechat-players-in-vicinity: '&7&oGet social! Other players in your vicinity are
+    using voice chat - join them and communicate. Use &b/audio&7&o to connect.'
 
-bedrock:
-  # These settings are to provide some automatic handholding for Bedrock users.
-  # Please take some time to go over these settings and adjust them based on your geyser configuration.
+  # The message a channel owner receives when their chanel has been abandoned
+  voicechat-channel-abandoned: '&7&oYour voicechat channel has been abandoned and
+    got removed'
 
-  # This message shows as a SUBTITLE for the token prompt
-  token-subtitle: '&7&oEnter this code on &b__address__'
+  # The message a player receives when they are kicked from a voicechat channel
+  # This gets triggered when they were forcefully removed from a channel, for example when it gets deleted
+  voicechat-channel-kicked: '&7&oYou have been kicked from the voicechat channel'
 
-  # The amount of seconds the token prompt will be shown for
-  token-display-duration: 25
+  # The message a player receives when they are invited to a voicechat channel
+  voicechat-channel-invited: ' \n&b&lYou have been invited to a voice chat channel!\n&3Click
+    &ahere&3 to join &d{channel}&3 by &d{inviter}&3!\n&7&oYou have 30 seconds  to
+    accept the invitation.\n '
 
-  # OA will automatically send the token to the Bedrock client, if a player is detected as one
-  # based on their name prefix, which defaults to '.'. If you have a custom prefix, you can set it here
-  # or you can disable this feature entirely
-  bedrock-name-prefix: '.'
-  bedrock-auto-send-token: true
+  # Error message seen by players when the command is executed through anything other than chat
+  voicechat-channel-not-a-player: '&cOnly players can use this command'
 
+  # Seen when a player tries to join or create a channel with an invalid name
+  voicechat-channel-name-unknown: '&cPlease enter a valid channel name'
+
+  # Error seen when a player tries to join a channel that doesn't exist
+  voicechat-channel-name-not-found: '&cThe channel you are trying to join does not
+    exist'
+
+  # Error seen when a player tries to create a channel with a name that already exists
+  voicechat-channel-name-already-exists: '&cA channel with that name already exists'
+
+  # Validation message after creating a new channel
+  voicechat-channel-created: '&7&oSuccessfully created the voice chat channel &d{channel}'
+
+  # Message a player receives while trying to create or join a channel while already in one
+  voicechat-channel-already-in: '&cYou are already in a voice chat channel, please
+    leave it first'
+
+  # A message a player receives after accepting an invitation to a voicechat channel
+  voicechat-channel-joined: '&7&oYou have joined the voice chat channel &d{channel}'
+
+  # A message a player receives after running a command while not in a voicechat channel
+  voicechat-channel-not-a-member: '&cYou can only perform this action if you are a
+    member of the channel'
+
+  # A message a player receives while trying to invite someone to a channel they do not own
+  voicechat-channel-not-owner: '&cOnly the creator of the channel can do this'
+
+  # A message a player receives while trying to invite an invalid player
+  voicechat-channel-player-not-found: '&cThe player you are trying to invite is not
+    online'
+
+  # A message a player receives after trying to invite someone who is already in another channel
+  voicechat-channel-player-already-in-channel: '&cThe player you are trying to invite
+    is already in a voice chat channel'
+
+  # A message a player receives after trying to invite someone who is not connected to voice chat
+  voicechat-target-not-connected: '&cThe player you are trying to invite is not connected
+    to voice chat, please ask them to connect first'
+
+  # Good job! the invitation was sent
+  voicechat-target-invitation-sent: '&7&oAn invitation has been sent to %name'
+  voicechat-target-invitation-expired: '&7&oThe invitation to %name has expired'
+
+  # A player receives after leaving a channel voluntarily
+  voicechat-channel-left: '&7&oYou have left the voice chat channel'
+
+  # Format messages for the channel list command
+  voicechat-channel-list-no-channels: '&7&oThere are no voice chat channels available'
+  voicechat-channel-list-header: '&7&oAvailable voice chat channels and their occupants:'
+  voicechat-channel-list-item: '&7&o- &d{channel} &7&o&d{participants}&7&o'
+
+  # Header of the base /voice help command
+  voicechat-command-help-header: Welcome to OpenAudioMc! Please click the sub command
+    you need help with.
+
+  # The format most error messages will be shown in, including prefix
+  voicechat-command-error-format: '&3[&bVoice Channel&3] &c&oError: &7&o{message}'
+
+  # The following messages are for the new "revised" authentication flow.
+  # Users who have a client tab open with the bedrock flow till automatically be logged in when a player joins with the same IP address,
+  # but users who don't have a tab open will be prompted to login with a code.
+  # That code needs to be entered in-game, and these messages are used for that.
+  token-activation-loading: '&7&oPlease wait while we activate your token..'
+  token-activation-success: '&7&oYour token has been activated! You can now use the
+    web client.'
+  token-activation-failed: '&7&oYour token could not be activated. Please try again
+    or double check your code.'
 
 options:
+  # The name prefix to look for to determine if a player is playing on bedrock edition
+  bedrock-name-prefix: .
+
+  # This setting enabled/disables automatic authentication for bedrock users.
+  token-auto-login: true
+
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true
 
@@ -191,20 +282,58 @@ options:
   # but the higher the load on the server will be. I recommend setting this to 5 (meaning it updates 4 times a second)
   redstone-tick-speakers-interval: 5
 
+  # This feature will completely ignore ALL regions when a player is on a vehicle
+  # (Minecraft, Boat, or mounted on another entity).
+  # This is useful for some themepark servers, but should be used with caution.
+  ignore-regions-on-vehicles: false
+
+  # This feature will hydrate region media for all regions on boot. This means that if you hae two regions, with different sources but equal durations
+  # they will be played in sync. Having this feature enable might have an additional memory footprint if you have a *ton* of regions (hundreds)
+  # but it's recommended to leave this on.
+  hydrate-regions-on-boot: true
+
+# Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
+# You can implement custom filters through the API, or enable some of the default ones below.
+vc-filter:
+
+  # When enabled, players will only be able to hear eachother if they both share the same gamemode (survival, creative, adventure, spectator)
+  require-same-gamemode: false
+
+  # When enabled, players will only be able to hear eachother if they both share the same team. Edge cases:
+  # - Players without a team can only hear other players without a team
+  require-common-team: false
+
+# Static channels are a set of channels that will always exist (even if they are empty), and can be locked behind certain permissions
+# You can use this feature in cases where individuals don't have permissions to create their own channels, but sitll want to offer
+# some groups for global voicechat (like a channel for minigames, off-topic, and roleplay). You can add more values here if you wish,
+# or disable the feature entirely. Keep in mind to include all sub values if you add a new channel, and to respect yaml formatting.
+# These values are only used on spigot instances
+static-channels:
+  enabled: true
+  list:
+    - name: survival
+      permission: channels.survival
+      requirePermission: false
+    - name: off-topic
+      permission: channels.offtopic
+      requirePermission: false
+    - name: staff-chat
+      permission: channels.staffchat
+      requirePermission: true
 
 # PlaceholderAPI
 papi:
   # Value to display when player is connected to the web client
-  client-connected: "Connected"
+  client-connected: Connected
 
   # Value to display when player is disconnected from the web client
-  client-disconnected: "Disconnected"
+  client-disconnected: Disconnected
 
   # Value to display when player is connected to the voice chat
-  voicechat-connected: "Connected"
+  voicechat-connected: Connected
 
   # Value to display when player is disconnected from the voice chat
-  voicechat-disconnected: "Disconnected"
+  voicechat-disconnected: Disconnected
 
 # CDN
 # Configuration for the Patreon CDN
@@ -234,3 +363,5 @@ redis:
   useSSL: false
   # The channel to sync with. When configured, OpenAudioMc will only sync to servers on redis with the same section
   section: event
+  # When using Redis Sentinel, you should set the master set to use. Leaves empty to use a single server Redis cluster
+  sentinel-master-set: ''

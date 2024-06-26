@@ -1,22 +1,33 @@
 package com.craftmend.vistas.server.base;
 
+import com.coreoz.wisp.JobStatus;
 import com.coreoz.wisp.Scheduler;
 import com.coreoz.wisp.schedule.Schedules;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.service.Service;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class VistasScheduler extends Service implements TaskService {
 
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
     private int taskCount = 0;
-    private List<Integer> runningTasks = new ArrayList<>();
 
     public VistasScheduler() {
         scheduler = new Scheduler();
+
+        scheduler.schedule(
+                "Terminated jobs cleaner",
+                () -> scheduler
+                        .jobStatus()
+                        .stream()
+                        .filter(job -> job.status() == JobStatus.DONE)
+                        // Clean only jobs that have finished executing since at least 10 seconds
+                        .filter(job -> job.lastExecutionEndedTimeInMillis() < (System.currentTimeMillis() - 10000))
+                        .forEach(job -> scheduler.remove(job.name())),
+                Schedules.fixedDelaySchedule(Duration.ofSeconds(5))
+        );
     }
 
     @Override
@@ -25,29 +36,12 @@ public class VistasScheduler extends Service implements TaskService {
         int intervalMs = tickInterval * 50;
         int currentTask = taskCount++;
 
-        runningTasks.add(currentTask);
-        WrappedRunnable handler = new WrappedRunnable();
-
-        handler.setTask(() -> {
-            if (isCancelled(currentTask)) {
-                runningTasks.removeIf(task -> task == currentTask);
-                return;
-            }
-
-            runnable.run();
-
-            scheduler.schedule(
-                    () -> {
-                        handler.getTask().run();
-                    },
-                    Schedules.executeOnce(Schedules.fixedDelaySchedule(Duration.ofMillis(intervalMs)))
-            );
-
-        });
-
         scheduler.schedule(
-                handler.getTask(),
-                Schedules.executeOnce(Schedules.fixedDelaySchedule(Duration.ofMillis(delayMs)))
+                currentTask + "",
+                () -> {
+                    runnable.run();
+                },
+                Schedules.fixedDelaySchedule(Duration.ofMillis(intervalMs))
         );
 
         return currentTask;
@@ -62,16 +56,11 @@ public class VistasScheduler extends Service implements TaskService {
     public int schduleSyncDelayedTask(Runnable runnable, int delay) {
         int delayMs = delay * 50;
         int currentTask = taskCount++;
-        runningTasks.add(currentTask);
 
         scheduler.schedule(
+                currentTask + "",
                 () -> {
-                    if (isCancelled(currentTask)) {
-                        runningTasks.removeIf(task -> task == currentTask);
-                        return;
-                    }
                     runnable.run();
-                    runningTasks.removeIf(task -> task == currentTask);
                 },
                 Schedules.executeOnce(Schedules.fixedDelaySchedule(Duration.ofMillis(delayMs)))
         );
@@ -79,18 +68,15 @@ public class VistasScheduler extends Service implements TaskService {
         return currentTask;
     }
 
-    public boolean isCancelled(int task) {
-        return !runningTasks.contains(task);
-    }
-
     @Override
     public void cancelRepeatingTask(int i) {
-        runningTasks.removeIf(task -> task == i);
+        scheduler.cancel(i + "");
     }
 
     @Override
     public void runAsync(Runnable runnable) {
         scheduler.schedule(
+                UUID.randomUUID().toString(),
                 () -> {
                     runnable.run();
                 },
@@ -101,6 +87,7 @@ public class VistasScheduler extends Service implements TaskService {
     @Override
     public void runSync(Runnable runnable) {
         scheduler.schedule(
+                UUID.randomUUID().toString(),
                 runnable,
                 Schedules.executeOnce(Schedules.fixedDelaySchedule(Duration.ofMillis(1)))
         );
