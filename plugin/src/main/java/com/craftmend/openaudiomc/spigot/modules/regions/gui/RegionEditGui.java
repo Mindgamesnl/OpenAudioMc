@@ -74,6 +74,8 @@ public class RegionEditGui extends Menu {
                         player.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.RED + "Music will now always play from the beginning when someone enters or connects.");
                     }
 
+                    OpenAudioMc.getService(DatabaseService.class).getRepository(RegionProperties.class)
+                            .save(region.getProperties());
 
                     // reset the media cache for this region
                     Media oldMedia = region.getMedia();
