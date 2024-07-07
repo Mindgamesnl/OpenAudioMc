@@ -9,9 +9,13 @@ import io.lettuce.core.RedisURI;
 import io.lettuce.core.pubsub.RedisPubSubAdapter;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.pubsub.api.async.RedisPubSubAsyncCommands;
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.resource.DefaultClientResources;
 import lombok.Getter;
 
 public class RedisConnection {
+
+    private static final ClientResources sharedResources = DefaultClientResources.create();
 
     @Getter private RedisClient redisClient;
     @Getter private StatefulRedisPubSubConnection<String, String> connection;
@@ -47,7 +51,7 @@ public class RedisConnection {
 
         OpenAudioLogger.info("Connecting to redis server: " + uri.toString());
 
-        redisClient = RedisClient.create(uri);
+        redisClient = RedisClient.create(sharedResources, uri);
         redisClient.setOptions(ClientOptions.builder().autoReconnect(true).build());
     }
 

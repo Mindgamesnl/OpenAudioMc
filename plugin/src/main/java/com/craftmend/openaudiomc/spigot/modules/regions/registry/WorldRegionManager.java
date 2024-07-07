@@ -67,6 +67,10 @@ public class WorldRegionManager {
         return regionMedia;
     }
 
+    public void dropMediaCache() {
+        regionMediaMap.clear();
+    }
+
     public Collection<RegionProperties> getRegions() {
         return regionPropertiesMap.values();
     }
@@ -75,7 +79,7 @@ public class WorldRegionManager {
         regionMediaMap.remove(source);
     }
 
-    public void clearMedia() {
+    public void clearMediaCache() {
         regionMediaMap.clear();
     }
 

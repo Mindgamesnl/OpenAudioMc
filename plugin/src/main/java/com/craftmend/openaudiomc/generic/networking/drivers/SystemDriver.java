@@ -63,7 +63,6 @@ public class SystemDriver implements SocketDriver {
         });
 
         socket.on("announce-shutdown", args -> {
-            OpenAudioLogger.info("The server announced its intention to close our connection..");
             announcedShutdown = true;
         });
 

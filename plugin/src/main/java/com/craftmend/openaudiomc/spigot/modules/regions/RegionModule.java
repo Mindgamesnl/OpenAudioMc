@@ -276,4 +276,8 @@ public class RegionModule {
         }
         return count;
     }
+
+    public Collection<WorldRegionManager> getWorlds() {
+        return worldManagers.values();
+    }
 }
