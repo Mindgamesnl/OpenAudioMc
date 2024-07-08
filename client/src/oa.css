@@ -1215,6 +1215,7 @@ pre {
             transparent,
             color-mix(in srgb, transparent, var(--dark-primary-background) 70%) 100%
     ), var(--background-image);
+    background-size: cover;
     background-position-y: center;
 }
 
