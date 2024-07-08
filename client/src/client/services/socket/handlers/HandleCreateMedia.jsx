@@ -43,11 +43,13 @@ export async function handleCreateMedia(data) {
   if (muteRegions) {
     debugLog('Incrementing region inhibit');
     MediaManager.mixer.incrementInhibitor('REGION');
+    MediaManager.mixer.tick();
   }
 
   if (muteSpeakers) {
     debugLog('Incrementing speaker inhibit');
     MediaManager.mixer.incrementInhibitor('SPEAKER');
+    MediaManager.mixer.tick();
   }
 
   MediaManager.mixer.whenFinished(id, () => {
