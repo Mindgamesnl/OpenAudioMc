@@ -26,7 +26,7 @@ export class Mixer {
     }, 250);
   }
 
-  tick() {
+  tick(forceInstant = false) {
     this.channels.forEach((channel) => {
       channel.tick();
     });
@@ -57,7 +57,7 @@ export class Mixer {
         }
       });
 
-      const fade = channel.getPrefferedFadeTime() > 5;
+      const fade = channel.getPrefferedFadeTime() > 5 && !forceInstant;
 
       if (score >= 1 && !channel.mutedByScore) {
         channel.mutedByScore = true;

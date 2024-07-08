@@ -90,7 +90,7 @@ public class RegionModule {
 
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             // clean media once a new media adapter is loaded, this ensures that they will be re-evaluated
-            worldManagers.forEach((s, worldRegionManager) -> {worldRegionManager.clearMedia();});
+            worldManagers.forEach((s, worldRegionManager) -> {worldRegionManager.dropMediaCache();});
         });
 
         // register unknown regions

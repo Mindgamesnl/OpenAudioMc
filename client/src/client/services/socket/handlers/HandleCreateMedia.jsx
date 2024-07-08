@@ -43,13 +43,11 @@ export async function handleCreateMedia(data) {
   if (muteRegions) {
     debugLog('Incrementing region inhibit');
     MediaManager.mixer.incrementInhibitor('REGION');
-    MediaManager.mixer.tick();
   }
 
   if (muteSpeakers) {
     debugLog('Incrementing speaker inhibit');
     MediaManager.mixer.incrementInhibitor('SPEAKER');
-    MediaManager.mixer.tick();
   }
 
   MediaManager.mixer.whenFinished(id, () => {
@@ -67,9 +65,12 @@ export async function handleCreateMedia(data) {
 
   createdChannel.setTag(flag);
 
+  MediaManager.mixer.tick();
+
   // load file and play
   await createdMedia.load(source);
   createdChannel.setChannelVolume(0);
+  createdChannel.originalVolume = volume;
   createdMedia.setLooping(looping);
   createdMedia.setStartAt(startAt);
   // convert distance
@@ -83,7 +84,13 @@ export async function handleCreateMedia(data) {
   } else {
     // default sound, just play
     createdChannel.setTag('DEFAULT');
+
     createdMedia.whenInitialized(() => {
+      // are we not already nicked from the start?
+      if (createdChannel.mutedByScore) {
+        return;
+      }
+
       if (fadeTime === 0) {
         createdChannel.setChannelVolume(volume);
         createdChannel.updateFromMasterVolume();
