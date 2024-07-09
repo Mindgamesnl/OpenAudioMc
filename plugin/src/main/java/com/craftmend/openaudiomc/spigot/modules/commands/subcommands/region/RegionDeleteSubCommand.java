@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
+import com.craftmend.openaudiomc.generic.commands.interfaces.ParameteredSubCommand;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -10,7 +12,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionPrope
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import org.bukkit.ChatColor;
 
-public class RegionDeleteSubCommand extends SubCommand {
+public class RegionDeleteSubCommand extends ParameteredSubCommand {
 
     private final OpenAudioMcSpigot openAudioMcSpigot;
 
@@ -20,10 +22,12 @@ public class RegionDeleteSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(User sender, String[] args) {
+    public void onExecute(User<?> sender, String[] args, CommandParameters parameters) {
         String targetRegion = args[1].toLowerCase();
 
-        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(
+                parameters.getParameterOrDefault("world", sender.getWorld())
+        );
 
         RegionProperties legacyMatchedRegion = openAudioMcSpigot.getRegionModule().getRegionsWithoutWorld()
                 .stream()
