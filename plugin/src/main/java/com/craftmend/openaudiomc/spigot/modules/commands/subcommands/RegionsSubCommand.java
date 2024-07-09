@@ -22,7 +22,8 @@ public class RegionsSubCommand extends SubCommand {
                 new RegionDeleteSubCommand(openAudioMcSpigot),
                 new RegionTempSubCommand(openAudioMcSpigot),
                 new RegionEditSubCommand(openAudioMcSpigot),
-                new RegionListSubCommand(openAudioMcSpigot)
+                new RegionListSubCommand(openAudioMcSpigot),
+                new RegionForceUpdateSubCommand()
         );
 
         registerArguments(
@@ -49,7 +50,9 @@ public class RegionsSubCommand extends SubCommand {
                         "Change the fade of a region"),
 
                 new Argument("list",
-                        "List all regions at your current location and their properties")
+                        "List all regions at your current location and their properties"),
+
+                new Argument("forceupdate", "Force all regions to update their media cache")
         );
         this.openAudioMcSpigot = openAudioMcSpigot;
     }
@@ -101,6 +104,11 @@ public class RegionsSubCommand extends SubCommand {
 
         if (args[0].equalsIgnoreCase("list") && args.length == 1) {
             delegateTo("list", sender, args);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("forceupdate") && args.length == 1) {
+            delegateTo("forceupdate", sender, args);
             return;
         }
 

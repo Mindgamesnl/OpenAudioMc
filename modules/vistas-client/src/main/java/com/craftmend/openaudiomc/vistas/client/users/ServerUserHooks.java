@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 public class ServerUserHooks implements UserHooks {
 
     private Map<UUID, VistasUser> remoteUsers = new ConcurrentHashMap<>();
-    @Getter private Map<UUID, MinecraftServer> remoteInstallation = new ConcurrentHashMap<>();
+    @Getter
+    private Map<UUID, MinecraftServer> remoteInstallation = new ConcurrentHashMap<>();
 
     public void startGc() {
         OpenAudioMc.resolveDependency(TaskService.class).scheduleSyncRepeatingTask(() -> {
@@ -96,7 +97,7 @@ public class ServerUserHooks implements UserHooks {
 
     public void registerServer(UUID serverId) {
         MinecraftServer c = new MinecraftServer("remote-" + serverId, serverId);
-         remoteInstallation.put(serverId, c);
+        remoteInstallation.put(serverId, c);
         System.out.println("Registering remote server " + c.getName());
     }
 
@@ -110,7 +111,7 @@ public class ServerUserHooks implements UserHooks {
         registerServer(serverId);
         return registerServerIfNew(serverId);
     }
-    
+
     public void unregisterServer(UUID serverId) {
         for (VistasUser value : remoteUsers.values()) {
             if (value.getLastSeenServer() != null && value.getLastSeenServer().equals(serverId)) {

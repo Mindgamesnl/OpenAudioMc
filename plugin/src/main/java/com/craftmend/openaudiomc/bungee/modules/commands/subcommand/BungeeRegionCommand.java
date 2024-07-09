@@ -48,7 +48,9 @@ public class BungeeRegionCommand extends SubCommand {
                         "Change the fade of a region"),
 
                 new Argument("list",
-                        "List all regions at your current location and their properties")
+                        "List all regions at your current location and their properties"),
+
+                new Argument("forceupdate", "Force all regions to update their media cache")
         );
     }
 
