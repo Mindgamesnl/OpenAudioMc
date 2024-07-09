@@ -87,17 +87,18 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("temp") && args.length == 4) {
+        // todo!!! THESE ARG CHECKS NEED TO EXCLUDE PARAMETERS
+        if (args[0].equalsIgnoreCase("temp") && args.length >= 4) {
             delegateTo("temp", sender, args);
             return;
         }
 
-        if (args[0].equalsIgnoreCase("create") && (args.length == 3 || args.length == 4)) {
+        if (args[0].equalsIgnoreCase("create") && args.length >= 3) {
             delegateTo("create", sender, args);
             return;
         }
 
-        if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
+        if (args[0].equalsIgnoreCase("delete") && args.length >= 2) {
             delegateTo("delete", sender, args);
             return;
         }
