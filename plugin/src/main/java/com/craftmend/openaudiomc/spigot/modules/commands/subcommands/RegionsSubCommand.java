@@ -90,7 +90,6 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        // todo!!! THESE ARG CHECKS NEED TO EXCLUDE PARAMETERS
         if (args[0].equalsIgnoreCase("temp") && argumentCount == 4) {
             delegateTo("temp", sender, args);
             return;
