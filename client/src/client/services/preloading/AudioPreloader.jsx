@@ -102,6 +102,13 @@ export const AudioPreloader = new class IAudPreload {
       cacheCorsSafe = false;
     }
 
+    const bypassBuffer = this.getMediaQueryParam(source, 'oaSkipBuffer', 'false') === 'true';
+
+    if (bypassBuffer) {
+      // reset the media
+      media = null;
+    }
+
     // ignore cache if we need cors and the source is not cors safe
     if (media == null || !cacheCorsSafe) {
       // possibly adapt source
@@ -118,6 +125,15 @@ export const AudioPreloader = new class IAudPreload {
     }
 
     return media.audio;
+  }
+
+  getMediaQueryParam(url, key, defaultValue = null) {
+    try {
+      const parsed = new URL(url);
+      return parsed.searchParams.get(key) || defaultValue;
+    } catch (e) {
+      return defaultValue;
+    }
   }
 
   submitStatistic() {
