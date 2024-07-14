@@ -4,16 +4,21 @@ lang.detectedAs=Đã đổi ngôn ngữ sang %langName!
 lang.keep=Giữ %langName
 lang.toEn=Đổi về Tiếng Anh
 
-ui.loading=Loading...
+ui.loading=Đang Tải...
 ui.logout=Đăng xuất
 
-navbar.audio=Audio
+ui.urlChangeDetected=Phát hiện thay đổi URL
+ui.hashchange=URL đã bị thay đổi. Bạn có muốn tải lại trang và bắt đầu phiên mới? Thao tác này sẽ xóa phiên hiện tại của bạn.
+
+navbar.audio=Âm Thanh
 navbar.vc=VoiceChat
 navbar.settings=Cài đặt
 navbar.debug=Debug
-navbar.free=free
-navbar.premium=premium
+navbar.free=miễn phí
+navbar.premium=nâng cấp
 navbar.upgradeRequired=Cần cập nhật
+navbar.isPlaying=Đang phát nhạc
+navbar.menu=Mở menu
 
 home.confirmLoginHeader=Chào mừng!
 home.confirmLoginBody=Bạn có phải <i>%player</i> không?<br />Nếu không phải thì hãy thử đóng cửa sổ này và thử lại nha.
@@ -21,9 +26,10 @@ home.confirmLoginButton=Bắt đầu kết nối
 home.confirmLoginWithVoicechat=Bắt đầu kết nối và bật VoiceChat
 
 home.activate=Bắt đầu kết nối
-home.activateText=Trang web này để kết nối âm thanh với OpenAudioMC. Bấm vào bất cứ đâu để bắt đầu
-home.clickAnywhere=Bấm vào bất cứ đâu để bắt đầu
-home.activateHeader=Bấm vào đây để kết nối
+home.activateText=Trang web sử dụng để phát âm thanh và giọng nói của bạn trong suốt thời gian bạn truy cập. Nhấn vào bất kỳ đâu trên trang để bắt đầu.
+
+home.clickAnywhere=Nhấn vào bất cứ đâu để bắt đầu
+home.activateHeader=Nhấn vào đây để kết nối
 home.welcome=Chào mừng, %player!
 home.header=Giữ trang web này mở trong suốt quá trình chơi trong Game để có thể nghe được âm thanh nha!
 home.volumeContext=Chỉnh âm lượng của hiệu ứng âm thanh trong Game. Có thể dùng lệnh <pre>/volume &lt;volume&gt;</pre> để chỉnh từ trong game nha!
@@ -33,9 +39,10 @@ home.notificationsEmpty=Chưa có thông báo
 
 vc.badClient=VoiceChat yêu cầu ứng dụng web được cung cấp qua HTTPS, vui lòng cập nhật URL của bạn để sử dụng HTTPS hoặc thiết lập chứng chỉ SSL hợp lệ.
 vc.notCompatible=Trình duyệt của bạn không hỗ trợ VoiceChat. Vui lòng sử dụng trình duyệt (máy tính để bàn) mới hơn như Chrome, Safari, v.v.
-vc.voiceModerationEnabled=Máy chủ này có hoạt động kiểm duyệt. Một số admin/staff có thể đang lắng nghe trong khi mic của bạn đang hoạt động.
+vc.voiceModerationEnabled=Máy chủ này đã bật kiểm duyệt. Một số admin/staff có thể đang nghe thấy mic của bạn.
 vc.notice=Chú ý
 vc.startingPopupTitle=Đang đăng nhập VoiceChat...
+
 vc.startingPopup=Vui lòng đợi trong khi chúng tôi giúp bạn thiết lập VoiceChat...Chờ chút nha, nó sẽ nhanh thôi
 vc.reloadingPopupTitle=Tải lại hệ thống VoiceChat...
 vc.reloadingPopup=Chờ chút trong khi VoiceChat khởi động lại để áp dụng cài đặt mới nha
@@ -50,7 +57,7 @@ vc.onboarding=Máy chủ này có hỗ trợ VoiceChat lân cận, cho phép b�
 vc.settings=Cài đặt VoiceChat
 vc.muteMic=Tắt micrô
 vc.unmuteMic=Bật micrô
-vc.input=Thiết bị vào
+vc.input=Thiết bị đầu vào
 vc.aboutInput=Chọn thiết bị vào để sử dụng cho VoiceChat, sẽ khởi động lại phiên đăng nhập
 vc.positionalAudio=VoiceChat 360°
 vc.aboutPositionalAudio=Âm thanh 360°, đem lại cho bạn một cảm giác âm thanh chân thực hơn
@@ -76,8 +83,8 @@ vc.hero.title=Chào mừng đến với VoiceChat!
 vc.hero.subtitle=Đây là bảng điều khiển VoiceChat của bạn, tại đây bạn có thể xem ai ở trong phạm vi giọng nói của mình và bạn có thể nghe thấy ai. Bạn cũng có thể tắt tiếng mọi người nếu không muốn nghe thấy họ.
 vc.statusTitle=Trạng thái hiện tại
 vc.settings.globalVolumeTitle=Âm lượng VoiceChat
-vc.settings.surround.disable=Tắt xung quanh
-vc.settings.surround.enable=Bật xung quanh
+vc.settings.surround.disable=Tắt Âm thanh Vòm
+vc.settings.surround.enable=Bật Âm thanh Vòm
 vc.settings.globalVolumeAbout=Chỉnh âm thanh tổng của tất cả người trong VoiceChat
 vc.settings.toggleMenuTitle=Cài đặt đầu vào VoiceChat
 vc.settings.toggleMenu=Chỉnh Menu
@@ -89,43 +96,50 @@ vc.youAreModerating=Coi chừng! bạn hiện là Mod, giờ đây bạn có th�
 vc.noMicInputYetTitle=Có vấn đề với micrô của bạn!
 vc.noMicInputYetBody=Vui lòng đảm bảo rằng bạn đã chọn đúng micrô hoặc thử giảm độ nhạy.
 vc.peersHiddenTitle=Đã ẩn người chơi trong VoiceChat
-vc.peersHiddenText=Server này đã vô hiệu hóa khả năng xem ai đang trong VoiceChat để tránh những lợi thế không công bằng, mặc dù vậy, bạn vẫn có thể nghe thấy họ.
+vc.peersHiddenText=Máy Chủ này đã vô hiệu hóa khả năng xem ai đang trong VoiceChat để tránh mất công bằng, mặc dù vậy, bạn vẫn có thể nghe thấy họ.
 
+settings.voicechat.echocancel.title=Lọc tiếng vang
+settings.voicechat.echocancel.body=Cái này sẽ cố gắng lọc mọi tiếng vang mà micrô của bạn thu được, hữu ích nếu bạn đang sử dụng loa thay vì tai nghe nhưng có thể khiến bạn khó nghe hơn trên một số nền tảng.
+settings.voicechat.echocancel.button=Bật lọc tiếng vang
 settings.voicechat.chimes.title=Âm báo VoiceChat
 settings.voicechat.chimes.body=Âm báo sẽ hiện lên khi bạn tắt/mở mic.
 settings.voicechat.chimes.button=bật/tắt âm báo
-settings.theme.title=Dark mode
-settings.theme.body=Sử dụng Dark mode (mặc định) của ứng dụng web này
-settings.theme.button=dark mode
+settings.theme.title=Chế độ tối
+settings.theme.body=Sử dụng Chế độ tối (mặc định) của ứng dụng web này
+settings.theme.button=Chế độ tối
 settings.voicechat.peer.title=Thông báo VC
 settings.voicechat.peer.body=Nhận thông báo trên màn hình khi ai đó vào hoặc rời khỏi phạm vi VoiceChat của bạn
 settings.voicechat.peer.button=bật thông báo VC
-settings.mix-and-fade.title=Bật mix âm thanh
-settings.mix-and-fade.body=Tự động làm mờ dần và trộn các nguồn âm thanh
-settings.mix-and-fade.button=Bật mix
+settings.mix-and-fade.title=Tự động Trộn âm thanh
+settings.mix-and-fade.body=Tự động chuyển tiếp và trộn các nguồn âm thanh
+settings.mix-and-fade.button=Bật Trộn
 settings.preload.title=Tự động tải trước các tập tin âm thanh
-settings.preload.body=Khi bật tính năng này, OpenAudioMc sẽ tự động tải trước các tệp thường được sử dụng trong Game của bạn. Điều này sẽ làm cho âm thanh phản hồi nhanh hơn nhưng sử dụng nhiều dữ liệu hơn.
+settings.preload.body=Khi bật tính năng này, OpenAudioMc sẽ tự động tải trước các tệp thường được sử dụng trong Game của bạn. Nó sẽ làm cho âm thanh phát nhanh hơn nhưng sử dụng nhiều dữ liệu hơn.
 settings.preload.button=Bật tải trước
 settings.rolloff.title=Âm thanh 3D
-settings.rolloff.body=Điều này kiểm soát lượng giảm chấn được áp dụng cho âm thanh 3D dựa trên khoảng cách. 0% là không giảm chấn, 100% là giảm chấn hoàn toàn. Điều này áp dụng cho cả loa và trò chuyện thoại.
+settings.rolloff.body=Cái này kiểm soát lượng giảm chấn được áp dụng cho âm thanh 3D dựa trên khoảng cách. 0% là không giảm chấn, 100% là giảm chấn hoàn toàn. Điều này áp dụng cho cả loa và trò chuyện thoại.
 settings.rolloff.01=1% (nhỏ nhất)
 settings.rolloff.5=50%
 settings.rolloff.8=80%
 settings.rolloff.1=100% (bình thường)
 settings.rolloff.12=120%
 settings.rolloff.15=150% (cao nhất)
+settings.language.title=Ngôn ngữ
+settings.language.body=Chọn ngôn ngữ bạn muốn
+settings.distancemodel.title=Âm lượng theo khoảng cách
+settings.distancemodel.body=Chọn thuật toán để giảm âm lượng của nguồn âm thanh khi người nghe di chuyển ra xa nó.
+settings.distancemodel.linear=Linear
+settings.distancemodel.exponential=Exponential
 
 settings.spatial.title=Âm thanh vòm
-settings.spatial.body=Chọn các thức âm thanh vòm để sử dụng, chọn chính xác để có được hiệu ứng âm thanh tốt nhất nha!
+settings.spatial.body=Chọn công cụ kết xuất bạn muốn sử dụng. Công cụ hiện đại có chất lượng cao hơn và nhanh hơn một chút, nhưng yêu cầu trình duyệt hiện đại á!
 settings.spatial.modern=Chính xác
 settings.spatial.legacy=Legacy (Kiểu cũ)
 
-settings.interpolation.title=Làm mượt theo chuyển động
-settings.interpolation.body=Làm mượt quá trình di chuyển của người chơi để mà sẽ không tạo ra sự delay khi voicechat hoặc âm thanh đứt quãng, có thể sẽ delay nếu mạng yếu hoặc tuỳ thuộc tình hình máy chủ
+settings.interpolation.title=Làm mượt chuyển động
+settings.interpolation.body=Làm mượt chuyển động của người chơi để không tạo ra sự delay khi voicechat hoặc âm thanh đứt quãng, Nó sẽ thêm delay cho chuyển động, nhưng âm thanh hay hơn.
 settings.interpolation.button=Bật làm mượt
 
-settings.streamermode.title=Streamer Mode
-settings.streamermode.body=Tự động huỷ kích hoạt token sau khi bắt đầu phiên âm thanh mới, để tránh người xem của bạn sử dụng token của bạn.
-settings.streamermode.button=Bật streamer mode
+network.serverUnhealthy=Kết nối của {serverName} đến OpenAudioMc không ổn định, chức năng của máy khách có thể bị hạn chế cho đến khi kết nối được khôi phục.
 
 tooltip.close=Đóng
