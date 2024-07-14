@@ -4,7 +4,7 @@ lang.detectedAs=Đã đổi ngôn ngữ sang %langName!
 lang.keep=Giữ %langName
 lang.toEn=Đổi về Tiếng Anh
 
-ui.loading=Loading...
+ui.loading=Đang Tải...
 ui.logout=Đăng xuất
 
 navbar.audio=Audio
@@ -89,14 +89,14 @@ vc.youAreModerating=Coi chừng! bạn hiện là Mod, giờ đây bạn có th�
 vc.noMicInputYetTitle=Có vấn đề với micrô của bạn!
 vc.noMicInputYetBody=Vui lòng đảm bảo rằng bạn đã chọn đúng micrô hoặc thử giảm độ nhạy.
 vc.peersHiddenTitle=Đã ẩn người chơi trong VoiceChat
-vc.peersHiddenText=Server này đã vô hiệu hóa khả năng xem ai đang trong VoiceChat để tránh những lợi thế không công bằng, mặc dù vậy, bạn vẫn có thể nghe thấy họ.
+vc.peersHiddenText=Máy Chủ này đã vô hiệu hóa khả năng xem ai đang trong VoiceChat để tránh những lợi thế không công bằng, mặc dù vậy, bạn vẫn có thể nghe thấy họ.
 
 settings.voicechat.chimes.title=Âm báo VoiceChat
 settings.voicechat.chimes.body=Âm báo sẽ hiện lên khi bạn tắt/mở mic.
 settings.voicechat.chimes.button=bật/tắt âm báo
-settings.theme.title=Dark mode
-settings.theme.body=Sử dụng Dark mode (mặc định) của ứng dụng web này
-settings.theme.button=dark mode
+settings.theme.title=Chế độ tối
+settings.theme.body=Sử dụng Chế độ tối (mặc định) của ứng dụng web này
+settings.theme.button=Chế độ tối
 settings.voicechat.peer.title=Thông báo VC
 settings.voicechat.peer.body=Nhận thông báo trên màn hình khi ai đó vào hoặc rời khỏi phạm vi VoiceChat của bạn
 settings.voicechat.peer.button=bật thông báo VC
@@ -107,7 +107,7 @@ settings.preload.title=Tự động tải trước các tập tin âm thanh
 settings.preload.body=Khi bật tính năng này, OpenAudioMc sẽ tự động tải trước các tệp thường được sử dụng trong Game của bạn. Điều này sẽ làm cho âm thanh phản hồi nhanh hơn nhưng sử dụng nhiều dữ liệu hơn.
 settings.preload.button=Bật tải trước
 settings.rolloff.title=Âm thanh 3D
-settings.rolloff.body=Điều này kiểm soát lượng giảm chấn được áp dụng cho âm thanh 3D dựa trên khoảng cách. 0% là không giảm chấn, 100% là giảm chấn hoàn toàn. Điều này áp dụng cho cả loa và trò chuyện thoại.
+settings.rolloff.body=Cái này kiểm soát lượng giảm chấn được áp dụng cho âm thanh 3D dựa trên khoảng cách. 0% là không giảm chấn, 100% là giảm chấn hoàn toàn. Điều này áp dụng cho cả loa và trò chuyện thoại.
 settings.rolloff.01=1% (nhỏ nhất)
 settings.rolloff.5=50%
 settings.rolloff.8=80%
