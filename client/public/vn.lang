@@ -1,4 +1,5 @@
 lang.name=Vietnamese
+
 lang.detectedAs=Đã đổi ngôn ngữ sang %langName! 
 lang.keep=Giữ %langName
 lang.toEn=Đổi về Tiếng Anh
@@ -10,7 +11,7 @@ ui.urlChangeDetected=Phát hiện thay đổi URL
 ui.hashchange=URL đã bị thay đổi. Bạn có muốn tải lại trang và bắt đầu phiên mới? Thao tác này sẽ xóa phiên hiện tại của bạn.
 
 navbar.audio=Âm Thanh
-navbar.vc=Hội thoại
+navbar.vc=VoiceChat
 navbar.settings=Cài đặt
 navbar.debug=Debug
 navbar.free=miễn phí
@@ -138,10 +139,6 @@ settings.spatial.legacy=Legacy (Kiểu cũ)
 settings.interpolation.title=Làm mượt chuyển động
 settings.interpolation.body=Làm mượt chuyển động của người chơi để không tạo ra sự delay khi voicechat hoặc âm thanh đứt quãng, Nó sẽ thêm delay cho chuyển động, nhưng âm thanh hay hơn.
 settings.interpolation.button=Bật làm mượt
-
-settings.streamermode.title=Streamer Mode
-settings.streamermode.body=Tự động huỷ kích hoạt token sau khi bắt đầu phiên âm thanh mới, để tránh người xem của bạn sử dụng token của bạn.
-settings.streamermode.button=Bật streamer mode
 
 network.serverUnhealthy=Kết nối của {serverName} đến OpenAudioMc không ổn định, chức năng của máy khách có thể bị hạn chế cho đến khi kết nối được khôi phục.
 
