@@ -1,6 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
+import com.craftmend.openaudiomc.generic.commands.interfaces.ParameteredSubCommand;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
@@ -19,7 +21,7 @@ import org.bukkit.ChatColor;
 
 import java.util.Collection;
 
-public class RegionEditSubCommand extends SubCommand {
+public class RegionEditSubCommand extends ParameteredSubCommand {
 
     private final OpenAudioMcSpigot openAudioMcSpigot;
 
@@ -37,7 +39,7 @@ public class RegionEditSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(User sender, String[] args) {
+    public void onExecute(User<?> sender, String[] args, CommandParameters parameters) {
         // remove the first argument, as its just "edit"
         args = ArrayUtil.removeFirst(args);
 
@@ -46,7 +48,9 @@ public class RegionEditSubCommand extends SubCommand {
             return;
         }
 
-        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(sender.getWorld());
+        String worldName = parameters.getParameterOrDefault("world", sender.getWorld());
+
+        WorldRegionManager worldRegionManager = openAudioMcSpigot.getRegionModule().getWorld(worldName);
 
         if (args[0].equalsIgnoreCase("volume") && args.length == 3) {
             if (!isInteger(args[2])) {
@@ -69,7 +73,7 @@ public class RegionEditSubCommand extends SubCommand {
                 message(sender, ChatColor.RED + "The volume of " + targetRegion + " has been set to " + args[2]);
                 worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
-                sendRegionMediaUpdatePacket(rp, sender.getWorld());
+                sendRegionMediaUpdatePacket(rp, worldName);
                 saveAsync(rp);
             } else {
                 message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
@@ -100,7 +104,7 @@ public class RegionEditSubCommand extends SubCommand {
                 // update the region
                 worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
-                sendRegionMediaUpdatePacket(rp, sender.getWorld());
+                sendRegionMediaUpdatePacket(rp, worldName);
                 saveAsync(rp);
             } else {
                 message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
