@@ -386,6 +386,8 @@ export function setBgColor(col) {
   setGlobalState({ settings: { accentColor: col } });
 }
 
+window.debugSetBgColor = setBgColor;
+
 function setBgImage(bg) {
   // if (bg.endsWith("mp4") && result.response.isPatreon) {
   //     // use mp4

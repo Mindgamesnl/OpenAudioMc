@@ -186,14 +186,14 @@ function mapStateToProps(state) {
   };
 }
 
-let pannerTrackers = {};
+export let pannerTrackers = {};
 
 export function untrackPanner(id) {
   delete pannerTrackers[id];
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);
 }
 
-function applyPannerProperties(pannerNode, maxDistance) {
+export function applyPannerProperties(pannerNode, maxDistance) {
   const setting = getGlobalState().settings.rolloffFactor;
   const audioRendering = getGlobalState().settings.spatialRenderingMode;
 

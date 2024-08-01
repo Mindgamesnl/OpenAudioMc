@@ -29,11 +29,6 @@ function VoicePeerBox(props) {
       );
     });
 
-  // split array in two
-  const half = Math.ceil(peers.length / 2);
-  const left = peers.slice(0, half);
-  const right = peers.slice(half, peers.length);
-
   let peerMessage = msg('vc.peerTable');
   peerMessage = peerMessage.replace('{talking}', talking);
   peerMessage = peerMessage.replace('{total}', total);
@@ -78,7 +73,7 @@ function VoicePeerBox(props) {
   // is there anyone?
   if (peers.length === 0) {
     return (
-      <div className="w-full flex justify-center align-middle">
+      <div className="w-full flex h-full justify-center align-middle">
         <div className="content-section flex justify-center w-4/5">
           <div className="flex content-card-collection items-stretch">
             <div className="w-full content-card small-card order-2 2xl:order-1">
@@ -102,18 +97,13 @@ function VoicePeerBox(props) {
 
   return (
     <div className="flex justify-center align-middle">
-      <div className="content-section w-5/6">
-        <div className="content-section-title">{peerMessage}</div>
-        <div className="content-card-collection common-rounded">
-          <div className="content-card w-1/2 bg-transparent border-transparent p-2">
-            <ul>
-              {left}
-            </ul>
-          </div>
-          <div className="content-card w-1/2  bg-transparent border-transparent p-2">
-            <ul>
-              {right}
-            </ul>
+      <div className="content-card-collection common-rounded">
+        <div className="content-card bg-transparent border-transparent p-2">
+          <div className="flex flex-wrap gap-4">
+            {peers}
+            <div className="h-full w-full text-center">
+              <h2>{peerMessage}</h2>
+            </div>
           </div>
         </div>
       </div>
