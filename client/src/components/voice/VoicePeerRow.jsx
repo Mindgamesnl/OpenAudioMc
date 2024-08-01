@@ -22,8 +22,6 @@ export class VoicePeerRow extends React.Component {
     speaking: PropTypes.bool,
     loading: PropTypes.bool,
     hideVolume: PropTypes.bool,
-    altText: PropTypes.string,
-    minimal: PropTypes.bool,
     spatialAudio: PropTypes.bool,
   };
 
@@ -35,8 +33,6 @@ export class VoicePeerRow extends React.Component {
     speaking: false,
     loading: false,
     hideVolume: false,
-    altText: null,
-    minimal: false,
     spatialAudio: false,
   };
 

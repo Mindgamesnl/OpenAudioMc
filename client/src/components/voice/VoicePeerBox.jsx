@@ -62,10 +62,8 @@ function VoicePeerBox(props) {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     );
   }
@@ -73,7 +71,7 @@ function VoicePeerBox(props) {
   // is there anyone?
   if (peers.length === 0) {
     return (
-      <div className="w-full flex h-full justify-center align-middle">
+      <div className="w-full flex justify-center align-middle">
         <div className="content-section flex justify-center w-4/5">
           <div className="flex content-card-collection items-stretch">
             <div className="w-full content-card small-card order-2 2xl:order-1">

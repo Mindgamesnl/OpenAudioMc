@@ -2,26 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './oabutton.css';
 
-export class VoicePageButton extends React.Component {
-  render() {
-    return (
-      <button
-        type="button"
-        className={
+export function VoicePageButton(props) {
+  return (
+    <button
+      type="button"
+      className={
         `oa-button-modern ${
-          this.props.highlighted && this.props.highlightRed ? 'button-off ' : ''
-        }${this.props.highlighted && this.props.highlightGreen ? 'button-on ' : ''
-        }${this.props.isDisabled ? 'disabled ' : ''}`
+          props.highlighted && props.highlightRed ? 'button-off ' : ''
+        }${props.highlighted && props.highlightGreen ? 'button-on ' : ''
+        }${props.isDisabled ? 'disabled ' : ''}`
       }
-        onClick={this.props.onClick}
-        disabled={this.props.isEnabled}
-      >
-        <div className="content">
-          {this.props.children}
-        </div>
-      </button>
-    );
-  }
+      onClick={props.onClick}
+      disabled={props.isEnabled}
+    >
+      <div className="content">
+        {props.children}
+      </div>
+    </button>
+  );
 }
 
 // default props

@@ -29,7 +29,7 @@ export default defineConfig({
     },
   }, react({
     include: '**/*.jsx',
-  })],
+  }), eslint()],
   server: {
     port: 3000, host: true,
   },

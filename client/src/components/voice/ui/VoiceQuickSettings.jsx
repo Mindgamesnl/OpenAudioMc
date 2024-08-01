@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setGlobalState } from '../../../state/store';
 import { reRenderAllGainNodes } from '../../../client/services/voice/VoiceModule';
-import { Tooltip } from '../../tooltip/tooltip';
 import { msg } from '../../../client/OpenAudioAppContainer';
 import { PipVector } from '../../dpip/PipVector';
 import { VoiceMicButtonContent } from '../../icons/VoiceMic';
 import { VoiceDeafenButtonContent } from '../../icons/VoicechatDeafenButton';
 import { VoicePageButton } from '../../buttons/VoicePageButton';
+import { DocumentPictureInPicture } from '../../dpip/DocumentPictureInPicture';
+import VoiceChatPiP from '../../dpip/VoiceChatPiP';
 
 import './quicksettings.css';
 
@@ -15,12 +16,7 @@ class VoiceQuickSettings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      advancedSettings: false,
-    };
-
     this.onVolumeChange = this.onVolumeChange.bind(this);
-    this.toggleAdvancedSettings = this.toggleAdvancedSettings.bind(this);
     this.toggleMicMute = this.toggleMicMute.bind(this);
     this.togglePiP = this.togglePiP.bind(this);
     this.toggleDeafen = this.toggleDeafen.bind(this);
@@ -38,10 +34,6 @@ class VoiceQuickSettings extends React.Component {
 
   togglePiP() {
     setGlobalState({ settings: { voicePiPEnabled: !this.props.voicePiPEnabled } });
-  }
-
-  toggleAdvancedSettings() {
-    this.setState({ advancedSettings: !this.state.advancedSettings });
   }
 
   toggleMicMute() {
@@ -158,6 +150,8 @@ class VoiceQuickSettings extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.props.voicePiPEnabled ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
       </div>
     );
   }

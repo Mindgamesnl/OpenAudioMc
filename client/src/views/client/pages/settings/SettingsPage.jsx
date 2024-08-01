@@ -186,7 +186,7 @@ function mapStateToProps(state) {
   };
 }
 
-export let pannerTrackers = {};
+export const pannerTrackers = {};
 
 export function untrackPanner(id) {
   delete pannerTrackers[id];
