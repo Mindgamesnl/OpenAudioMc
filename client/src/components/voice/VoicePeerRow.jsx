@@ -93,7 +93,7 @@ export class VoicePeerRow extends React.Component {
       <li className={`flex flex-col items-center voice-card-modern flex-grow ${parentClass}`}>
         <div className="flex p-2 w-full">
           {loading ? (
-            <div className="absolute inset-0 flex items-center z-20 justify-center bg-opacity-70">
+            <div className="absolute inset-0 flex items-center z-20 justify-center bg-black rounded-md">
               <svg
                 className="animate-spin -ml-1 mr-3 h-10 w-10 text-white"
                 xmlns="http://www.w3.org/2000/svg"
