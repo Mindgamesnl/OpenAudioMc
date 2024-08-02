@@ -65,7 +65,7 @@ class GeneralVoiceSettings extends React.Component {
   }
 
   toggleSurroundSound() {
-    setGlobalState({ settings: { voiceEchoCancellation: !this.props.surroundSound } });
+    setGlobalState({ settings: { voicechatSurroundSound: !this.props.surroundSound } });
 
     // update all peers
     Object.keys(this.props.voiceState.peers).forEach((peerId) => {
@@ -163,7 +163,7 @@ class GeneralVoiceSettings extends React.Component {
                 value=""
                 className="sr-only peer"
                 id="enable-spatialaudio"
-                onChange={this.toggleSurroundSound}
+                onClick={this.toggleSurroundSound}
                 checked={this.props.surroundSound}
               />
               <div

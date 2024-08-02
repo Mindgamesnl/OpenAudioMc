@@ -178,7 +178,6 @@ export const VoiceModule = new class IVoiceModule {
   restartVoiceChat() {
     const currentPreferredMic = getGlobalState().settings.preferredMicId;
     if (currentPreferredMic && this.isReady()) {
-      alert(currentPreferredMic);
       this.changeInput(currentPreferredMic);
     }
   }
