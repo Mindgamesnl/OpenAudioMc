@@ -199,12 +199,7 @@ export function applyPannerProperties(pannerNode, maxDistance) {
 
   pannerNode.rolloffFactor = parseFloat(setting);
 
-  if (setting <= 0.4) {
-    // keep old behaviour, where the linear algorithm was forced when RollOff <= 40%
-    pannerNode.distanceModel = 'linear';
-  } else {
-    pannerNode.distanceModel = getGlobalState().settings.distanceModel;
-  }
+  pannerNode.distanceModel = getGlobalState().settings.distanceModel;
 
   if (audioRendering === 'new') {
     pannerNode.panningModel = 'equalpower';
