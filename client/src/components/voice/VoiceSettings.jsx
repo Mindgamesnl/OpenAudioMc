@@ -7,8 +7,8 @@ import { Tooltip } from '../tooltip/tooltip';
 import ExtraVoiceSettings from './ExtraVoiceSettings';
 import { msg } from '../../client/OpenAudioAppContainer';
 import { PipVector } from '../dpip/PipVector';
-import { VoiceMicButton } from '../icons/VoiceMic';
-import { VoiceDeafenButton } from '../icons/VoicechatDeafenButton';
+import { VoiceMicButtonContent } from '../icons/VoiceMic';
+import { VoiceDeafenButtonContent } from '../icons/VoicechatDeafenButton';
 
 class VoiceSettings extends React.Component {
   constructor(props) {
@@ -73,14 +73,14 @@ class VoiceSettings extends React.Component {
       );
     }
 
-    let micButton = <VoiceMicButton onClick={this.toggleMicMute} muted={false} />;
+    let micButton = <VoiceMicButtonContent onClick={this.toggleMicMute} muted={false} />;
     if (this.props.voicechatMuted) {
-      micButton = <VoiceMicButton onClick={this.toggleMicMute} muted />;
+      micButton = <VoiceMicButtonContent onClick={this.toggleMicMute} muted />;
     }
 
-    let deafenButton = <VoiceDeafenButton onClick={this.toggleDeafen} deafened={false} />;
+    let deafenButton = <VoiceDeafenButtonContent onClick={this.toggleDeafen} deafened={false} />;
     if (this.props.voicechatDeafened) {
-      deafenButton = <VoiceDeafenButton onClick={this.toggleDeafen} deafened />;
+      deafenButton = <VoiceDeafenButtonContent onClick={this.toggleDeafen} deafened />;
     }
 
     // check if documentPictureInPicture is supported

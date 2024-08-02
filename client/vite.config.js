@@ -1,3 +1,4 @@
+import MillionLint from '@million/lint';
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineConfig } from 'vite';
@@ -16,24 +17,28 @@ Array.prototype.some = function someMatchUtil(fun) {
   }
   return false;
 };
-
+const _plugins = [svgr({
+  svgrOptions: {
+    ref: true
+  }
+}), {
+  name: 'singleHMR',
+  handleHotUpdate({
+    modules
+  }) {
+    return modules;
+  }
+}, react({
+  include: '**/*.jsx'
+}), eslint()];
+_plugins.unshift(MillionLint.vite())
 export default defineConfig({
-  plugins: [svgr({
-    svgrOptions: {
-      ref: true,
-    },
-  }), {
-    name: 'singleHMR',
-    handleHotUpdate({ modules }) {
-      return modules;
-    },
-  }, react({
-    include: '**/*.jsx',
-  }), eslint()],
+  plugins: _plugins,
   server: {
-    port: 3000, host: true,
+    port: 3000,
+    host: true
   },
   build: {
-    outDir: './build',
-  },
+    outDir: './build'
+  }
 });

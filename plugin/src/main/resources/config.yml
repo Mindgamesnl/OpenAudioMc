@@ -175,7 +175,12 @@ options:
   bedrock-name-prefix: '.'
 
   # This setting enabled/disables automatic authentication for bedrock users.
-  token-auto-login: true
+  # Enabling this feature will allow bedrock users to automatically authenticate when they join the server, if they
+  # have a client open on the token prompt screen. This feature is disabled by default because it will do
+  # a name lookup for the player, which may not be the overhead on large servers or be blocking on servers
+  # running a vistas module, which needs to distribute this information on join/first interaction.
+  # You may want to consider enabling this feature if you have a smaller server or if you're not running vistas.
+  token-auto-login: false
 
   # If set to true, the player automatically receives a link upon joining
   send-on-join: true

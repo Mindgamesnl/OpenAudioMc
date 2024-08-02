@@ -186,25 +186,20 @@ function mapStateToProps(state) {
   };
 }
 
-let pannerTrackers = {};
+export const pannerTrackers = {};
 
 export function untrackPanner(id) {
   delete pannerTrackers[id];
   feedDebugValue(DebugStatistic.TRACKED_PANNERS, Object.keys(pannerTrackers).length);
 }
 
-function applyPannerProperties(pannerNode, maxDistance) {
+export function applyPannerProperties(pannerNode, maxDistance) {
   const setting = getGlobalState().settings.rolloffFactor;
   const audioRendering = getGlobalState().settings.spatialRenderingMode;
 
   pannerNode.rolloffFactor = parseFloat(setting);
 
-  if (setting <= 0.4) {
-    // keep old behaviour, where the linear algorithm was forced when RollOff <= 40%
-    pannerNode.distanceModel = 'linear';
-  } else {
-    pannerNode.distanceModel = getGlobalState().settings.distanceModel;
-  }
+  pannerNode.distanceModel = getGlobalState().settings.distanceModel;
 
   if (audioRendering === 'new') {
     pannerNode.panningModel = 'equalpower';

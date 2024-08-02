@@ -59,8 +59,8 @@ const initialState = {
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
     spatialRenderingMode: 'new',
-    rolloffFactor: 0.5,
-    distanceModel: 'exponential',
+    rolloffFactor: 1,
+    distanceModel: 'linear',
 
     preferredMicId: 'default',
 

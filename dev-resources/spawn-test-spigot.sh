@@ -1,7 +1,6 @@
 export JAVA_HOME=`/usr/libexec/java_home -v 18`
 mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
-echo "Building new OpenAudioMc jar without unit tests.."
 
 cd plugin
 ./src/main/bash/post-build.sh

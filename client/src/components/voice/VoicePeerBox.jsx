@@ -4,8 +4,10 @@ import { Tooltip } from 'react-tooltip';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
 
+const VoicePeerRowMemo = React.memo(VoicePeerRow);
+
 function VoicePeerBox(props) {
-  const shouldBeHidden = props.voiceState.peersHidden && !props.voiceState.isModerating;
+  const shouldBeHidden = props.peersHidden && !props.isModerating;
   let total = 0;
   let talking = 0;
 
@@ -15,7 +17,7 @@ function VoicePeerBox(props) {
       total++;
       if (peer.speaking) talking++;
       return (
-        <VoicePeerRow
+        <VoicePeerRowMemo
           loading={peer.loading}
           name={peer.displayName}
           displayUuid={peer.displayUuid}
@@ -28,11 +30,6 @@ function VoicePeerBox(props) {
         />
       );
     });
-
-  // split array in two
-  const half = Math.ceil(peers.length / 2);
-  const left = peers.slice(0, half);
-  const right = peers.slice(half, peers.length);
 
   let peerMessage = msg('vc.peerTable');
   peerMessage = peerMessage.replace('{talking}', talking);
@@ -67,10 +64,8 @@ function VoicePeerBox(props) {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     );
   }
@@ -102,18 +97,13 @@ function VoicePeerBox(props) {
 
   return (
     <div className="flex justify-center align-middle">
-      <div className="content-section w-5/6">
-        <div className="content-section-title">{peerMessage}</div>
-        <div className="content-card-collection common-rounded">
-          <div className="content-card w-1/2 bg-transparent border-transparent p-2">
-            <ul>
-              {left}
-            </ul>
-          </div>
-          <div className="content-card w-1/2  bg-transparent border-transparent p-2">
-            <ul>
-              {right}
-            </ul>
+      <div className="content-card-collection common-rounded">
+        <div className="content-card bg-transparent border-transparent p-2">
+          <div className="flex flex-wrap gap-4">
+            {peers}
+            <div className="h-full w-full text-center">
+              <h2>{peerMessage}</h2>
+            </div>
           </div>
         </div>
       </div>
@@ -127,8 +117,8 @@ export default connect(mapStateToProps)(VoicePeerBox);
 function mapStateToProps(state) {
   return {
     voicePeers: state.voiceState.peers,
-    voiceState: state.voiceState,
     currentUser: state.currentUser,
-    settings: state.settings,
+    peersHidden: state.voiceState.peersHidden,
+    isModerating: state.voiceState.isModerating,
   };
 }

@@ -6,6 +6,8 @@ import com.craftmend.openaudiomc.api.exceptions.InvalidRegionException;
 import com.craftmend.openaudiomc.api.exceptions.InvalidThreadException;
 import com.craftmend.openaudiomc.api.exceptions.UnknownWorldException;
 import com.craftmend.openaudiomc.api.regions.RegionMediaOptions;
+import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
+import com.craftmend.openaudiomc.generic.commands.interfaces.ParameteredSubCommand;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
@@ -17,7 +19,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionMana
 import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
 
-public class RegionCreateSubCommand extends SubCommand {
+public class RegionCreateSubCommand extends ParameteredSubCommand {
 
     private final OpenAudioMcSpigot openAudioMcSpigot;
 
@@ -28,7 +30,7 @@ public class RegionCreateSubCommand extends SubCommand {
 
     @Override
     @SneakyThrows
-    public void onExecute(User sender, String[] args) {
+    public void onExecute(User<?> sender, String[] args, CommandParameters parameters) {
         args[1] = args[1].toLowerCase();
 
         int volume = 100;
@@ -52,7 +54,7 @@ public class RegionCreateSubCommand extends SubCommand {
 
         try {
             WorldApi.getInstance().registerRegion(
-                    sender.getWorld(),
+                    parameters.getParameterOrDefault("world", sender.getWorld()),
                     args[1],
                     new RegionMediaOptions(args[2], volume)
             );
