@@ -48,7 +48,7 @@ class VoiceQuickSettings extends React.Component {
 
   render() {
     // are we moderating? then only show that banner
-    if (this.props.voiceState.isModerating) {
+    if (this.props.isModerating) {
       return (
         <div className="content-section  pt-5">
           <div className="content-wrapper-box audio-content full bg-red-800">
@@ -82,7 +82,7 @@ class VoiceQuickSettings extends React.Component {
     return (
       <div className="w-full">
         <div
-          className={`avatar-container ${this.props.voiceState.isSpeaking ? ' speaking' : ''}${this.props.voicechatMuted ? ' muted-self' : ''}`}
+          className={`avatar-container ${this.props.isSpeaking ? ' speaking' : ''}${this.props.voicechatMuted ? ' muted-self' : ''}`}
         >
           <img
             alt="Speaking indicator"
@@ -97,7 +97,7 @@ class VoiceQuickSettings extends React.Component {
           <VoicePageButton
             highlighted={this.props.voicechatMuted}
             highlightRed
-            isDisabled={this.props.voiceState.isMutedServerSide}
+            isDisabled={this.props.isMutedServerSide}
             onClick={this.toggleMicMute}
           >
             <VoiceMicButtonContent muted={this.props.voicechatMuted} />
@@ -165,7 +165,9 @@ function mapStateToProps(state) {
     voicechatDeafened: state.settings.voicechatDeafened,
     voicechatVolume: state.settings.voicechatVolume,
     voicePiPEnabled: state.settings.voicePiPEnabled,
-    voiceState: state.voiceState,
+    isModerating: state.voiceState.isModerating,
+    isMutedServerSide: state.voiceState.isMutedServerSide,
+    isSpeaking: state.voiceState.isSpeaking,
     currentUser: state.currentUser,
   };
 }

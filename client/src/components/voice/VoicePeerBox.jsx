@@ -7,7 +7,7 @@ import { msg } from '../../client/OpenAudioAppContainer';
 const VoicePeerRowMemo = React.memo(VoicePeerRow);
 
 function VoicePeerBox(props) {
-  const shouldBeHidden = props.voiceState.peersHidden && !props.voiceState.isModerating;
+  const shouldBeHidden = props.peersHidden && !props.isModerating;
   let total = 0;
   let talking = 0;
 
@@ -30,25 +30,6 @@ function VoicePeerBox(props) {
         />
       );
     });
-
-  // add 25 test peers for testing
-  for (let i = 0; i < 50; i++) {
-    const randomBool = Math.random() >= 0.5;
-    total++;
-    peers.push(
-      <VoicePeerRowMemo
-        loading={randomBool}
-        name={`Test Peer ${i}`}
-        displayUuid={`test-peer-${i}`}
-        key={`test-peer-${i}`}
-        streamKey={`test-peer-${i}`}
-        uuid={`test-peer-${i}`}
-        speaking={i % 2 === 0}
-        muted={randomBool}
-        spatialAudio
-      />,
-    );
-  }
 
   let peerMessage = msg('vc.peerTable');
   peerMessage = peerMessage.replace('{talking}', talking);
@@ -136,8 +117,8 @@ export default connect(mapStateToProps)(VoicePeerBox);
 function mapStateToProps(state) {
   return {
     voicePeers: state.voiceState.peers,
-    voiceState: state.voiceState,
     currentUser: state.currentUser,
-    settings: state.settings,
+    peersHidden: state.voiceState.peersHidden,
+    isModerating: state.voiceState.isModerating,
   };
 }

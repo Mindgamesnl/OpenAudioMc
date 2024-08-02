@@ -45,11 +45,11 @@ function ClientView(props) {
           />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
-            hidden={!props.voiceState.ready}
+            hidden={!props.voiceReady}
             buttonContent={<IconMemos.VoiceChat />}
             content={<VoicePageMemo />}
-            subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${
-              Object.keys(props.voiceState.peers).length === 1 ? getTranslation(null, 'vc.person')
+            subtext={props.voicePeerCount > 0 ? `${props.voicePeerCount} ${
+              props.voicePeerCount === 1 ? getTranslation(null, 'vc.person')
                 : getTranslation(null, 'vc.people')
             }` : null}
             colorWhenHasSubtext
@@ -99,7 +99,8 @@ function mapStateToProps(state) {
     inputModal: state.inputModal,
     fixedFooter: state.fixedFooter,
     loadingOverlay: state.loadingOverlay,
-    voiceState: state.voiceState,
+    voiceReady: state.voiceState.ready,
+    voicePeerCount: Object.keys(state.voiceState.peers).length,
     browserSupportIsLimited: state.browserSupportIsLimited,
     navbarDetails: state.navbarDetails,
   };
