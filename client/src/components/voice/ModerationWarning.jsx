@@ -5,7 +5,7 @@ import './modwarning.css';
 
 export function ModerationWarning() {
   return (
-    <div className="moderation-warning m-5">
+    <div className="moderation-warning mt-3">
       <div className="content-text full">
         <div className="text-center">
           {msg('vc.voiceModerationEnabled')}

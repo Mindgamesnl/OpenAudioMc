@@ -12,10 +12,10 @@ function VoicePage(props) {
       <div className="flex w-full lg:w-1/5 flex-col">
         <div className="flex-col w-full h-full p-2">
           <VoiceQuickSettings />
+          {props.voiceState.serverHasModeration ? <ModerationWarning /> : null}
         </div>
 
         <div className="w-full text-center">
-          {props.voiceState.serverHasModeration ? <ModerationWarning /> : null}
           <GeneralVoiceSettings />
         </div>
       </div>

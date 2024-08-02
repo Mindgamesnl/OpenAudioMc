@@ -27,6 +27,7 @@ class GeneralVoiceSettings extends React.Component {
     this.selectMic = this.selectMic.bind(this);
     this.toggleSurroundSound = this.toggleSurroundSound.bind(this);
     this.monitoringInput = this.monitoringInput.bind(this);
+    this.toggleEchoCancellation = this.toggleEchoCancellation.bind(this);
   }
 
   componentDidMount() {
@@ -58,8 +59,13 @@ class GeneralVoiceSettings extends React.Component {
     }
   }
 
+  toggleEchoCancellation() {
+    setGlobalState({ settings: { voiceEchoCancellation: !this.props.voiceEchoCancellation } });
+    VoiceModule.restartVoiceChat();
+  }
+
   toggleSurroundSound() {
-    setGlobalState({ settings: { voicechatSurroundSound: !this.props.surroundSound } });
+    setGlobalState({ settings: { voiceEchoCancellation: !this.props.surroundSound } });
 
     // update all peers
     Object.keys(this.props.voiceState.peers).forEach((peerId) => {
@@ -185,6 +191,23 @@ class GeneralVoiceSettings extends React.Component {
               </span>
             </label>
 
+            <label className="inline-flex items-center me-5 cursor-pointer" htmlFor="echoCancelation">
+              <input
+                type="checkbox"
+                value=""
+                className="sr-only peer"
+                id="echoCancelation"
+                onChange={this.toggleEchoCancellation}
+                checked={this.props.voiceEchoCancellation}
+              />
+              <div
+                className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"
+              />
+              <span className="ms-3 text-sm font-medium">
+                {msg('settings.voicechat.echocancel.title')}
+              </span>
+            </label>
+
             <form className="max-w-sm mx-auto pr-2">
               <div className="content-card-content pb-2">
                 {getTranslation(null, 'vc.aboutInput')}
@@ -247,5 +270,6 @@ function mapStateToProps(state) {
     microphoneSensitivity: state.settings.microphoneSensitivity,
     preferredMicId: state.settings.preferredMicId,
     voiceState: state.voiceState,
+    voiceEchoCancellation: state.settings.voiceEchoCancellation,
   };
 }
