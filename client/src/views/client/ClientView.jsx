@@ -17,24 +17,37 @@ import DebugPage from './pages/debug/DebugPage';
 import { MusicNoteSvg } from '../../components/icons/musicnote';
 import { VoiceChatSvg } from '../../components/icons/voicechat';
 
+const SettingsPageMemo = React.memo(SettingsPage);
+const DebugPageMemo = React.memo(DebugPage);
+const AudioPagememo = React.memo(AudioPage);
+const VoicePageMemo = React.memo(VoicePage);
+const TabWindowMemo = React.memo(TabWindow);
+
+const IconMemos = {
+  Cog: React.memo(CogSVG),
+  Debug: React.memo(DebugSVG),
+  MusicNote: React.memo(MusicNoteSvg),
+  VoiceChat: React.memo(VoiceChatSvg),
+};
+
 function ClientView(props) {
   const { title, message, footer } = props.loadingOverlay;
 
   return (
     <div className="app">
       <div className="wrapper">
-        <TabWindow>
+        <TabWindowMemo>
           <TabPage
             name={getTranslation(null, 'navbar.audio')}
-            content={<AudioPage />}
-            buttonContent={<MusicNoteSvg />}
+            content={<AudioPagememo />}
+            buttonContent={<IconMemos.MusicNote />}
             colorWhenHasSubtext
           />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
             hidden={!props.voiceState.ready}
-            buttonContent={<VoiceChatSvg />}
-            content={<VoicePage />}
+            buttonContent={<IconMemos.VoiceChat />}
+            content={<VoicePageMemo />}
             subtext={Object.keys(props.voiceState.peers).length > 0 ? `${Object.keys(props.voiceState.peers).length} ${
               Object.keys(props.voiceState.peers).length === 1 ? getTranslation(null, 'vc.person')
                 : getTranslation(null, 'vc.people')
@@ -44,16 +57,16 @@ function ClientView(props) {
           <TabPage
             name={getTranslation(null, 'navbar.settings')}
             hidden={!props.navbarDetails}
-            buttonContent={<CogSVG />}
-            content={<SettingsPage />}
+            buttonContent={<IconMemos.Cog />}
+            content={<SettingsPageMemo />}
           />
           <TabPage
             name={getTranslation(null, 'navbar.debug')}
             hidden={!props.debugMode}
-            buttonContent={<DebugSVG />}
-            content={<DebugPage />}
+            buttonContent={<IconMemos.Debug />}
+            content={<DebugPageMemo />}
           />
-        </TabWindow>
+        </TabWindowMemo>
       </div>
 
       {props.loadingOverlay.visible ? (

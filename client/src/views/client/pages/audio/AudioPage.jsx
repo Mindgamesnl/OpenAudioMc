@@ -8,6 +8,9 @@ import SoundCloudPlayer from '../../../../components/soundcloud/SoundCloudPlayer
 import { UnsupportedBanner } from '../../../../components/voice/UnsupportedBanner';
 import { msg } from '../../../../client/OpenAudioAppContainer';
 
+const HeaderMemo = React.memo(Header);
+const VolumeMemo = React.memo(AudioVolume);
+
 function AudioPage(props) {
   if (props.clickLock) {
     return <ClickPrompt />;
@@ -17,8 +20,8 @@ function AudioPage(props) {
     <>
       <div className="h-full w-full audio-page-bg flex justify-center items-center">
         <div className="xl:w-1/2">
-          <AudioVolume />
-          <Header />
+          <VolumeMemo />
+          <HeaderMemo />
         </div>
         <div className="xl:w-1/2">
           {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat

@@ -4,6 +4,8 @@ import { Tooltip } from 'react-tooltip';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
 
+const VoicePeerRowMemo = React.memo(VoicePeerRow);
+
 function VoicePeerBox(props) {
   const shouldBeHidden = props.voiceState.peersHidden && !props.voiceState.isModerating;
   let total = 0;
@@ -15,7 +17,7 @@ function VoicePeerBox(props) {
       total++;
       if (peer.speaking) talking++;
       return (
-        <VoicePeerRow
+        <VoicePeerRowMemo
           loading={peer.loading}
           name={peer.displayName}
           displayUuid={peer.displayUuid}
@@ -28,6 +30,25 @@ function VoicePeerBox(props) {
         />
       );
     });
+
+  // add 25 test peers for testing
+  for (let i = 0; i < 50; i++) {
+    const randomBool = Math.random() >= 0.5;
+    total++;
+    peers.push(
+      <VoicePeerRowMemo
+        loading={randomBool}
+        name={`Test Peer ${i}`}
+        displayUuid={`test-peer-${i}`}
+        key={`test-peer-${i}`}
+        streamKey={`test-peer-${i}`}
+        uuid={`test-peer-${i}`}
+        speaking={i % 2 === 0}
+        muted={randomBool}
+        spatialAudio
+      />,
+    );
+  }
 
   let peerMessage = msg('vc.peerTable');
   peerMessage = peerMessage.replace('{talking}', talking);
