@@ -1,0 +1,8 @@
+.avatar-container {
+    background-color: var(--dark-primary-background); /* Light background with a natural feel */
+    border-radius: 8px; /* Consistent with the button style */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 8px; /* Add some padding for breathing room */
+    display: flex; /* Allow horizontal alignment of content */
+    align-items: center; /* Vertically center the content */
+}

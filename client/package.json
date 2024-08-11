@@ -6,6 +6,7 @@
   "type": "module",
   "dependencies": {
     "@fontsource/roboto": "^5.0.8",
+    "@million/lint": "^1.0.0-rc.84",
     "immer": "^9.0.17",
     "js-cookie": "^3.0.1",
     "mediastream-gain": "^1.0.1",

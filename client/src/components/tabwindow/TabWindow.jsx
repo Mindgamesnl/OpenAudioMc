@@ -75,7 +75,7 @@ class TabWindow extends Component {
             <nav className="navbar-bg shadow-lg flex items-center p-2 md:hidden">
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
-                  <img src={this.props.settings.logoImage} alt="Logo" className="pl-2 h-8" />
+                  <img src={this.props.logoImage} alt="Logo" className="pl-2 h-8" />
                   <span className="ml-2 font-semibold text-xl text-gray-300">
                     {msg('serverName')}
                   </span>
@@ -132,7 +132,7 @@ class TabWindow extends Component {
             {/* Desktop Navbar */}
             <nav className="hidden-on-mobile md:flex navbar-bg shadow-lg flex items-center p-2">
               <div className="basis-1/3 flex items-center">
-                <img src={this.props.settings.logoImage} alt="Logo" className="pl-2 h-8" />
+                <img src={this.props.logoImage} alt="Logo" className="pl-2 h-8" />
                 <span className="ml-2 font-semibold text-xl text-gray-300">
                   {msg('serverName')}
                 </span>
@@ -198,7 +198,7 @@ function mapStateToProps(state) {
     currentUser: state.currentUser,
     navbarDetails: state.navbarDetails,
     clickLock: state.clickLock,
-    settings: state.settings,
+    logoImage: state.settings.logoImage,
   };
 }
 

@@ -175,6 +175,13 @@ export const VoiceModule = new class IVoiceModule {
     });
   }
 
+  restartVoiceChat() {
+    const currentPreferredMic = getGlobalState().settings.preferredMicId;
+    if (currentPreferredMic && this.isReady()) {
+      this.changeInput(currentPreferredMic);
+    }
+  }
+
   pushSocketEvent(event) {
     if (this.peerManager != null) {
       SocketManager.send(PluginChannel.RTC_READY, { event });
