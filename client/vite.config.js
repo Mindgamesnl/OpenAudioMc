@@ -17,28 +17,28 @@ Array.prototype.some = function someMatchUtil(fun) {
   }
   return false;
 };
-const _plugins = [svgr({
+const millionPlugins = [svgr({
   svgrOptions: {
-    ref: true
-  }
+    ref: true,
+  },
 }), {
   name: 'singleHMR',
   handleHotUpdate({
-    modules
+    modules,
   }) {
     return modules;
-  }
+  },
 }, react({
-  include: '**/*.jsx'
+  include: '**/*.jsx',
 }), eslint()];
-_plugins.unshift(MillionLint.vite())
+millionPlugins.unshift(MillionLint.vite());
 export default defineConfig({
-  plugins: _plugins,
+  plugins: millionPlugins,
   server: {
     port: 3000,
-    host: true
+    host: true,
   },
   build: {
-    outDir: './build'
-  }
+    outDir: './build',
+  },
 });
