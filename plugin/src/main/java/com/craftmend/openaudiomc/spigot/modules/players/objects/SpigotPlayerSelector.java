@@ -116,9 +116,12 @@ public class SpigotPlayerSelector implements SelectorTranslator<CommandSender> {
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .filter(player -> distance > player.getLocation().distance(standPoint))
                         .collect(Collectors.toList()));
-            }
-
-            else {
+            } else if (getArgument("world").length() != 0) {
+                String world = getArgument("world");
+                players.addAll(Bukkit.getOnlinePlayers().stream()
+                        .filter(player -> player.getLocation().getWorld().getName().equals(world))
+                        .collect(Collectors.toList()));
+            } else {
                 players.addAll(Bukkit.getOnlinePlayers().stream()
                         .filter(player -> player.getLocation().getWorld().getName().equals(standPoint.getWorld().getName()))
                         .collect(Collectors.toList()));
