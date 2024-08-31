@@ -131,7 +131,7 @@ export const MessageModule = new class MessageModule {
         name: 'Italiano',
         visible: true,
       },
-      cs: {
+      th: {
         file: 'cs.lang',
         name: 'Čeština',
         visible: true,
