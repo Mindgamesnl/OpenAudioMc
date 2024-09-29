@@ -8,6 +8,7 @@ import { msg } from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 import UserAvatar from '../avatar/UserAvatar';
 import { HamburgerSvg } from '../icons/hamburger';
+import { reportVital } from '../../client/util/vitalreporter';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -59,6 +60,12 @@ class TabWindow extends Component {
     }
 
     const hiddenNavbar = this.props.navbarDetails === false && pages.length === 1;
+
+    // safety check, current tab should never be higher than the amount of tabs
+    if (this.props.currentTab >= pages.length) {
+      reportVital(`metrics:errorinfo:tabwindow currentTab is higher than the amount of tabs. Tab: ${this.props.currentTab}, pages: ${pages.length}`);
+      setTab(0);
+    }
 
     return (
       <div className="flex flex-col-reverse bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
