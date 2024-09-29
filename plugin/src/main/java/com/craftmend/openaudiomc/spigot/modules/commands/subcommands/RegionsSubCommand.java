@@ -95,7 +95,7 @@ public class RegionsSubCommand extends SubCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("create") && argumentCount == 3) {
+        if (args[0].equalsIgnoreCase("create") && argumentCount == 3 || argumentCount == 4) {
             delegateTo("create", sender, args);
             return;
         }
