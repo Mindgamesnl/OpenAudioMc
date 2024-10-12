@@ -1,13 +1,9 @@
 lang.name=ภาษาไทย
 
-lang.detectedAs=เราได้เปลี่ยนภาษาของคุณเป็น%langNameคุณต้องการคงการเปลี่ยนแปลงนี้ไว้หรือไม่?
-lang.keep=ใช้%langName
-lang.toEn=เปลี่ยนเป็นภาษาอังกฤษ
-
 ui.loading=กำลังโหลด...
 ui.logout=ออกจากระบบ
 
-ui.urlChangeDetected=ตรวจพบการเปลี่ยน URL 
+ui.urlChangeDetected=ตรวจพบการเปลี่ยน URL
 ui.hashchange=URL ได้ถูกเปลี่ยน ต้องการรีโหลดหน้าเว็บแล้วเริ่มต้นเซสชันใหม่หรือไม่? การกระทำนี้จะล้างเซสชันปัจจุบัน
 
 navbar.audio=Server Audio

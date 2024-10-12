@@ -111,7 +111,7 @@ export const MessageModule = new class MessageModule {
         file: 'th.lang',
         name: 'ภาษาไทย',
         visible: true,
-      }, // Thai   
+      }, // Thai
 
       // One of these can probably go, but i wasn't provided
       // enough info and am unable to find the correct region code
