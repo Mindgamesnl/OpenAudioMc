@@ -110,6 +110,13 @@ public class SpigotVoiceChatService extends Service {
             // go over every player and handle their message queue
             for (ClientConnection client : networkingService.getClients()) {
                 RtcSessionManager manager = client.getRtcSessionManager();
+
+                // remove mods
+                manager.getCurrentProximityAdditions()
+                        .removeIf(uuid -> clientFromId(uuid).isModerating());
+                manager.getCurrentProximityDrops()
+                        .removeIf(uuid -> clientFromId(uuid).isModerating());
+
                 // handle their join messages, if any
                 if (!manager.getCurrentProximityAdditions().isEmpty()) {
                     // do these
