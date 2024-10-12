@@ -1,0 +1,142 @@
+lang.name=ภาษาไทย
+
+ui.loading=กำลังโหลด...
+ui.logout=ออกจากระบบ
+
+ui.urlChangeDetected=ตรวจพบการเปลี่ยน URL
+ui.hashchange=URL ได้ถูกเปลี่ยน ต้องการรีโหลดหน้าเว็บแล้วเริ่มต้นเซสชันใหม่หรือไม่? การกระทำนี้จะล้างเซสชันปัจจุบัน
+
+navbar.audio=Server Audio
+navbar.vc=VoiceChat
+navbar.settings=การตั้งค่า
+navbar.debug=ดีบั๊ก
+navbar.free=ฟรี
+navbar.premium=พรีเมี่ยม
+navbar.upgradeRequired=ต้องการการอัปเกรด
+navbar.isPlaying=กำลังเล่นเพลง
+navbar.menu=เปิดเมนู
+
+home.confirmLoginHeader=ยินดีต้อนรับ!
+home.confirmLoginBody=คุณต้องการล็อกอินด้วยชื่อ <i>%player</i> หรือไม่?<br /> ถ้าไม่ใช่กรุณาปิดหน้าต่าง
+home.confirmLoginButton=เริ่มต้นออดิโอเซสชัน
+home.confirmLoginWithVoicechat=เริ่มต้นเซสชันผ่าน VoiceChat
+
+home.activate=เปิดใช้งานเซสชัน
+home.activateText=เว็บไซต์นี้จะใช้เพื่อเล่นไฟล์เสียงและเสียงพูดของคุณตลอดการใช้งาน แตะหน้าจอเพื่อเริ่มต้ม
+home.clickAnywhere=แตะหน้าจอเพื่อเริ่มต้น
+home.activateHeader=คลิ๊กเพื่อเชื่อมต่อ
+home.welcome=ยินดีต้อนรับ %player!
+home.header=ยินดีต้อนรับเข้าสู่ไคลเอนต์เสียงของเรา! เปิดหน้านี้ทิ้งไว้เพื่อสัมผัสกับเสียงของผู้เล่นอื่นๆภายในเกมและดนตรี คุณสามารถกลับมาที่นี่ได้ตลอดเวลาในระหว่างเซสชันเพื่อเปลี่ยนระดับเสียงและการตั้งค่า
+home.volumeContext=ควบคุมระดับเสียงดนตรีและเอฟเฟกต์ในเกม คุณสามารถใช้ <pre>/volume &lt;volume&gt;</pre> เพื่อเปลี่ยนเสียงจากในตัวเกมได้ตลอดเวลา หรือตั้งค่าเป็น 0 เพื่อปิดมันชั่วคราว
+home.audioControls=การควบคุมเสียง
+home.notificationsTitle=การแจ้งเตือน
+home.notificationsEmpty=ไม่มีการแจ้งเตือนใด ๆ ในขณะนี้
+
+vc.badClient=VoiceChat ต้องใช้เว็บไคลเอนต์ที่ให้บริการผ่าน HTTPS โปรดอัปเดต URL ของคุณให้ใช้ HTTPS และ/หรือตั้งค่ารับรอง SSL ที่ถูกต้อง
+vc.notCompatible=เบราว์เซอร์ของคุณไม่รองรับการแชทด้วยเสียง โปรดใช้เบราว์เซอร์รุ่นใหม่ เช่น Chrome, Safari เป็นต้น
+vc.voiceModerationEnabled=เซิร์ฟเวอร์นี้เปิดการใช้งานการควบคุมดูแล อาจมีพนักงานบางคนอาจกำลังฟังอยู่ขณะที่ไมโครโฟนของคุณทำงานอยู่
+vc.notice=แจ้งเตือน
+vc.startingPopupTitle=กำลังเข้าสู่ระบบแชทด้วยเสียง...
+vc.startingPopup=กรุณารอสักครู่ขณะที่เกำลังตั้งค่าเซิร์ฟเวอร์เสียงให้กับคุณ... การดำเนินการนี้ใช้เวลาไม่นาน
+vc.reloadingPopupTitle=กำลังโหลดระบบเสียงใหม่!
+vc.reloadingPopup=กรุณารอสักครู่ขณะที่แชทด้วยเสียงกำลังเริ่มต้นใหม่เพื่อใช้การตั้งค่าใหม่ของคุณ... การดำเนินการนี้ใช้เวลาไม่นาน
+vc.updatingMicPopupTitle=กำลังอัปเดตไมโครโฟน!
+vc.updatingMicPopup==กรุณารอสักครู่ขณะที่แชทด้วยเสียงกำลังเริ่มต้นใหม่เพื่อตรวจจับไมโครโฟนใหม่ของคุณ... การดำเนินการนี้ใช้เวลาไม่นาน
+vc.micErrorPopupTitle=เกิดข้อผิดพลาดกับไมโครโฟน
+vc.micErrorPopup=มีบางอย่างผิดพลาดขณะพยายามเข้าถึงไมโครโฟนของคุณ โปรดกด "อนุญาต" เมื่อเบราว์เซอร์ของคุณขออนุญาตใช้ไมโครโฟน หรือไปที่วิกิเพื่อดูข้อมูลเพิ่มเติม
+vc.disabled=VoiceChat ถูกปิดใช้งานชั่วคราวโดย %serverName
+vc.title=Proximity Voice Chat
+vc.boardingTitle=การเริ่มต้นใช้งาน VoiceChat
+vc.onboarding=เซิร์ฟเวอร์นี้รองรับ Proximity Voice Chat ซึ่งช่วยให้คุณสามารถพูดคุยกับผู้เล่นภายในรัศมีบล็อก % คุณต้องการเปิดใช้ฟีเจอร์นี้และให้สิทธิ์เข้าถึงไมโครโฟนของคุณหรือไม่?
+vc.settings=ตั้งค่า VoiceChat
+vc.muteMic=ปิดไมโครโฟน
+vc.unmuteMic=เปิดไมโครโฟน
+vc.input=Input Device
+vc.aboutInput=เลือกไมโครโฟนที่คุณต้องการใช้ การเปลี่ยนแปลงนี้จะทำให้เซสชันของคุณเริ่มต้นใหม่
+vc.positionalAudio=Positional Audio
+vc.aboutPositionalAudio=สร้างทัศนียภาพเสียงแบบ 360 องศา ช่วยให้รับรู้ตำแหน่งด้วยเสียงพูด
+vc.settingsDisable=ปิด
+vc.settingsEnablePositionalAudio=เปิดใช้งานเสียงตามตำแหน่ง
+vc.settingsDisablePositionalAudio=ปิดใช้งานเสียงตามตำแหน่ง
+vc.automaticAdjustments=ปรับอัตโนมัติ
+vc.sensitivity=Noise Gate
+vc.aboutSensitivity=กำหนดค่าเกตเสียงรบกวนของไมโครโฟนของคุณ ซึ่งจะปิดเสียงไมโครโฟนโดยอัตโนมัติเมื่อคุณไม่ได้พูด <b>ซ้ายสุด</b> จะปิดการทำงานเกตเสียง <b>ขวาสุด</b> จะปิดไมโครโฟนของคุณตลอดเวลา.
+vc.peerTable=เชื่อมต่อกับผู้เล่น {total} คน / กำลังพูดคุย {talking} คน
+vc.toggleMicrophone=เปิด/ปิดไมโครโฟน
+vc.you=คุณ
+vc.safetyTitle=เพื่อความปลอดภัยของท่าน
+vc.safetyDisclaimer=คุณจะได้รับข้อความในเกมเมื่อมีคนปรากฏตัวและออกจากระยะการแชทเสียงของคุณ และคุณจะสามารถดูรายชื่อบุคคลที่คุณได้ยิน (ในทางกลับกันพวกเขาก็เช่นกัน) และปิดเสียงพวกเขาได้ OpenAudioMc อาศัยเซิร์ฟเวอร์ของคุณในการจัดการการควบคุมดูแลและจัดการรายงานการละเมิดเมื่อจำเป็น โปรดติดต่อเจ้าหน้าที่หากคุณมีคำถามหรือข้อสงสัยใดๆ
+vc.safetyFooter=<b>ต้องการความเป็นส่วนตัวหรือไม่? คุณสามารถปิดเสียงไมโครโฟนของคุณได้ตลอดเวลาโดยเรียกใช้ <pre style="display: inline;">/mm</pre> หรือกดปุ่ม <pre style="display: inline;">shift + F</pre> ค้างไว้ในเกม หรืออีกวิธีหนึ่งคือการกดปุ่มบนเว็บเพจนี้</b>
+vc.join=เข้าร่วมการแชทด้วยเสียง
+vc.empty.title=อยู่คนเดียวเลย เหงาไหม?
+vc.empty.body=ไม่มีใครอยู่รอบๆ ตัวคุณที่จะพูดคุยด้วย ลองเดินไปมาสักหน่อย หรือขอให้เพื่อนๆ มาร่วมด้วย
+vc.muteMicrophone=ปิดเสียง
+vc.unmuteMicrophone=เปิดเสียง
+vc.myStatus=สถานะไมโครโฟนของคุณ
+vc.hero.title=ยินดีต้อนรับเข้าสู่ VoiceChat!
+vc.hero.subtitle=นี่คือแดชบอร์ดการแชทด้วยเสียงของคุณ ที่นี่คุณสามารถดูได้ว่าใครอยู่ในระยะเสียงของคุณ และใครบ้างที่คุณได้ยิน คุณสามารถปิดเสียงผู้อื่นได้หากคุณไม่ต้องการได้ยินเสียงของพวกเขา
+vc.statusTitle=สถานะของฉัน
+vc.settings.globalVolumeTitle=ระดับเสียง VoiceChat ทั่วไป
+vc.settings.surround.toggle=ระบบเสียงรอบทิศทาง
+vc.settings.globalVolumeAbout=เปลี่ยนระดับเสียงหลักของ VoiceChat ของคุณทั้งหมด
+vc.settings.completelyFadePeers=ลดระดับเสียงให้หมดเมื่ออยู่ไกล
+vc.settings.monitoring.title=การตรวจสอบไมโครโฟน (ฟังเสียงของตัวเอง)
+vc.operaWarning=การเข้าสู่ระบบของคุณอาจใช้เวลานาน ซึ่งส่วนใหญ่มักเกิดจากการตั้งค่า Opera ของคุณ โปรดเปิดการตั้งค่าเบราว์เซอร์ของคุณ ค้นหา "WebRTC" และเลือกตัวเลือกเปิดใช้งานทั้งหมด
+vc.youAreModerating=ระวัง! ตอนนี้คุณเป็นผู้ดูแลระบบแล้ว คุณสามารถได้ยินทุกคนในแชทเสียงได้ แต่คนอื่นจะไม่ได้ยินคุณ
+vc.noMicInputYetTitle=เรากำลังประสบปัญหาในการได้ยินเสียงของคุณ!
+vc.noMicInputYetBody=โปรดตรวจสอบให้แน่ใจว่าคุณเลือกไมโครโฟนที่ถูกต้อง หรือลองลดเกตเสียงรบกวน
+vc.peersHiddenTitle=ผู้เล่นแชทด้วยเสียงถูกซ่อนอยู่
+vc.peersHiddenText=เซิร์ฟเวอร์นี้ได้ปิดใช้งานความสามารถในการดูว่าใครอยู่ในแชทด้วยเสียงเพื่อป้องกันข้อได้เปรียบที่ไม่เป็นธรรม แต่คุณยังคงสามารถได้ยินเสียงพวกเขาได้
+vc.isTalking=กำลังพูดคุย
+vc.people=ผู้คน
+vc.person=บุคคล
+vc.deafened=ขณะนี้คุณหูหนวกอยู่
+vc.tooltip.local=Proximity Voice Chat
+vc.tooltip.global=Global Voice Chat
+vc.peerLoading=กำลังโหลด {name}
+
+settings.voicechat.echocancel.title=ยกเลิกเสียงสะท้อน
+settings.voicechat.echocancel.body=Tการดำเนินการนี้จะพยายามยกเลิกเสียงสะท้อนใดๆ ที่ไมโครโฟนของคุณรับเข้ามา ซึ่งจะมีประโยชน์หากคุณใช้ลำโพงแทนหูฟัง แต่ก็อาจทำให้ได้ยินยากขึ้นบนแพลตฟอร์มบางประเภท
+settings.voicechat.echocancel.button=เปิดใช้งานการยกเลิกเสียงสะท้อน
+settings.voicechat.chimes.title=VoiceChat Chimes
+settings.voicechat.chimes.body=Chimes คือเสียงเล็กๆ ที่จะเล่นทุกครั้งที่คุณปิดเสียงหรือเปิดเสียงไมโครโฟน สำหรับ Content Creators ปิดไว้คงดีแล้ว
+settings.voicechat.chimes.button=ใช้งาน Chimes
+settings.theme.title=โหมดมืด
+settings.theme.body=ใช้งานโหมดมืดในหน้าเว็บนี้
+settings.theme.button=โหมดมืด
+settings.voicechat.peer.title=การแจ้งเตือนจากคนอื่นๆ
+settings.voicechat.peer.body=รับการแจ้งเตือนบนเดสก์ท็อปทุกครั้งที่มีคนเข้าหรือออกจากช่วงการแชทด้วยเสียงของคุณ
+settings.voicechat.peer.button=เปิดใช้การแจ้งเตือน
+settings.mix-and-fade.title=การมิกซ์เพลงอัตโนมัติ
+settings.mix-and-fade.body=เฟดและมิกซ์เสียงจากแหล่งเสียงโดยอัตโนมัติ
+settings.mix-and-fade.button=เปิดใช้งานการมิกซ์
+settings.preload.title=โหลดไฟล์เสียงล่วงหน้าโดยอัตโนมัติ
+settings.preload.body=เมื่อเปิดใช้งาน OpenAudioMc จะโหลดไฟล์ที่มักใช้ในบริเวณสถานที่ในเกมของคุณไว้ล่วงหน้าโดยอัตโนมัติ ซึ่งจะทำให้เสียงตอบสนองได้ดีขึ้น แต่จะใช้ข้อมูลมากขึ้น
+settings.preload.button=เปิดใช้งานการโหลดล่วงหน้า
+settings.rolloff.title=การลดเสียงแบบ 3D
+settings.rolloff.body=การควบคุมนี้จะควบคุมปริมาณการลดทอนที่ใช้กับเสียง 3 มิติโดยอิงตามระยะทาง โดยที่ 0% คือไม่มีการลดทอน ส่วน 100% คือการลดทอนเต็มที่ ทั้งนี้สามารถใช้ได้กับทั้งลำโพงและแชทด้วยเสียง
+settings.rolloff.01=1% (น้อยที่สุด)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (ปานกลาง)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (สุดขีด)
+settings.language.title=ภาษา
+settings.language.body=เลือกภาษาที่ต้องการ
+settings.distancemodel.title=ระดับเสียงตามระยะทาง
+settings.distancemodel.body=กำหนดว่าควรใช้อัลกอริทึมใดเพื่อลดระดับเสียงของแหล่งกำเนิดเสียงเมื่อผู้ฟังเคลื่อนออกห่างจากแหล่งกำเนิดเสียง
+settings.distancemodel.linear=เส้นตรง
+settings.distancemodel.exponential=เอกซ์โพเนนเชียล
+
+settings.spatial.title=เครื่องมือเรนเดอร์เชิงพื้นที่
+settings.spatial.body=เลือกเครื่องมือการเรนเดอร์ที่คุณต้องการใช้ เอ็นจิ้นรุ่นใหม่จะมีคุณภาพสูงกว่าและเร็วกว่าเล็กน้อย แต่ต้องใช้เบราว์เซอร์รุ่นใหม่
+settings.spatial.modern=Modern
+settings.spatial.legacy=Legacy (ระบบเก่า)
+
+settings.interpolation.title=ปรับตำแหน่งให้เรียบ
+settings.interpolation.body=ปรับการเคลื่อนไหวให้ราบรื่นโดยอัตโนมัติเพื่อลดการสะดุดของลำโพง/การสนทนาด้วยเสียงขณะเดิน การดำเนินการนี้จะเพิ่มความล่าช้าในการเคลื่อนไหว แต่ให้เสียงที่ดีขึ้น
+settings.interpolation.button=เปิดใช้งานการปรับให้เรียบ
+
+network.serverUnhealthy=การเชื่อมต่อของ {serverName} กับ OpenAudioMc ไม่เสถียร ฟังก์ชันการทำงานของไคลเอนต์อาจจำกัดจนกว่าจะสามารถเชื่อมต่อได้อีกครั้ง
+
+tooltip.close=ปิด
