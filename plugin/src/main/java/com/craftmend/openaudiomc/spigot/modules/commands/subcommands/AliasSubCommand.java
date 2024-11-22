@@ -5,6 +5,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
+import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.completer.AliasNameTabCompleter;
@@ -20,20 +21,25 @@ public class AliasSubCommand extends SubCommand {
         registerArguments(
                 new Argument("<name> <source>",
                         "Register a Alias for a source URL so you can easaly memorize them and can paste them onto signs without having to type a complete dictionary." +
-                                " When an alias like onride_music is set, you can trigger it by using a:onride_music as your source."),
+                                " When an alias like onride_music is set, you can trigger it by using a:onride_music as your source.")
+                        .addTabCompleteProvider(1, (sender) -> new String[]{"<alias-name>"})
+                        .addTabCompleteProvider(2, MediaTabcompleteProvider.getInstance()),
 
                 new Argument("delete <name>",
                         "Delete a alias from the database. This will also remove it from the memory cache.")
-                        .addTabCompleteProvider(1, AliasNameTabCompleter.getInstance()),
+                        .addTabCompleteProvider(1, (sender) -> new String[]{"<alias-name>"})
+                        .addTabCompleteProvider(2, AliasNameTabCompleter.getInstance()),
 
                 new Argument("resolve <name>", "Resolve a alias to see what it's target is.")
-                        .addTabCompleteProvider(1, AliasNameTabCompleter.getInstance()),
+                        .addTabCompleteProvider(1, (sender) -> new String[]{"<alias-name>"})
+                        .addTabCompleteProvider(2, AliasNameTabCompleter.getInstance())
         );
     }
 
     @Override
     public void onExecute(User sender, String[] args) {
-        if (args.length == 2) {
+        sender.sendMessage("Length: " + args.length);
+        if (args.length == 2 && !args[0].equalsIgnoreCase("delete") && !args[0].equalsIgnoreCase("resolve")) {
             String aliasName = args[0].toLowerCase();
 
             String aliasSource = args[1];
