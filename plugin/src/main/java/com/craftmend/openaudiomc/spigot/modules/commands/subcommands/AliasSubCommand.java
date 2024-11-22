@@ -56,27 +56,33 @@ public class AliasSubCommand extends SubCommand {
                     OpenAudioMc.getService(AliasService.class).getAliasMap().remove(args[1]);
 
                     // find and delete the alias
-                    Alias alias = OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).getWhere("name", args[1].toLowerCase(Locale.ROOT));
+                    Alias alias = OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).getWhere("name", sanitize(args[1]));
                     if (alias != null) {
                         OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(alias);
-                        message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + args[1].toLowerCase() + ChatColor.GRAY + " has been removed.");
+                        message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " has been removed.");
                     } else {
-                        message(sender, ChatColor.RED + "Error! the alias " + ChatColor.YELLOW + "a:" + args[1].toLowerCase() + ChatColor.GRAY + " does not exist.");
+                        message(sender, ChatColor.RED + "Error! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " does not exist.");
                     }
                     return;
 
                 case "resolve":
-                    Alias resolved = OpenAudioMc.getService(AliasService.class).getAliasMap().get(args[1].toLowerCase(Locale.ROOT));
+                    Alias resolved = OpenAudioMc.getService(AliasService.class).getAliasMap().get(sanitize(args[1]));
                     if (resolved != null) {
-                        message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + args[1].toLowerCase() + ChatColor.GRAY + " resolves to " + ChatColor.YELLOW + resolved.getTarget());
+                        message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " resolves to " + ChatColor.YELLOW + resolved.getTarget());
                     } else {
-                        message(sender, ChatColor.RED + "Error! the alias " + ChatColor.YELLOW + "a:" + args[1].toLowerCase() + ChatColor.GRAY + " does not exist.");
+                        message(sender, ChatColor.RED + "Error! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " does not exist.");
                     }
                     return;
             }
         }
 
         sender.makeExecuteCommand("oa help " + getCommand());
+    }
+
+    private String sanitize(String input) {
+        input = input.toLowerCase();
+        input = input.replace("a:", "");
+        return input;
     }
 
 }
