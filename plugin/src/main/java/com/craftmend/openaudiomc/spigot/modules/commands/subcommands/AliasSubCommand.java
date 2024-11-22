@@ -60,6 +60,8 @@ public class AliasSubCommand extends SubCommand {
                     if (alias != null) {
                         OpenAudioMc.getService(DatabaseService.class).getRepository(Alias.class).delete(alias);
                         message(sender, ChatColor.GREEN + "Success! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " has been removed.");
+                        // also remove it from the cache
+                        OpenAudioMc.getService(AliasService.class).getAliasMap().remove(sanitize(args[1]));
                     } else {
                         message(sender, ChatColor.RED + "Error! the alias " + ChatColor.YELLOW + "a:" + sanitize(args[1]) + ChatColor.GRAY + " does not exist.");
                     }
