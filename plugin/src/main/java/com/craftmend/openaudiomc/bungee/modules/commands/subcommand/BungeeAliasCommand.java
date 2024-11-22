@@ -26,7 +26,12 @@ public class BungeeAliasCommand extends SubCommand {
         registerArguments(
                 new Argument("<alias name> <source>",
                         "Register a Alias for a source URL so you can easaly memorize them and can paste them onto signs without having to type a complete dictionary." +
-                                " When an alias like onride_music is set, you can trigger it by using a:onride_music as your source.")
+                                " When an alias like onride_music is set, you can trigger it by using a:onride_music as your source."),
+
+                new Argument("delete <alias name>",
+                        "Delete a alias from the database. This will also remove it from the memory cache."),
+
+                new Argument("resolve <alias name>", "Resolve a alias to see what it's target is.")
         );
     }
 

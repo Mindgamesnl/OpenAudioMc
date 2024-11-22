@@ -95,8 +95,8 @@ public class SpigotVoiceChatService extends Service {
             ClientConnection peer = (ClientConnection) event.getPeer();
             ClientConnection listener = (ClientConnection) event.getClient();
 
-            listener.getRtcSessionManager().getCurrentProximityAdditions().remove(event.getPeer().getActor().getUniqueId());
-            listener.getRtcSessionManager().getCurrentProximityDrops().add(event.getPeer().getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityAdditions().remove(peer.getActor().getUniqueId());
+            listener.getRtcSessionManager().getCurrentProximityDrops().add(peer.getActor().getUniqueId());
         });
 
         // do vc tick loop
