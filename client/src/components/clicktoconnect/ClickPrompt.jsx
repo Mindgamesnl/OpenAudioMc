@@ -9,7 +9,7 @@ function ClickPrompt({ currentUser, voiceState }) {
   welcomeWithName = welcomeWithName.replace('%name', currentUser.userName);
 
   return (
-    <div className="fixed inset-0 bg-gray-900 flex items-center justify-center">
+    <div className="fixed inset-0 bg-gray-900/40 flex items-center justify-center">
       <div className="w-full max-w-4xl px-4">
         <div className="flex flex-col items-center space-y-8">
           <div className="text-center">
@@ -52,8 +52,12 @@ function ClickPrompt({ currentUser, voiceState }) {
             ) : null}
           </div>
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-green-500/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
+            <div
+              className="absolute bottom-1 right-0 w-1/3 h-1/3 bg-blue-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"
+            />
+            <div
+              className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-green-500/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"
+            />
           </div>
         </div>
       </div>
