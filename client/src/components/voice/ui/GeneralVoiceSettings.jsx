@@ -116,7 +116,7 @@ class GeneralVoiceSettings extends React.Component {
     const currentMic = this.props.preferredMicId;
 
     return (
-      <div className="m-5 voice-card-modern text-gray-300">
+      <div className="m-5 text-gray-300">
         <div className="vc-settings-header">
           <h1>VoiceChat settings</h1>
         </div>
