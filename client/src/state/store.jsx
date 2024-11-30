@@ -103,7 +103,8 @@ const initialState = {
     streamKey: null,
     radius: 25,
     mics: [], // cached list of microphones
-    peers: {}, // set of peers, mapped by stream key, {name, uuid, speaking, muted, loading}
+    peers: {
+    }, // set of peers, mapped by stream key, {name, uuid, speaking, muted, loading}
   },
 
   build: {

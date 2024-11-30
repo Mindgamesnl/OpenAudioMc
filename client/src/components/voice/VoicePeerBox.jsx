@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
+import EmptyVoiceState from './ui/NoPeers';
 
 const VoicePeerRowMemo = React.memo(VoicePeerRow);
 
@@ -73,25 +74,7 @@ function VoicePeerBox(props) {
   // is there anyone?
   if (peers.length === 0) {
     return (
-      <div className="w-full flex justify-center align-middle">
-        <div className="content-section flex justify-center w-4/5">
-          <div className="flex content-card-collection items-stretch">
-            <div className="w-full content-card small-card order-2 2xl:order-1">
-              <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                  <p className="mt-1 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl lg:text-6xl">
-                    {msg('vc.empty.title')}
-                  </p>
-                  <p className="mx-auto mt-5 max-w-xl text-xl text-gray-300">
-                    {msg('vc.empty.body')}
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
+      <EmptyVoiceState />
     );
   }
 
@@ -114,6 +97,7 @@ function VoicePeerBox(props) {
 }
 
 export default connect(mapStateToProps)(VoicePeerBox);
+
 function mapStateToProps(state) {
   return {
     voicePeers: state.voiceState.peers,

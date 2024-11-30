@@ -446,7 +446,6 @@ body.light-mode .video-bg:before {
 }
 
 .disabled {
-    border: 2px solid var(--inactive-color);
     background-color: transparent;
     color: var(--inactive-color);
 }

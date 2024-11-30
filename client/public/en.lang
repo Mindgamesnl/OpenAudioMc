@@ -72,8 +72,14 @@ vc.safetyTitle=For your safety
 vc.safetyDisclaimer=You'll receive in-game messages when people appear and leave your voice chat range, and you'll be able to view a list of people who you can hear (and can hear you in turn), and mute them if desired. OpenAudioMc relies on your server to handle moderation and handle reports of abuse when necessary. Please contact a member of staff if you have any questions or concerns.
 vc.safetyFooter=<b>Want some privacy? you can mute your microphone at any time by running <pre style="display: inline;">/mm</pre> or holding <pre style="display: inline;">shift + F</pre> in game, or alternatively by pressing the button on this web page.</b>
 vc.join=Join Voice Chat
-vc.empty.title=You're all alone!
-vc.empty.body=There's no one around you to talk to, try moving around a bit or ask your friends to join you.
+vc.empty.title=Looking for Someone?
+vc.empty.description=Voice chat is more fun together! Here's how you can connect with others:
+vc.empty.move.title=Move closer to other players
+vc.empty.move.description=Voice chat works based on proximity. Find and approach other players!
+vc.empty.channel.title=Join a voice chat channel
+vc.empty.channel.description=Some servers have voice chat channels. Check if there's a channel you can join! do "/channel list" to see all available channels.
+vc.empty.invite.title=Invite your friends
+vc.empty.invite.description=Let others know about voice chat - they might not have enabled it yet!
 vc.muteMicrophone=Mute
 vc.unmuteMicrophone=Unmute
 vc.myStatus=Your own microphone status
