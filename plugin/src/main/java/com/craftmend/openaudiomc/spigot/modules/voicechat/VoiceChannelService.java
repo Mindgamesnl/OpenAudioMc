@@ -2,37 +2,49 @@ package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.channels.VoiceChannel;
+import com.craftmend.openaudiomc.api.channels.events.ChannelCreatedEvent;
+import com.craftmend.openaudiomc.api.channels.events.ChannelDeletedEvent;
+import com.craftmend.openaudiomc.api.channels.events.ChannelMembersUpdatedEvent;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.events.Handler;
 import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
+import com.craftmend.openaudiomc.api.events.client.VoicechatReadyEvent;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
 import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.subcommands.HelpSubCommand;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.channels.ClientChannelsDisplayPacket;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.channels.ClientChannelsDisplayPayload;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.*;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class VoiceChannelService extends Service {
+public class VoiceChannelService extends Service implements Listener {
 
     private Map<String, Channel> channelMap = new ConcurrentHashMap<>();
 
     @Inject
     public VoiceChannelService(
-          CommandService commandService
+          CommandService commandService,
+          OpenAudioMcSpigot openAudioMcSpigot
     ) {
         HelpSubCommand helpSubCommand = new HelpSubCommand(CommandContext.CHANNEL, false);
         helpSubCommand.setHeaderMessage(StorageKey.MESSAGE_VOICE_COMMAND_HELP_HEADER.getString());
+        EventApi.getInstance().registerHandlers(this);
 
         commandService.registerSubCommands(
                 CommandContext.CHANNEL,
@@ -142,6 +154,7 @@ public class VoiceChannelService extends Service {
         Channel deleted = channelMap.remove(name);
         if (deleted != null) {
             deleted.drainMembers();
+            EventApi.getInstance().callEvent(new ChannelDeletedEvent(deleted));
         }
         return deleted != null;
     }
@@ -162,6 +175,65 @@ public class VoiceChannelService extends Service {
             channel.addMember(creator);
         }
         channelMap.put(name, channel);
+        EventApi.getInstance().callEvent(new ChannelCreatedEvent(channel));
         return channel;
+    }
+
+    /**
+     * Listen for clients to be ready, and send them a list of channels to be rendered in the UI
+     * @param event the event
+     */
+    @Handler
+    public void onClientConnect(VoicechatReadyEvent event) {
+        User<?> user = (User<?>) event.getClient().getActor();
+        ClientChannelsDisplayPacket packet = new ClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(channelMap.values(), user, ClientChannelsDisplayPayload.ClientChannelOperation.ALL));
+
+        ClientConnection client = (ClientConnection) event.getClient();
+        client.sendPacket(packet);
+    }
+
+    @Handler
+    public void onMembersUpdate(ChannelMembersUpdatedEvent event) {
+        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
+            // are they connected and are they in voice chat?
+            if (client.getRtcSessionManager().isReady()) {
+                ClientChannelsDisplayPacket packet = new ClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
+                        Collections.singleton((Channel) event.getChannel()),
+                        client.getUser(),
+                        ClientChannelsDisplayPayload.ClientChannelOperation.PATCH)
+                );
+                client.sendPacket(packet);
+            }
+        }
+    }
+
+    @Handler
+    public void onChannelCreate(ChannelCreatedEvent event) {
+        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
+            // are they connected and are they in voice chat?
+            if (client.getRtcSessionManager().isReady()) {
+                ClientChannelsDisplayPacket packet = new ClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
+                        Collections.singleton((Channel) event.getChannel()),
+                        client.getUser(),
+                        ClientChannelsDisplayPayload.ClientChannelOperation.ADD)
+                );
+                client.sendPacket(packet);
+            }
+        }
+    }
+
+    @Handler
+    public void onChannelDelete(ChannelDeletedEvent event) {
+        for (ClientConnection client : getService(NetworkingService.class).getClients()) {
+            // are they connected and are they in voice chat?
+            if (client.getRtcSessionManager().isReady()) {
+                ClientChannelsDisplayPacket packet = new ClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
+                        Collections.singleton((Channel) event.getChannel()),
+                        client.getUser(),
+                        ClientChannelsDisplayPayload.ClientChannelOperation.REMOVE)
+                );
+                client.sendPacket(packet);
+            }
+        }
     }
 }

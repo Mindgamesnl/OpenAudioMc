@@ -93,6 +93,7 @@ class OpenAudioAppContainer extends React.Component {
           enabled: true,
           ready: true,
           isMutedServerSide: true,
+          serverHasModeration: true,
         },
       });
       MessageModule.handleCountry('gb');

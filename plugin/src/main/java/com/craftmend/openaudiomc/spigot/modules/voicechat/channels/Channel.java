@@ -1,11 +1,14 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.channels;
 
+import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.VoiceApi;
 import com.craftmend.openaudiomc.api.basic.Actor;
 import com.craftmend.openaudiomc.api.channels.ChannelJoinResponse;
 import com.craftmend.openaudiomc.api.channels.VoiceChannel;
+import com.craftmend.openaudiomc.api.channels.events.ChannelMembersUpdatedEvent;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.channels.ClientChannelStatusPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -40,7 +43,7 @@ public class Channel implements VoiceChannel {
         type = permission != null ? ChannelType.STATIC_CHANNEL_LOCKED : ChannelType.STATIC_CHANNEL;
     }
 
-    public ChannelEnterResponse attemptEnter(User member) {
+    public ChannelEnterResponse attemptEnter(User<?> member) {
         // admin check
         if (member.hasPermission("openaudiomc.channel.force-join") || member.isAdministrator()) {
             return ChannelEnterResponse.OK;
@@ -91,6 +94,9 @@ public class Channel implements VoiceChannel {
             if (member.getUser().getUniqueId().equals(user.getUniqueId())) continue;
             VoiceApi.getInstance().addStaticPeer(member, client, true, true);
         }
+
+        EventApi.getInstance().callEvent(new ChannelMembersUpdatedEvent(this));
+        client.sendPacket(new ClientChannelStatusPacket(getName()));
     }
 
     public void removeMember(User user) {
@@ -106,6 +112,8 @@ public class Channel implements VoiceChannel {
             VoiceApi.getInstance().removeStaticPeer(member, client, true);
         }
 
+        client.sendPacket(new ClientChannelStatusPacket(null));
+        EventApi.getInstance().callEvent(new ChannelMembersUpdatedEvent(this));
         checkAbandonment();
     }
 

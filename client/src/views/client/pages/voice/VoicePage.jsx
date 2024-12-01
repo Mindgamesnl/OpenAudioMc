@@ -8,6 +8,7 @@ import VoiceQuickSettings from '../../../../components/voice/ui/VoiceQuickSettin
 import GeneralVoiceSettings from '../../../../components/voice/ui/GeneralVoiceSettings';
 import { ModerationWarning } from '../../../../components/voice/ModerationWarning';
 import { msg } from '../../../../client/OpenAudioAppContainer';
+import ChannelList from '../../../../components/voice/ui/VoiceChannels';
 
 function DarkPanel({ children, className = '', color }) {
   return (
@@ -64,12 +65,10 @@ function VoicePage({ voiceState, color }) {
               <GeneralVoiceSettings />
             </DarkPanel>
           </aside>
-
           {/* Main Content */}
           <main className="w-full lg:flex-1">
-            <DarkPanel className="h-full min-h-[500px]" color={color}>
+            <DarkPanel className="h-full min-h-[500px] flex flex-col" color={color}>
               <div className="relative h-full p-4">
-                {/* Empty state messaging */}
                 {!voiceState.peers || Object.keys(voiceState.peers).length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center p-4">
                     <Users size={48} className="opacity-50 mb-4" style={{ color: '#ff6b6b' }} />
@@ -88,11 +87,12 @@ function VoicePage({ voiceState, color }) {
                         description={msg('vc.empty.move.description')}
                       />
 
+                      {/* Modified Channel card to open sidebar */}
                       <ActionCard
                         icon={Radio}
                         color={color}
-                        title={msg('vc.empty.channel.title')}
-                        description={msg('vc.empty.channel.description')}
+                        title="Join a Voice Channel"
+                        description="Browse available voice channels and join one to start talking"
                       />
 
                       <ActionCard
@@ -107,6 +107,9 @@ function VoicePage({ voiceState, color }) {
                   <VoicePeerBox />
                 )}
               </div>
+              <ChannelList
+                color={color}
+              />
             </DarkPanel>
           </main>
         </div>
