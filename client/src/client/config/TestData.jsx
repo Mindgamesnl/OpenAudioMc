@@ -4,8 +4,8 @@ export const SeededTestData = {
   isLoading: false,
   clickLock: false,
   currentUser: {
-    userName: 'Test User',
-    uuid: 'b832a1b0-4843-4c73-9c83-2f8dad08d950',
+    userName: 'Mindgamesnl',
+    uuid: 'f0c8657b-f384-4df6-9d66-e9f36c36ce8a',
     token: 'test',
     publicServerKey: 'test',
   },
