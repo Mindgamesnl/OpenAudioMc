@@ -240,6 +240,7 @@ function appReducer(state = initialState, action) {
         voiceChannels: {
           ...state.voiceChannels,
           channels: action.payload,
+          activeChannelId: null,
         },
       };
 
