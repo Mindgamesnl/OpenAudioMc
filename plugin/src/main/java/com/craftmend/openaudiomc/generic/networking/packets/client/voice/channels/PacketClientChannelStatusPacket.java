@@ -4,9 +4,9 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PacketChannel;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.channels.ClientChannelStatusPayload;
 
-public class ClientChannelStatusPacket extends AbstractPacket {
+public class PacketClientChannelStatusPacket extends AbstractPacket {
 
-    public ClientChannelStatusPacket(String channel) {
+    public PacketClientChannelStatusPacket(String channel) {
         super(
                 new ClientChannelStatusPayload(channel),
                 PacketChannel.CLIENT_OUT_CHANNEL_STATUS,

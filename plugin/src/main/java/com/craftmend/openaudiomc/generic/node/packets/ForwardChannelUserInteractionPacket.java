@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.node.packets;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
-import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientVoiceInteractionPayload;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketWriter;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import lombok.AllArgsConstructor;
@@ -16,13 +16,11 @@ import java.io.IOException;
 @AllArgsConstructor
 public class ForwardChannelUserInteractionPacket extends StandardPacket {
 
-    private String parentPublicKey;
-    private Platform platform;
+    private ClientVoiceInteractionPayload payload;
 
     public void handle(DataInputStream dataInputStream) throws IOException {
         ForwardChannelUserInteractionPacket self = OpenAudioMc.getGson().fromJson(dataInputStream.readUTF(), ForwardChannelUserInteractionPacket.class);
-        this.platform = self.getPlatform();
-        this.parentPublicKey = self.getParentPublicKey();
+        this.payload = self.getPayload();
     }
 
     public PacketWriter write() throws IOException {

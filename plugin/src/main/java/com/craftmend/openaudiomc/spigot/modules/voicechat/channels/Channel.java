@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.channels.events.ChannelMembersUpdatedEvent;
 import com.craftmend.openaudiomc.api.clients.Client;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
-import com.craftmend.openaudiomc.generic.networking.packets.client.voice.channels.ClientChannelStatusPacket;
+import com.craftmend.openaudiomc.generic.networking.packets.client.voice.channels.PacketClientChannelStatusPacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
@@ -96,7 +96,7 @@ public class Channel implements VoiceChannel {
         }
 
         EventApi.getInstance().callEvent(new ChannelMembersUpdatedEvent(this));
-        client.sendPacket(new ClientChannelStatusPacket(getName()));
+        client.sendPacket(new PacketClientChannelStatusPacket(getName()));
     }
 
     public void removeMember(User user) {
@@ -112,7 +112,7 @@ public class Channel implements VoiceChannel {
             VoiceApi.getInstance().removeStaticPeer(member, client, true);
         }
 
-        client.sendPacket(new ClientChannelStatusPacket(null));
+        client.sendPacket(new PacketClientChannelStatusPacket(null));
         EventApi.getInstance().callEvent(new ChannelMembersUpdatedEvent(this));
         checkAbandonment();
     }

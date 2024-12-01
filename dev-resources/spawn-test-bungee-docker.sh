@@ -7,7 +7,9 @@ cd plugin
 ./src/main/bash/post-build.sh
 cd ..
 
+asdf local java adoptopenjdk-8.0.332+9
 mvn -T 4.5C clean install -Dmaven.test.skip=true
+asdf local java openjdk-21
 
 # permission workaround
 rm -rf dev-resources/bungee-test/plugins/

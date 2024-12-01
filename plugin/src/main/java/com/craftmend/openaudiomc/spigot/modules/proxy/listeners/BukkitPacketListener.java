@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.proxy.listeners;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.events.client.VoicechatReadyEvent;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.authentication.objects.Key;
 import com.craftmend.openaudiomc.generic.commands.CommandService;
@@ -9,6 +10,7 @@ import com.craftmend.openaudiomc.generic.commands.enums.CommandContext;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.events.events.TimeServiceUpdateEvent;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.networking.handlers.ClientVoiceChanelInteractionHandler;
 import com.craftmend.openaudiomc.generic.oac.OpenaudioAccountService;
 import com.craftmend.openaudiomc.generic.oac.enums.CraftmendTag;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
@@ -26,6 +28,8 @@ import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import org.bukkit.Bukkit;
 
 public class BukkitPacketListener implements PacketListener {
+
+    private static final ClientVoiceChanelInteractionHandler CLIENT_VOICE_CHANEL_INTERACTION_HANDLER = new ClientVoiceChanelInteractionHandler();
 
     @ProxyPacketHandler
     public void onParentUpdate(User user, AnnouncePlatformPacket packet) {
@@ -63,13 +67,18 @@ public class BukkitPacketListener implements PacketListener {
             return;
         }
 
+        boolean dispatchEvent = !connection.getSession().isConnectedToRtc() && packet.isEnabled();
+
         connection.getRtcSessionManager().setMicrophoneEnabled(packet.isMicrophoneEnabled());
         connection.getRtcSessionManager().setVoicechatDeafened(packet.isDeafened());
         connection.getRtcSessionManager().setStreamKey(packet.getStreamId());
         connection.getSession().setConnectedToRtc(packet.isEnabled());
         connection.getSession().setVolume(packet.getVolume());
-
         connection.setAuth(new ClientAuth(connection, packet.getExplodedToken(), packet.getExplodedToken()));
+
+        if (dispatchEvent) {
+            EventApi.getInstance().callEvent(new VoicechatReadyEvent(connection));
+        }
 
         // enable the module if it isn't already
         if (!OpenAudioMc.getService(OpenaudioAccountService.class).is(CraftmendTag.VOICECHAT)) {
@@ -95,6 +104,11 @@ public class BukkitPacketListener implements PacketListener {
                 }
             }
         });
+    }
+
+    @ProxyPacketHandler
+    public void onChannelUiInteraction(User<?> user, ForwardChannelUserInteractionPacket packet) {
+        CLIENT_VOICE_CHANEL_INTERACTION_HANDLER.onReceive(packet.getPayload());
     }
 
 }

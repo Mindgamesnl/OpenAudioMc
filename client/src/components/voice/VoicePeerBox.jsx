@@ -84,8 +84,15 @@ function VoicePeerBox(props) {
         <div className="content-card bg-transparent border-transparent p-2">
           <div className="flex flex-wrap gap-4">
             {peers}
-            <div className="h-full w-full text-center">
-              <h2>{peerMessage}</h2>
+          </div>
+          <div
+            className="bg-zinc-900/80 text-zinc-300 rounded-md px-3 py-2 text-sm font-medium flex items-center space-x-2 my-2"
+          >
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mr-2" />
+              <span>
+                <h2>{peerMessage}</h2>
+              </span>
             </div>
           </div>
         </div>

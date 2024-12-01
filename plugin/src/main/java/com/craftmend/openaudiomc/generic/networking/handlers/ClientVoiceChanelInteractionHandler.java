@@ -5,6 +5,10 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.networking.abstracts.PayloadHandler;
 import com.craftmend.openaudiomc.generic.networking.interfaces.Authenticatable;
 import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientVoiceInteractionPayload;
+import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
+import com.craftmend.openaudiomc.generic.node.packets.ForwardChannelUserInteractionPacket;
+import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
@@ -18,7 +22,14 @@ public class ClientVoiceChanelInteractionHandler extends PayloadHandler<ClientVo
 
             ClientConnection connection = ((ClientConnection) authenticatable);
 
-            // todo: proxy to plugin if we're not spigot
+            if (OpenAudioMc.getInstance().getPlatform() != Platform.SPIGOT) {
+                UserHooks hooks = OpenAudioMc.getInstance().getInvoker().getUserHooks();
+                hooks.sendPacket(connection.getUser(),
+                        new ForwardChannelUserInteractionPacket(payload)
+                );
+                return;
+            }
+
             VoiceChannelService voiceChannelService = OpenAudioMc.getService(VoiceChannelService.class);
 
             switch (payload.getAction()) {

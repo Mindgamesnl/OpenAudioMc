@@ -18,6 +18,7 @@ import { debugLog } from './services/debugging/DebugService';
 import { FadeToCtx, OAC } from '../components/contexts';
 import { VERSION } from '../build';
 import { isValidHttps } from './util/sslcheck';
+import { SeededTestData } from './config/TestData';
 
 class OpenAudioAppContainer extends React.Component {
   static contextType = FadeToCtx;
@@ -78,24 +79,9 @@ class OpenAudioAppContainer extends React.Component {
     const url = new URL(window.location.href);
     const testMode = url.searchParams.get('testMode');
     if (testMode != null) {
-      setBgColor('#c0392b');
+      setBgColor('#818CF8');
       // set the global state to test mode
-      setGlobalState({
-        isLoading: false,
-        clickLock: false,
-        currentUser: {
-          userName: 'Test User',
-          uuid: 'b832a1b0-4843-4c73-9c83-2f8dad08d950',
-          token: 'test',
-          publicServerKey: 'test',
-        },
-        voiceState: {
-          enabled: true,
-          ready: true,
-          isMutedServerSide: true,
-          serverHasModeration: true,
-        },
-      });
+      setGlobalState(SeededTestData);
       MessageModule.handleCountry('gb');
       return;
     }
