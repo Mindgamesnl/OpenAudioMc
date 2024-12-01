@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
+import { Info } from 'lucide-react';
 import { VoicePeerRow } from './VoicePeerRow';
 import { msg } from '../../client/OpenAudioAppContainer';
 import EmptyVoiceState from './ui/NoPeers';
@@ -38,31 +39,24 @@ function VoicePeerBox(props) {
 
   if (shouldBeHidden) {
     return (
-      <div className="content-section">
-        <div className="content-section-title">{peerMessage}</div>
-        <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
+      <div className="w-full bg-black/20 backdrop-blur-sm common-rounded">
+        <div className="p-4">
+          <h2 className="text-yellow-400/90 text-xl mb-4">
+            {msg('vc.peersHiddenTitle')}
+          </h2>
 
-            <div
-              className="bg-gray-100 bg-opacity-25 border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-5 shadow-md"
-              role="alert"
-            >
-              <div className="flex">
-                <div className="py-1">
-                  <svg
-                    className="fill-current h-6 w-6 text-teal-500 mr-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-bold">{msg('vc.peersHiddenTitle')}</p>
-                  <p className="text-sm">{msg('vc.peersHiddenText')}</p>
-                </div>
+          <div className="bg-yellow-400/5 rounded-lg p-4 border border-yellow-400/20">
+            <div className="flex gap-3">
+              <div className="flex-shrink-0">
+                <Info className="w-5 h-5 text-yellow-400/80" />
+              </div>
+              <div>
+                <h3 className="text-yellow-400/80 text-sm font-medium mb-1">
+                  {msg('vc.peersHiddenTitle')}
+                </h3>
+                <p className="text-yellow-400/60 text-sm">
+                  {msg('vc.peersHiddenText')}
+                </p>
               </div>
             </div>
           </div>
