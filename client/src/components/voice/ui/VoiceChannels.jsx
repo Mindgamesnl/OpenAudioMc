@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux';
 import { SocketManager } from '../../../client/services/socket/SocketModule';
 import * as PluginChannel from '../../../client/util/PluginChannel';
+import { msg } from '../../../client/OpenAudioAppContainer';
 
 // Extracted socket communication to separate functions
 const sendChannelAction = (action, channelName) => {
@@ -66,12 +67,12 @@ const ChannelCard = memo(({
               +
               {otherMembers}
               {' '}
-              more members
+              {msg('vc.channel.moreMembers')}
             </div>
           )}
           {totalMembers === 0 && (
             <span className="text-sm text-gray-500 italic">
-              No members yet
+              {msg('vc.channel.noMembersYet')}
             </span>
           )}
         </div>
@@ -87,10 +88,10 @@ const ChannelCard = memo(({
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
                 <Loader size={14} className="animate-spin" />
-                Joining...
+                {msg('vc.channel.joining')}
               </span>
             ) : (
-              'Leave Channel'
+              msg('vc.channel.leave')
             )}
           </button>
         ) : (
@@ -109,15 +110,15 @@ const ChannelCard = memo(({
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
                 <Loader size={14} className="animate-spin" />
-                Leaving...
+                {msg('vc.channel.leaving')}
               </span>
               // eslint-disable-next-line no-nested-ternary
             ) : hasActiveChannel ? (
-              'Leave Current Channel First'
+              msg('vc.channel.leaveCurrentFirst')
             ) : !channel.joinable ? (
-              'Cannot Join'
+              msg('vc.channel.noPermissions')
             ) : (
-              'Join Channel'
+              msg('vc.channel.join')
             )}
           </button>
         )}
@@ -177,12 +178,14 @@ function ChannelList({ channels, activeChannelId, color }) {
       <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
         <div className="flex items-center gap-2">
           <Radio size={14} style={{ color }} />
-          <span className="text-sm font-medium text-gray-200">Voice Channels</span>
+          <span className="text-sm font-medium text-gray-200">
+            {msg('vc.channel.title')}
+          </span>
         </div>
         <span className="text-xs text-gray-400">
           {channelArray.length}
           {' '}
-          {channelArray.length === 1 ? 'channel' : 'channels'}
+          {channelArray.length === 1 ? msg('vc.channel.single') : msg('vc.channel.multiple')}
           {' '}
           available
         </span>

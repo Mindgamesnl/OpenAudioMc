@@ -105,6 +105,18 @@ vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
 vc.peerLoading=Loading {name}
 
+vc.channel.title=Voice Channels
+vc.channel.single=channel
+vc.channel.multiple=channels
+vc.channel.moreMembers=more members
+vc.channel.noMembersYet=No members yet
+vc.channel.joining=Joining...
+vc.channel.leave=Leave channel
+vc.channel.leaving=Leaving...
+vc.channel.leaveCurrentFirst=Leave Current Channel First
+vc.channel.noPermissions=No permissions
+vc.channel.join=Join Channel
+
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.
 settings.voicechat.echocancel.button=Enable echo cancellation
