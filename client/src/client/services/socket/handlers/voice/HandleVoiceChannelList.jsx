@@ -1,5 +1,6 @@
 // Updated HandleVoiceChannelList function
 import {
+  setGlobalState,
   store,
   voiceChannelAdd,
   voiceChannelAll,
@@ -11,6 +12,7 @@ export function HandleVoiceChannelList({ channels, operation }) {
   switch (operation) {
     case 'ALL':
       store.dispatch(voiceChannelAll(channels));
+      setGlobalState({ voiceChannels: { activeChannelId: null } });
       break;
     case 'ADD':
       store.dispatch(voiceChannelAdd(channels));

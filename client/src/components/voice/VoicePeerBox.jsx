@@ -39,24 +39,30 @@ function VoicePeerBox(props) {
 
   if (shouldBeHidden) {
     return (
-      <div className="w-full bg-black/20 backdrop-blur-sm common-rounded">
-        <div className="p-4">
-          <h2 className="text-yellow-400/90 text-xl mb-4">
-            {msg('vc.peersHiddenTitle')}
-          </h2>
+      <div
+        className="flex items-center justify-center h-full w-full bg-gradient-to-br from-green-900/20 to-black"
+      >
+        <div className="w-full max-w-4xl mx-4">
+          <div className="bg-black/40 backdrop-blur-md rounded-lg border border-green-400/10 shadow-xl">
+            <div className="p-6 md:p-8">
+              <h2 className="text-yellow-400/90 text-2xl font-medium mb-6">
+                {msg('vc.peersHiddenTitle')}
+              </h2>
 
-          <div className="bg-yellow-400/5 rounded-lg p-4 border border-yellow-400/20">
-            <div className="flex gap-3">
-              <div className="flex-shrink-0">
-                <Info className="w-5 h-5 text-yellow-400/80" />
-              </div>
-              <div>
-                <h3 className="text-yellow-400/80 text-sm font-medium mb-1">
-                  {msg('vc.peersHiddenTitle')}
-                </h3>
-                <p className="text-yellow-400/60 text-sm">
-                  {msg('vc.peersHiddenText')}
-                </p>
+              <div className="bg-yellow-500/5 rounded-lg p-5 border border-yellow-400/20">
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <Info className="w-6 h-6 text-yellow-400/80" />
+                  </div>
+                  <div>
+                    <h3 className="text-yellow-400/90 text-base font-medium mb-2">
+                      {msg('vc.peersHiddenTitle')}
+                    </h3>
+                    <p className="text-yellow-400/70 text-base leading-relaxed">
+                      {msg('vc.peersHiddenText')}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
