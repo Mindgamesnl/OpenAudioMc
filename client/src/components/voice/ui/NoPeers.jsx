@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Users, ArrowRight, Radio, MapPin,
 } from 'lucide-react';
+import { msg } from '../../../client/OpenAudioAppContainer';
 
 function EmptyVoiceState() {
   return (
@@ -37,33 +38,31 @@ function EmptyVoiceState() {
             </div>
 
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--primary-accent)' }}>
-              Looking for Someone?
+              {msg('vc.empty.title')}
             </h2>
 
             <p className="text-gray-300 text-sm mb-4">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Voice chat is more fun together! Here's how you can connect with others:
+              {msg('vc.empty.description')}
             </p>
 
             {/* Action Cards */}
             <div className="grid gap-2">
               <ActionCard
-                title="Move Closer to Players"
-                description="Voice chat works based on proximity. Find and approach other players!"
+                title={msg('vc.empty.move.title')}
+                description={msg('vc.empty.move.description')}
                 icon={<MapPin className="w-4 h-4" />}
               />
 
               <ActionCard
-                title="Join a Channel"
-                description="Use channels to talk regardless of distance"
+                title={msg('vc.empty.channel.title')}
+                description={msg('vc.empty.channel.description')}
                 icon={<Radio className="w-4 h-4" />}
-                onClick={() => window.open('https://openaudiomc.net/docs/channels', '_blank')}
                 isLink
               />
 
               <ActionCard
-                title="Invite Others"
-                description="Let others know about voice chat - they might not have enabled it yet!"
+                title={msg('vc.empty.invite.title')}
+                description={msg('vc.empty.invite.description')}
                 icon={<Users className="w-4 h-4" />}
               />
             </div>

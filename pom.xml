@@ -14,10 +14,10 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.10.4</oa.version>
+        <oa.version>6.10.5</oa.version>
 
         <!-- dev deps -->
-        <deps.lombok.version>1.18.30</deps.lombok.version>
+        <deps.lombok.version>1.18.36</deps.lombok.version>
         <deps.lombokmvn.version>1.18.20.0</deps.lombokmvn.version>
         <deps.jetbrainsannot.version>24.1.0</deps.jetbrainsannot.version>
 
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>${deps.lombok.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

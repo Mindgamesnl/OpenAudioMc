@@ -67,6 +67,7 @@ public class DefaultNetworkingService extends NetworkingService {
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_UPDATE_CHANNELS, new ClientChannelUpdateHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_CHANGED_VOLUME, new ClientChangedVolumeHandler());
         registerHandler(PacketChannel.SOCKET_IN_CLIENT_INITIALIZED_RTC, new ClientInitializedRtcHandler());
+        registerHandler(PacketChannel.SOCKET_IN_CLIENT_CHANNEL_UI, new ClientVoiceChanelInteractionHandler());
 
         init();
 

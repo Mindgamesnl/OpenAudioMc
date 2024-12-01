@@ -1,12 +1,12 @@
-export JAVA_HOME=`/usr/libexec/java_home -v 18`
 mkdir -p test-server-spigot/plugins/
 mkdir -p test-server-spigot/plugins/OpenAudioMc/
 
 cd plugin
 ./src/main/bash/post-build.sh
 cd ..
-
+asdf local java adoptopenjdk-8.0.332+9
 mvn -T 4.5C clean install -Dmaven.test.skip=true
+asdf local java openjdk-21
 
 rm test-server-spigot/plugins/openaudiomc-*
 cp plugin/target/openaudiomc-* test-server-spigot/plugins/

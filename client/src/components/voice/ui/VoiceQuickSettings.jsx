@@ -92,7 +92,7 @@ class VoiceQuickSettings extends React.Component {
           {msg('vc.myStatus')}
         </div>
 
-        <div className="grid grid-cols-3 gap-2 mt-2">
+        <div className={`grid gap-2 mt-2 ${!this.props.peersHidden ? 'grid-cols-3' : 'grid-cols-2'}`}>
 
           <VoicePageButton
             highlighted={this.props.voicechatMuted}
@@ -111,14 +111,16 @@ class VoiceQuickSettings extends React.Component {
             <VoiceDeafenButtonContent deafened={this.props.voicechatDeafened} />
           </VoicePageButton>
 
-          <VoicePageButton
-            highlighted={pipEnabled}
-            highlightGreen
-            isDisabled={!isPipSupported}
-            onClick={this.togglePiP}
-          >
-            <PipVector />
-          </VoicePageButton>
+          {!this.props.peersHidden ? (
+            <VoicePageButton
+              highlighted={pipEnabled}
+              highlightGreen
+              isDisabled={!isPipSupported}
+              onClick={this.togglePiP}
+            >
+              <PipVector />
+            </VoicePageButton>
+          ) : null}
         </div>
 
         <div className="content-card-buttons mt-2 w-full">
@@ -151,7 +153,7 @@ class VoiceQuickSettings extends React.Component {
           </div>
         </div>
 
-        {this.props.voicePiPEnabled ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
+        {(this.props.voicePiPEnabled && !this.props.peersHidden) ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
       </div>
     );
   }
@@ -169,5 +171,6 @@ function mapStateToProps(state) {
     isMutedServerSide: state.voiceState.isMutedServerSide,
     isSpeaking: state.voiceState.isSpeaking,
     currentUser: state.currentUser,
+    peersHidden: state.voiceState.peersHidden,
   };
 }

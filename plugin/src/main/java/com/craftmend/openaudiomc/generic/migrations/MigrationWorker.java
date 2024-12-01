@@ -63,6 +63,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_PRELOAD_REPLENISH_POOL, "Add config value for better pool management"),
                 new AddConfigKeyMigration(SETTINGS_AUTO_RECONNECT, "Add a migration setting for auto reconnect"),
                 new AddConfigKeyMigration(SETTINGS_SPEAKER_MAX_RANGE, "Add max range config value"),
+                new AddConfigKeyMigration(SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI, "Add a setting to show the channels web UI"),
         };
 
         for (SimpleMigration migration : migrations) {

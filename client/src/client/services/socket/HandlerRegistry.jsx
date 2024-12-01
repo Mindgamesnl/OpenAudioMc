@@ -16,6 +16,8 @@ import { HandleSpeakerDestroy } from './handlers/speakers/HandleSpeakerDestroy';
 import { HandleVoiceModerationStatus } from './handlers/voice/HandleVoiceModerationStatus';
 import { HandleVoiceDeafen } from './handlers/voice/HandleToggleDeafenCommand';
 import { HandleVoicePeerOptionsUpdate } from './handlers/voice/HandleVoicePeerOptionsUpdate';
+import { HandleVoiceChannelList } from './handlers/voice/HandleVoiceChannelList';
+import { HandleVoiceChannelStatus } from './handlers/voice/HandleVoiceChannelStatus';
 
 export class HandlerRegistry {
   constructor(socket) {
@@ -48,5 +50,7 @@ export class HandlerRegistry {
     registerClassHandler('ClientVoiceBlurUiPayload', HandleVoiceBlur);
     registerClassHandler('ClientModerationStatusPayload', HandleVoiceModerationStatus);
     registerClassHandler('ClientVoiceOptionsPayload', HandleVoicePeerOptionsUpdate);
+    registerClassHandler('ClientChannelsDisplayPayload', HandleVoiceChannelList);
+    registerClassHandler('ClientChannelStatusPayload', HandleVoiceChannelStatus);
   }
 }

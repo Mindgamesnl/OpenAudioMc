@@ -324,6 +324,7 @@ vc-filter:
 # These values are only used on spigot instances.
 static-channels:
   enabled: true
+  show-in-webclient: true
   list:
       # Channel names must not be duplicate, empty, or contain spaces
     - name: survival

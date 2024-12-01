@@ -77,7 +77,7 @@ vc.empty.description=Voice chat is more fun together! Here's how you can connect
 vc.empty.move.title=Move closer to other players
 vc.empty.move.description=Voice chat works based on proximity. Find and approach other players!
 vc.empty.channel.title=Join a voice chat channel
-vc.empty.channel.description=Some servers have voice chat channels. Check if there's a channel you can join! do "/channel list" to see all available channels.
+vc.empty.channel.description=Some servers have voice chat channels. Check if there's a channel you can join!
 vc.empty.invite.title=Invite your friends
 vc.empty.invite.description=Let others know about voice chat - they might not have enabled it yet!
 vc.muteMicrophone=Mute
@@ -96,6 +96,7 @@ vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyon
 vc.noMicInputYetTitle=We're having trouble hearing you!
 vc.noMicInputYetBody=Please make sure that you have the correct microphone selected, or try lowering your noise gate.
 vc.peersHiddenTitle=Voicechat players are hidden
+vc.peersHiddenTitle=Server privacy setting
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 vc.isTalking=is talking
 vc.people=people
@@ -104,6 +105,19 @@ vc.deafened=You are currently deafened
 vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
 vc.peerLoading=Loading {name}
+
+vc.channel.title=Voice Channels
+vc.channel.single=channel
+vc.channel.multiple=channels
+vc.channel.moreMembers=more members
+vc.channel.noMembersYet=No members yet
+vc.channel.joining=Joining...
+vc.channel.leave=Leave channel
+vc.channel.leaving=Leaving...
+vc.channel.leaveCurrentFirst=Leave Current Channel First
+vc.channel.noPermissions=No permissions
+vc.channel.join=Join Channel
+
 
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.

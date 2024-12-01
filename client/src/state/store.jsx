@@ -85,6 +85,11 @@ const initialState = {
     link: 'https://soundcloud.com/cool-songs/cool-song-song',
   },
 
+  voiceChannels: {
+    channels: { }, // name:{name, firstMembers: [], otherMembers: int}
+    activeChannelId: null,
+  },
+
   voiceState: {
     autoJoinVoiceChat: false,
     serverHasVoiceChat: false,
@@ -136,6 +141,56 @@ const initialState = {
   renderId: 0, // used to force a re-render
 };
 
+// Action Types
+const VOICE_CHANNEL_ALL = 'VOICE_CHANNEL_ALL';
+const VOICE_CHANNEL_ADD = 'VOICE_CHANNEL_ADD';
+const VOICE_CHANNEL_REMOVE = 'VOICE_CHANNEL_REMOVE';
+const VOICE_CHANNEL_PATCH = 'VOICE_CHANNEL_PATCH';
+
+// Action Creators
+export function voiceChannelAll(channels) {
+  const channelsObject = channels.reduce((acc, channel) => {
+    acc[channel.name] = channel;
+    return acc;
+  }, {});
+
+  return {
+    type: VOICE_CHANNEL_ALL,
+    payload: channelsObject,
+  };
+}
+
+export function voiceChannelAdd(channels) {
+  const channelsObject = channels.reduce((acc, channel) => {
+    acc[channel.name] = channel;
+    return acc;
+  }, {});
+
+  return {
+    type: VOICE_CHANNEL_ADD,
+    payload: channelsObject,
+  };
+}
+
+export function voiceChannelRemove(channels) {
+  return {
+    type: VOICE_CHANNEL_REMOVE,
+    payload: channels,
+  };
+}
+
+export function voiceChannelPatch(channels) {
+  const channelsObject = channels.reduce((acc, channel) => {
+    acc[channel.name] = channel;
+    return acc;
+  }, {});
+
+  return {
+    type: VOICE_CHANNEL_PATCH,
+    payload: channelsObject,
+  };
+}
+
 function mergeObjects(first, second) {
   // remove null values
   // loop with object.keys to avoid prototype pollution
@@ -159,15 +214,15 @@ function mergeObjects(first, second) {
   };
 }
 
-// hacky, but easy reducer
-// eslint-disable-next-line
+// Reducer
+// eslint-disable-next-line default-param-last
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_STATE':
       return mergeObjects(state, action.stateUpdates);
+
     case 'SET_LANG_MESSAGE':
       if (action.payload.key === undefined || action.payload.value === undefined) {
-        // eslint-disable-next-line no-console
         console.error('Invalid lang message', action.payload);
         return state;
       }
@@ -178,6 +233,56 @@ function appReducer(state = initialState, action) {
           [action.payload.key]: action.payload.value,
         },
       };
+
+    case VOICE_CHANNEL_ALL:
+      return {
+        ...state,
+        voiceChannels: {
+          ...state.voiceChannels,
+          channels: action.payload,
+          activeChannelId: null,
+        },
+      };
+
+    case VOICE_CHANNEL_ADD:
+      return {
+        ...state,
+        voiceChannels: {
+          ...state.voiceChannels,
+          channels: {
+            ...state.voiceChannels?.channels,
+            ...action.payload,
+          },
+        },
+      };
+
+    case VOICE_CHANNEL_REMOVE: {
+      const currentChannels = state.voiceChannels?.channels || {};
+      const remainingChannels = Object.fromEntries(
+        Object.entries(currentChannels).filter(([channelName]) => !action.payload.some((channel) => channel.name === channelName)),
+      );
+
+      return {
+        ...state,
+        voiceChannels: {
+          ...state.voiceChannels,
+          channels: remainingChannels,
+        },
+      };
+    }
+
+    case VOICE_CHANNEL_PATCH:
+      return {
+        ...state,
+        voiceChannels: {
+          ...state.voiceChannels,
+          channels: {
+            ...state.voiceChannels?.channels,
+            ...action.payload,
+          },
+        },
+      };
+
     default:
       return state;
   }
