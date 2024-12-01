@@ -33,6 +33,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.craftmend.openaudiomc.generic.storage.enums.StorageKey.SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI;
+
 public class VoiceChannelService extends Service implements Listener {
 
     private Map<String, Channel> channelMap = new ConcurrentHashMap<>();
@@ -185,6 +187,7 @@ public class VoiceChannelService extends Service implements Listener {
      */
     @Handler
     public void onClientConnect(VoicechatReadyEvent event) {
+        if (!SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI.getBoolean()) return;
         User<?> user = (User<?>) event.getClient().getActor();
         ClientChannelsDisplayPacket packet = new ClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(channelMap.values(), user, ClientChannelsDisplayPayload.ClientChannelOperation.ALL));
 
