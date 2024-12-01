@@ -197,6 +197,10 @@ public class VoiceChannelService extends Service implements Listener {
 
     @Handler
     public void onMembersUpdate(ChannelMembersUpdatedEvent event) {
+        if (!SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI.getBoolean()) {
+            return;
+        }
+
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
@@ -212,6 +216,10 @@ public class VoiceChannelService extends Service implements Listener {
 
     @Handler
     public void onChannelCreate(ChannelCreatedEvent event) {
+        if (!SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI.getBoolean()) {
+            return;
+        }
+
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
@@ -227,6 +235,10 @@ public class VoiceChannelService extends Service implements Listener {
 
     @Handler
     public void onChannelDelete(ChannelDeletedEvent event) {
+        if (!SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI.getBoolean()) {
+            return;
+        }
+
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
