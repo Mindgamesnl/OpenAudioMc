@@ -1,6 +1,6 @@
 # OpenAudioMc
+![image](https://github.com/user-attachments/assets/9a35d8e7-b4a0-4c78-9a51-56be58ec9e9e)
 
-![header](.github/header.png)
 
 OpenAudioMc is a plugin for Minecraft that provides proximity voice chat and audio system without needing mods. It works on servers running Bungeecord, Velocity, Spigot, and more.
 
