@@ -14,7 +14,7 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.10.4</oa.version>
+        <oa.version>6.10.5</oa.version>
 
         <!-- dev deps -->
         <deps.lombok.version>1.18.36</deps.lombok.version>
