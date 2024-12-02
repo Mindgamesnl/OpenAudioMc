@@ -151,22 +151,24 @@ class TabWindow extends Component {
                     <button
                       key={page.name}
                       type="button"
-                      className={`px-5 whitespace-nowrap py-1.5 text-xs flex flex-col items-center justify-center font-medium transition-colors duration-150 ${
+                      className={`px-5 whitespace-nowrap text-xs flex flex-row items-center justify-center font-medium transition-colors duration-150 ${
                         this.props.currentTab === index ? 'navbar-button-active rounded-lg' : 'text-white hover:bg-gray-700'
                       }`}
                       onClick={() => setTab(index)}
                     >
                       {page.buttonContent ? page.buttonContent : null}
-                      {page.name}
-                      {page.subtext ? (
-                        <p
-                          className={`${
-                            this.props.currentTab === index ? 'text-green-700' : 'text-green-200'
-                          } text-xs`}
-                        >
-                          {page.subtext}
-                        </p>
-                      ) : null}
+                      <div className="ml-2">
+                        {page.name}
+                        {page.subtext ? (
+                          <p
+                            className={`${
+                              this.props.currentTab === index ? 'text-green-700' : 'text-green-200'
+                            } text-xs`}
+                          >
+                            {page.subtext}
+                          </p>
+                        ) : null}
+                      </div>
                     </button>
                   ))}
                 </div>
