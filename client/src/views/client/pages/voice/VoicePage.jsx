@@ -66,50 +66,51 @@ function VoicePage({ voiceState, color }) {
             </DarkPanel>
           </aside>
           {/* Main Content */}
-          <main className="w-full lg:flex-1">
+          <main className="w-full lg:flex-1 flex flex-col">
             <DarkPanel className="h-full min-h-[500px] flex flex-col" color={color}>
-              <div className="relative h-full p-4">
-                {!voiceState.peers || Object.keys(voiceState.peers).length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center p-4">
-                    <Users size={48} className="opacity-50 mb-4" style={{ color: '#ff6b6b' }} />
-                    <h2 className="text-xl text-gray-200 font-medium mb-2">
-                      {msg('vc.empty.title')}
-                    </h2>
-                    <p className="text-gray-400 mb-8 text-center">
-                      {msg('vc.empty.description')}
-                    </p>
+              <div className="flex flex-col h-full">
+                <div className="flex-1 min-h-0 p-4 overflow-y-auto">
+                  {!voiceState.peers || Object.keys(voiceState.peers).length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center p-4">
+                      <Users size={48} className="opacity-50 mb-4" style={{ color: '#ff6b6b' }} />
+                      <h2 className="text-xl text-gray-200 font-medium mb-2">
+                        {msg('vc.empty.title')}
+                      </h2>
+                      <p className="text-gray-400 mb-8 text-center">
+                        {msg('vc.empty.description')}
+                      </p>
 
-                    <div className="w-full max-w-md space-y-3">
-                      <ActionCard
-                        icon={Map}
-                        color={color}
-                        title={msg('vc.empty.move.title')}
-                        description={msg('vc.empty.move.description')}
-                      />
+                      <div className="w-full max-w-md space-y-3">
+                        <ActionCard
+                          icon={Map}
+                          color={color}
+                          title={msg('vc.empty.move.title')}
+                          description={msg('vc.empty.move.description')}
+                        />
 
-                      {/* Modified Channel card to open sidebar */}
-                      <ActionCard
-                        icon={Radio}
-                        color={color}
-                        title="Join a Voice Channel"
-                        description="Browse available voice channels and join one to start talking"
-                      />
+                        <ActionCard
+                          icon={Radio}
+                          color={color}
+                          title="Join a Voice Channel"
+                          description="Browse available voice channels and join one to start talking"
+                        />
 
-                      <ActionCard
-                        icon={UserPlus}
-                        title={msg('vc.empty.invite.title')}
-                        color={color}
-                        description={msg('vc.empty.invite.description')}
-                      />
+                        <ActionCard
+                          icon={UserPlus}
+                          title={msg('vc.empty.invite.title')}
+                          color={color}
+                          description={msg('vc.empty.invite.description')}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <VoicePeerBox />
-                )}
+                  ) : (
+                    <VoicePeerBox />
+                  )}
+                </div>
+                <div className="flex-shrink-0">
+                  <ChannelList color={color} />
+                </div>
               </div>
-              <ChannelList
-                color={color}
-              />
             </DarkPanel>
           </main>
         </div>
