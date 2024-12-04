@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import { Vector3 } from './Vector3';
 import { getGlobalState } from '../../../state/store';
 
 export const MAGIC_SCHEDULE_VALUES = {
-  VC_LOCATION_UPDATES: 3 * 50,
-  SELF_LOCATION_UPDATES: 2 * 50,
+  VC_LOCATION_UPDATES: 150, // 3 * 50 simplified
+  SELF_LOCATION_UPDATES: 100, // 2 * 50 simplified
 };
 
 export class Interpolator {
@@ -16,84 +17,92 @@ export class Interpolator {
     this.pitch = pitch;
     this.yaw = yaw;
     this.onMove = () => {};
+    // Cache for vector calculations
+    this._stepBase = new Vector3(0, 0, 0);
   }
 
   interpolate(nextTarget, pitch, yaw, duration) {
-    if (!getGlobalState().settings.interpolationEnabled) {
+    // Quick returns for special cases
+    const { interpolationEnabled } = getGlobalState().settings;
+    if (!interpolationEnabled || !this.hasData) {
       this.location = nextTarget;
       this.pitch = pitch;
       this.yaw = yaw;
       this.onMove(this.location, this.pitch, this.yaw);
-    }
 
-    if (!this.hasData) {
-      this.location = nextTarget;
-      this.pitch = pitch;
-      this.yaw = yaw;
-      this.hasData = true;
-      this.onMove(this.location, this.pitch, this.yaw);
+      if (!this.hasData) {
+        this.hasData = true;
+      }
       return;
     }
 
-    // do we already have a task? yes? well, skip it
+    // Clear existing interpolation
     if (this.isRunning) {
       clearInterval(this.currentTask);
-      this.isRunning = false;
-      this.location = this.target;
     }
 
+    // Setup interpolation
     this.isRunning = true;
     this.target = nextTarget;
-    const steps = duration / 3;
+
+    // eslint-disable-next-line no-bitwise
+    const steps = duration / 3 | 0;
     const loop = duration / steps;
 
-    const vStepSize = this.target.clone().sub(this.location).divide(steps);
-    const pStepSize = (this.pitch - pitch) / steps;
+    // Precalculate step values
+    // Reuse existing Vector3 instance instead of creating new ones
+    const dx = (nextTarget.x - this.location.x) / steps;
+    const dy = (nextTarget.y - this.location.y) / steps;
+    const dz = (nextTarget.z - this.location.z) / steps;
+    this._stepBase.x = dx;
+    this._stepBase.y = dy;
+    this._stepBase.z = dz;
 
-    // handle yaw wrapping around
-    let yDiff = yaw - this.yaw;
-    if (yDiff > 180) {
-      yDiff -= 360;
-    } else if (yDiff < -180) {
-      yDiff += 360;
-    }
+    // Precalculate rotation values
+    const yawDiff = this.getShortestYawDistance(
+      this.normalizeYaw(this.yaw),
+      this.normalizeYaw(yaw),
+    );
+    const yawStep = yawDiff / steps;
+    const pitchStep = (pitch - this.pitch) / steps;
 
-    const normalizedCurrentYaw = normalizeYaw(this.yaw);
-    const normalizedTargetYaw = normalizeYaw(yaw);
-    const yawDiff = getYawDifference(normalizedCurrentYaw, normalizedTargetYaw);
-    const isClockwise = (normalizedTargetYaw - normalizedCurrentYaw + 360) % 360 <= 180;
-    const yStepSize = isClockwise ? yawDiff / steps : -yawDiff / steps;
-
-    let step = 1;
+    let step = 0;
 
     const h = () => {
       step++;
+
       if (step >= steps || !this.isRunning) {
         clearInterval(this.currentTask);
         this.isRunning = false;
-        this.location = this.target;
+        this.location = nextTarget; // Use final target directly
         this.pitch = pitch;
         this.yaw = yaw;
         this.onMove(this.location, this.pitch, this.yaw);
         return;
       }
-      this.location.sub(vStepSize);
-      this.pitch -= pStepSize;
-      this.yaw = normalizeYaw(this.yaw + yStepSize);
+
+      // Update position using cached step values
+      this.location = this.location.add(dx, dy, dz);
+
+      // Update rotations
+      this.pitch += pitchStep;
+      this.yaw = this.normalizeYaw(this.yaw + yawStep);
+
       this.onMove(this.location, this.pitch, this.yaw);
     };
 
     h();
-
     this.currentTask = setInterval(h, loop);
   }
-}
 
-function normalizeYaw(yaw) {
-  return (yaw + 360) % 360;
-}
+  normalizeYaw(yaw) {
+    return ((yaw % 360) + 360) % 360;
+  }
 
-function getYawDifference(yaw1, yaw2) {
-  const diff = Math.abs(yaw1 - yaw2);
-  return Math.min(diff, 360 - diff);
+  getShortestYawDistance(current, target) {
+    let diff = target - current;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    return diff;
+  }
 }

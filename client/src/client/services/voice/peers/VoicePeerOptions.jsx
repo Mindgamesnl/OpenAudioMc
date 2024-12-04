@@ -1,5 +1,4 @@
 import { getGlobalState } from '../../../../state/store';
-import { debugLog } from '../../debugging/DebugService';
 
 export class VoicePeerOptions {
   constructor(
@@ -14,7 +13,6 @@ export class VoicePeerOptions {
 }
 
 export function peerOptionsFromObj(obj) {
-  debugLog('peerOptionsFromObj', obj);
   return new VoicePeerOptions(
     (obj.visible !== undefined) ? obj.visible : true,
     (obj.spatialAudio !== undefined) ? obj.spatialAudio : getGlobalState().settings.voicechatSurroundSound,

@@ -223,7 +223,6 @@ function appReducer(state = initialState, action) {
 
     case 'SET_LANG_MESSAGE':
       if (action.payload.key === undefined || action.payload.value === undefined) {
-        console.error('Invalid lang message', action.payload);
         return state;
       }
       return {
