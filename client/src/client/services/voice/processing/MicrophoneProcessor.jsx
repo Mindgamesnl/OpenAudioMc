@@ -226,7 +226,7 @@ export class MicrophoneProcessor {
     if (!this.isStreaming) return;
 
     this.haltRtpTask = setTimeout(() => {
-      this.monitoringGainnode.gain.value = 0;
+      if (this.monitoringGainnode) this.monitoringGainnode.gain.value = 0;
       if (!VoiceModule.isReady() || this.destroyed) return;
       if (this.isSpeaking) return;
       this.isStreaming = false;
