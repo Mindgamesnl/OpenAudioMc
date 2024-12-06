@@ -23,42 +23,111 @@ export function removeMicVolumeListener(id) {
 }
 
 function invokeMicVolumeListeners(volume, isActive, threshold, lowestVolume) {
-  Object.keys(micVolumeListeners).forEach((key) => {
-    micVolumeListeners[key](volume, isActive, threshold, lowestVolume);
+  Object.values(micVolumeListeners).forEach((callback) => {
+    callback(volume, isActive, threshold, lowestVolume);
   });
 }
 
 export class MicrophoneProcessor {
   constructor(stream) {
+    if (!stream) throw new Error('Stream is required');
+
     this.stream = stream;
     this.startedTalking = null;
     this.shortTriggers = 0;
     this.isStreaming = false;
     this.isSpeaking = false;
     this.isMuted = false;
+    this.destroyed = false;
 
     this.micTriggerCount = 0;
     this.micSanityPassed = false;
 
-    this.harkEvents = new Hark(this.stream);
-    this.gainController = new GainController(stream);
-    this.gainController.on();
+    this.setupAudioContext();
+    this.setupHarkEvents();
+    this.setupGainController();
 
     this.loadDefaults();
     this.monitoringVolume = 100;
     this.longSessions = 0;
 
-    this.inputStreamSource = stream;
+    this.setupStateManagement();
+    this.setupTrackProcessing();
+    this.initializeCheckLoop();
+  }
 
+  setupAudioContext() {
+    const ctx = WorldModule.player.audioCtx;
+    if (!ctx) throw new Error('Audio context not initialized');
+    this.audioContext = ctx;
+  }
+
+  setupHarkEvents() {
+    let speakingTimeout;
+
+    this.harkEvents = new Hark(this.stream, {
+      audioContext: this.audioContext,
+      threshold: -50,
+      interval: 25,
+      history: 6,
+    });
+
+    this.harkEvents.on('speaking', () => {
+      if (this.destroyed) return;
+      this.handleSpeakingStart();
+    });
+
+    this.harkEvents.on('stopped_speaking', () => {
+      if (this.destroyed) return;
+      this.handleSpeakingStop();
+    });
+
+    this.harkEvents.on('volume_change', (volume, threshold) => {
+      // Force speaking state if volume is consistently high
+      if (volume > threshold + 10 && !this.isSpeaking) {
+        clearTimeout(speakingTimeout);
+        this.handleSpeakingStart();
+      }
+    });
+
+    let lowestVolume = 0;
+    let volumeChangeI = 0;
+
+    this.harkEvents.on('volume_change', (volume, threshold) => {
+      if (this.destroyed) return;
+
+      volumeChangeI++;
+
+      if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
+        lowestVolume = volume;
+      }
+
+      const normalizedOutput = Math.min(100, 100 - ((volume / lowestVolume) * 100));
+
+      if (volumeChangeI > 100) {
+        feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, normalizedOutput);
+        volumeChangeI = 0;
+      }
+
+      invokeMicVolumeListeners(normalizedOutput, this.isSpeaking, threshold, lowestVolume);
+    });
+  }
+
+  setupGainController() {
+    this.gainController = new GainController(this.stream);
+    this.gainController.on();
+  }
+
+  setupStateManagement() {
     let lastMonitoringState = false;
     this.lastAutoAdjustmentsState = false;
     let lastStateMuted = false;
-    this.enableMonitoringCheckbox = () => {
-      throw new Error('Not implemented');
-    };
 
-    let onSettingsChange = () => {
+    const onSettingsChange = () => {
+      if (this.destroyed) return;
+
       const { settings } = store.getState();
+
       if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
         lastMonitoringState = settings.voicechatMonitoringEnabled;
         this.enableMonitoringCheckbox(lastMonitoringState);
@@ -71,112 +140,98 @@ export class MicrophoneProcessor {
 
       if (settings.voicechatMuted !== lastStateMuted) {
         lastStateMuted = settings.voicechatMuted;
-        if (lastStateMuted) {
-          this.onMute();
-        } else {
-          this.onUnmute();
-        }
+        // eslint-disable-next-line no-unused-expressions
+        lastStateMuted ? this.onMute() : this.onUnmute();
       }
     };
-    onSettingsChange = onSettingsChange.bind(this);
-    store.subscribe(onSettingsChange);
 
-    this.setupTrackProcessing(stream);
+    this.unsubscribe = store.subscribe(onSettingsChange);
+    onSettingsChange();
+  }
 
-    // automatically check through a task how long the current speech is
+  initializeCheckLoop() {
     this.checkLoop = setInterval(() => {
-      if (!this.isSpeaking) return;
-      const timeActive = new Date().getTime() - this.startedTalking;
-      const secondsTalked = (timeActive / 1000);
+      if (!this.isSpeaking || this.destroyed) return;
+
+      const timeActive = Date.now() - this.startedTalking;
+      const secondsTalked = timeActive / 1000;
 
       if (secondsTalked > 10) {
         this.longSessions++;
-        this.startedTalking = new Date().getTime();
+        this.startedTalking = Date.now();
       }
 
       if (this.longSessions > 1) {
         this.decreaseSensitivity();
         this.longSessions = 0;
-        this.startedTalking = new Date().getTime();
+        this.startedTalking = Date.now();
       }
     }, 500);
-
-    let lowestVolume = 0;
-
-    let volumeChangeI = 0;
-    this.harkEvents.on('volume_change', (volume, threshold) => {
-      volumeChangeI++;
-      if (volumeChangeI % 5 !== 0) return;
-
-      if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
-        lowestVolume = volume;
-      }
-
-      // calculate percentage
-      let normalizedOutput = (volume / lowestVolume) * 100;
-      // invert
-      normalizedOutput = 100 - normalizedOutput;
-      if (normalizedOutput > 100) {
-        normalizedOutput = 100;
-      }
-
-      // only once every 500 times
-      if (volumeChangeI > 100) {
-        feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, normalizedOutput);
-        volumeChangeI = 0;
-      }
-
-      invokeMicVolumeListeners(normalizedOutput, this.isSpeaking, threshold, lowestVolume);
-    });
-
-    this.hookListeners();
-    onSettingsChange(); // init self
   }
 
-  updateSensitivity(toPositive) {
-    const target = -Math.abs(toPositive);
-    this.harkEvents.setThreshold(target);
-    this.currentThreshold = this.harkEvents.getThreshold();
+  handleSpeakingStart() {
+    this.isSpeaking = true;
+    this.startedTalking = Date.now();
+    this.setMonitoringVolume(this.monitoringVolume);
 
-    // update global state, but first update self to prevent infinite loop
-    this.lastAutoAdjustmentsState = toPositive;
-    setGlobalState({ settings: { microphoneSensitivity: toPositive } });
-  }
-
-  decreaseSensitivity() {
-    if (!getGlobalState().settings.automaticSensitivity) return;
-    let current = Math.abs(this.currentThreshold);
-    current -= 5;
-    this.updateSensitivity(current);
-  }
-
-  onMute() {
-    this.isMuted = true;
-    if (this.isSpeaking) {
-      this.shouldStream(false);
+    if (!this.isMuted) {
+      this.startStreaming();
     }
   }
 
-  onUnmute() {
-    this.isMuted = false;
-    if (this.isSpeaking) {
-      this.shouldStream(true);
+  handleSpeakingStop() {
+    const timeActive = Date.now() - this.startedTalking;
+    const secondsTalked = timeActive / 1000;
+
+    if (secondsTalked < 1.5) {
+      this.shortTriggers++;
+      if (this.shortTriggers > 25) {
+        this.decreaseSensitivity();
+        this.shortTriggers = 0;
+      }
+    } else {
+      this.shortTriggers = 0;
+    }
+
+    this.isSpeaking = false;
+    this.monitoringGainnode.gain.value = 0;
+
+    if (!this.isMuted) {
+      this.stopStreaming();
     }
   }
 
-  onSpeakStart() {
-    if (this.isMuted) return;
-    this.shouldStream(true);
+  startStreaming() {
+    if (this.isStreaming) return;
+
+    this.isStreaming = true;
+    if (VoiceModule.isReady()) {
+      VoiceModule.peerManager.sendMetaData(
+        new RtcPacket()
+          .setEventName('DISTRIBUTE_RTP')
+          .serialize(),
+      );
+    }
+
+    setGlobalState({ voiceState: { isSpeaking: true } });
+    this.updateMicSanityCheck();
+    clearTimeout(this.haltRtpTask);
   }
 
-  onSpeakEnd() {
-    if (this.isMuted) return;
-    this.shouldStream(false);
-  }
+  stopStreaming() {
+    if (!this.isStreaming) return;
 
-  stop() {
-    this.harkEvents.stop();
-    clearInterval(this.checkLoop);
+    this.haltRtpTask = setTimeout(() => {
+      if (!VoiceModule.isReady() || this.destroyed) return;
+      if (this.isSpeaking) return;
+      this.isStreaming = false;
+      VoiceModule.peerManager.sendMetaData(
+        new RtcPacket()
+          .setEventName('HALT_RTP')
+          .serialize(),
+      );
+      setGlobalState({ voiceState: { isSpeaking: false } });
+    }, 500);
   }
 
   updateMicSanityCheck() {
@@ -187,39 +242,32 @@ export class MicrophoneProcessor {
     }
   }
 
-  shouldStream(state) {
-    if (state) {
-      // create start rtc notification
-      if (!this.isStreaming) {
-        this.isStreaming = true;
-        if (VoiceModule.isReady()) {
-          VoiceModule.peerManager.sendMetaData(
-            new RtcPacket()
-              .setEventName('DISTRIBUTE_RTP')
-              .serialize(),
-          );
-        }
-      }
+  updateSensitivity(toPositive) {
+    const target = -Math.abs(toPositive);
+    this.harkEvents.setThreshold(target);
+    this.currentThreshold = this.harkEvents.getThreshold();
 
-      setGlobalState({ voiceState: { isSpeaking: true } });
-      this.updateMicSanityCheck();
+    this.lastAutoAdjustmentsState = toPositive;
+    setGlobalState({ settings: { microphoneSensitivity: toPositive } });
+  }
 
-      clearTimeout(this.haltRtpTask);
-      // this.gainController.on();
-    } else {
-      this.haltRtpTask = setTimeout(() => {
-        if (VoiceModule.isReady()) {
-          this.isStreaming = false;
-          VoiceModule.peerManager.sendMetaData(
-            new RtcPacket()
-              .setEventName('HALT_RTP')
-              .serialize(),
-          );
-        }
-      }, 500);
+  decreaseSensitivity() {
+    if (!getGlobalState().settings.automaticSensitivity) return;
+    const current = Math.abs(this.currentThreshold);
+    this.updateSensitivity(current - 5);
+  }
 
-      setGlobalState({ voiceState: { isSpeaking: false } });
-      // this.gainController.off();
+  onMute() {
+    this.isMuted = true;
+    if (this.isSpeaking) {
+      this.stopStreaming();
+    }
+  }
+
+  onUnmute() {
+    this.isMuted = false;
+    if (this.isSpeaking) {
+      this.startStreaming();
     }
   }
 
@@ -231,70 +279,55 @@ export class MicrophoneProcessor {
     }
     this.currentThreshold = this.harkEvents.getThreshold();
     this.isSpeaking = false;
-    this.harkEvents.setInterval(5);
-  }
-
-  hookListeners() {
-    this.harkEvents.on('speaking', () => {
-      this.isSpeaking = true;
-      this.startedTalking = new Date().getTime();
-      this.setMonitoringVolume(this.monitoringVolume);
-
-      // set talking UI
-      this.onSpeakStart();
-    });
-
-    this.harkEvents.on('stopped_speaking', () => {
-      this.isSpeaking = false;
-
-      // set talking UI
-      this.onSpeakEnd();
-      this.monitoringGainnode.gain.value = 0;
-
-      // how long did I talk for?
-      const timeActive = new Date().getTime() - this.startedTalking;
-      const secondsTalked = (timeActive / 1000);
-      if (secondsTalked < 1.5) {
-        this.shortTriggers++;
-        if (this.shortTriggers > 25) {
-          this.decreaseSensitivity();
-          this.shortTriggers = 0;
-        }
-      } else {
-        this.shortTriggers = 0;
-      }
-    });
+    this.harkEvents.setInterval(50);
   }
 
   setMonitoringVolume(vol) {
     this.monitoringVolume = vol;
-    this.monitoringGainnode.gain.value = (vol / 100);
+    if (this.monitoringGainnode) {
+      this.monitoringGainnode.gain.value = vol / 100;
+    }
   }
 
   setupTrackProcessing() {
-    const ctx = WorldModule.player.audioCtx;
     this.monitoringAudio = new Audio();
     this.monitoringAudio.muted = true;
     this.monitoringAudio.autoplay = true;
     this.monitoringAudio.volume = 1;
-    this.output = ctx.createMediaStreamDestination();
 
+    this.output = this.audioContext.createMediaStreamDestination();
     this.monitoringAudio.srcObject = this.output.stream;
-    this.monitoringGainnode = ctx.createGain();
+    this.monitoringGainnode = this.audioContext.createGain();
 
     this.enableMonitoringCheckbox = (allow) => {
-      if (allow) {
-        this.monitoringAudio.muted = false;
-      } else {
-        this.monitoringAudio.muted = true;
-      }
+      this.monitoringAudio.muted = !allow;
     };
-    this.enableMonitoringCheckbox = this.enableMonitoringCheckbox.bind(this);
 
-    const src = ctx.createMediaStreamSource(this.inputStreamSource);
-
+    const src = this.audioContext.createMediaStreamSource(this.stream);
     const shiftMiddleware = new AudioCableMiddleware();
-    shiftMiddleware.link(ctx, src, this.output);
-    this.monitoringAudio.play();
+    shiftMiddleware.link(this.audioContext, src, this.output);
+
+    // eslint-disable-next-line no-console
+    this.monitoringAudio.play().catch(console.error);
+  }
+
+  destroy() {
+    this.destroyed = true;
+    clearInterval(this.checkLoop);
+    this.harkEvents.stop();
+    this.unsubscribe?.();
+
+    if (this.monitoringAudio) {
+      this.monitoringAudio.pause();
+      this.monitoringAudio.srcObject = null;
+    }
+
+    if (this.gainController) {
+      this.gainController.off();
+    }
+
+    Object.keys(micVolumeListeners).forEach((key) => {
+      delete micVolumeListeners[key];
+    });
   }
 }
