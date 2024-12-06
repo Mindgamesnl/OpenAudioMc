@@ -55,10 +55,6 @@ class TabWindow extends Component {
       playerName = this.props.currentUser.userName;
     }
 
-    if (this.props.currentTab >= pages.length) {
-      setTab(0);
-    }
-
     const hiddenNavbar = this.props.navbarDetails === false && pages.length === 1;
 
     let tabToRender = this.props.currentTab;
@@ -66,7 +62,6 @@ class TabWindow extends Component {
     // safety check, current tab should never be higher than the amount of tabs
     if (this.props.currentTab >= pages.length) {
       reportVital(`metrics:errorinfo:tabwindow currentTab is higher than the amount of tabs. Tab: ${this.props.currentTab}, pages: ${pages.length}`);
-      setTab(0);
       tabToRender = 0;
     }
 
