@@ -61,10 +61,13 @@ class TabWindow extends Component {
 
     const hiddenNavbar = this.props.navbarDetails === false && pages.length === 1;
 
+    let tabToRender = this.props.currentTab;
+
     // safety check, current tab should never be higher than the amount of tabs
     if (this.props.currentTab >= pages.length) {
       reportVital(`metrics:errorinfo:tabwindow currentTab is higher than the amount of tabs. Tab: ${this.props.currentTab}, pages: ${pages.length}`);
       setTab(0);
+      tabToRender = 0;
     }
 
     return (
@@ -72,7 +75,7 @@ class TabWindow extends Component {
         <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
             <ServerConnectionWarning />
-            {pages[this.props.currentTab].content}
+            {pages[tabToRender].content}
           </div>
         </main>
 
