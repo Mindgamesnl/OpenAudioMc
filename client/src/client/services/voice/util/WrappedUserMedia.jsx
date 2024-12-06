@@ -4,66 +4,67 @@ import { getGlobalState } from '../../../../state/store';
 
 export class WrappedUserMedia {
   constructor() {
-    this.successCallback = alert;
-    this.errorCallback = alert;
+    // eslint-disable-next-line no-console
+    this.successCallback = (stream) => { console.error('Media success:', stream); };
+    // eslint-disable-next-line no-console
+    this.errorCallback = (error) => console.error('Media error:', error);
   }
 
-  getUserMedia(preferedDeviceId = null) {
-    // do we already have a mic stream from a flow?
-    if (premadeAudioStream) {
-      let isHealthy = true;
-      // check if the stream is dead
-      if (premadeAudioStream.getAudioTracks().length === 0) {
-        isHealthy = false;
-      } else {
-        // check if at least one stream is active
-        premadeAudioStream.getAudioTracks().forEach((track) => {
-          if (!track.enabled) {
-            isHealthy = false;
-          }
+  async getUserMedia(preferredDeviceId = null) {
+    try {
+      // Check existing stream
+      if (premadeAudioStream) {
+        const tracks = premadeAudioStream.getAudioTracks();
+        const isHealthy = tracks.length > 0 && tracks.some((track) => track.enabled);
+
+        if (isHealthy) {
+          this.successCallback(premadeAudioStream);
+          debugLog('Using premade audio stream');
+          return premadeAudioStream;
+        }
+      }
+
+      const constraints = {
+        audio: {
+          noiseSuppression: getGlobalState().settings.voiceEchoCancellation,
+          echoCancellation: getGlobalState().settings.voiceEchoCancellation,
+          autoGainControl: true,
+          channelCount: 1,
+          ...(preferredDeviceId ? { deviceId: { exact: preferredDeviceId } } : {}),
+        },
+      };
+
+      if (navigator.mediaDevices?.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        this.successCallback(stream);
+        return stream;
+      }
+
+      const getUserMedia = navigator.getUserMedia
+        || navigator.webkitGetUserMedia
+        || navigator.msGetUserMedia;
+
+      if (getUserMedia) {
+        return new Promise((resolve, reject) => {
+          getUserMedia.call(
+            navigator,
+            constraints,
+            (stream) => {
+              this.successCallback(stream);
+              resolve(stream);
+            },
+            (error) => {
+              this.errorCallback(error);
+              reject(error);
+            },
+          );
         });
       }
 
-      if (isHealthy) {
-        this.successCallback(premadeAudioStream);
-        debugLog('Using premade audio stream, leaving WrappedUserMedia.getUserMedia() prematurely');
-        return;
-      }
-    }
-
-    const argument = {
-      audio: {
-        noiseSuppression: getGlobalState().settings.voiceEchoCancellation,
-        // sampleRate: 64000,
-        echoCancellation: getGlobalState().settings.voiceEchoCancellation,
-        autoGainControl: true,
-        channelCount: 1,
-      },
-    };
-
-    if (preferedDeviceId) {
-      argument.audio.deviceId = { exact: preferedDeviceId };
-    }
-
-    if (navigator.getUserMedia != null) {
-      navigator.getUserMedia(argument, this.successCallback, this.errorCallback);
-      return;
-    }
-
-    if (navigator.webkitGetUserMedia != null) {
-      navigator.webkitGetUserMedia(argument, this.successCallback, this.errorCallback);
-      return;
-    }
-
-    if (navigator.mediaDevices.getUserMedia != null) {
-      navigator.mediaDevices.getUserMedia(argument)
-        .then((hasStream) => this.successCallback(hasStream))
-        .catch((error) => this.errorCallback(error));
-      return;
-    }
-
-    if (navigator.msGetUserMedia != null) {
-      navigator.msGetUserMedia(argument, this.successCallback, this.errorCallback);
+      throw new Error('getUserMedia not supported');
+    } catch (error) {
+      this.errorCallback(error);
+      throw error;
     }
   }
 }
