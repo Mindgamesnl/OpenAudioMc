@@ -179,6 +179,11 @@ export class MicrophoneProcessor {
     }
   }
 
+  stop() {
+    this.harkEvents.stop();
+    clearInterval(this.checkLoop);
+  }
+
   handleSpeakingStop() {
     const timeActive = Date.now() - this.startedTalking;
     const secondsTalked = timeActive / 1000;
