@@ -221,15 +221,15 @@ function appReducer(state = initialState, action) {
     case 'SET_STATE':
       return mergeObjects(state, action.stateUpdates);
 
-    case 'SET_LANG_MESSAGE':
-      if (action.payload.key === undefined || action.payload.value === undefined) {
+    case 'SET_LANG_MESSAGES':
+      if (action.payload.messages === undefined) {
         return state;
       }
       return {
         ...state,
         lang: {
           ...state.lang,
-          [action.payload.key]: action.payload.value,
+          ...action.payload.messages,
         },
       };
 

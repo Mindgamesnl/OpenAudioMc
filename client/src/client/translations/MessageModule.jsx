@@ -271,13 +271,13 @@ export const MessageModule = new class MessageModule {
       if (value !== '') {
         // complete set
         this.messages[key] = value;
-        const payload = {
-          key,
-          value,
-        };
-        store.dispatch({ type: 'SET_LANG_MESSAGE', payload });
       }
     }
+
+    const payload = {
+      messages: this.messages,
+    };
+    store.dispatch({ type: 'SET_LANG_MESSAGES', payload });
 
     this.currentLangKey = langMapKey;
     setGlobalState({ langName: langMapKey });
