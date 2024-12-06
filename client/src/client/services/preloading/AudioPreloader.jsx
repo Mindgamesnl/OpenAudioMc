@@ -128,6 +128,9 @@ export const AudioPreloader = new class IAudPreload {
   }
 
   getMediaQueryParam(url, key, defaultValue = null) {
+    if (!URL.canParse(url)) {
+      return defaultValue;
+    }
     try {
       const parsed = new URL(url);
       return parsed.searchParams.get(key) || defaultValue;
