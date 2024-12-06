@@ -39,6 +39,7 @@ export class MicrophoneProcessor {
     this.isSpeaking = false;
     this.isMuted = false;
     this.destroyed = false;
+    this.monitoringReady = false;
 
     this.micTriggerCount = 0;
     this.micSanityPassed = false;
@@ -142,7 +143,7 @@ export class MicrophoneProcessor {
 
       const { settings } = store.getState();
 
-      if (settings.voicechatMonitoringEnabled !== lastMonitoringState) {
+      if (settings.voicechatMonitoringEnabled !== lastMonitoringState && this.monitoringReady) {
         lastMonitoringState = settings.voicechatMonitoringEnabled;
         this.enableMonitoringCheckbox(lastMonitoringState);
       }
@@ -327,6 +328,7 @@ export class MicrophoneProcessor {
 
     // eslint-disable-next-line no-console
     this.monitoringAudio.play().catch(console.error);
+    this.monitoringReady = true;
   }
 
   destroy() {
