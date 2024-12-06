@@ -54,6 +54,20 @@ export class MicrophoneProcessor {
     this.setupStateManagement();
     this.setupTrackProcessing();
     this.initializeCheckLoop();
+
+    // refresh loop for when vc is ready
+    let wasReady = false;
+    this.readyUpdateCheck = setInterval(() => {
+      if (VoiceModule.isReady() && !wasReady) {
+        wasReady = true;
+        clearInterval(this.readyUpdateCheck);
+
+        // check hark, are we talking? then attempt to update the state
+        if (this.isSpeaking) {
+          this.handleSpeakingStart();
+        }
+      }
+    }, 1000);
   }
 
   setupAudioContext() {
@@ -182,6 +196,7 @@ export class MicrophoneProcessor {
   stop() {
     this.harkEvents.stop();
     clearInterval(this.checkLoop);
+    clearInterval(this.readyUpdateCheck);
   }
 
   handleSpeakingStop() {
@@ -206,16 +221,14 @@ export class MicrophoneProcessor {
   }
 
   startStreaming() {
-    if (this.isStreaming) return;
+    if (this.isStreaming || !VoiceModule.isReady()) return;
 
     this.isStreaming = true;
-    if (VoiceModule.isReady()) {
-      VoiceModule.peerManager.sendMetaData(
-        new RtcPacket()
-          .setEventName('DISTRIBUTE_RTP')
-          .serialize(),
-      );
-    }
+    VoiceModule.peerManager.sendMetaData(
+      new RtcPacket()
+        .setEventName('DISTRIBUTE_RTP')
+        .serialize(),
+    );
 
     setGlobalState({ voiceState: { isSpeaking: true } });
     this.updateMicSanityCheck();
