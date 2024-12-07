@@ -11,7 +11,7 @@ import { ModerationWarning } from '../../../../components/voice/ModerationWarnin
 import { msg } from '../../../../client/OpenAudioAppContainer';
 import ChannelList from '../../../../components/voice/ui/VoiceChannels';
 
-function VoiceErrorState({ color }) {
+function VoiceErrorState({ color, errorMessage }) {
   return (
     <div className="h-full p-3">
       <div className="max-w-2/3 h-full mx-auto">
@@ -30,6 +30,9 @@ function VoiceErrorState({ color }) {
               </h3>
               <p className="text-gray-400">
                 {msg('vc.state.error.body')}
+              </p>
+              <p className="text-gray-400 mt-2">
+                { errorMessage }
               </p>
             </div>
 
@@ -124,7 +127,7 @@ function ActionCard({
 function VoicePage({ voiceState, color }) {
 
   if (voiceState.failedGeneric) {
-    return <VoiceErrorState color={color} />;
+    return <VoiceErrorState color={color} errorMessage={voiceState.failedErrorContext} />;
   }
 
   if (voiceState.loading) {

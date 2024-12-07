@@ -130,6 +130,7 @@ export const VoiceModule = new class IVoiceModule {
       voiceState: {
         loading: false,
         failedGeneric: true,
+        failedErrorContext: message,
         enabled: false,
       },
     });

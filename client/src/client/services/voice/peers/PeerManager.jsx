@@ -216,7 +216,7 @@ export class PeerManager {
     if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
       this.reconnect();
     } else {
-      VoiceModule.panic('Connection timeout after multiple attempts');
+      VoiceModule.panic('Failed after multiple attempts, server rejected connection, slot or integrity error');
     }
   }
 

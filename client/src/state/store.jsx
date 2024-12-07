@@ -93,6 +93,7 @@ const initialState = {
   voiceState: {
     loading: false,
     failedGeneric: false,
+    failedErrorContext: 'No error context provided',
     autoJoinVoiceChat: false,
     serverHasVoiceChat: false,
     peersHidden: false,
