@@ -92,7 +92,7 @@ const initialState = {
 
   voiceState: {
     loading: false,
-    failedGeneric: true,
+    failedGeneric: false,
     autoJoinVoiceChat: false,
     serverHasVoiceChat: false,
     peersHidden: false,
