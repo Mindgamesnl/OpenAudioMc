@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -125,7 +124,6 @@ function ActionCard({
 }
 
 function VoicePage({ voiceState, color }) {
-
   if (voiceState.failedGeneric) {
     return <VoiceErrorState color={color} errorMessage={voiceState.failedErrorContext} />;
   }

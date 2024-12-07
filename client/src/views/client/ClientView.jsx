@@ -45,7 +45,7 @@ function ClientView(props) {
           />
           <TabPage
             name={getTranslation(null, 'navbar.vc')}
-            hidden={!props.voiceReady}
+            hidden={(!props.voiceReady && !props.voiceLoading && !props.voiceError)}
             buttonContent={<IconMemos.VoiceChat />}
             content={<VoicePageMemo />}
             subtext={props.voicePeerCount > 0 ? `${props.voicePeerCount} ${
@@ -100,6 +100,8 @@ function mapStateToProps(state) {
     fixedFooter: state.fixedFooter,
     loadingOverlay: state.loadingOverlay,
     voiceReady: state.voiceState.ready,
+    voiceLoading: state.voiceState.loading,
+    voiceError: state.voiceState.failedGeneric,
     voicePeerCount: Object.keys(state.voiceState.peers).length,
     browserSupportIsLimited: state.browserSupportIsLimited,
     navbarDetails: state.navbarDetails,
