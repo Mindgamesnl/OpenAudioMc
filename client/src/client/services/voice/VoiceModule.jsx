@@ -109,7 +109,7 @@ export const VoiceModule = new class IVoiceModule {
       }
 
       // hide error popup
-      setGlobalState({ voiceState: { loading: false } });
+      setGlobalState({ voiceState: { loading: false, failedGeneric: true, failedErrorContext: 'Failed to request microphone' } });
 
       let stringifiedError = '<unknown>';
       // is it just a string?

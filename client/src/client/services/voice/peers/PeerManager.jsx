@@ -419,8 +419,7 @@ export class PeerManager {
 
   onStart() {
     setGlobalState({
-      loadingOverlay: { visible: false },
-      voiceState: { ready: true },
+      voiceState: { ready: true, loading: false },
     });
 
     setTimeout(() => {
