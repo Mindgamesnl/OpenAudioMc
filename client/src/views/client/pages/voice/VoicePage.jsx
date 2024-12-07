@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  Users, UserPlus, Map, Radio,
+  Users, UserPlus, Map, Radio, AlertTriangle, Loader2,
 } from 'lucide-react';
 import VoicePeerBox from '../../../../components/voice/VoicePeerBox';
 import VoiceQuickSettings from '../../../../components/voice/ui/VoiceQuickSettings';
@@ -9,6 +10,81 @@ import GeneralVoiceSettings from '../../../../components/voice/ui/GeneralVoiceSe
 import { ModerationWarning } from '../../../../components/voice/ModerationWarning';
 import { msg } from '../../../../client/OpenAudioAppContainer';
 import ChannelList from '../../../../components/voice/ui/VoiceChannels';
+
+function VoiceErrorState({ color }) {
+  return (
+    <div className="h-full p-3">
+      <div className="max-w-2/3 h-full mx-auto">
+        <div className="h-full flex items-center justify-center">
+          <div className="w-full max-w-md text-center">
+            <div
+              className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: `${color}20` }}
+            >
+              <AlertTriangle size={32} className="text-red-500" />
+            </div>
+
+            <div className="bg-black/40 backdrop-blur-sm rounded-xl p-6 mb-6 border border-red-500/50">
+              <h3 className="text-lg font-medium text-red-400 mb-2">
+                {msg('vc.state.error.title')}
+              </h3>
+              <p className="text-gray-400">
+                {msg('vc.state.error.body')}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-sm text-gray-400">
+                <p>{msg('vc.state.error.hints')}</p>
+                <ul className="list-disc text-left pl-4 mt-2 space-y-1">
+                  <li>{msg('vc.state.error.fix1')}</li>
+                  <li>{msg('vc.state.error.fix2')}</li>
+                  <li>{msg('vc.state.error.fix3')}</li>
+                  <li>{msg('vc.state.error.fix4')}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VoiceLoadingState({ color }) {
+  return (
+    <div className="h-full p-3">
+      <div className="max-w-2/3 h-full mx-auto">
+        <div className="h-full flex items-center justify-center">
+          <div className="text-center">
+            <div
+              className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: `${color}20` }}
+            >
+              <Loader2 size={32} className="animate-spin" style={{ color }} />
+            </div>
+
+            <h2 className="text-xl font-medium text-gray-200 mb-3">
+              {msg('vc.state.loading.title')}
+            </h2>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-48 h-2 bg-black/40 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full animate-pulse"
+                  style={{ backgroundColor: color }}
+                />
+              </div>
+              <p className="text-sm text-gray-400">
+                {msg('vc.state.loading.body')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function DarkPanel({ children, className = '', color }) {
   return (
@@ -46,6 +122,15 @@ function ActionCard({
 }
 
 function VoicePage({ voiceState, color }) {
+
+  if (voiceState.failedGeneric) {
+    return <VoiceErrorState color={color} />;
+  }
+
+  if (voiceState.loading) {
+    return <VoiceLoadingState color={color} />;
+  }
+
   return (
     <div className="h-full p-3">
       <div className="max-w-2/3 h-full mx-auto">
