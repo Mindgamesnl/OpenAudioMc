@@ -363,6 +363,20 @@ cdn:
   enabled: false
   skip-validation: false
 
+# The speaker skin defines the look and feel of your speakers.
+speaker-skin:
+  # The texture of the speaker's skull. This can't be any online value, it has to be from the mojang texture service.
+  # You can find a texture url from a name, using a site like https://mcprofile.io/
+  texture-url: https://textures.minecraft.net/texture/6a5fed371c2231879a5b4c413c94d81e139dc3c21449128333469a439d7b9561
+
+  # The default is a Minecraft account called "OpenAudioMc"
+  # This has to match the profile-uuid, and is case sensitive.
+  #
+  # IMPORTANT: Changing the profile n ame or UUID will break all existing speakers in your world.
+  # IMPORTANT: Only 'new' speakers with the configured profile name and UUID be detected
+  profile-name: OpenAudioMc
+  # The game profile UUID of the spaeker's skull owner. Has to be a valid/premium minecraft account.
+  profile-uuid: c0db149e-d498-4a16-8e35-93d57577589f
 
 # REDIS
 # This is only used for syncing shows with other servers and the vistas modules.

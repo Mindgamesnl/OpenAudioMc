@@ -64,6 +64,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_AUTO_RECONNECT, "Add a migration setting for auto reconnect"),
                 new AddConfigKeyMigration(SETTINGS_SPEAKER_MAX_RANGE, "Add max range config value"),
                 new AddConfigKeyMigration(SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI, "Add a setting to show the channels web UI"),
+                new AddConfigKeyMigration(SETTINGS_SPEAKER_SKIN_UUID, "Add a setting for the speaker skin textures"),
         };
 
         for (SimpleMigration migration : migrations) {
