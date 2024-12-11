@@ -128,6 +128,11 @@ public enum StorageKey {
     SETTINGS_PAPI_VC_CONNECTED(false, "papi.voicechat-connected", StorageLocation.CONFIG_FILE),
     SETTINGS_PAPI_VC_DISCONNECTED(false, "papi.voicechat-disconnected", StorageLocation.CONFIG_FILE),
 
+    SETTINGS_SPEAKER_SKIN_NAME(false, "speaker-skin.profile-name", StorageLocation.CONFIG_FILE),
+    SETTINGS_SPEAKER_SKIN_UUID(false, "speaker-skin.profile-uuid", StorageLocation.CONFIG_FILE),
+    SETTINGS_SPEAKER_SKIN_TEXTURE(false, "speaker-skin.texture-url", StorageLocation.CONFIG_FILE),
+
+
     DEBUG_LOG_STATE_CHANGES(false, "debug.log-state-changes", StorageLocation.DATA_FILE),
 
     AUTH_HOST(true, "keyset.server-ip", StorageLocation.DATA_FILE),

@@ -6,37 +6,40 @@ import com.craftmend.openaudiomc.generic.utils.ClassMocker;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
+import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.UUID;
+
+import static com.craftmend.openaudiomc.generic.storage.enums.StorageKey.*;
 
 public class SpeakerUtils {
 
-    public static final String speakerSkin = "OpenAudioMc";
-    public static final UUID speakerUUID = UUID.fromString("c0db149e-d498-4a16-8e35-93d57577589f");
-    private static final SpeakerService SPEAKER_SERVICE = OpenAudioMc.getService(SpeakerService.class);
-
-    private static OfflinePlayer proxiedPlayer;
+    public static final String speakerSkin = SETTINGS_SPEAKER_SKIN_NAME.getString();
+    public static final UUID speakerUUID = UUID.fromString(SETTINGS_SPEAKER_SKIN_UUID.getString());
+    public static final String textureValue;
 
     static {
-        // attempt to create a offline player instance
-        try {
-            proxiedPlayer = new ClassMocker<OfflinePlayer>(OfflinePlayer.class)
-                    .addReturnValue("getUniqueId", speakerUUID)
-                    .addReturnValue("getName", speakerSkin)
-                    .createProxy();
-        } catch (Exception e) {
-            OpenAudioLogger.warn("Failed to create a OfflinePlayer proxy class. This will cause issues with speakers on servers running post 1.20.2");
-        }
+        String rawUrl = SETTINGS_SPEAKER_SKIN_TEXTURE.getString();
+        // convert to http instead of https, don't know if its important, but lets stick with what our
+        // mojang gods decided
+        rawUrl = rawUrl.replace("https://", "http://");
+
+        // turn it into the json format, our gods have also decided this is the way to go
+        String json = "{textures:{SKIN:{url:\"" + rawUrl + "\"}}}";
+        textureValue = Base64.getEncoder().encodeToString(json.getBytes());
     }
+
+    private static final SpeakerService SPEAKER_SERVICE = OpenAudioMc.getService(SpeakerService.class);
 
     public static boolean isSpeakerSkull(Block block) {
         if (block.getState() instanceof Skull) {
@@ -65,18 +68,31 @@ public class SpeakerUtils {
     public static ItemStack getSkull(String source, int radius) {
         ItemStack skull = new ItemStack(SPEAKER_SERVICE.getPlayerSkullItem());
         skull.setDurability((short) 3);
+
+        // For Minecraft 1.20.4 and below
+        NBT.modify(skull, nbt -> {
+            ReadWriteNBT skullOwnerCompound = nbt.getOrCreateCompound("SkullOwner");
+
+            // The owner UUID. Note that skulls with the same UUID but different textures will misbehave and only one texture will load.
+            // They will share the texture. To avoid this limitation, it is recommended to use a random UUID.
+            skullOwnerCompound.setUUID("Id", UUID.randomUUID());
+
+            skullOwnerCompound.getOrCreateCompound("Properties")
+                    .getCompoundList("textures")
+                    .addCompound()
+                    .setString("Value", textureValue);
+        });
+
+        NBT.modifyComponents(skull, nbt -> {
+            ReadWriteNBT profileNbt = nbt.getOrCreateCompound("minecraft:profile");
+            profileNbt.setUUID("id", speakerUUID);
+            ReadWriteNBT propertiesNbt = profileNbt.getCompoundList("properties").addCompound();
+            propertiesNbt.setString("name", "textures");
+            propertiesNbt.setString("value", textureValue);
+        });
+
         SkullMeta sm = (SkullMeta) skull.getItemMeta();
         if (sm != null) {
-            if (SPEAKER_SERVICE.getVersion() == ServerVersion.MODERN) {
-                if (proxiedPlayer != null) {
-                    sm.setOwningPlayer(proxiedPlayer);
-                } else {
-                    // fallback for servers that don't support the proxy class
-                    sm.setOwningPlayer(Bukkit.getOfflinePlayer(speakerUUID));
-                }
-            }
-
-            sm.setOwner(speakerSkin);
             sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
             sm.setLore(Arrays.asList(
                     ChatColor.AQUA + "I'm a super cool speaker!",

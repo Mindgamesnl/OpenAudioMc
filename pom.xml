@@ -26,7 +26,7 @@
         <deps.okhttp.version>4.7.0</deps.okhttp.version>
         <deps.velocityapi.version>3.0.1</deps.velocityapi.version>
         <deps.storm.version>e1f961b</deps.storm.version>
-        <deps.nbtapi.version>2.13.2</deps.nbtapi.version>
+        <deps.nbtapi.version>2.14.0</deps.nbtapi.version>
 
         <!-- Bungeecord uses some special deps from jitpack to work around protocol bugs -->
         <deps.bungee.proxy.version>b23a51825e</deps.bungee.proxy.version>
