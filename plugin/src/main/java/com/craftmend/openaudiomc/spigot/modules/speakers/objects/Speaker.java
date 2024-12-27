@@ -68,4 +68,14 @@ public class Speaker extends DataStore implements BasicSpeaker {
         return OpenAudioMc.getService(SpeakerService.class).getMedia(source);
     }
 
+    @Override
+    public boolean isVirtual() {
+        return !requiresHealthCheck;
+    }
+
+    @Override
+    public void setVirtual(boolean value) {
+        this.requiresHealthCheck = !value;
+    }
+
 }

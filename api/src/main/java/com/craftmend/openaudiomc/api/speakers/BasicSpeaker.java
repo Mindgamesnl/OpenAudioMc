@@ -64,4 +64,6 @@ public interface BasicSpeaker {
      * @return is virtual
      */
     boolean isVirtual();
+
+    void setVirtual(boolean value);
 }

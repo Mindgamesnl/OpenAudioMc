@@ -99,6 +99,8 @@ public class WorldApiImpl implements WorldApi {
                 optionSet
         );
 
+        speaker.setVirtual(true);
+
         OpenAudioMc.getService(SpeakerService.class).registerSpeaker(speaker);
 
         // save to the database
