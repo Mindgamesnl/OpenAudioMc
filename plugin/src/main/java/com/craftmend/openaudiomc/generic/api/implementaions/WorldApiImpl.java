@@ -67,8 +67,8 @@ public class WorldApiImpl implements WorldApi {
         Objects.requireNonNull(world, "World cannot be null");
         Objects.requireNonNull(mediaSource, "Media source cannot be null");
 
-        if (!Bukkit.isPrimaryThread()) {
-            throw new InvalidThreadException();
+        if (Bukkit.isPrimaryThread()) {
+            throw new InvalidThreadException("The register method should not be called from the main thread");
         }
 
         if (Bukkit.getWorld(world) == null) {
