@@ -18,6 +18,8 @@ public class Speaker extends DataStore implements BasicSpeaker {
 
     @Column @Getter private String source;
     @Column @Getter private UUID speakerId;
+    @Column(defaultValue = "true")
+    @Getter private Boolean requiresHealthCheck = true;
     @Column @Setter @Getter private Integer radius;
 
     @Column(

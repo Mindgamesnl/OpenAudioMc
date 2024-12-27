@@ -57,8 +57,9 @@ public class SpeakerGarbageCollection extends BukkitRunnable {
         possiblyFilterLimits(setSize, this.speakerService
                 .getSpeakerMap()
                 .values().stream()
-                        .filter(speaker -> !speaker.getValidated())
-                        .skip(fractionStart)
+                .filter(Speaker::getRequiresHealthCheck)
+                .filter(speaker -> !speaker.getValidated())
+                .skip(fractionStart)
         ).collect(Collectors.toList())
                 .forEach(speaker -> {
                     MappedLocation mappedLocation = speaker.getLocation();
