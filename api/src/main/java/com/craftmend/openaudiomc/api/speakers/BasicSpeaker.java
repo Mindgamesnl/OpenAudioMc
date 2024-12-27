@@ -59,4 +59,11 @@ public interface BasicSpeaker {
      */
     boolean isRedstonePowered();
 
+    /**
+     * If this speaker is a virtual speaker (managed by the API)
+     * @return is virtual
+     */
+    boolean isVirtual();
+
+    void setVirtual(boolean value);
 }

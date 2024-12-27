@@ -2,13 +2,13 @@ package com.craftmend.openaudiomc.generic.api.implementaions;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.WorldApi;
-import com.craftmend.openaudiomc.api.exceptions.InvalidRegionException;
-import com.craftmend.openaudiomc.api.exceptions.InvalidThreadException;
-import com.craftmend.openaudiomc.api.exceptions.UnknownWorldException;
+import com.craftmend.openaudiomc.api.exceptions.*;
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.regions.AudioRegion;
 import com.craftmend.openaudiomc.api.regions.RegionMediaOptions;
 import com.craftmend.openaudiomc.api.speakers.BasicSpeaker;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
@@ -19,6 +19,7 @@ import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionPrope
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
+import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,10 +27,7 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class WorldApiImpl implements WorldApi {
 
@@ -62,6 +60,76 @@ public class WorldApiImpl implements WorldApi {
         }
 
         return OpenAudioMc.getService(SpeakerService.class).getSpeaker(new MappedLocation(x, y, z, world));
+    }
+
+    @Override
+    public void registerVirtualSpeaker(int x, int y, int z, @NotNull String world, @NotNull String mediaSource, SpeakerType type, int radius, ExtraSpeakerOptions... options) throws InvalidThreadException, InvalidLocationException {
+        Objects.requireNonNull(world, "World cannot be null");
+        Objects.requireNonNull(mediaSource, "Media source cannot be null");
+
+        if (Bukkit.isPrimaryThread()) {
+            throw new InvalidThreadException("The register method should not be called from the main thread");
+        }
+
+        if (Bukkit.getWorld(world) == null) {
+            throw new InvalidLocationException("World " + world + " does not exist");
+        }
+
+        UUID id = UUID.randomUUID();
+        MappedLocation location = new MappedLocation(
+                x, y, z, world
+        );
+
+        // check if there is already a speaker at this location
+        if (getSpeakerAt(x, y, z, world) != null) {
+            throw new InvalidLocationException("There is already a speaker at this location");
+        }
+
+        // make the options a set
+        EnumSet<ExtraSpeakerOptions> optionSet = EnumSet.noneOf(ExtraSpeakerOptions.class);
+        Collections.addAll(optionSet, options);
+
+        // init speaker
+        Speaker speaker = new Speaker(
+                mediaSource,
+                id,
+                radius,
+                location,
+                type,
+                optionSet
+        );
+
+        speaker.setVirtual(true);
+
+        OpenAudioMc.getService(SpeakerService.class).registerSpeaker(speaker);
+
+        // save to the database
+        OpenAudioMc.getService(DatabaseService.class)
+                .getRepository(Speaker.class)
+                .save(speaker);
+    }
+
+    @Override
+    public void unregisterVirtualSpeaker(@NotNull BasicSpeaker speaker) throws InvalidSpeakerException, InvalidThreadException {
+        Objects.requireNonNull(speaker, "Speaker cannot be null");
+
+        if (!speaker.isVirtual()) {
+            throw new InvalidSpeakerException("Speaker is not virtual, only speakers managed by the API can be unregistered");
+        }
+
+        if (Bukkit.isPrimaryThread()) {
+            throw new InvalidThreadException("The unregister method should not be called from the main thread");
+        }
+
+        // is this speaker actually here?
+        if (getSpeakerAt(speaker.getLocation().getX(), speaker.getLocation().getY(), speaker.getLocation().getZ(), speaker.getLocation().getWorld()) == null) {
+            throw new InvalidSpeakerException("Speaker is not registered");
+        }
+
+        // unlist from service
+        OpenAudioMc.getService(SpeakerService.class).unlistSpeaker(speaker.getLocation());
+        // delete from database
+        OpenAudioMc.getService(DatabaseService.class).getRepository(Speaker.class).delete((Speaker) speaker);
     }
 
     @Override

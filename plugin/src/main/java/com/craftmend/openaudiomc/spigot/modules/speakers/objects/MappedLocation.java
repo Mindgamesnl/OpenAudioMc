@@ -39,4 +39,17 @@ public class MappedLocation implements Loc {
         return new MappedLocation(location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getWorld().getName());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MappedLocation) {
+            MappedLocation other = (MappedLocation) obj;
+            return other.x == x && other.y == y && other.z == z && other.world.equals(world);
+        }
+        return false;
+    }
+
+    public Loc toApiLoc() {
+        return this;
+    }
+
 }

@@ -239,10 +239,6 @@ options:
   # Decides if voicechat messages should go in the hotbar or chat. Setting this to false will default to chat
   voicechat-send-messages-in-hotbar: true
 
-  # Toggles voicechat obstruction detection. This can get quite resource intensive so it's off by default, but this muffles voices when
-  # One or more blocks are blocking the players line-of-sight
-  voicechat-obstructions: false
-
   # Automatically request a free voicechat license when the server starts
   voicechat-autoclaim-on-start: true
 

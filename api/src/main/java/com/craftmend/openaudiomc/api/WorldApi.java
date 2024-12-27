@@ -1,11 +1,12 @@
 package com.craftmend.openaudiomc.api;
 
-import com.craftmend.openaudiomc.api.exceptions.InvalidRegionException;
-import com.craftmend.openaudiomc.api.exceptions.InvalidThreadException;
-import com.craftmend.openaudiomc.api.exceptions.UnknownWorldException;
+import com.craftmend.openaudiomc.api.exceptions.*;
+import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.regions.AudioRegion;
 import com.craftmend.openaudiomc.api.regions.RegionMediaOptions;
 import com.craftmend.openaudiomc.api.speakers.BasicSpeaker;
+import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
+import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,6 +54,45 @@ public interface WorldApi {
      */
     @Nullable
     BasicSpeaker getSpeakerAt(int x, int y, int z, @NotNull String world);
+
+    /**
+     * Register a virtual speaker at a location.
+     * This is a location that will play sound as if there's a speaker there, but there isn't.
+     *
+     * @param x      x
+     * @param y      y
+     * @param z      z
+     * @param world  world
+     * @param media  The media source
+     * @param speakerType speaker type
+     * @param radius radius
+     * @param extraOptions extra options (redstone requirement, loop, etc)
+     *
+     * @throws InvalidThreadException   if called from the main thread.
+     *                                  This is to prevent blocking the main thread with the underlying Sqlite database
+     * @throws InvalidLocationException if the location is not valid (this location is already occupied by a real or virtual speaker)
+     * @since 6.10.7
+     */
+    void registerVirtualSpeaker(
+            int x,
+            int y,
+            int z,
+            @NotNull String world,
+            @NotNull String media,
+            SpeakerType speakerType,
+            int radius,
+            ExtraSpeakerOptions... extraOptions
+    ) throws InvalidThreadException, InvalidLocationException;
+
+    /**
+     * Unregister a virtual speaker (which has been registered by the api)
+     *
+     * @param speaker speaker
+     * @throws InvalidSpeakerException if the speaker is not valid (already unregistered, or not registered by the api)
+     * @throws InvalidThreadException  if called from the main thread.
+     * @since 6.10.7
+     */
+    void unregisterVirtualSpeaker(@NotNull BasicSpeaker speaker) throws InvalidSpeakerException, InvalidThreadException;
 
     /**
      * Register a region in a world.

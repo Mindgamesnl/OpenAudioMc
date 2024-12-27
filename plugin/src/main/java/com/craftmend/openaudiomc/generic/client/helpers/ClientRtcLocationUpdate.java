@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 @AllArgsConstructor
 public class ClientRtcLocationUpdate {
 
-    private static final boolean PROCESS_OBSTRUCTIONS = StorageKey.SETTINGS_VC_PROCESS_OBSTRUCTIONS.getBoolean();
+//    private static final boolean PROCESS_OBSTRUCTIONS = StorageKey.SETTINGS_VC_PROCESS_OBSTRUCTIONS.getBoolean();
     private static IRayTracer rayTracer = new DummyTracer();
 
     private String streamKey;
@@ -24,15 +24,15 @@ public class ClientRtcLocationUpdate {
 
     public static ClientRtcLocationUpdate fromClientWithLocation(ClientConnection clientConnection, Location source, Vector3 targetLocation) {
         int obstructions = 0;
-
-        if (PROCESS_OBSTRUCTIONS) {
-            // check line-of-sight
-            obstructions = rayTracer.obstructionsBetweenLocations(
-                    source,
-                    targetLocation
-            );
-
-        }
+//
+//        if (PROCESS_OBSTRUCTIONS) {
+//            // check line-of-sight
+//            obstructions = rayTracer.obstructionsBetweenLocations(
+//                    source,
+//                    targetLocation
+//            );
+//
+//        }
 
         return new ClientRtcLocationUpdate(
                 clientConnection.getRtcSessionManager().getStreamKey(),
@@ -48,14 +48,14 @@ public class ClientRtcLocationUpdate {
 
         int obstructions = 0;
 
-        if (PROCESS_OBSTRUCTIONS) {
-            // check line-of-sight
-            obstructions = rayTracer.obstructionsBetweenLocations(
-                    player.getLocation(),
-                    originLocation
-            );
-
-        }
+//        if (PROCESS_OBSTRUCTIONS) {
+//            // check line-of-sight
+//            obstructions = rayTracer.obstructionsBetweenLocations(
+//                    player.getLocation(),
+//                    originLocation
+//            );
+//
+//        }
 
         return new ClientRtcLocationUpdate(
                 clientConnection.getRtcSessionManager().getStreamKey(),

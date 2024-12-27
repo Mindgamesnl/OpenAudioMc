@@ -9,4 +9,8 @@ public class InvalidThreadException extends Exception {
         super("This method can only be called from the main thread");
     }
 
+    public InvalidThreadException(String message) {
+        super(message);
+    }
+
 }

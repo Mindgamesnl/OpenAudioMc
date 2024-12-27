@@ -73,7 +73,7 @@ public enum StorageKey {
     SETTING_VC_ENTERED_MUTED_REGION(false, "messages.voice-disabled-here", StorageLocation.CONFIG_FILE),
     SETTING_VC_LEFT_MUTED_REGION(false, "messages.voice-reenabled-here", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ANNOUNCEMENTS(false, "options.voicechat-announcements", StorageLocation.CONFIG_FILE),
-    SETTINGS_VC_PROCESS_OBSTRUCTIONS(false, "options.voicechat-obstructions", StorageLocation.CONFIG_FILE),
+//    SETTINGS_VC_PROCESS_OBSTRUCTIONS(false, "options.voicechat-obstructions", StorageLocation.CONFIG_FILE),
     SETTINGS_VC_ALLOW_JOIN_DURING_LOAD(false, "options.voicechat-allow-joining-while-loading", StorageLocation.CONFIG_FILE),
     SETTINGS_FORCE_OFFLINE_MODE(false, "options.force-offline-mode", StorageLocation.CONFIG_FILE),
     SETTINGS_DEFAULT_WORLD_NAME(false, "options.fallback-world-name", StorageLocation.CONFIG_FILE),

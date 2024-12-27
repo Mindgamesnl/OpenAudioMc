@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.speakers.Loc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
@@ -169,7 +170,10 @@ public class SpeakerService extends Service {
         return speakerMedia;
     }
 
-    public void unlistSpeaker(MappedLocation location) {
+    public void unlistSpeaker(Loc location) {
+        if (!(location instanceof MappedLocation)) {
+            throw new IllegalArgumentException("Location is not a MappedLocation");
+        }
         speakerMap.remove(location);
     }
 }
