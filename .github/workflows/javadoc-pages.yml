@@ -46,7 +46,7 @@ jobs:
           mkdir -p javadoc
 
       - name: Copy new javadoc
-        run: cp -r api/target/site/apidocs/* javadoc-branch/javadoc/
+        run: cp -r api/target/reports/apidocs/* javadoc-branch/javadoc/
 
       - name: Commit and push javadoc
         run: |
