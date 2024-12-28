@@ -20,9 +20,9 @@ jobs:
           target-folder: javadoc # url will be https://<username>.github.io/<repo>/javadoc, This can be left as nothing to generate javadocs in the root folder.
           project: maven # or gradle
           subdirectories: api
-          custom-command:  mvn javadoc:aggregate -pl :openaudiomc-api
+          custom-command:  mvn clean javadoc:aggregate -pl :openaudiomc-api -U
       - name: Ensure docs directory exists
         run: mkdir -p docs
 
       - name: Copy API docs
-        run: cp -r api/target/site/apidocs/* docs/
+        run: cp -r api/target/reports/apidocs/* docs/
