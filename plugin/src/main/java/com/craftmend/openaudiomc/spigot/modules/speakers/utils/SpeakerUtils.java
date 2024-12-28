@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -83,13 +84,21 @@ public class SpeakerUtils {
                     .setString("Value", textureValue);
         });
 
-        NBT.modifyComponents(skull, nbt -> {
-            ReadWriteNBT profileNbt = nbt.getOrCreateCompound("minecraft:profile");
-            profileNbt.setUUID("id", speakerUUID);
-            ReadWriteNBT propertiesNbt = profileNbt.getCompoundList("properties").addCompound();
-            propertiesNbt.setString("name", "textures");
-            propertiesNbt.setString("value", textureValue);
-        });
+        try {
+            NBT.modifyComponents(skull, nbt -> {
+                ReadWriteNBT profileNbt = nbt.getOrCreateCompound("minecraft:profile");
+                profileNbt.setUUID("id", speakerUUID);
+                ReadWriteNBT propertiesNbt = profileNbt.getCompoundList("properties").addCompound();
+                propertiesNbt.setString("name", "textures");
+                propertiesNbt.setString("value", textureValue);
+            });
+        } catch (NbtApiException e) {
+            if (e.getMessage().contains("only works for")) {
+                OpenAudioLogger.info("Failed to use modern speaker NBT, this server version does not support it.");
+            } else {
+                e.printStackTrace();
+            }
+        }
 
         SkullMeta sm = (SkullMeta) skull.getItemMeta();
         if (sm != null) {
