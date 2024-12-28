@@ -22,7 +22,6 @@ public class MigrationWorker {
         final SimpleMigration[] migrations = new SimpleMigration[]{
                 new AddConfigKeyMigration(MESSAGE_HOVER_TO_CONNECT, "adds a config field for the hover-to-connect message"),
                 new AddConfigKeyMigration(SETTINGS_STAFF_TIPS, "adds a config field for the staff-tips option"),
-                new AddConfigKeyMigration(SETTINGS_NOTIFY_UPDATES, "adds config fields for update and announcement preferences,"),
                 new AddConfigKeyMigration(MESSAGE_GENERATING_SESSION, "messages for generation and session errors"),
                 new AddConfigKeyMigration(SETTINGS_PRELOAD_SOUNDS, "add a config value for how many files to prefetch"),
                 new AddConfigKeyMigration(MESSAGE_CLIENT_VOLUME, "add a config value for default volume messages"),

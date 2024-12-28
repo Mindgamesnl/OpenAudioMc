@@ -1,24 +1,32 @@
 package com.craftmend.tests;
 
-import com.craftmend.openaudiomc.generic.environment.models.ProjectStatus;
 import com.craftmend.openaudiomc.generic.rest.RestRequest;
+import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
+import lombok.Getter;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestRest {
 
+    @Getter
+    public static class GatewayStatus extends AbstractRestResponse {
+        private String motd;
+        private String[] enabledFeatureFlags;
+        private String env;
+    }
+
     @Test
     public void testHtml() {
-        RestRequest<ProjectStatus> restRequest = new RestRequest<>(ProjectStatus.class, Endpoint.GITHUB_VERSION_CHECK);
+        RestRequest<GatewayStatus> restRequest = new RestRequest<>(GatewayStatus.class, Endpoint.ACCESS_TEST);
         restRequest.run();
-        Assert.assertTrue(restRequest.getError() == SectionError.NONE);
+        Assert.assertSame(restRequest.getError(), SectionError.NONE);
 
-        ProjectStatus status = restRequest.getResponse();
+        GatewayStatus status = restRequest.getResponse();
 
         Assert.assertNotNull(status);
-        Assert.assertTrue(status.isLocalLatest());
+        Assert.assertEquals("production", status.getEnv());
     }
 
 }

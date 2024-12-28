@@ -9,6 +9,7 @@ import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
 public enum Endpoint {
 
     // accounts
+    ACCESS_TEST("https://gateway.openaudiomc.net", "/", false),
     GET_ACCOUNT_SETTINGS("https://account.openaudiomc.net", "/api/v1/installation/settings/_public_key_", true),
     REGISTER("https://account.openaudiomc.net", "/api/v1/installation/register", false),
     RELAY_LOGIN("https://gateway.openaudiomc.net", "/api/v1/installation/login-relay/_public_key_/_private_key_", true),
@@ -28,9 +29,6 @@ public enum Endpoint {
 
     // loopback
     LOOPBACK_CHECK("", "/api/validate", false, false),
-
-    // external
-    GITHUB_VERSION_CHECK("https://raw.githubusercontent.com", "/Mindgamesnl/OpenAudioMc/master/plugin/protocol/static-resources/project_status.json", false, false),
     ;
 
     private String baseUrl;

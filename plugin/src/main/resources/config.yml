@@ -212,12 +212,6 @@ options:
   # Staff will receive helpful tips and error messages when something went wrong while playing a file
   staff-tips: true
 
-  # If you want to receive update notifications, recommended to leave it on, but turn it off if you have to for some weird reason
-  notify-updates: true
-
-  # If you want to receive announcements over things like server maintenance, highly recommended, we'll never bother you if not needed
-  notify-announcements: true
-
   # The amount of resources you want to have preloaded in the client
   preload-resources: 7
 
