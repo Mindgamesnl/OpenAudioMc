@@ -102,7 +102,6 @@ public interface VoiceApi {
      * because you are probably better off using the event system for most use-cases.
      *
      * @param customPlayerFilter The {@link CustomPlayerFilter} to be added to the list of functions
-     * @author DiamondDagger590
      */
     void addFilterFunction(CustomPlayerFilter customPlayerFilter);
 
@@ -118,7 +117,6 @@ public interface VoiceApi {
      * {@link #addFilterFunction(CustomPlayerFilter)} allows for such functionality to exist.
      *
      * @return A copied {@link List} of {@link CustomPlayerFilter}s
-     * @author DiamondDagger590
      */
     List<CustomPlayerFilter> getCustomPlayerFilters();
 

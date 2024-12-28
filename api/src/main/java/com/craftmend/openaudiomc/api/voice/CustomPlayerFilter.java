@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
  *
  * <p>Filters are managed through the {@link com.craftmend.openaudiomc.api.VoiceApi}</p>
  *
+ * @author DiamondDagger590
  * @author Mats
  * @since 6.10.0
  */
@@ -41,7 +42,6 @@ public interface CustomPlayerFilter {
      * @param listener        The {@link Player} searching for other players to listen to
      * @param possibleSpeaker The {@link Player} who is being checked to see if they can be heard
      * @return {@code true} if the listener should be able to hear the possibleSpeaker
-     * @author DiamondDagger590
      */
     boolean isPlayerValidListener(Player listener, Player possibleSpeaker);
 }
