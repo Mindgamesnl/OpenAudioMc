@@ -5,25 +5,58 @@ on:
     branches:
       - master
       - main
-      - development # build from development branch (for now)
+      - development
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy JavaDoc 🚀
-        uses: MathieuSoysal/Javadoc-publisher.yml@v2.4.0
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: javadoc
-          java-version: 17
-          target-folder: javadoc # url will be https://<username>.github.io/<repo>/javadoc, This can be left as nothing to generate javadocs in the root folder.
-          project: maven # or gradle
-          subdirectories: api
-          custom-command:  mvn clean javadoc:aggregate -pl :openaudiomc-api -U
-          javadoc-source-folder: target/reports/apidocs
-      - name: Ensure docs directory exists
-        run: mkdir -p docs
+          fetch-depth: 0
 
-      - name: Copy API docs
-        run: cp -r api/target/reports/apidocs/* docs/
+      - name: Get commit author
+        id: get-author
+        run: |
+          echo "name=$(git log -1 --pretty=format:'%an')" >> $GITHUB_OUTPUT
+          echo "email=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_OUTPUT
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Generate Javadoc
+        run: mvn clean javadoc:aggregate -pl :openaudiomc-api -U
+
+      - name: Checkout javadoc branch
+        uses: actions/checkout@v3
+        with:
+          ref: javadoc
+          path: javadoc-branch
+          clean: true
+
+      - name: Clear existing javadoc
+        run: |
+          cd javadoc-branch
+          git rm -rf javadoc || true
+          mkdir -p javadoc
+
+      - name: Copy new javadoc
+        run: cp -r api/target/site/apidocs/* javadoc-branch/javadoc/
+
+      - name: Commit and push javadoc
+        run: |
+          cd javadoc-branch
+          git config --local user.email "${{ steps.get-author.outputs.email }}"
+          git config --local user.name "${{ steps.get-author.outputs.name }}"
+          git add javadoc
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Update Javadoc from ${{ github.sha }}"
+          git push origin javadoc
