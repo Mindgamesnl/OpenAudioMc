@@ -52,4 +52,14 @@ public class MappedLocation implements Loc {
         return this;
     }
 
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + x;
+        result = 31 * result + y;
+        result = 31 * result + z;
+        result = 31 * result + (world != null ? world.hashCode() : 0);
+        return result;
+    }
+
 }
