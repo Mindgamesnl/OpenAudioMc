@@ -21,6 +21,7 @@ jobs:
           project: maven # or gradle
           subdirectories: api
           custom-command:  mvn clean javadoc:aggregate -pl :openaudiomc-api -U
+          javadoc-source-folder: target/reports/apidocs
       - name: Ensure docs directory exists
         run: mkdir -p docs
 
