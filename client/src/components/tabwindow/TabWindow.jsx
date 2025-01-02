@@ -188,7 +188,7 @@ class TabWindow extends Component {
             id="notice"
             href="https://openaudiomc.net/"
           >
-            &copy; OpenAudioMc 2016-2024. All Rights Reserved.
+            &copy; OpenAudioMc 2016-2025. All Rights Reserved.
           </a>
         </div>
       </div>
