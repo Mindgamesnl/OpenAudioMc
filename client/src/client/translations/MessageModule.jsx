@@ -131,6 +131,11 @@ export const MessageModule = new class MessageModule {
         name: 'Polski',
         visible: true,
       },
+      'pt-BR': {
+        file: 'pt-BR.lang',
+        name: 'Português Brasileiro',
+        visible: true,
+      },
       it: {
         file: 'it.lang',
         name: 'Italiano',

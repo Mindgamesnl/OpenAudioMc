@@ -1,0 +1,170 @@
+lang.name=Português
+
+lang.detectedAs=Definimos seu idioma para %langName, você gostaria de manter essa configuração?
+lang.keep=Manter %langName
+lang.toEn=Alternar para Português
+
+ui.loading=Carregando...
+ui.logout=Deslogar
+
+ui.urlChangeDetected=Mudança de URL detectada
+ui.hashchange=A URL foi alterada. Você gostaria de recarregar a página e iniciar uma nova sessão? Isso irá encerrar sua sessão atual.
+
+navbar.audio=Áudio do Servidor
+navbar.vc=Bate-papo de voz
+navbar.settings=Configurações
+navbar.debug=Debug
+navbar.free=grátis
+navbar.premium=premium
+navbar.upgradeRequired=Upgrade necessário
+navbar.isPlaying=Tocando música
+navbar.menu=Abrir menu
+
+home.confirmLoginHeader=Bem-vindo de volta!
+home.confirmLoginBody=Você está tentando fazer login como <i>%player</i>?<br />Se não, feche essa janela.
+home.confirmLoginButton=Iniciar sessão de áudio
+home.confirmLoginWithVoicechat=Iniciar sessão com bate-papo de voz
+
+home.activate=Ativar sessão
+home.activateText=Essa página será usada para reproduzir seu áudio e voz durante sua visita. Clique em qualquer lugar para iniciar.
+home.clickAnywhere=Clique em qualquer lugar para iniciar
+home.activateHeader=Clique aqui para se conectar
+home.welcome=Bem-vindo, %player!
+home.header=Bem-vindo ao nosso client de áudio! Mantenha essa página aberta para ouvir música e efeitos sonoros do jogo. Você pode voltar para essa página a qualquer momento para alterar o volume ou outras configurações.
+home.volumeContext=Esse controle define o volume da música e efeitos sonoros no jogo. Você também pode usar <pre>/volume &lt;volume&gt;</pre> para alterar o volume pelo jogo, ou definí-lo como 0 para mutar temporariamente.
+home.audioControls=Controles de áudio
+home.notificationsTitle=Notificações
+home.notificationsEmpty=Você não possui notificações no momento
+
+vc.badClient=O bate-papo de voz necessita de um cliente servido através do protocolo HTTPS, por favor atualize sua URL para usar HTTPS e/ou defina certificados SSL válidos.
+vc.notCompatible=Seu navegador não é compatível com o bate-papo de voz. Por favor use um navegador como Chrome, Safari, etc.
+vc.voiceModerationEnabled=Esse servidor possui moderação ativa. Membros da staff podem entrar no bate-papo de voz a qualquer momento.
+vc.notice=Aviso
+vc.micErrorPopupTitle=Erro no microfone
+vc.micErrorPopup=Um erro ocorreu tentando acessar seu microfone. Clique em "permitir" quando seu navegador solicitar permissões de microfone, ou visite a wiki para mais informações.
+vc.disabled=O bate-papo de voz foi temporariamente desabilitado por %serverName
+vc.title=Bate-papo de voz por proximidade
+vc.boardingTitle=Introdução ao bate-papo de voz
+vc.onboarding=Esse servidor tem suporte a bate-papo de voz por proximidade, o que permite que você converse com jogadores em um raio de %range blocos. Você gostaria de habilitar essa função e permitir acesso ao seu microfone?
+vc.settings=Configurações do bate-papo de voz
+vc.muteMic=Silenciar Microfone
+vc.unmuteMic=Habilitar Microfone
+vc.input=Dispositivo de Entrada
+vc.aboutInput=Selecione o microfone que deseja usar, alterar isso irá reiniciar sua sessão.
+vc.positionalAudio=Áudio Posicional
+vc.aboutPositionalAudio=Renderiza uma paisagem sonora em 360, permitindo a identificação da origem das vozes.
+vc.settingsDisable=Desabilitar
+vc.settingsEnablePositionalAudio=Habilitar Áudio Posicional
+vc.settingsDisablePositionalAudio=Desabilitar Áudio Posicional
+vc.automaticAdjustments=Ajustar sensibilidade automaticamente
+vc.sensitivity=Filtro de Ruído
+vc.aboutSensitivity=Configure o filtro de ruído do seu microfone, isso irá automaticamente silenciar seu microfone quando você não estiver falando. <b>Completamente á esquerda</b> irá desabilitar o filtro de ruído, <b>completamente á direita</b> irá silenciar seu microfone completamente.
+vc.peerTable=conectado á {total} jogadores, {talking} falando
+vc.toggleMicrophone=Alternar microfone
+vc.you=você
+vc.safetyTitle=Para sua segurança
+vc.safetyDisclaimer=Você irá receber mensagens no chat do jogo quando algúem entrar ou sair do seu alcance de voz, e você verá uma lista de jogadores que você pode ouvir (e que podem te ouvir), silenciando quem julgar necessário. OpenAudioMc confia no servidor para moderar o chat e lidar com reports quando necessário. Por-favor, contate um membro da staff se tiver dúvidas ou sugestões.
+vc.safetyFooter=<b>Quer um pouco de privacidade? Você pode silenciar seu microfone a qualquer momento usando <pre style="display: inline;">/mm</pre> ou segurando <pre style="display: inline;">shift + F</pre> no jogo, ou usando o botão nessa página.</b>
+vc.join=Entrar no bate-papo de voz
+vc.empty.title=Buscando por alguém?
+vc.empty.description=Bate-papo de voz é mais legal com companhia! Dessa forma você pode se conectar com outros jogadores:
+vc.empty.move.title=Se aproxime de outros jogadores
+vc.empty.move.description=O bate-papo de voz funciona por proximidade! Se aproxime de outros jogadores.
+vc.empty.channel.title=Entrar em um canal de voz
+vc.empty.channel.description=Alguns servidores tem canais de voz. Verifique se existem canais disponíveis!
+vc.empty.invite.title=Convide seus amigos
+vc.empty.invite.description=Informe outros jogadores sobre o bate-papo de voz - eles podem não ter habilitado!
+vc.muteMicrophone=Silenciar
+vc.unmuteMicrophone=Habilitar
+vc.myStatus=Status do seu microfone
+vc.hero.title=Bem-vindo ao bate-papo de voz!
+vc.hero.subtitle=Essa é a sua dashboard do bate-papo de voz, aqui você pode ver quem está ao seu alcance, e quem você pode escutar. Você também pode silenciar jogadores que não deseja ouvir.
+vc.statusTitle=Meu status
+vc.settings.globalVolumeTitle=Volume geral
+vc.settings.surround.toggle=Som ambiente
+vc.settings.globalVolumeAbout=Altera o volume de todos os jogadores no bate-papo de voz
+vc.settings.completelyFadePeers=Silenciar completamente a voz de jogadores distantes
+vc.settings.monitoring.title=Monitorar microfone (escute a sí mesmo)
+vc.operaWarning=Seu login parece estar demorando, provavelmente devido as suas configurações do Opera. Por favor, abre as configurações do seu navegador, busque por "WebRTC" e selecione a opção "habilitar tudo"
+vc.youAreModerating=Fique atento! Você agora é um moderador, você pode ouvir todos no bate-papo de voz e eles não podem te ouvir.
+vc.noMicInputYetTitle=Parece que há um problema com seu microfone!
+vc.noMicInputYetBody=Por favor verifique se você selecionou o microfone correto, ou tente diminuir seu filtro de ruído.
+vc.peersHiddenTitle=Jogadores do bate-papo de voz esão ocultos
+vc.peersHiddenTitle=Configurações de privacidade do servidor
+vc.peersHiddenText=Esse servidor habilitou o modo anônimo, você não pode ver quem está conectado ao bate-papo de voz, mas ainda pode ouví-los.
+vc.isTalking=está falando
+vc.people=jogadores
+vc.person=jogador
+vc.deafened=Você silenciou o bate-papo de voz
+vc.tooltip.local=Bate-papo de voz por proximidade
+vc.tooltip.global=Bate-papo de voz global
+vc.peerLoading=Carregando {name}
+
+vc.state.loading.title=Conectando ao bate-papo de voz
+vc.state.loading.body=Configurando sua conexão de voz...
+vc.state.error.title=A conexão falhou
+vc.state.error.body=Não conseguimos estabelecer conexão com o servidor de voz.
+vc.state.error.hints=Coisas que você pode verificar
+vc.state.error.fix1=Verifique se você tem uma VPN ou anti-webRTC habilitado
+vc.state.error.fix2=Verifique se seu navegador permitiu o uso do microfone
+vc.state.error.fix3=Tente recarregar a página
+vc.state.error.fix4=O bate-papo de voz pode estar cheio, e não há vagas disponíveis
+
+vc.channel.title=Canais de voz
+vc.channel.single=canal
+vc.channel.multiple=canais
+vc.channel.moreMembers=mais membros
+vc.channel.noMembersYet=Sem membros ativos
+vc.channel.joining=Entrando...
+vc.channel.leave=Sair do canal
+vc.channel.leaving=Saindo...
+vc.channel.leaveCurrentFirst=Sair do canal atual antes
+vc.channel.noPermissions=Sem permissões
+vc.channel.join=Entrar no canal
+
+
+settings.voicechat.echocancel.title=Cancelamento de eco
+settings.voicechat.echocancel.body=Isso irá tentar diminuir o eco captado pelo seu microfone, útil se você estiver usando caixas-de-som ao invés de fones de ouvido.
+settings.voicechat.echocancel.button=Habilitar cancelamento de eco
+settings.voicechat.chimes.title=Toque
+settings.voicechat.chimes.body=Toques são sons reproduzidos quando você habilita ou desabilita seu microfone. Criadores de conteúdo podem querer desabilitar essa função.
+settings.voicechat.chimes.button=usar toques
+settings.theme.title=Modo escuro
+settings.theme.body=Use o modo escuro padrão desse navegador
+settings.theme.button=modo escuro
+settings.voicechat.peer.title=Notificações de Proximidade
+settings.voicechat.peer.body=Receba notificações quando alguém entrar ou sair da sua área de alcance
+settings.voicechat.peer.button=habilitar notificações
+settings.mix-and-fade.title=Mix de música automático
+settings.mix-and-fade.body=Automaticamente alterna entre sons de forma gradual
+settings.mix-and-fade.button=Habilitar mix
+settings.preload.title=Automaticamente pré-carrega arquivos de áudio
+settings.preload.body=Com essa opção habilitada, OpenAudioMc irá automaticamente carregar arquivos que são usados perto da sua localização no jogo. Isso irá deixar o som mais interativo, porém pode consumir mais dados.
+settings.preload.button=Habilitar pré-carregamento
+settings.rolloff.title=Abafamento de áudio 3D
+settings.rolloff.body=Isso controla o abafamento do áudio 3D baseado na distância. 0% não causa abafamento, 100% abafa completamente. Isso se aplica a todos os áudios.
+settings.rolloff.01=1% (mínimo)
+settings.rolloff.5=50%
+settings.rolloff.8=80%
+settings.rolloff.1=100% (normal)
+settings.rolloff.12=120%
+settings.rolloff.15=150% (extremo)
+settings.language.title=Idioma
+settings.language.body=Selecione o idioma desejado
+settings.distancemodel.title=Volume de áudio por distância
+settings.distancemodel.body=Define que algorítimo deve ser usado para reduzir a voz dos jogadores conforme se distanciam.
+settings.distancemodel.linear=Linear
+settings.distancemodel.exponential=Exponencial
+
+settings.spatial.title=Engine de renderização espacial
+settings.spatial.body=A engine moderna é mais rápida e provê maior qualidade sonora, porém consome mais dados.
+settings.spatial.modern=Moderna
+settings.spatial.legacy=Legado (sistemas antigos)
+
+settings.interpolation.title=Arredondamento de localização
+settings.interpolation.body=Automaticamente arredonda sua localização no jogo para evitar cortes durante conversas.
+settings.interpolation.button=Habilitar arredondamento
+
+network.serverUnhealthy=A conexão de {serverName}com o OpenAudioMc está instável, a funcionalidade do client pode ser comprometida até que a conexão seja restaurada.
+
+tooltip.close=Fechar
