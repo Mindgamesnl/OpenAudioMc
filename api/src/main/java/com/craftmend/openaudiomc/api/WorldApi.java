@@ -71,7 +71,7 @@ public interface WorldApi {
      * @throws InvalidThreadException   if called from the main thread.
      *                                  This is to prevent blocking the main thread with the underlying Sqlite database
      * @throws InvalidLocationException if the location is not valid (this location is already occupied by a real or virtual speaker)
-     * @since 6.10.7
+     * @since 6.10.8
      */
     void registerVirtualSpeaker(
             int x,
@@ -90,7 +90,7 @@ public interface WorldApi {
      * @param speaker speaker
      * @throws InvalidSpeakerException if the speaker is not valid (already unregistered, or not registered by the api)
      * @throws InvalidThreadException  if called from the main thread.
-     * @since 6.10.7
+     * @since 6.10.8
      */
     void unregisterVirtualSpeaker(@NotNull BasicSpeaker speaker) throws InvalidSpeakerException, InvalidThreadException;
 
