@@ -20,7 +20,7 @@ public class    TrainMedia {
         this.source = source;
         this.media = new Media(this.source);
         this.media.setDoPickup(true);
-        this.media.setMediaId(this.mediaId.toString());
+        this.media.setMediaId("train_audio");
         this.media.setLoop(false);
     }
 
