@@ -45,7 +45,7 @@ public class TrainCartsModule {
             for (MinecartMember<?> minecartMember : member) {
                 for (Player playerPassenger : minecartMember.getEntity().getPlayerPassengers()) {
                     SpigotConnection spigotConnection = OpenAudioMc.getService(SpigotPlayerService.class).getClient(playerPassenger);
-                    OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(media.getMediaId().toString()));
+                    OpenAudioMc.getService(NetworkingService.class).send(spigotConnection.getClientConnection(), new PacketClientDestroyMedia(media.getMedia().getMediaId()));
                 }
             }
         }

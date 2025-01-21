@@ -6,12 +6,10 @@ import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Data
-public class    TrainMedia {
+public class TrainMedia {
 
-    private UUID mediaId = UUID.randomUUID();
     private Instant startedAt = OpenAudioMc.getService(TimeService.class).getSyncedInstant();
     private String source;
     private Media media;
@@ -20,7 +18,7 @@ public class    TrainMedia {
         this.source = source;
         this.media = new Media(this.source);
         this.media.setDoPickup(true);
-        this.media.setMediaId(this.mediaId.toString());
+        this.media.setMediaId("train_audio");
         this.media.setLoop(false);
     }
 
