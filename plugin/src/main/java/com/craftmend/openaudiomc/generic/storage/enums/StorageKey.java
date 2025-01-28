@@ -107,6 +107,9 @@ public enum StorageKey {
     SETTINGS_IGNORE_REGIONS_WHILE_IN_VEHICLE(false, "options.ignore-regions-on-vehicles", StorageLocation.CONFIG_FILE),
     SETTINGS_HYDRATE_REGIONS_ON_BOOT(false, "options.hydrate-regions-on-boot", StorageLocation.CONFIG_FILE),
 
+    SETTINGS_TRAINCARTS_MUTE_REGIONS(false, "options.traincarts-mute-regions", StorageLocation.CONFIG_FILE),
+    SETTINGS_TRAINCARTS_MUTE_SPEAKERS(false, "options.traincarts-mute-speakers", StorageLocation.CONFIG_FILE),
+
     SETTINGS_STATIC_CHANNELS_ENABLED(false, "static-channels.enabled", StorageLocation.CONFIG_FILE),
     SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI(false, "static-channels.show-in-webclient", StorageLocation.CONFIG_FILE),
     SETTINGS_STATIC_CHANNELS_BASE(false, "static-channels.list", StorageLocation.CONFIG_FILE),

@@ -16,6 +16,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientVoiceOptionsUpdate;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.voice.ClientVoiceOptionsPayload;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.filters.FilterService;
 import org.jetbrains.annotations.Nullable;
@@ -182,5 +183,28 @@ public class VoiceApiImpl implements VoiceApi {
     @Override
     public boolean isChannelNameValid(String s) {
         return OpenAudioMc.getService(VoiceChannelService.class).isChannelNameValid(s);
+    }
+
+    @Override
+    public boolean isClientModerating(Client client) {
+        ClientConnection clientConnection = (ClientConnection) client;
+        return clientConnection.getSession().isModerating();
+    }
+
+    @Override
+    public boolean startClientModeration(Client client) {
+        ClientConnection clientConnection = (ClientConnection) client;
+        if (!StorageKey.SETTINGS_VC_MOD_ENABLED.getBoolean()) {
+            return false;
+        }
+
+        clientConnection.setModerating(true);
+        return true;
+    }
+
+    @Override
+    public void stopClientModeration(Client client) {
+        ClientConnection clientConnection = (ClientConnection) client;
+        clientConnection.setModerating(false);
     }
 }

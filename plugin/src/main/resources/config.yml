@@ -293,6 +293,12 @@ options:
   # This is useful for when you have a bad connection, but it can be disabled if its causing issues.
   auto-reconnect: true
 
+  # This setting determines if the media played in a train should overwrite any media from regions
+  traincarts-mute-regions: false
+
+  # This setting determines if the media played in a train should overwrite any media from speakers
+  traincarts-mute-speakers: false
+
 # Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
 # You can implement custom filters through the API, or enable some of the default ones below.
 vc-filter:
