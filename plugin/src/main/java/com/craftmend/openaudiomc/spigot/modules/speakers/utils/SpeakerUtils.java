@@ -12,6 +12,7 @@ import de.tr7zw.changeme.nbtapi.NbtApiException;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,10 @@ public class SpeakerUtils {
     public static final String speakerSkin = SETTINGS_SPEAKER_SKIN_NAME.getString();
     public static final UUID speakerUUID = UUID.fromString(SETTINGS_SPEAKER_SKIN_UUID.getString());
     public static final String textureValue;
+    private static OfflinePlayer FAKE_SKULL_OWNER = new ClassMocker<OfflinePlayer>(OfflinePlayer.class)
+            .addReturnValue("getUniqueId", speakerUUID)
+            .addReturnValue("getName", speakerSkin)
+            .createProxy();
 
     static {
         String rawUrl = SETTINGS_SPEAKER_SKIN_TEXTURE.getString();
@@ -56,7 +61,6 @@ public class SpeakerUtils {
                     }
                     return valid;
                 }
-
                 return skull.getOwningPlayer().getUniqueId().equals(speakerUUID);
             } else {
                 if (skull.getOwner() == null) return false;
@@ -70,13 +74,25 @@ public class SpeakerUtils {
         ItemStack skull = new ItemStack(SPEAKER_SERVICE.getPlayerSkullItem());
         skull.setDurability((short) 3);
 
+        SkullMeta sm = (SkullMeta) skull.getItemMeta();
+        if (sm != null) {
+            sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
+            sm.setOwningPlayer(FAKE_SKULL_OWNER);
+            sm.setLore(Arrays.asList(
+                    ChatColor.AQUA + "I'm a super cool speaker!",
+                    ChatColor.AQUA + "Simply place me in your world",
+                    ChatColor.AQUA + "and I'll play your customized music",
+                    "",
+                    ChatColor.AQUA + "SRC: " + ChatColor.GREEN + source,
+                    ChatColor.AQUA + "Radius: " + ChatColor.GREEN + radius
+            ));
+            skull.setItemMeta(sm);
+        }
+
         // For Minecraft 1.20.4 and below
         NBT.modify(skull, nbt -> {
             ReadWriteNBT skullOwnerCompound = nbt.getOrCreateCompound("SkullOwner");
-
-            // The owner UUID. Note that skulls with the same UUID but different textures will misbehave and only one texture will load.
-            // They will share the texture. To avoid this limitation, it is recommended to use a random UUID.
-            skullOwnerCompound.setUUID("Id", UUID.randomUUID());
+            skullOwnerCompound.setUUID("Id", speakerUUID);
 
             skullOwnerCompound.getOrCreateCompound("Properties")
                     .getCompoundList("textures")
@@ -98,20 +114,6 @@ public class SpeakerUtils {
             } else {
                 e.printStackTrace();
             }
-        }
-
-        SkullMeta sm = (SkullMeta) skull.getItemMeta();
-        if (sm != null) {
-            sm.setDisplayName(ChatColor.AQUA + "OpenAudioMc Speaker");
-            sm.setLore(Arrays.asList(
-                    ChatColor.AQUA + "I'm a super cool speaker!",
-                    ChatColor.AQUA + "Simply place me in your world",
-                    ChatColor.AQUA + "and I'll play your customized music",
-                    "",
-                    ChatColor.AQUA + "SRC: " + ChatColor.GREEN + source,
-                    ChatColor.AQUA + "Radius: " + ChatColor.GREEN + radius
-            ));
-            skull.setItemMeta(sm);
         }
 
         NBTItem nbti = new NBTItem(skull);
