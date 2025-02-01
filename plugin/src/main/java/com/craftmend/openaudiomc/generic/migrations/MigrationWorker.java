@@ -64,6 +64,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_SPEAKER_MAX_RANGE, "Add max range config value"),
                 new AddConfigKeyMigration(SETTINGS_STATIC_CHANNELS_SHOW_IN_WEB_UI, "Add a setting to show the channels web UI"),
                 new AddConfigKeyMigration(SETTINGS_SPEAKER_SKIN_UUID, "Add a setting for the speaker skin textures"),
+                new AddConfigKeyMigration(SETTINGS_TRAINCARTS_MUTE_REGIONS, "Add a setting to mute regions and speakers in traincarts"),
         };
 
         for (SimpleMigration migration : migrations) {

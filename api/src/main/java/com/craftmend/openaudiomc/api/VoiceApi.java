@@ -162,5 +162,29 @@ public interface VoiceApi {
      */
     boolean isChannelNameValid(String s);
 
+    /**
+     * Check if a client has voicechat moderation enabled
+     * @param client the client to check
+     * @return true if the client has moderation enabled
+     * @since 6.10.9
+     */
+    boolean isClientModerating(Client client);
+
+    /**
+     * Start a moderation session for a client, bypassing permission checks.
+     * Moderation will still have to be enabled in the config, otherwise this method will return false and do nothing.
+     * Moderation mode isn't permanent, it will only last for the duration you have configured in the config, but you can call this method again to extend the duration.
+     * @param client the client to enable or disable moderation for
+     * @return true if the client is now moderating
+     * @since 6.10.9
+     */
+    boolean startClientModeration(Client client);
+
+    /**
+     * Stop a moderation session for a client
+     * @param client the client to stop moderation for
+     * @since 6.10.9
+     */
+    void stopClientModeration(Client client);
 
 }

@@ -91,7 +91,6 @@ public class Executor {
 
     public void stop() {
         running = false;
-        this.thread.stop();
     }
 
 }

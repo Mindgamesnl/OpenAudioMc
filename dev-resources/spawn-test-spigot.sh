@@ -28,4 +28,4 @@ echo "Starting server.."
 rm world/session.lock
 rm world_the_end/session.lock
 rm world_nether/session.lock
-java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar spigot-1.21.4.jar nogui
+java -Xms3G -Xmx3G -DIReallyKnowWhatIAmDoingISwear -jar paper-1.20.4-499.jar nogui

@@ -197,10 +197,12 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
      */
     public void setModerating(boolean state) {
         if (state) {
-            session.setModerating(true);
             session.setModerationTimeRemaining(OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_MODERATION_TIMER));
-            session.setResetVc(true);
-            sendPacket(new PacketClientModerationStatus(true));
+            if (!session.isModerating()) {
+                session.setResetVc(true);
+                sendPacket(new PacketClientModerationStatus(true));
+            }
+            session.setModerating(true);
         } else {
             session.setModerating(false);
             session.setModerationTimeRemaining(0);
