@@ -110,7 +110,7 @@ vc.state.error.fix2=Check if your browser has microphone permissions
 vc.state.error.fix3=Try refreshing the page
 vc.state.error.fix4=The server might be full and not have any more voice slots available
 
-vc.channel.title=Voice Channels
+vc.channel.title=Non-proximity Voice Channels
 vc.channel.single=channel
 vc.channel.multiple=channels
 vc.channel.moreMembers=more members

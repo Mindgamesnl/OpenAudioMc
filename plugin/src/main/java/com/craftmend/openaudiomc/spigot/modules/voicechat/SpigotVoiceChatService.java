@@ -61,6 +61,12 @@ public class SpigotVoiceChatService extends Service {
             if (firstRun) {
                 int maxDistance = StorageKey.SETTINGS_VC_RADIUS.getInt();
 
+                // must be between 5 and 200 (inclusive)
+                if (maxDistance < 5 || maxDistance > 200) {
+                    OpenAudioLogger.warn("Invalid voice chat radius (" + maxDistance + "), resetting to 50");
+                    maxDistance = 50;
+                }
+
                 // tick every second
                 peerTicker = new PlayerPeerTicker(maxDistance, new PeerFilter());
                 taskService.scheduleAsyncRepeatingTask(peerTicker, 20, 20);

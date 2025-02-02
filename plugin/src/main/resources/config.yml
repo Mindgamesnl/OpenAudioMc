@@ -221,7 +221,7 @@ options:
   # Garbage collection strategy, it only removes it from the cache by default but you can set it to "INVALIDATE" to keep values until reboot
   gc-strategy: DELETE
 
-  # Required distance for proximity voice chat. Must be between 20 and 70
+  # Required distance for proximity voice chat. Must be between 5 and 200
   voicechat-radius: 45
 
   # Chat announcements for players to notify them of others entering/leaving their voice chat proximity
@@ -311,7 +311,7 @@ vc-filter:
   require-common-team: false
 
   # When enabled, players will be excluded from *proximity* voicechat as long as they are in a channel
-  require-no-channel: true
+  require-no-channel: false
 
 # Static channels are a set of channels that will always exist (even if they are empty), and can be locked behind certain permissions
 # You can use this feature in cases where individuals don't have permissions to create their own channels, but sitll want to offer
