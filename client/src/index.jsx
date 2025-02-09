@@ -6,6 +6,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { reportVital } from './client/util/vitalreporter';
 
+// polyfill for url canParse
+if (!URL.canParse) {
+  // eslint-disable-next-line no-console
+  console.log('Polyfilling URL.canParse');
+  URL.canParse = (url, base) => {
+    try {
+      // eslint-disable-next-line no-new
+      new URL(url, base);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <App />,
