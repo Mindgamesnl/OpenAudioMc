@@ -165,16 +165,28 @@ export class PeerStream {
       untrackVoiceGainNode(this.globalVolumeNodeId);
     }
 
-    if (this.masterOutputNode !== null) {
-      const ctx = WorldModule.player.audioCtx;
-      this.masterOutputNode.disconnect(ctx.destination);
+    // Disconnect all nodes
+    if (this.sourceNode) {
+      this.sourceNode.disconnect();
+    }
+    if (this.gainNode) {
+      this.gainNode.disconnect();
+      this.gainNode.gain.value = 0;
+    }
+    if (this.pannerNode) {
+      this.pannerNode.disconnect();
+    }
+    if (this.globalSink) {
+      this.globalSink.disconnect();
     }
 
-    if (this.gainNode) {
-      this.gainNode.gain.value = 0;
+    // Stop all tracks
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach((track) => track.stop());
     }
 
     if (this.audio_elem) {
+      this.audio_elem.srcObject = null;
       this.audio_elem.pause();
     }
 

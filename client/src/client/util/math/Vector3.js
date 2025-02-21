@@ -16,6 +16,13 @@ export class Vector3 {
     return new Vector3(this.x, this.y, this.z);
   }
 
+  copy(other) {
+    this.x = other.x;
+    this.y = other.y;
+    this.z = other.z;
+    return this;
+  }
+
   sub(v) {
     this.x -= v.x;
     this.y -= v.y;

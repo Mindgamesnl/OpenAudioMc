@@ -21,13 +21,12 @@ export class Player {
     this.pitch = this.toRadians(pitch);
     this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
 
-    // location already is a Vector3
     const euler = new Euler(this.pitch, this.yaw, 0);
     const quaternion = new Quaternion();
     quaternion.setFromEuler(euler);
 
     const position = new Position(location, quaternion);
-    position.applyTo(this.listener);
+    position.applyTo(this.listener, this.audioCtx);
 
     this.world.onLocationUpdate();
   }
