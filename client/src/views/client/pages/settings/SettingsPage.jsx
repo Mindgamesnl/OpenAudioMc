@@ -208,7 +208,7 @@ function SettingsPage({ settings }) {
               onChange={handleRangeChange('spatialRolloffFactor')}
               valueLabels={[
                 { value: 0, label: getTranslation(null, 'settings.spatial.rolloff.none') || 'None' },
-                { value: 2.5, label: getTranslation(null, 'settings.spatial.rolloff.default') || 'Default' },
+                { value: 1.5, label: getTranslation(null, 'settings.spatial.rolloff.default') || 'Default' },
                 { value: 4, label: getTranslation(null, 'settings.spatial.rolloff.max') || 'Maximum' },
               ]}
             />
