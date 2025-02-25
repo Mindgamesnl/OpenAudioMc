@@ -3,10 +3,10 @@
 /**
  * Implements a spatial audio processor for creating 3D sound positioning effects.
  * This processor handles distance-based attenuation and stereo panning based on
- * the relative positions of audio source and listener.
+ * the relative positions of audio source and listener, with a cardioid pickup pattern.
  * @extends AudioWorkletProcessor
  */
-class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
+class CardioidSpatialProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
 
@@ -29,11 +29,17 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     this._smoothingFactor = 0.15;
     this._currentPan = 0;
 
+    // Cardioid pattern specific parameters - gentler for voice chat
+    this._cardioidFactor = 0.25; // Lower value for a more subtle cardioid shape
+    this._frontGainBoost = 1.0; // Front direction gain multiplier (unchanged)
+    this._rearAttenuation = 0.7; // Higher value (0.7) for less aggressive rear attenuation
+
     this._bypassMode = false;
     this._debugCounter = 0;
 
     this._cachedDistance = 0;
     this._cachedDistanceGain = 1.0;
+    this._cachedDirectionalGain = 1.0; // For cardioid pattern
     this._cachedLeftGain = 0.5;
     this._cachedRightGain = 0.5;
 
@@ -42,7 +48,7 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
 
     this.port.onmessage = (event) => this._handleMessage(event.data);
 
-    this.port.postMessage({ type: 'debug', message: 'Improved spatial processor initialized' });
+    this.port.postMessage({ type: 'debug', message: 'Cardioid spatial processor initialized' });
   }
 
   /**
@@ -104,6 +110,25 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
         this._positionsChanged = true
       }
 
+      // Add cardioid pattern specific settings
+      if (data.cardioidFactor !== undefined && this._cardioidFactor !== data.cardioidFactor) {
+        this._cardioidFactor = data.cardioidFactor;
+        changed = true;
+        this._positionsChanged = true;
+      }
+
+      if (data.frontGainBoost !== undefined && this._frontGainBoost !== data.frontGainBoost) {
+        this._frontGainBoost = data.frontGainBoost;
+        changed = true;
+        this._positionsChanged = true;
+      }
+
+      if (data.rearAttenuation !== undefined && this._rearAttenuation !== data.rearAttenuation) {
+        this._rearAttenuation = data.rearAttenuation;
+        changed = true;
+        this._positionsChanged = true;
+      }
+
       if (data.bypass !== undefined && this._bypassMode !== data.bypass) {
         this._bypassMode = data.bypass;
         changed = true;
@@ -154,8 +179,42 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
   }
 
   /**
+   * Calculates the directional gain factor based on a gentle cardioid pattern for voice chat.
+   * @param {number} relativeAngle - The angle between listener forward vector and source position
+   * @returns {number} The calculated directional gain factor
+   */
+  _calculateCardioidGain(relativeAngle) {
+    // Normalize the angle to be between 0-180 degrees (0-PI radians)
+    const absAngle = Math.abs(relativeAngle);
+
+    // Modified approach for gentle cardioid effect:
+    // 1. Start with a basic cardioid formula
+    // 2. But make it less aggressive by blending with a constant value
+    const basicCardioid = 0.5 * (1 + Math.cos(absAngle));
+
+    // Apply a gentler curve by blending with a baseline
+    // This ensures people behind you are still clearly audible
+    const baselineLevel = 0.8; // High baseline ensures minimum attenuation
+    let blendedGain = baselineLevel + (1 - baselineLevel) * basicCardioid;
+
+    // Apply a very gentle cardioid shaping factor
+    let gain = Math.pow(blendedGain, this._cardioidFactor);
+
+    // Apply subtle front boost and rear attenuation
+    if (absAngle < Math.PI / 2) {
+      // Front half (0-90 degrees)
+      gain = gain * this._frontGainBoost;
+    } else {
+      // Rear half (90-180 degrees)
+      gain = gain * this._rearAttenuation;
+    }
+
+    return Math.max(this._minGain, Math.min(1.0, gain));
+  }
+
+  /**
    * Calculates stereo panning values based on the relative position of source to listener.
-   * @returns {Object} Object containing leftGain, rightGain and pan values
+   * @returns {Object} Object containing leftGain, rightGain, pan and directionalGain values
    */
   _calculatePanning() {
     const dx = this._sourceX - this._listenerX;
@@ -170,6 +229,9 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     while (relativeAngle > Math.PI) relativeAngle -= 2 * Math.PI;
     while (relativeAngle < -Math.PI) relativeAngle += 2 * Math.PI;
 
+    // Calculate cardioid pattern gain based on the relative angle
+    const directionalGain = this._calculateCardioidGain(relativeAngle);
+
     // Dead zone for small angles - force center panning when looking almost directly at source
     const deadZoneAngle = 0.12;
     if (Math.abs(relativeAngle) < deadZoneAngle) {
@@ -181,8 +243,6 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     if (Math.abs(relativeAngle) > Math.PI / 2) {
       const behindFactor = 1.2;
       pan *= behindFactor;
-
-      this._cachedDistanceGain *= 0.85;
     }
 
     const clampedPan = Math.max(-1, Math.min(1, pan));
@@ -208,7 +268,7 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
       rightGain /= totalGain;
     }
 
-    return { leftGain, rightGain, pan: this._currentPan };
+    return { leftGain, rightGain, pan: this._currentPan, directionalGain };
   }
 
   /**
@@ -220,14 +280,15 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
       this._cachedDistance = this._calculateSimpleDistance();
       this._cachedDistanceGain = this._calculateGain(this._cachedDistance);
 
-      const { leftGain, rightGain, pan } = this._calculatePanning();
+      const { leftGain, rightGain, pan, directionalGain } = this._calculatePanning();
       this._cachedLeftGain = leftGain;
       this._cachedRightGain = rightGain;
+      this._cachedDirectionalGain = directionalGain;
 
       if (this._debugCounter % 5 === 0) {
         this.port.postMessage({
           type: 'debug',
-          message: `Spatial: dist=${this._cachedDistance.toFixed(2)}, gain=${this._cachedDistanceGain.toFixed(2)}, pan=${pan.toFixed(2)}, L=${leftGain.toFixed(2)}, R=${rightGain.toFixed(2)}`
+          message: `Cardioid Spatial: dist=${this._cachedDistance.toFixed(2)}, gain=${this._cachedDistanceGain.toFixed(2)}, dirGain=${directionalGain.toFixed(2)}, pan=${pan.toFixed(2)}, L=${leftGain.toFixed(2)}, R=${rightGain.toFixed(2)}`
         });
       }
       this._debugCounter++;
@@ -278,8 +339,9 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     const outputRight = output.length > 1 ? output[1] : output[0];
 
     if (inputChannel && outputLeft && outputRight) {
+      // Apply both distance attenuation and directional (cardioid) gain
       for (let i = 0; i < inputChannel.length; i++) {
-        const sample = inputChannel[i] * this._cachedDistanceGain * this._volBooster;
+        const sample = inputChannel[i] * this._cachedDistanceGain * this._cachedDirectionalGain * this._volBooster;
         outputLeft[i] = sample * this._cachedLeftGain;
         outputRight[i] = sample * this._cachedRightGain;
       }
@@ -288,5 +350,4 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     return true;
   }
 }
-
-registerProcessor('simplified-spatial-processor', SimplifiedSpatialProcessor);
+registerProcessor('simplified-spatial-processor', CardioidSpatialProcessor);
