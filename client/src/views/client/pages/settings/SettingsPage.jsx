@@ -184,7 +184,7 @@ function SettingsPage({ settings }) {
               title={getTranslation(null, 'settings.spatial.stereo.title') || 'Stereo Separation'}
               description={getTranslation(null, 'settings.spatial.stereo.body') || 'Controls the intensity of stereo separation effect'}
               min={0.5}
-              max={5}
+              max={8}
               step={0.1}
               value={settings.spatialStereoSeparation || 5}
               onChange={handleRangeChange('spatialStereoSeparation')}
@@ -192,6 +192,7 @@ function SettingsPage({ settings }) {
                 { value: 0.5, label: getTranslation(null, 'settings.spatial.stereo.low') || 'Low' },
                 { value: 1.5, label: getTranslation(null, 'settings.spatial.stereo.medium') || 'Medium' },
                 { value: 5, label: getTranslation(null, 'settings.spatial.stereo.high') || 'High' },
+                { value: 8, label: getTranslation(null, 'settings.spatial.stereo.max') || 'Max' },
               ]}
             />
           </SettingCard>
@@ -201,14 +202,14 @@ function SettingsPage({ settings }) {
               title={getTranslation(null, 'settings.spatial.rolloff.title') || 'Rolloff Factor'}
               description={getTranslation(null, 'settings.spatial.rolloff.body') || 'Controls how quickly sound fades with distance'}
               min={0}
-              max={2}
+              max={4}
               step={0.1}
               value={settings.spatialRolloffFactor || 1.5}
               onChange={handleRangeChange('spatialRolloffFactor')}
               valueLabels={[
                 { value: 0, label: getTranslation(null, 'settings.spatial.rolloff.none') || 'None' },
-                { value: 1.5, label: getTranslation(null, 'settings.spatial.rolloff.default') || 'Default' },
-                { value: 2, label: getTranslation(null, 'settings.spatial.rolloff.max') || 'Maximum' },
+                { value: 2.5, label: getTranslation(null, 'settings.spatial.rolloff.default') || 'Default' },
+                { value: 4, label: getTranslation(null, 'settings.spatial.rolloff.max') || 'Maximum' },
               ]}
             />
           </SettingCard>

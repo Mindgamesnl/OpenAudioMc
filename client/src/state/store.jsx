@@ -60,8 +60,8 @@ const initialState = {
     voiceEchoCancellation: false,
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
-    spatialRolloffFactor: 2,
-    spatialStereoSeparation: 5,
+    spatialRolloffFactor: 2.5,
+    spatialStereoSeparation: 6.5,
     spatialBypass: false,
 
     preferredMicId: 'default',

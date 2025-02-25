@@ -150,6 +150,7 @@ settings.spatial.stereo.body=This controls of hard audio should pan to the left 
 settings.spatial.stereo.low=Off
 settings.spatial.stereo.medium=Medium
 settings.spatial.stereo.high=High
+settings.spatial.stereo.max=Max
 
 settings.spatial.rolloff.title=Audio Rolloff
 settings.spatial.rolloff.body=This controls how much audio volume should decrease as the listener moves away from the audio source.
