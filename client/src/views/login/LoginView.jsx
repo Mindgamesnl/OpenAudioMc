@@ -2,10 +2,9 @@ import React from 'react';
 
 import '@fontsource/roboto/300.css';
 import './css/login-glow.css';
+import { Globe } from 'lucide-react';
 import JAVA_LOGO from './platforms/editions/java.png';
 import BEDROCK_LOGO from './platforms/editions/bedrock.png';
-import { StaticFooter } from '../../components/footer/StaticFooter';
-import { VERSION } from '../../build';
 import { compareProdVersions } from '../../client/util/versioning';
 import { FadeToCtx } from '../../components/contexts';
 import { BedrockAuthFlow } from './platforms/bedrock/BedrockAuthFlow';
@@ -171,27 +170,29 @@ export class LoginView extends React.Component {
                   </div>
 
                 </div>
-                <StaticFooter>
-                  <a href="https://openaudiomc.net/docs/client_major_changelog" className="text-white">
-                    {VERSION.build}
-                    <small
-                      className={`pl-2 ${this.state.versionDiff.color}`}
+                <div
+                  className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center text-xs text-gray-400 bg-black bg-opacity-40 backdrop-blur-sm"
+                >
+                  <div>
+                    &copy; OpenAudioMc 2016-2025. All Rights Reserved.
+                  </div>
+                  <div className="flex items-center">
+                    <a
+                      href="https://openaudiomc.net/docs/client_major_changelog"
+                      className="text-gray-400 hover:text-white flex items-center"
                     >
-                      (
-                      {this.state.versionDiff.text}
-                      )
-                    </small>
-                  </a>
-                </StaticFooter>
-
-                <div className="fixed bottom-0 left-0 pl-2 pb-2 pr-2 pt-2 bg-black rounded-tr-2xl">
-                  <a
-                    className="soft-text break-words"
-                    id="notice"
-                    href="https://openaudiomc.net/"
-                  >
-                    &copy; OpenAudioMc 2016-2025.All Rights Reserved.
-                  </a>
+                      <span>1.125.301</span>
+                      <span className={`ml-2 ${this.state.versionDiff.color}`}>
+                        (
+                        {this.state.versionDiff.text}
+                        )
+                      </span>
+                    </a>
+                    <a href="https://openaudiomc.net/" className="ml-4 text-gray-400 hover:text-white flex items-center">
+                      <Globe size={14} className="mr-1" />
+                      Website
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
