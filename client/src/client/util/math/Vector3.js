@@ -5,6 +5,12 @@ export class Vector3 {
     this.z = z || 0;
   }
 
+  set(x, y, z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
   add(x, y, z) {
     this.x += x;
     this.y += y;

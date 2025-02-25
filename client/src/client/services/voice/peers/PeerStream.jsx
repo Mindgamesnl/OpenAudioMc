@@ -1,11 +1,14 @@
+// Updated PeerStream.js
 import { trackVoiceGainNode, untrackVoiceGainNode, VoiceModule } from '../VoiceModule';
 import { WorldModule } from '../../world/WorldModule';
 import { getGlobalState, setGlobalState } from '../../../../state/store';
-import { applyPannerSettings, untrackPanner } from '../../../../views/client/pages/settings/SettingsPage';
-import { Position } from '../../../util/math/Position';
-import { Vector3 } from '../../../util/math/Vector3';
 import { Hark } from '../../../util/hark';
 import { ConnectionClosedError } from '../errors/ConnectionClosedError';
+import {
+  CustomSpatialRenderer,
+  applySpatialRendererSettings,
+  untrackSpatialRenderer,
+} from '../../rendering/CustomSpatialRenderer';
 
 export class PeerStream {
   constructor(peerStreamKey, volume, useSpatialAudio) {
@@ -13,10 +16,10 @@ export class PeerStream {
     this.volume = volume;
     this.volBooster = 1.5;
     this.harkEvents = null;
-    this.pannerId = null;
+    this.spatialRendererId = null;
     this.globalVolumeNodeId = null;
     this.useSpatialAudio = useSpatialAudio;
-    this.pannerNode = null;
+    this.spatialRenderer = null;
 
     this.x = 0;
     this.y = 0;
@@ -92,37 +95,47 @@ export class PeerStream {
       this.sourceNode.disconnect();
     }
 
-    // Remove existing panner nodes from tracking
-    if (this.pannerId !== null) {
-      untrackPanner(this.pannerId);
+    // Remove existing spatial renderer from tracking
+    if (this.spatialRendererId !== null) {
+      untrackSpatialRenderer(this.spatialRendererId);
     }
 
-    // Disconnect and remove existing panner nodes
-    if (this.pannerNode !== null) {
-      this.pannerNode.disconnect();
-      this.pannerNode = null;
+    // Disconnect and remove existing spatial renderer
+    if (this.spatialRenderer !== null) {
+      this.spatialRenderer.disconnect();
+      this.spatialRenderer = null;
     }
 
-    // Create new panner nodes based on the updated spatial audio settings
+    // Create new spatial audio components based on the updated settings
     if (this.useSpatialAudio) {
-      this.pannerNode = ctx.createPanner();
-      this.pannerId = applyPannerSettings(
-        this.pannerNode,
+      // Create new spatial renderer with max distance from global state
+      this.spatialRenderer = new CustomSpatialRenderer(
+        ctx,
         getGlobalState().voiceState.radius,
       );
-      this.setLocation(this.x, this.y, this.z, true);
-      this.gainNode.disconnect();
-      this.sourceNode.connect(this.gainNode);
-      this.gainNode.connect(this.pannerNode);
 
-      // Connect panner node to global sink
-      this.pannerNode.connect(this.globalSink);
-    } else {
-      // If not using spatial audio, reconnect directly to gain node
+      // Apply and track settings for the spatial renderer
+      this.spatialRendererId = applySpatialRendererSettings(
+        this.spatialRenderer,
+        getGlobalState().voiceState.radius,
+      );
+
+      // Set the position of the spatial renderer
+      this.setLocation(this.x, this.y, this.z, true);
+
+      // Connect the source to the spatial renderer
       this.sourceNode.connect(this.gainNode);
       this.gainNode.disconnect();
-      this.gainNode.connect(ctx.destination);
-      // Connect gain node to global sink
+
+      // Connect the gain node to the spatial renderer
+      this.spatialRenderer.connect(this.gainNode);
+
+      // Connect the output of the spatial renderer to the global sink
+      this.spatialRenderer.connectOutput(this.globalSink);
+    } else {
+      // If not using spatial audio, reconnect directly to gain node and then to destination
+      this.sourceNode.connect(this.gainNode);
+      this.gainNode.disconnect();
       this.gainNode.connect(this.globalSink);
     }
   }
@@ -146,9 +159,8 @@ export class PeerStream {
     this.y = y;
     this.z = z;
 
-    if (this.useSpatialAudio && this.pannerNode && update) {
-      const position = new Position(new Vector3(x, y, z));
-      position.applyTo(this.pannerNode);
+    if (this.useSpatialAudio && this.spatialRenderer && update) {
+      this.spatialRenderer.setPosition(x, y, z);
     }
   }
 
@@ -160,8 +172,8 @@ export class PeerStream {
   }
 
   stop() {
-    if (this.pannerId !== null) {
-      untrackPanner(this.pannerId);
+    if (this.spatialRendererId !== null) {
+      untrackSpatialRenderer(this.spatialRendererId);
       untrackVoiceGainNode(this.globalVolumeNodeId);
     }
 
@@ -173,16 +185,11 @@ export class PeerStream {
       this.gainNode.disconnect();
       this.gainNode.gain.value = 0;
     }
-    if (this.pannerNode) {
-      this.pannerNode.disconnect();
+    if (this.spatialRenderer) {
+      this.spatialRenderer.disconnect();
     }
     if (this.globalSink) {
       this.globalSink.disconnect();
-    }
-
-    // Stop all tracks
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach((track) => track.stop());
     }
 
     if (this.audio_elem) {

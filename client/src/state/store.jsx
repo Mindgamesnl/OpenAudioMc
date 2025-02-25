@@ -14,6 +14,8 @@ const initialState = {
     notificationsReady: false, // if notifications are ready to be shown
   },
 
+  criticalError: null,
+
   // state - null for the login screen
   currentUser: null,
 
@@ -58,9 +60,9 @@ const initialState = {
     voiceEchoCancellation: false,
     voicechatChimesEnabled: true,
     interpolationEnabled: true,
-    spatialRenderingMode: 'new',
-    rolloffFactor: 1,
-    distanceModel: 'linear',
+    spatialRolloffFactor: 2,
+    spatialStereoSeparation: 5,
+    spatialBypass: false,
 
     preferredMicId: 'default',
 
@@ -149,6 +151,20 @@ const VOICE_CHANNEL_ALL = 'VOICE_CHANNEL_ALL';
 const VOICE_CHANNEL_ADD = 'VOICE_CHANNEL_ADD';
 const VOICE_CHANNEL_REMOVE = 'VOICE_CHANNEL_REMOVE';
 const VOICE_CHANNEL_PATCH = 'VOICE_CHANNEL_PATCH';
+
+export function haltCriticalError(
+  code = 'UNKNOWN',
+  title = 'Something went wrong',
+  description = "The page you're looking for couldn't be found or an unexpected error has occurred.",
+) {
+  setGlobalState({
+    criticalError: {
+      code,
+      title,
+      description,
+    },
+  });
+}
 
 // Action Creators
 export function voiceChannelAll(channels) {

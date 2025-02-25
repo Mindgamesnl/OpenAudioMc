@@ -1,33 +1,47 @@
-import { Position } from '../../../util/math/Position';
-import { applyPannerSettings, untrackPanner } from '../../../../views/client/pages/settings/SettingsPage';
+// Updated SpeakerRenderNode.js
+import {
+  applySpatialRendererSettings, CustomSpatialRenderer,
+  untrackSpatialRenderer,
+} from '../../rendering/CustomSpatialRenderer';
 
 export class SpeakerRenderNode {
   constructor(speaker, world, player, media, source, channel) {
     // audio pipeline
-    // Sound object > Panner Node > Gain Node > Audio Device
+    // Sound object > Spatial Renderer > Gain Node > Audio Device
 
-    this.pannerNode = player.audioCtx.createPanner();
+    this.speaker = speaker;
     this.media = media;
-    this.pannerId = null;
+    this.spatialRendererId = null;
+    this.player = player;
+    this.spatialRenderer = null;
 
     media.whenInitialized(() => {
       channel.fadeChannel(100, 100);
-      media.addNode(player, this.pannerNode);
 
-      this.pannerId = applyPannerSettings(this.pannerNode, speaker.maxDistance);
+      // Create a new spatial renderer instead of a panner node
+      this.spatialRenderer = new CustomSpatialRenderer(player.audioCtx, speaker.maxDistance);
 
+      // Apply settings and track the renderer
+      this.spatialRendererId = applySpatialRendererSettings(this.spatialRenderer, speaker.maxDistance);
+
+      // Connect the media source to the spatial renderer
+      media.attachCustomRenderer(player, this.spatialRenderer);
+
+      // Set the position from the speaker's location
       const { location } = speaker;
-      const position = new Position(location);
-      position.applyTo(this.pannerNode);
 
-      this.pannerNode.connect(player.audioCtx.destination);
+      // Apply position to the spatial renderer
+      this.spatialRenderer.setPosition(location.x, location.y, location.z);
+
+      // Connect the spatial renderer's output to the audio destination
+      this.spatialRenderer.connectOutput(player.audioCtx.destination);
     });
   }
 
   preDelete() {
-    untrackPanner(this.pannerId);
-    if (this.pannerNode) {
-      this.pannerNode.disconnect();
+    untrackSpatialRenderer(this.spatialRendererId);
+    if (this.spatialRenderer) {
+      this.spatialRenderer.disconnect();
     }
   }
 }
