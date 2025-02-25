@@ -170,6 +170,12 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
     while (relativeAngle > Math.PI) relativeAngle -= 2 * Math.PI;
     while (relativeAngle < -Math.PI) relativeAngle += 2 * Math.PI;
 
+    // Dead zone for small angles - force center panning when looking almost directly at source
+    const deadZoneAngle = 0.12;
+    if (Math.abs(relativeAngle) < deadZoneAngle) {
+      relativeAngle = 0;
+    }
+
     let pan = Math.sin(relativeAngle) * this._panningStrength;
 
     if (Math.abs(relativeAngle) > Math.PI / 2) {
@@ -183,11 +189,24 @@ class SimplifiedSpatialProcessor extends AudioWorkletProcessor {
 
     this._currentPan = this._currentPan + this._smoothingFactor * (clampedPan - this._currentPan);
 
-    const angle = (this._currentPan + 1) * Math.PI / 4;
+    // Equal power panning corrected implementation
+    const panValue = this._currentPan * 0.5;
+    let leftGain, rightGain;
 
-    const power = 0.8;
-    const leftGain = Math.pow(Math.cos(angle), power);
-    const rightGain = Math.pow(Math.sin(angle), power);
+    // Wider tolerance for considering something as centered
+    if (Math.abs(panValue) < 0.05) {
+      // Special case for center to ensure perfect balance
+      leftGain = rightGain = 0.5;
+    } else {
+      // Use equal power panning formula
+      leftGain = Math.cos((panValue + 0.5) * Math.PI / 2);
+      rightGain = Math.sin((panValue + 0.5) * Math.PI / 2);
+
+      // Normalize to ensure total power is consistent
+      const totalGain = leftGain + rightGain;
+      leftGain /= totalGain;
+      rightGain /= totalGain;
+    }
 
     return { leftGain, rightGain, pan: this._currentPan };
   }
