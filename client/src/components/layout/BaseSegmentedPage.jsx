@@ -66,9 +66,9 @@ export class BaseSegmentedPage extends React.Component {
     }
 
     return (
-      <div className="min-h-screen bg-black flex items-stretch overflow-hidden">
+      <div className="min-h-screen bg-black flex flex-col overflow-auto">
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-black z-0 overflow-hidden">
+        <div className="fixed inset-0 bg-black z-0 overflow-hidden">
           <div
             className="absolute inset-0 opacity-40 z-0"
             style={{
@@ -81,21 +81,23 @@ export class BaseSegmentedPage extends React.Component {
           <div className="absolute inset-0 bg-gradient-to-br from-black via-transparent to-black opacity-80 z-1"></div>
         </div>
 
-        {/* Content container with glass morphism */}
-        <div className="container mx-auto my-8 z-10 flex flex-col lg:flex-row items-center justify-center gap-8 px-4">
-          {React.cloneElement(this.props.children, {
-            accentColor,
-            serverDisplayName,
-            logoImage,
-          })}
+        {/* Main content container */}
+        <div className="flex-grow flex items-center justify-center z-10 py-8">
+          <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 px-4 pb-16 sm:pb-0">
+            {React.cloneElement(this.props.children, {
+              accentColor,
+              serverDisplayName,
+              logoImage,
+            })}
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center text-xs text-gray-500 bg-black bg-opacity-80 backdrop-blur-md border-t border-gray-800 z-10">
-          <div>
+        <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-black bg-opacity-80 backdrop-blur-md border-t border-gray-800 z-10">
+          <div className="mb-2 sm:mb-0 text-center sm:text-left">
             &copy; OpenAudioMc 2016-2025. All Rights Reserved.
           </div>
-          <div className="flex items-center space-x-6">
+          <div className="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-2 sm:space-y-0">
             {this.props.showVersion && (
               <a
                 href="https://openaudiomc.net/docs/client_major_changelog"

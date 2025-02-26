@@ -1,14 +1,18 @@
 import React from 'react';
-import { BlackoutPage } from '../../../../components/layout/BlackoutPage';
+import { BaseSegmentedPage } from '../../../../components/layout/BaseSegmentedPage';
 import { LoginCode } from './LoginCode';
 import { FadeToCtx, OAC } from '../../../../components/contexts';
 
-export class BedrockTokenHandle extends React.Component {
+class BedrockTokenHandleContent extends React.Component {
   static contextType = FadeToCtx;
 
   constructor(props) {
     super(props);
+    this.state = {
+      copied: false,
+    };
     this.handleCode = this.handleCode.bind(this);
+    this.copyCommand = this.copyCommand.bind(this);
   }
 
   handleCode(code) {
@@ -18,41 +22,53 @@ export class BedrockTokenHandle extends React.Component {
         OAC.bootApp();
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
         console.log(err);
         this.context.fadeToComponent(null);
       });
   }
 
+  copyCommand(code) {
+    const command = `/audio ${code}`;
+    navigator.clipboard.writeText(command)
+      .then(() => {
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      })
+      .catch((err) => console.error('Could not copy text: ', err));
+  }
+
   render() {
+    const { copied } = this.state;
+
     return (
-      <BlackoutPage coverImage="/assets/clientbg.jpg">
-        <div className="relative bg-gradient-to-bl via-gray-900 from-stone-900 to-gray-900">
-          <div
-            className="relative mx-auto xl:max-w-7xl py-12 px-6 lg:px-8 lg:py-8 xl:border-l-8 border-solid border-indigo-900"
-          >
-            <div className="md:ml-auto">
-              <h2 className="text-lg font-semibold text-gray-300">Connecting with</h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Minecraft: Bedrock Edition
-              </p>
-              <div className="mt-3 text-lg text-gray-300">
-                <p>
-                  You&apos;re almost there! Just copy or remember the code below and enter it in the server
-                  where you&apos;re playing.
-                  Be sure to leave this page open in the background.
-                </p>
+      <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center">
+        <div className="w-full rounded-lg overflow-hidden bg-black bg-opacity-50 backdrop-blur-sm">
+          {/* Header */}
+          <div className="py-6">
+            <h2 className="text-white text-3xl font-medium">Connection Code</h2>
+            <p className="text-gray-300 mt-2">
+              Copy or remember the code below and enter it in your game
+            </p>
+          </div>
 
-                <div
-                  className="border-t-2 mx-5 my-5 border-r-2 border-solid border-gray-700 rounded-full"
-                />
-
-                <LoginCode onAccept={this.handleCode} />
-              </div>
-            </div>
+          {/* Main content */}
+          <div className="px-4 pb-6">
+            <LoginCode
+              onAccept={this.handleCode}
+              onCopy={this.copyCommand}
+              copied={copied}
+            />
           </div>
         </div>
-      </BlackoutPage>
+      </div>
     );
   }
+}
+
+export function BedrockTokenHandle() {
+  return (
+    <BaseSegmentedPage showVersion>
+      <BedrockTokenHandleContent />
+    </BaseSegmentedPage>
+  );
 }
