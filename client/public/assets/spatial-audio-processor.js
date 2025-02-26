@@ -215,58 +215,111 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
 
   /**
    * Calculates stereo panning values based on the relative position of source to listener.
+   * Modified to create sound sources with a width of 1 full block.
    * @returns {Object} Object containing leftGain, rightGain, pan and directionalGain values
    */
   _calculatePanning() {
     const dx = this._sourceX - this._listenerX;
     const dz = this._sourceZ - this._listenerZ;
 
+    // Calculate distance in the horizontal plane
+    const horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+
+    // Calculate the angular width based on 1 block width at the current distance
+    // The angular width in radians = 2 * atan(0.5 / distance)
+    // 0.5 represents half the block width (to get the angle from center to edge)
+    let sourceAngularWidth = 0;
+    if (horizontalDistance > 0.1) { // Avoid division by near-zero
+      sourceAngularWidth = 2 * Math.atan(0.5 / horizontalDistance);
+    } else {
+      sourceAngularWidth = Math.PI / 2; // 90 degrees if very close
+    }
+
+    // Calculate basic angle to source center
     const angleToSource = Math.atan2(dx, dz);
-
     let relativeAngle = angleToSource - this._listenerYaw;
-
     relativeAngle = -relativeAngle;
 
+    // Normalize angle to -PI to PI range
     while (relativeAngle > Math.PI) relativeAngle -= 2 * Math.PI;
     while (relativeAngle < -Math.PI) relativeAngle += 2 * Math.PI;
 
     // Calculate cardioid pattern gain based on the relative angle
     const directionalGain = this._calculateCardioidGain(relativeAngle);
 
-    // Dead zone for small angles - force center panning when looking almost directly at source
-    const deadZoneAngle = 1;
-    if (Math.abs(relativeAngle) < deadZoneAngle) {
-      relativeAngle = 0;
+    // Calculate how much of the 1-block-wide source is in each ear's field
+    // This creates a proper 1-block width perception
+
+    // Determine the edges of the source in angular space
+    const leftEdgeAngle = relativeAngle - sourceAngularWidth / 2;
+    const rightEdgeAngle = relativeAngle + sourceAngularWidth / 2;
+
+    // Calculate how much the 1-block source is in each ear's perceptual field
+    // Check if we're within the angular width of the source
+    let effectivePanAngle;
+
+    if (leftEdgeAngle <= 0 && rightEdgeAngle >= 0) {
+      // When the center position (0 radians) falls within the source width,
+      // calculate a proportional panning based on where in the source width we are
+      const positionWithinSource = -leftEdgeAngle / sourceAngularWidth; // 0 = left edge, 1 = right edge
+      effectivePanAngle = (positionWithinSource - 0.5) * sourceAngularWidth; // -half to +half source width
+    } else {
+      // When outside the direct center, use the closest edge for smoother transitions
+      effectivePanAngle = relativeAngle;
+
+      // Soften panning effect when we're close to the edges of the source
+      if (Math.abs(leftEdgeAngle) < Math.PI/4) {
+        // Near left edge of source
+        effectivePanAngle = Math.max(effectivePanAngle, leftEdgeAngle * 1.5);
+      } else if (Math.abs(rightEdgeAngle) < Math.PI/4) {
+        // Near right edge of source
+        effectivePanAngle = Math.min(effectivePanAngle, rightEdgeAngle * 1.5);
+      }
     }
 
-    let pan = Math.sin(relativeAngle) * this._panningStrength;
+    // Calculate pan with the adjusted angle
+    let pan = Math.sin(effectivePanAngle) * this._panningStrength;
 
+    // When behind, adjust pan to maintain spatial awareness
     if (Math.abs(relativeAngle) > Math.PI / 2) {
-      const behindFactor = 1.2;
+      const behindFactor = 1.1;
       pan *= behindFactor;
     }
 
     const clampedPan = Math.max(-1, Math.min(1, pan));
-
     this._currentPan = this._currentPan + this._smoothingFactor * (clampedPan - this._currentPan);
 
-    // Equal power panning corrected implementation
+    // Calculate gain for each channel with a modified equal power panning approach
     const panValue = this._currentPan * 0.5;
     let leftGain, rightGain;
 
-    // Wider tolerance for considering something as centered
-    if (Math.abs(panValue) < 0.05) {
-      // Special case for center to ensure perfect balance
-      leftGain = rightGain = 0.5;
+    // Create a crossfeed effect representing sound bleeding across the 1-block width
+    // This represents the physics of sound coming from an object with real width
+    const blockWidthCrossfeed = Math.min(0.3, sourceAngularWidth / Math.PI);
+
+    // When the listener is within the 1-block width of the source
+    if (horizontalDistance < 1.0) {
+      // When very close to or inside the block, create balanced stereo field
+      leftGain = 0.5;
+      rightGain = 0.5;
     } else {
-      // Use equal power panning formula
+      // Outside the block, use directional panning with crossfeed
       leftGain = Math.cos((panValue + 0.5) * Math.PI / 2);
       rightGain = Math.sin((panValue + 0.5) * Math.PI / 2);
 
-      // Normalize to ensure total power is consistent
+      // Apply crossfeed based on 1-block width
+      const leftWithCrossfeed = (leftGain * (1 - blockWidthCrossfeed)) + (rightGain * blockWidthCrossfeed);
+      const rightWithCrossfeed = (rightGain * (1 - blockWidthCrossfeed)) + (leftGain * blockWidthCrossfeed);
+
+      leftGain = leftWithCrossfeed;
+      rightGain = rightWithCrossfeed;
+
+      // Normalize to maintain consistent volume
       const totalGain = leftGain + rightGain;
-      leftGain /= totalGain;
-      rightGain /= totalGain;
+      if (totalGain > 0) {
+        leftGain /= totalGain;
+        rightGain /= totalGain;
+      }
     }
 
     return { leftGain, rightGain, pan: this._currentPan, directionalGain };
