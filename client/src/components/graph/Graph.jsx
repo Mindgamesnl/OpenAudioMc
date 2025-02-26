@@ -124,7 +124,7 @@ export class Graph extends React.Component {
       <canvas
         style={{ width: '100%', height: '100%' }}
         ref={this.canvasRef}
-        className="border-double border-2 border-blue-900"
+        className="border-double border-2 border-blue-900 bg-indigo-200"
       />
     );
   }

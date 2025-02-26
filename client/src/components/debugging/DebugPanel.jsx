@@ -19,7 +19,7 @@ export default function DebugPanel(props) {
   return (
     <OaStyleCard width="6" title={props.title}>
       <Graph color={props.color} catchLine={props.title} data={data} fill={props.fill} />
-      <table className="w-full text-black">
+      <table className="w-full text-white">
         <tbody>
           <tr>
             <td className="text-left">Highest</td>

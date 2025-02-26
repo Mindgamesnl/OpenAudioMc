@@ -148,7 +148,7 @@ class DebugPage extends React.Component {
           </OaStyleCard>
 
           <OaStyleCard title="Tranceivers">
-            <p className="text-black">
+            <p className="text-white">
               {this.state.transceiverNames.map((name) => (
                 <span key={`${name}-`}>
                   {name}
@@ -162,7 +162,7 @@ class DebugPage extends React.Component {
 
           <OaStyleCard title="Spatial Rendering">
             <Radar player={this.state.playerLocation} entities={this.state.peers} speakers={this.state.speakers} />
-            <p className="text-black">
+            <p className="text-white">
               My location X:
               {this.state.playerLocation.x}
               {' '}
@@ -174,7 +174,7 @@ class DebugPage extends React.Component {
             </p>
             {this.state.peers.length === 0 && (
               <p>
-                <i className="text-black">No peers in range or peers are hidden</i>
+                <i className="text-white">No peers in range or peers are hidden</i>
               </p>
             )}
           </OaStyleCard>
