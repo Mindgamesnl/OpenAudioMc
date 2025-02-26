@@ -1,4 +1,3 @@
-// Updated SpeakerRenderNode.js
 import {
   applySpatialRendererSettings, CustomSpatialRenderer,
   untrackSpatialRenderer,
