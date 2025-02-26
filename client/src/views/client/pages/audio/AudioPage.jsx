@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Header } from '../../../../components/header/Header';
-import ClickPrompt from '../../../../components/clicktoconnect/ClickPrompt';
 import { VcOnboarding } from '../../../../components/onboarding/VcOnboarding';
 import AudioVolume from '../../../../components/audio/AudioVolume';
 import SoundCloudPlayer from '../../../../components/soundcloud/SoundCloudPlayer';
@@ -12,10 +11,6 @@ const HeaderMemo = React.memo(Header);
 const VolumeMemo = React.memo(AudioVolume);
 
 function AudioPage(props) {
-  if (props.clickLock) {
-    return <ClickPrompt />;
-  }
-
   return (
     <>
       <div className="h-full w-full audio-page-bg flex justify-center items-center">
@@ -45,6 +40,5 @@ function mapStateToProps(state) {
     browserSupportsVoiceChat: state.browserSupportsVoiceChat,
     voiceState: state.voiceState,
     clientSupportsVoiceChat: state.clientSupportsVoiceChat,
-    clickLock: state.clickLock,
   };
 }

@@ -212,6 +212,8 @@ class OpenAudioAppContainer extends React.Component {
     debugLog(`Server is premium: ${serverData.isPatreon}`);
     debugLog(`Server bucket folder: ${serverData.bucketFolder}`);
 
+    document.title = serverData.title;
+
     setGlobalState({
       lang: { serverName: serverData.displayName },
       isPremium: serverData.isPatreon || serverData.voicechatSlots > 10,
@@ -221,7 +223,12 @@ class OpenAudioAppContainer extends React.Component {
     });
 
     setBgColor(serverData.color);
-    document.title = serverData.title;
+    let { title } = serverData;
+    // is it empty? then do name | servername
+    if (title === '') {
+      title = `${tokenSet.name} | ${serverData.displayName}`;
+    }
+    document.title = title;
 
     if (serverData.startSound !== '') {
       MediaManager.startSound = serverData.startSound;
