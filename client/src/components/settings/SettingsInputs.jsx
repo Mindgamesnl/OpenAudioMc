@@ -94,7 +94,7 @@ export function SettingsInputs({
 CheckboxSetting.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   isChecked: PropTypes.bool.isRequired,
   buttonText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -103,7 +103,7 @@ CheckboxSetting.propTypes = {
 SettingsInputs.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.string,
