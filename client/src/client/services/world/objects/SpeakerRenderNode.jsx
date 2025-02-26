@@ -7,7 +7,6 @@ export class SpeakerRenderNode {
   constructor(speaker, world, player, media, source, channel) {
     // audio pipeline
     // Sound object > Spatial Renderer > Gain Node > Audio Device
-
     this.speaker = speaker;
     this.media = media;
     this.spatialRendererId = null;
