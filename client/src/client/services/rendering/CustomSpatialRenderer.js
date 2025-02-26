@@ -18,7 +18,7 @@ export class SpatialAudioListener {
     this.x = 0;
     this.y = 0;
     this.z = 0;
-    this.yaw = 0; // Direct yaw value - no quaternion needed
+    this.yaw = 0;
 
     // Track all active nodes
     this.activeNodes = new Set();
