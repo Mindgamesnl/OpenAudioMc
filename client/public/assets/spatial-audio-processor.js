@@ -64,10 +64,11 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
         this._positionsChanged = true;
       }
     } else if (data.type === 'listener-position') {
-      if (this._listenerX !== data.x || this._listenerY !== data.y || this._listenerZ !== data.z) {
+      if (this._listenerX !== data.x || this._listenerY !== data.y || this._listenerZ !== data.z || this._listenerYaw !== data.yaw) {
         this._listenerX = data.x;
         this._listenerY = data.y;
         this._listenerZ = data.z;
+        this._listenerYaw = data.yaw;
         this._positionsChanged = true;
       }
     } else if (data.type === 'listener-yaw') {
@@ -233,7 +234,7 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
     const directionalGain = this._calculateCardioidGain(relativeAngle);
 
     // Dead zone for small angles - force center panning when looking almost directly at source
-    const deadZoneAngle = 1.5;
+    const deadZoneAngle = 1;
     if (Math.abs(relativeAngle) < deadZoneAngle) {
       relativeAngle = 0;
     }

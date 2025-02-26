@@ -196,12 +196,7 @@ export class CustomSpatialRenderer {
     if (this.workletNode) {
       this.workletNode.port.postMessage({
         type: 'listener-position',
-        x, y, z
-      });
-
-      this.workletNode.port.postMessage({
-        type: 'listener-yaw',
-        yaw
+        x, y, z, yaw
       });
     } else if (this.fallbackPanner) {
       this._updateFallbackPan();

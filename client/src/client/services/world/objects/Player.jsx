@@ -32,7 +32,6 @@ export class Player {
     this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
 
     this.listener.updatePosition(location.x, location.y, location.z, this.yaw);
-
     this.world.onLocationUpdate();
   }
 
