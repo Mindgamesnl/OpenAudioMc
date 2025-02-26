@@ -233,7 +233,7 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
     const directionalGain = this._calculateCardioidGain(relativeAngle);
 
     // Dead zone for small angles - force center panning when looking almost directly at source
-    const deadZoneAngle = 0.12;
+    const deadZoneAngle = 1.5;
     if (Math.abs(relativeAngle) < deadZoneAngle) {
       relativeAngle = 0;
     }
