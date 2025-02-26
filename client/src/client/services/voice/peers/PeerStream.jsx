@@ -1,4 +1,3 @@
-// Updated PeerStream.js
 import { trackVoiceGainNode, untrackVoiceGainNode, VoiceModule } from '../VoiceModule';
 import { WorldModule } from '../../world/WorldModule';
 import { getGlobalState, setGlobalState } from '../../../../state/store';
@@ -33,15 +32,19 @@ export class PeerStream {
   // callback has a boolean attached to it, true if the stream loaded, or false if it got rejected
   startStream(callback) {
     // request the stream
-    const streamRequest = VoiceModule.peerManager.requestStream(this.peerStreamKey);
+    const streamRequest = VoiceModule.peerManager.requestStream(this.peerStreamKey, (statusMessage) => {
+      setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { loadingMessage: statusMessage } } } });
+    });
 
     const streamReadyHandler = async (stream) => {
+      streamRequest.notifyStatusUpdate('Preparing stream');
       this.audio_elem = new Audio();
       this.audio_elem.autoplay = true;
       this.audio_elem.muted = true;
       this.audio_elem.srcObject = stream;
 
       // player context
+      streamRequest.notifyStatusUpdate('Setting up audio context');
       const ctx = WorldModule.player.audioCtx;
       this.gainNode = ctx.createGain();
       this.setVolume(this.volume);
@@ -53,6 +56,7 @@ export class PeerStream {
       this.mediaStream = stream;
 
       // speaking indicator
+      streamRequest.notifyStatusUpdate('Starting hark');
       this.harkEvents = new Hark(stream);
       this.harkEvents.setThreshold(-75);
       this.harkEvents.on('speaking', () => {
@@ -76,6 +80,7 @@ export class PeerStream {
         this.setVolume(this.volume);
       }
 
+      streamRequest.notifyStatusUpdate('Stream ready');
       callback(true);
     };
 
