@@ -21,60 +21,70 @@ export function OaStyleCard({
     return `w-1/${numWidth}`;
   };
 
+  // Get accent color from CSS variable or fallback to default
+  const accentColor = 'var(--accent-color, #6366f1)';
+  const dangerColor = '#EF4444';
+
   return (
     <div className={`${getWidthClass()} px-4 relative`}>
       <div
         className={`
-          relative overflow-hidden rounded-xl
-          ${dark ? 'bg-slate-900' : 'bg-white'}
-          border border-slate-200 dark:border-slate-800
-          ${isDanger ? 'border-red-200 dark:border-red-900' : ''}
-          shadow-sm hover:shadow-md
+          backdrop-blur-xl relative overflow-hidden rounded-xl
+          ${isDanger
+          ? 'bg-black bg-opacity-30 border'
+          : dark
+            ? 'bg-black bg-opacity-40 border'
+            : 'bg-black bg-opacity-30 border'
+        }
+          shadow-xl hover:shadow-2xl
           transition-all duration-300
         `}
+        style={{
+          borderColor: isDanger ? dangerColor : accentColor,
+          borderWidth: '1px',
+        }}
       >
-        {/* Decorative gradient blur */}
-        {!isDanger && !dark && (
-          <div className="absolute inset-0 z-0">
-            <div className="absolute -left-4 -top-24 w-48 h-48 bg-blue-500 opacity-10 rounded-full blur-3xl" />
-            <div className="absolute -right-4 -bottom-24 w-48 h-48 bg-purple-500 opacity-10 rounded-full blur-3xl" />
-          </div>
-        )}
-
-        {/* Danger state decorative elements */}
-        {isDanger ? (
-          <div className="absolute inset-0 z-0">
-            <div className="absolute -left-4 -top-24 w-48 h-48 bg-red-500 opacity-10 rounded-full blur-3xl" />
-            <div className="absolute -right-4 -bottom-24 w-48 h-48 bg-orange-500 opacity-10 rounded-full blur-3xl" />
-          </div>
-        ) : null}
-
-        {/* Dark mode decorative elements */}
-        {dark ? (
-          <div className="absolute inset-0 z-0">
-            <div className="absolute -left-4 -top-24 w-48 h-48 bg-indigo-500 opacity-5 rounded-full blur-3xl" />
-            <div className="absolute -right-4 -bottom-24 w-48 h-48 bg-purple-500 opacity-5 rounded-full blur-3xl" />
-          </div>
-        ) : null}
+        {/* Background glow effects */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {isDanger ? (
+            <>
+              <div
+                className="absolute -left-20 -top-20 w-64 h-64 rounded-full blur-3xl opacity-20"
+                style={{ backgroundColor: dangerColor }}
+              />
+              <div
+                className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full blur-3xl opacity-10"
+                style={{ backgroundColor: '#F97316' }}
+              />
+            </>
+          ) : (
+            <>
+              <div
+                className="absolute -left-20 -top-20 w-64 h-64 rounded-full blur-3xl opacity-20"
+                style={{ backgroundColor: accentColor }}
+              />
+              <div
+                className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full blur-3xl opacity-10"
+                style={{ backgroundColor: dark ? '#8B5CF6' : accentColor }}
+              />
+            </>
+          )}
+        </div>
 
         {/* Header */}
-        <div className={`
+        <div
+          className={`
           relative z-10
           px-6 py-4
           border-b
-          // eslint-disable-next-line no-nested-ternary
-          ${isDanger ? 'bg-red-50 dark:bg-red-950 border-red-100 dark:border-red-900'
-          : dark ? 'bg-slate-900 border-slate-800'
-            : 'bg-slate-50 dark:bg-slate-900 border-slate-100 dark:border-slate-800'}
+          ${isDanger
+            ? 'border-opacity-30'
+            : 'border-opacity-20'
+        }
         `}
+          style={{ borderColor: isDanger ? dangerColor : accentColor }}
         >
-          <h1 className={`
-            text-lg font-semibold
-            ${isDanger ? 'text-red-900 dark:text-red-200'
-            : dark ? 'text-white'
-              : 'text-slate-900 dark:text-slate-200'}
-          `}
-          >
+          <h1 className="text-lg font-semibold text-white">
             {title}
           </h1>
         </div>
@@ -83,25 +93,19 @@ export function OaStyleCard({
         <div className={`
           relative z-10
           ${noPadding ? '' : 'p-6'}
-          ${dark ? 'text-slate-200' : 'text-slate-600'}
+          text-gray-300
         `}
         >
           {/* Alert */}
           {(alertBody || alertTitle) ? (
-            <div className={`
-              mb-6 rounded-lg p-4
-              bg-blue-50 dark:bg-blue-950
-              border border-blue-100 dark:border-blue-900
-              text-blue-900 dark:text-blue-200
-            `}
-            >
+            <div className="mb-6 rounded-lg p-4 backdrop-blur-sm bg-black bg-opacity-30 border border-opacity-30 border-blue-500">
               {alertTitle ? (
-                <div className="font-medium mb-1">
+                <div className="font-medium mb-1 text-blue-300">
                   {alertTitle}
                 </div>
               ) : null}
               {alertBody ? (
-                <div className="text-sm opacity-90">
+                <div className="text-sm text-blue-100">
                   {alertBody}
                 </div>
               ) : null}
