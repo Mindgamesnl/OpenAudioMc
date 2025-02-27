@@ -116,6 +116,13 @@ export default class ClientTokenSet {
               }
               const ses = sessionValidationResponse.response;
 
+              const selectedForBeta = ses.redirectToBeta || false;
+              if (selectedForBeta) {
+                // redirect to https://beta.openaudiomc.net/#token
+                window.location.href = `https://beta.openaudiomc.net/#${token}`;
+                return;
+              }
+
               const out = new ClientTokenSet(ses.publicKey, ses.playerUuid, ses.playerName, ses.session, ses.scope);
               if (VERSION.isDev()) {
                 window._devTokenCache = out;
