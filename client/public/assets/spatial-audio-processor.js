@@ -48,7 +48,7 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
 
     this.port.onmessage = (event) => this._handleMessage(event.data);
 
-    this.port.postMessage({ type: 'debug', message: 'Cardioid spatial processor initialized' });
+    this.port.postMessage({ type: 'debug', message: 'Cardioid spatial processor initialized. Samplerate ' + sampleRate });
   }
 
   /**
@@ -372,15 +372,11 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
     }
 
     if (this._bypassMode) {
-      const inputChannel = input[0];
-      if (inputChannel) {
-        for (let i = 0; i < output.length; i++) {
-          const outputChannel = output[i];
-          if (outputChannel) {
-            for (let j = 0; j < outputChannel.length; j++) {
-              outputChannel[j] = inputChannel[j] * this._volBooster;
-            }
-          }
+      for (let i = 0; i < Math.min(input.length, output.length); i++) {
+        const inputChannel = input[i];
+        const outputChannel = output[i];
+        if (inputChannel && outputChannel) {
+          outputChannel.set(inputChannel);
         }
       }
       return true;
@@ -388,16 +384,19 @@ class CardioidSpatialProcessor extends AudioWorkletProcessor {
 
     this._updateAudioCalculations();
 
-    const inputChannel = input[0];
+    // Handle stereo input
+    const inputLeft = input[0];
+    const inputRight = input.length > 1 ? input[1] : input[0];
+
     const outputLeft = output[0];
     const outputRight = output.length > 1 ? output[1] : output[0];
 
-    if (inputChannel && outputLeft && outputRight) {
-      // Apply both distance attenuation and directional (cardioid) gain
-      for (let i = 0; i < inputChannel.length; i++) {
-        const sample = inputChannel[i] * this._cachedDistanceGain * this._cachedDirectionalGain * this._volBooster;
-        outputLeft[i] = sample * this._cachedLeftGain;
-        outputRight[i] = sample * this._cachedRightGain;
+    if (inputLeft && inputRight && outputLeft && outputRight) {
+      for (let i = 0; i < inputLeft.length; i++) {
+        const sampleLeft = inputLeft[i] * this._cachedDistanceGain * this._cachedDirectionalGain;
+        const sampleRight = inputRight[i] * this._cachedDistanceGain * this._cachedDirectionalGain;
+        outputLeft[i] = sampleLeft * this._cachedLeftGain;
+        outputRight[i] = sampleRight * this._cachedRightGain;
       }
     }
 

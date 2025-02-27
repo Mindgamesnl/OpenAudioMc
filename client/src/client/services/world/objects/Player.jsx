@@ -9,7 +9,9 @@ export class Player {
       audioContextType = window.AudioContext || window.webkitAudioContext;
     }
     // eslint-disable-next-line new-cap
-    this.audioCtx = new audioContextType();
+    this.audioCtx = new audioContextType({
+      latencyHint: 'interactive',
+    });
 
     // compile our module
     this.audioCtx.audioWorklet.addModule('assets/spatial-audio-processor.js')
