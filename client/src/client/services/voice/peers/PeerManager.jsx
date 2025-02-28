@@ -485,10 +485,6 @@ export class PeerManager {
     const trackid = track.id;
     feedDebugValue(DebugStatistic.CACHED_STREAMS, this.peerConnection.getReceivers().length);
 
-    if (!track.active) {
-      return;
-    }
-
     if (!this.trackQueue.has(trackid)) {
       return;
     }
@@ -502,6 +498,11 @@ export class PeerManager {
           this.onInternalTrack(track, true, mst);
         }, 1000);
       }
+      return;
+    }
+
+    if (!track.active) {
+      promise.notifyStatusUpdate('Track inactive');
       return;
     }
 
@@ -519,15 +520,18 @@ export class PeerManager {
       .serialize());
   }
 
-  requestStream(peerKey) {
+  requestStream(peerKey, statusCallback = () => {}) {
     if (this.dataChannel?.readyState === 'open') {
       const promise = new PromisedChannel();
+      promise.onStatusUpdate(statusCallback);
       this.waitingPromises.set(peerKey, promise);
 
       this.sendMetaData(new RtcPacket()
         .setEventName('REQUEST_STREAM')
         .setParam('owner', peerKey)
         .serialize());
+
+      promise.notifyStatusUpdate('Requested stream');
 
       return promise;
     }

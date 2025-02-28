@@ -1,6 +1,5 @@
-import { Euler } from '../../../util/math/Euler';
-import { Quaternion } from '../../../util/math/Quaternion';
-import { Position } from '../../../util/math/Position';
+import { SpatialAudioListener } from '../../rendering/CustomSpatialRenderer';
+import { haltCriticalError } from '../../../../state/store';
 
 export class Player {
   constructor(world, location, pitch, yaw) {
@@ -10,25 +9,31 @@ export class Player {
       audioContextType = window.AudioContext || window.webkitAudioContext;
     }
     // eslint-disable-next-line new-cap
-    this.audioCtx = new audioContextType();
-    this.listener = this.audioCtx.listener;
+    this.audioCtx = new audioContextType({
+      latencyHint: 'interactive',
+    });
 
-    this.updateLocation(location, pitch, yaw);
+    // compile our module
+    this.audioCtx.audioWorklet.addModule('assets/spatial-audio-processor.js')
+      .then(() => {
+        this.listener = SpatialAudioListener.getInstance(this.audioCtx);
+        this.updateLocation(location, pitch, yaw);
+      })
+      .catch((err) => {
+        console.error('AudioWorklet failed to load:', err);
+        haltCriticalError(
+          'PROCESSOR_LOAD_FAILED',
+          'Failed to load the audio processor',
+          'The audio processor failed to load, please try again later',
+        );
+      });
   }
 
   updateLocation(location, pitch, yaw) {
     this.location = location;
-    this.pitch = this.toRadians(pitch);
     this.yaw = this.toRadians(this.normalizeYaw(360 - yaw));
 
-    // location already is a Vector3
-    const euler = new Euler(this.pitch, this.yaw, 0);
-    const quaternion = new Quaternion();
-    quaternion.setFromEuler(euler);
-
-    const position = new Position(location, quaternion);
-    position.applyTo(this.listener);
-
+    this.listener.updatePosition(location.x, location.y, location.z, this.yaw);
     this.world.onLocationUpdate();
   }
 

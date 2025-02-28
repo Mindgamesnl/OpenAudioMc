@@ -262,6 +262,13 @@ export class Sound extends AudioSourceProcessor {
     this.controller.connect(node);
   }
 
+  attachCustomRenderer(player, renderer) {
+    if (this.controller == null) {
+      this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
+    }
+    renderer.connect(this.controller);
+  }
+
   setMediaMuted(muted) {
     this.whenInitialized(() => {
       // override mute state

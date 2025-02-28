@@ -2,6 +2,7 @@ export class PromisedChannel {
   constructor() {
     this.whenFinished = () => { console.error('A promised channel got finished before it got used'); }; // eslint-disable-line no-console
     this.whenRejected = () => { console.error('A promised channel got finished before it got used'); }; // eslint-disable-line no-console
+    this.statusUpdateHandler = () => {};
 
     this.error = null;
     this.payload = null;
@@ -13,6 +14,14 @@ export class PromisedChannel {
       return;
     }
     this.whenFinished = f;
+  }
+
+  notifyStatusUpdate(message) {
+    this.statusUpdateHandler(message);
+  }
+
+  onStatusUpdate(f) {
+    this.statusUpdateHandler = f;
   }
 
   onReject(f) {

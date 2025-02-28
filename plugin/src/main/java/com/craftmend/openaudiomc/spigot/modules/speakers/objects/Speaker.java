@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.*;
 
 @NoArgsConstructor
@@ -37,11 +38,11 @@ public class Speaker extends DataStore implements BasicSpeaker {
     @Column(
             storeAsBlob = true
     )
+
     @Getter private Set<ExtraSpeakerOptions> extraOptions = new HashSet<>();
-
     @Getter @Setter private Boolean validated = false;
-
     @Getter @Setter private transient boolean isRedstonePowered = false;
+    @Getter @Setter private transient Instant lastRedstoneToggle = Instant.now();
 
     public Speaker(String source, UUID id, int radius, MappedLocation location, SpeakerType speakerType, EnumSet<ExtraSpeakerOptions> options) {
         this.source = source;
@@ -67,7 +68,11 @@ public class Speaker extends DataStore implements BasicSpeaker {
     }
 
     public SpeakerMedia getMedia() {
-        return OpenAudioMc.getService(SpeakerService.class).getMedia(source);
+        SpeakerMedia media = OpenAudioMc.getService(SpeakerService.class).getMedia(source);
+        if (!ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(this)) {
+            lastRedstoneToggle = Instant.ofEpochMilli(media.getStartInstant());
+        }
+        return media;
     }
 
     @Override

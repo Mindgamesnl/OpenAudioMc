@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './list.css';
 
 export function ChecklistItem(props) {
   let svg = (
@@ -9,7 +8,7 @@ export function ChecklistItem(props) {
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      className="h-8 w-8 text-red-500"
+      className="h-6 w-6 text-red-500"
     >
       <path
         strokeLinecap="round"
@@ -27,7 +26,7 @@ export function ChecklistItem(props) {
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
-        className="h-8 w-8 text-green-500"
+        className="h-6 w-6 text-green-500"
       >
         <path
           strokeLinecap="round"
@@ -40,19 +39,36 @@ export function ChecklistItem(props) {
   }
 
   if (props.loading) {
-    svg = <div className="checklist-loader p-2" />;
+    svg = (
+      <div className="flex items-center justify-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center p-3 rounded-md bg-gray-800">
-      <div className="flex-shrink-0 p-1 rounded-full ml-1 bg-gray-700">
+    <div
+      className="flex items-start p-4 rounded-lg backdrop-blur-sm bg-black bg-opacity-40 border border-gray-800 shadow-md w-max max-w-2xl break-words"
+      style={{ boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)' }}
+    >
+      <div
+        className="flex-shrink-0 p-2 rounded-full bg-gray-900 bg-opacity-70 border border-gray-700 mt-1"
+        style={{
+          // eslint-disable-next-line no-nested-ternary
+          boxShadow: props.checked
+            ? '0 0 10px rgba(34, 197, 94, 0.3)'
+            : props.loading
+              ? '0 0 10px rgba(255, 255, 255, 0.2)'
+              : '0 0 10px rgba(239, 68, 68, 0.3)',
+        }}
+      >
         {svg}
       </div>
-      <div className="ml-3 pr-1">
-        <div className="text-lg leading-6 font-medium text-gray-50">
+      <div className="ml-4 flex-1 overflow-hidden">
+        <div className="text-lg font-medium text-white break-words">
           {props.text}
         </div>
-        <div className="text-sm leading-6 font-medium text-gray-400">
+        <div className="text-sm text-gray-300 break-words">
           {props.subtext}
         </div>
       </div>

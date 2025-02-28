@@ -23,6 +23,7 @@ export class VoicePeerRow extends React.Component {
     loading: PropTypes.bool,
     hideVolume: PropTypes.bool,
     spatialAudio: PropTypes.bool,
+    loadingMessage: PropTypes.string,
   };
 
   static defaultProps = {
@@ -34,6 +35,7 @@ export class VoicePeerRow extends React.Component {
     loading: false,
     hideVolume: false,
     spatialAudio: false,
+    loadingMessage: 'Waiting for stream...',
   };
 
   constructor(props) {
@@ -114,11 +116,16 @@ export class VoicePeerRow extends React.Component {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              <small>
-                <i>
-                  {msg('vc.peerLoading').replace('{name}', name)}
-                </i>
-              </small>
+              <div className="flex flex-col">
+                <small>
+                  <i>
+                    {msg('vc.peerLoading').replace('{name}', name)}
+                  </i>
+                </small>
+                <p className="text-xs pt-1 text-indigo-300">
+                  {this.props.loadingMessage}
+                </p>
+              </div>
             </div>
           ) : null}
           <VoicePageButton

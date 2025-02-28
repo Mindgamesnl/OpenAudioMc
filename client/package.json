@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@million/lint": "^1.0.0-rc.84",
     "class-variance-authority": "^0.7.1",
+    "dompurify": "^3.2.4",
     "immer": "^9.0.17",
     "js-cookie": "^3.0.1",
     "lucide-react": "^0.462.0",

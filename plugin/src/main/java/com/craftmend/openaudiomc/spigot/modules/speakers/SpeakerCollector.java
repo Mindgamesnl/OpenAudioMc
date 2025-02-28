@@ -28,7 +28,12 @@ public class SpeakerCollector {
             if (speaker.getLocation() == null && !safe) return true;
             if (!speaker.getLocation().getWorld().equals(location.getWorld().getName())) return true;
             if (speaker.getLocation().toBukkit().distance(location) > speaker.getRadius()) return true;
-            if (ExtraSpeakerOptions.REQUIRES_REDSTONE.isEnabledFor(speaker) && speaker.getLocation().toBukkit().getChunk().isLoaded() && !speaker.getLocation().toBukkit().getBlock().isBlockPowered()) return true;
+            if (ExtraSpeakerOptions.REQUIRES_REDSTONE.isEnabledFor(speaker) && speaker.getLocation().toBukkit().getChunk().isLoaded() && !speaker.getLocation().toBukkit().getBlock().isBlockPowered()) {
+                if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(speaker)) {
+                    speaker.setLastRedstoneToggle(null);
+                }
+                return true;
+            }
             return false;
         });
 

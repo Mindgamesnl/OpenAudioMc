@@ -5,12 +5,13 @@ import { API_ENDPOINT } from '../../../../client/config/ApiEndpoints';
 
 export class LoginCode extends React.Component {
   static propTypes = {
-    onAccept: PropTypes.func,
+    onAccept: PropTypes.func.isRequired,
+    onCopy: PropTypes.func.isRequired,
+    copied: PropTypes.bool,
   };
 
   static defaultProps = {
-    onAccept: () => {
-    },
+    copied: false,
   };
 
   constructor(props) {
@@ -93,16 +94,16 @@ export class LoginCode extends React.Component {
   }
 
   render() {
+    const { copied, onCopy } = this.props;
+
     if (this.state.finished) {
       return (
         <div className="w-full flex flex-col justify-center items-center align-middle">
-          <div className="xl:w-1/4">
-            <ChecklistItem
-              text="Done!"
-              subtext={"You'll now be logged in"}
-              checked
-            />
-          </div>
+          <ChecklistItem
+            text="Connecting!"
+            subtext="Please wait for the connection to complete"
+            checked
+          />
         </div>
       );
     }
@@ -136,38 +137,70 @@ export class LoginCode extends React.Component {
       );
     }
 
-    const codeGrid = [];
-    for (let i = 0; i < this.state.code.length; i++) {
-      codeGrid.push(
-        <div
-          key={i}
-          className="p-2 m-1 rounded-md text-center bg-gray-700 text-white text-4xl"
-        >
-          {this.state.code.charAt(i)}
-        </div>,
-      );
-    }
-
     return (
-      <div className="w-full flex flex-col justify-center items-center align-middle">
-        <p className="text-3xl">Your login code is:</p>
-        <div className="flex">
-          {codeGrid}
-        </div>
-        <div>
-          <p className="text-sm mt-2">
-            Enter it through the command
-            {' '}
-            <code
-              className="bg-gray-700 p-1 ml-1 rounded-md text-white"
+      <>
+        <div className="bg-gray-900 rounded-lg overflow-hidden mx-auto mb-6 max-w-md border border-gray-800">
+          <div className="bg-blue-900 bg-opacity-30 p-6 w-full">
+            <p className="text-blue-200 text-xl opacity-70 text-left">Your login code is:</p>
+
+            <div className="flex justify-center space-x-2 my-4">
+              {this.state.code.split('').map((char, index) => (
+                <div
+                  key={index}
+                  className="w-14 h-14 flex items-center justify-center bg-gray-700 rounded-md text-white text-3xl font-bold"
+                >
+                  {char}
+                </div>
+              ))}
+            </div>
+
+            <p className="text-blue-200 text-sm opacity-70 text-left">
+              Enter it through the command:
+              <span className="inline-block bg-blue-800 bg-opacity-40 px-2 py-1 rounded text-white ml-2 font-mono">
+                /audio
+                {' '}
+                {this.state.code}
+              </span>
+            </p>
+          </div>
+
+          <div className="p-4 bg-gray-950 flex items-center justify-between">
+            <div className="flex items-center">
+              <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2" />
+              <code className="text-white font-mono">
+                /audio
+                {' '}
+                {this.state.code}
+              </code>
+            </div>
+            <button
+              type="button"
+              onClick={() => onCopy(this.state.code)}
+              className="text-white focus:outline-none"
+              title="Copy to clipboard"
             >
-              /audio
-              {' '}
-              {this.state.code}
-            </code>
-          </p>
+              {copied ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+
+        <div className="bg-gray-900 rounded-lg max-w-md mx-auto p-4 border border-gray-800">
+          <div className="flex items-center justify-center mb-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-purple-500 mr-2" />
+            <span className="text-white text-sm font-medium">IMPORTANT</span>
+          </div>
+          <p className="text-gray-300 text-sm">Keep this browser tab open while playing</p>
+          <p className="text-gray-300 text-sm">The connection will automatically complete once you enter the code</p>
+        </div>
+      </>
     );
   }
 }

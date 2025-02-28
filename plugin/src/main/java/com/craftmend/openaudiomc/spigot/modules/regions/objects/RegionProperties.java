@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.regions.objects;
 
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.generic.database.internal.DataStore;
+import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
@@ -45,6 +46,12 @@ public class RegionProperties extends DataStore {
         if (loop == null) loop = true;
         Media media = worldRegionManager.getRegionMedia(source, volume, fadeTimeMs, loop);
         media.setDoPickup(this.doSync);
+
+        // is region sync explicitly disabled?
+        if (!StorageKey.SETTINGS_REGIONS_SYNC.getBoolean()) {
+            media.setDoPickup(false);
+        }
+
         media.setFadeTime(fadeTimeMs);
         return media;
     }

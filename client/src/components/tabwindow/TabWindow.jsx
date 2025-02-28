@@ -1,14 +1,14 @@
-// eslint-disable-next-line max-classes-per-file
-import React, { Component } from 'react';
+/* eslint-disable */
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { showTextModal } from '../modal/InputModal';
-import { setGlobalState } from '../../state/store';
-import { msg } from '../../client/OpenAudioAppContainer';
+import {connect} from 'react-redux';
+import {showTextModal} from '../modal/InputModal';
+import {setGlobalState} from '../../state/store';
+import {msg} from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 import UserAvatar from '../avatar/UserAvatar';
-import { HamburgerSvg } from '../icons/hamburger';
-import { reportVital } from '../../client/util/vitalreporter';
+import {reportVital} from '../../client/util/vitalreporter';
+import {MenuIcon} from 'lucide-react';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -39,6 +39,9 @@ class TabWindow extends Component {
   }
 
   render() {
+    // Get accent color from props or state
+    const { accentColor } = this.props;
+
     let pages = React.Children.toArray(this.props.children).map((child) => ({
       name: child.props.name,
       content: child.props.content,
@@ -46,6 +49,7 @@ class TabWindow extends Component {
       buttonContent: child.props.buttonContent,
       subtext: child.props.subtext,
       colorWhenHasSubtext: child.props.colorWhenHasSubtext,
+      transparentNavbar: child.props.transparentNavbar,
     }));
 
     pages = pages.filter((page) => !page.hidden);
@@ -65,86 +69,146 @@ class TabWindow extends Component {
       tabToRender = 0;
     }
 
+    const transparentNavbar = pages[tabToRender].transparentNavbar;
+
     return (
       <div className="flex flex-col-reverse bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
         <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
           <div className="content-wrapper">
-            <ServerConnectionWarning />
+            <ServerConnectionWarning/>
             {pages[tabToRender].content}
           </div>
         </main>
 
         {!hiddenNavbar && (
           <>
-            {/* Mobile Navbar */}
-            <nav className="navbar-bg shadow-lg flex items-center p-2 md:hidden">
-              <div className="flex justify-between items-center w-full">
+            <nav
+              className="relative w-full p-2 md:hidden bg-black bg-opacity-60 backdrop-blur-md border-t border-gray-800 z-10">
+              <div className="flex justify-between items-center w-full relative">
                 <div className="flex items-center">
-                  <img src={this.props.logoImage} alt="Logo" className="pl-2 h-8" />
-                  <span className="ml-2 font-semibold text-xl text-gray-300">
+                  <img src={this.props.logoImage} alt="Logo" className="h-7"/>
+                  <span className="ml-2 font-medium text-base text-gray-200">
                     {msg('serverName')}
                   </span>
                 </div>
                 <button
                   type="button"
-                  className="text-white"
+                  className="text-gray-400 hover:text-white transition-colors duration-200 p-2 bg-black bg-opacity-50 rounded-full border border-gray-700"
+                  style={{
+                    boxShadow: this.props.accentColor ? `0 0 10px -2px ${this.props.accentColor}40` : ''
+                  }}
                   onClick={this.toggleMobileMenu}
                 >
-                  <HamburgerSvg />
-                  {this.state.mobileMenuOpen ? 'Close' : 'Menu'}
+                  <MenuIcon/>
                 </button>
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-25"
+                  style={{
+                    background: this.props.accentColor
+                      ? `linear-gradient(to right, ${this.props.accentColor}15, ${this.props.accentColor}25, ${this.props.accentColor}15)`
+                      : ''
+                  }}
+                ></div>
               </div>
             </nav>
 
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-75 transform ${
+              className={`fixed inset-0 bg-black bg-opacity-95 backdrop-blur-lg transform ${
                 this.state.mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
               } transition-transform duration-300 ease-in-out z-50 md:hidden`}
             >
-              <nav className="flex flex-col p-4 space-y-4">
-                {pages.map((page, index) => (
+              <div className={"flex flex-col h-full"}>
+                <div className="flex justify-between items-center p-4 border-b border-gray-800">
+                  <div className="flex items-center">
+                    <img src={this.props.logoImage} alt="Logo" className="h-8"/>
+                    <span className="ml-3 font-medium text-lg text-gray-200">
+                      {msg('serverName')}
+                    </span>
+                  </div>
                   <button
-                    key={page.name}
                     type="button"
-                    className={`px-5 py-3 text-lg font-medium flex gap-3 transition-colors duration-150 ${
-                      this.props.currentTab === index ? 'bg-gray-700 text-green-300' : 'text-white hover:bg-gray-700'
-                    }`}
-                    onClick={() => {
-                      setTab(index);
-                      this.toggleMobileMenu();
+                    className="text-gray-400 hover:text-white transition-colors duration-200 bg-black bg-opacity-50 p-2 rounded-full border border-gray-700"
+                    style={{
+                      boxShadow: this.props.accentColor ? `0 0 10px -2px ${this.props.accentColor}40` : ''
                     }}
+                    onClick={this.toggleMobileMenu}
                   >
-                    {page.buttonContent ? page.buttonContent : null}
-                    {page.name}
-                    {page.subtext ? (
-                      <p
-                        className={`text-sm ${
-                          this.props.currentTab === index ? 'text-green-300' : 'text-green-200'
-                        }`}
-                      >
-                        {page.subtext}
-                      </p>
-                    ) : null}
+                    Close
                   </button>
-                ))}
-                <div className="flex items-center justify-center mt-auto">
-                  <p className="text-sm text-gray-300">{playerName}</p>
-                  <UserAvatar />
                 </div>
-              </nav>
+                <nav className="flex flex-col py-6 px-5 space-y-6 flex-grow">
+                  {pages.map((page, index) => {
+                    // Style for active menu item
+                    const activeStyle = this.props.currentTab === index && this.props.accentColor ? {
+                      borderColor: this.props.accentColor,
+                      boxShadow: `0 0 15px -5px ${this.props.accentColor}50`
+                    } : {};
+
+                    return (
+                      <button
+                        key={page.name}
+                        type="button"
+                        className={`py-3 px-4 text-base transition-all duration-200 rounded-lg ${
+                          this.props.currentTab === index
+                            ? 'text-white bg-black bg-opacity-50 border border-gray-700'
+                            : 'text-gray-400 hover:text-white'
+                        }`}
+                        style={activeStyle}
+                        onClick={() => {
+                          setTab(index);
+                          this.toggleMobileMenu();
+                        }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          {page.buttonContent ? page.buttonContent : null}
+                          <span className="font-medium">{page.name}</span>
+                        </div>
+                        {page.subtext && (
+                          <p className={`text-xs mt-2 ${
+                            this.props.currentTab === index && this.props.accentColor
+                              ? ''
+                              : 'text-gray-500'
+                          }`}
+                             style={this.props.currentTab === index && this.props.accentColor ? {
+                               color: this.props.accentColor
+                             } : {}}>
+                            {page.subtext}
+                          </p>
+                        )}
+                      </button>
+                    );
+                  })}
+                </nav>
+                <div className="p-4 border-t border-gray-800">
+                  <div
+                    className="flex items-center bg-black bg-opacity-50 px-3 py-2 rounded-full border border-gray-700">
+                    <UserAvatar/>
+                    <p className="ml-2 text-sm text-gray-300">{playerName}</p>
+                  </div>
+                  {this.props.accentColor && (
+                    <div
+                      className="absolute inset-0 pointer-events-none opacity-10"
+                      style={{
+                        background: `radial-gradient(circle at 50% 50%, ${this.props.accentColor}40, transparent 70%)`
+                      }}
+                    ></div>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Desktop Navbar */}
-            <nav className="hidden-on-mobile md:flex navbar-bg shadow-lg flex items-center p-2">
-              <div className="basis-1/3 flex items-center">
-                <img src={this.props.logoImage} alt="Logo" className="pl-2 h-8" />
-                <span className="ml-2 font-semibold text-xl text-gray-300">
-                  {msg('serverName')}
-                </span>
-              </div>
+            <nav
+              className={transparentNavbar ? "hidden-on-mobile relative w-full py-2 px-6 bg-black bg-opacity-60 backdrop-blur-md border-t border-gray-800 z-10" : "hidden-on-mobile md:flex navbar-bg shadow-lg flex items-center p-2"}>
+              <div className="container mx-auto flex justify-between items-center relative">
+                <div className="flex items-center">
+                  <img src={this.props.logoImage} alt="Logo" className="h-8"/>
+                  <span className="ml-2 font-medium text-base text-gray-200">
+                    {msg('serverName')}
+                  </span>
+                </div>
 
-              <div className="basis-1/3">
-                <div className="flex flex-row gap-1 p-1 mx-auto rounded-lg navbar-bg-button w-min" role="group">
+                <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-1">
                   {pages.map((page, index) => (
                     <button
                       key={page.name}
@@ -170,23 +234,43 @@ class TabWindow extends Component {
                     </button>
                   ))}
                 </div>
-              </div>
 
-              <div className="basis-1/3 flex float-right w-1/3 place-content-end align-top">
-                <div className="flex h-full justify-center align-middle items-center items-end">
-                  <p className="text-sm text-gray-300">{playerName}</p>
-                  <UserAvatar />
+                <div className="flex items-center space-x-3">
+                  <div
+                    className="flex items-center bg-black bg-opacity-50 px-3 py-1 rounded-full border border-gray-700">
+                    <p className="text-sm text-gray-300 mr-2">{playerName}</p>
+                    <UserAvatar/>
+                  </div>
                 </div>
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-25"
+                  style={{
+                    background: this.props.accentColor
+                      ? `linear-gradient(to right, ${this.props.accentColor}15, ${this.props.accentColor}25, ${this.props.accentColor}15)`
+                      : ''
+                  }}
+                ></div>
               </div>
             </nav>
           </>
         )}
 
-        <div className="fixed bottom-0 right-0 p-2 bg-gray-800 rounded-tl-2xl">
+        <div className="fixed bottom-0 right-0 p-2 bg-black bg-opacity-60 backdrop-blur-md rounded-tl-lg z-10"
+             style={{
+               background: this.props.accentColor
+                 ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.7)), linear-gradient(135deg, ${this.props.accentColor}20, transparent 70%)`
+                 : 'rgba(0,0,0,0.6)'
+             }}
+        >
           <a
-            className="soft-text break-words"
+            className="text-xs text-gray-400 hover:text-white transition-colors duration-200"
             id="notice"
             href="https://openaudiomc.net/"
+            style={this.props.accentColor ? {
+              '--hover-color': this.props.accentColor
+            } : {}}
+            onMouseOver={(e) => this.props.accentColor && (e.target.style.color = this.props.accentColor)}
+            onMouseOut={(e) => this.props.accentColor && (e.target.style.color = '')}
           >
             &copy; OpenAudioMc 2016-2025. All Rights Reserved.
           </a>
@@ -206,6 +290,7 @@ function mapStateToProps(state) {
     navbarDetails: state.navbarDetails,
     clickLock: state.clickLock,
     logoImage: state.settings.logoImage,
+    accentColor: state.settings.accentColor,
   };
 }
 
@@ -215,9 +300,6 @@ export class TabPage extends Component {
   }
 }
 
-// eslint if struggeling with re-assigned props
-
-/* eslint-disable react/no-unused-prop-types */
 TabPage.propTypes = {
   name: PropTypes.string.isRequired,
   content: PropTypes.element.isRequired,
@@ -225,6 +307,7 @@ TabPage.propTypes = {
   buttonContent: PropTypes.element,
   subtext: PropTypes.string,
   colorWhenHasSubtext: PropTypes.bool,
+  transparentNavbar: PropTypes.bool,
 };
 
 TabPage.defaultProps = {
@@ -232,4 +315,5 @@ TabPage.defaultProps = {
   buttonContent: null,
   subtext: null,
   colorWhenHasSubtext: false,
+  transparentNavbar: false,
 };

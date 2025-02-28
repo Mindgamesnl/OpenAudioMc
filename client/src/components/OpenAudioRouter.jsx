@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingView from '../views/loading/LoadingView';
-import { LoginView } from '../views/login/LoginView';
+import LoginView from '../views/login/LoginView';
 import ClientView from '../views/client/ClientView';
 import BlockedLoginView from '../views/login/BlockedLoginView';
 import { BadBrowser } from '../views/login/BadBrowserView';
 import { showInputModal } from './modal/InputModal';
 import { msg } from '../client/OpenAudioAppContainer';
 import { reportVital } from '../client/util/vitalreporter';
+import ClickPrompt from './clicktoconnect/ClickPrompt';
 
 class OpenAudioController extends React.Component {
   constructor(props) {
@@ -113,6 +114,8 @@ class OpenAudioController extends React.Component {
       currentView = <BlockedLoginView />;
     } else if (!currentUser) {
       currentView = <LoginView />;
+    } else if (this.props.clickLock) {
+      currentView = <ClickPrompt />;
     } else {
       currentView = <ClientView />;
     }
@@ -135,6 +138,7 @@ function mapStateToProps(state) {
     isLoading: state.isLoading,
     isBlocked: state.isBlocked,
     currentUser: state.currentUser,
+    clickLock: state.clickLock,
   };
 }
 

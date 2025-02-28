@@ -8,11 +8,12 @@ export function CheckboxSetting({
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center space-x-3 mb-4">
-        <div
-          className="w-6 h-6"
-          style={{ color: 'var(--primary-accent)' }}
-          dangerouslySetInnerHTML={{ __html: icon }}
-        />
+        {icon && (
+          <div
+            className="w-6 h-6"
+            style={{ color: 'var(--primary-accent)' }}
+            dangerouslySetInnerHTML={{ __html: icon }}
+          />)}
         <h3 className="text-lg font-medium">{title}</h3>
       </div>
 
@@ -54,14 +55,14 @@ export function SettingsInputs({
 }) {
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center space-x-3 mb-4">
-        <div
-          className="w-6 h-6"
-          style={{ color: 'var(--primary-accent)' }}
-          dangerouslySetInnerHTML={{ __html: icon }}
-        />
-        <h3 className="text-lg font-medium">{title}</h3>
-      </div>
+        <div className="flex items-center space-x-3 mb-4">
+          {icon ? (<div
+            className="w-6 h-6"
+            style={{ color: 'var(--primary-accent)' }}
+            dangerouslySetInnerHTML={{ __html: icon }}
+          />) : null}
+          <h3 className="text-lg font-medium">{title}</h3>
+        </div>
 
       <p className="text-sm opacity-80 mb-6 flex-grow">
         {description}
@@ -93,7 +94,7 @@ export function SettingsInputs({
 CheckboxSetting.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   isChecked: PropTypes.bool.isRequired,
   buttonText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -102,7 +103,7 @@ CheckboxSetting.propTypes = {
 SettingsInputs.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
     value: PropTypes.string,

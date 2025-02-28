@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BlackoutPage } from '../../components/layout/BlackoutPage';
 import './loading.css';
 import { LoadingSpinnerBox } from '../../components/loading/LoadingSpinnerBox';
 import { VERSION } from '../../build';
+import { BaseSegmentedPage } from '../../components/layout/BaseSegmentedPage';
 
 function LoadingView(props) {
   return (
-    <BlackoutPage>
+    <BaseSegmentedPage>
       <LoadingSpinnerBox
         title="Loading OpenAudioMc"
         message={props.loading}
         footer={`Version ${VERSION.revision}, line ${VERSION.tag}`}
       />
-    </BlackoutPage>
+    </BaseSegmentedPage>
   );
 }
 

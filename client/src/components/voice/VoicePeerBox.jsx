@@ -23,6 +23,7 @@ function VoicePeerBox(props) {
           loading={peer.loading}
           name={peer.displayName}
           displayUuid={peer.displayUuid}
+          loadingMessage={peer.loadingMessage}
           key={peer.uuid}
           streamKey={peer.streamKey}
           uuid={peer.uuid}

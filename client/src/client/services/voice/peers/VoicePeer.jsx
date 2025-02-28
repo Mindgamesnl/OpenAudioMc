@@ -29,6 +29,7 @@ export class VoicePeer {
             speaking: false,
             muted: false,
             loading: true,
+            loadingMessage: 'Waiting for stream...',
             options: this.options,
             displayName,
             displayUuid,
@@ -51,11 +52,11 @@ export class VoicePeer {
     this.stream = new PeerStream(peerStreamKey, getVolumeForPeer(this.peerUuid), this.options.spatialAudio);
     this.stream.setLocation(location.x, location.y, location.z);
 
-    // start, and handle when it's ready
     this.stream.startStream((succeeded, e) => {
       if (succeeded) {
         // am i dead?
         if (this.killed) {
+          setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { loadingMessage: 'Thread killed' } } } });
           this.stop();
           return;
         }
@@ -63,6 +64,7 @@ export class VoicePeer {
         // remove loading state
         setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { loading: false } } } });
       } else if (e) {
+        setGlobalState({ voiceState: { peers: { [this.peerStreamKey]: { loadingMessage: 'Error!' } } } });
         throw e;
       }
     });

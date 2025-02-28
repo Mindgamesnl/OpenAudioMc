@@ -1,4 +1,3 @@
-// Updated HandleVoiceChannelList function
 import {
   store,
   voiceChannelAdd,

@@ -20,9 +20,20 @@ navbar.upgradeRequired=Upgrade vereist
 navbar.isPlaying=Muziek speelt
 
 home.confirmLoginHeader=Welkom terug!
-home.confirmLoginBody=Probeer je in te loggen als <i>%player</i>?<br />Sluit deze pagina als dit niet klopt.
-home.confirmLoginButton=Jawel! Dat ben ik!
-home.confirmLoginWithVoicechat=Sessie starten met VoiceChat
+home.confirmLoginBody=Probeer je in te loggen als <i>%player</i>?<br />Als je dat niet bent, sluit dan dit venster.
+home.confirmLoginButton=Start audiosessie
+home.confirmLoginWithVoicechat=Start sessie met spraakchat
+home.onboarding.subtext=Verbind je game-audio-ervaring en dompel jezelf onder in een hele nieuwe dimensie van gameplay.
+home.onboarding.title=Verbinden met Audio
+home.onboarding.description=Kies hoe je audio wilt ervaren in het spel:
+home.onboarding.audioonly.title=Alleen Audio
+home.onboarding.audioonly.description=Verbind in audiomodus, zodat je sprekers en regio's kunt horen
+home.onboarding.withvoice.title=Audio + Spraakchat
+home.onboarding.withvoice.description=Volledige meeslepende ervaring met spraakcommunicatie
+home.onboarding.features.title=Verbeterde Audio-ervaring
+home.onboarding.features.one=Audio die meebeweegt met je acties in het spel
+home.onboarding.features.two=Geen resourcepack of downloads vereist
+home.onboarding.features.three=Kies je manier van verbinden en laat deze tab gewoon op de achtergrond open staan
 
 home.activate=Sessie starten
 home.activateText=Via deze persoonlijke webpagina zal audio en voicechat worden afgespeeld tijdens je bezoek. Klik ergens op de pagina om te beginnen.

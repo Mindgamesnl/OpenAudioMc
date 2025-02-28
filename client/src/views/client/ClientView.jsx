@@ -53,6 +53,7 @@ function ClientView(props) {
                 : getTranslation(null, 'vc.people')
             }` : null}
             colorWhenHasSubtext
+            transparentNavbar
           />
           <TabPage
             name={getTranslation(null, 'navbar.settings')}
@@ -65,6 +66,7 @@ function ClientView(props) {
             hidden={!props.debugMode}
             buttonContent={<IconMemos.Debug />}
             content={<DebugPageMemo />}
+            transparentNavbar
           />
         </TabWindowMemo>
       </div>

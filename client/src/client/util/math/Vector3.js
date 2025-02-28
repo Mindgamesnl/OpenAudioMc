@@ -5,6 +5,12 @@ export class Vector3 {
     this.z = z || 0;
   }
 
+  set(x, y, z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
   add(x, y, z) {
     this.x += x;
     this.y += y;
@@ -14,6 +20,13 @@ export class Vector3 {
 
   clone() {
     return new Vector3(this.x, this.y, this.z);
+  }
+
+  copy(other) {
+    this.x = other.x;
+    this.y = other.y;
+    this.z = other.z;
+    return this;
   }
 
   sub(v) {
