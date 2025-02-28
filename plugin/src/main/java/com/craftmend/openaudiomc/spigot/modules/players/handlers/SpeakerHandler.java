@@ -17,8 +17,10 @@ import com.craftmend.openaudiomc.spigot.modules.players.interfaces.ITickableHand
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.ApplicableSpeaker;
 import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -55,10 +57,17 @@ public class SpeakerHandler implements ITickableHandler {
 
                 if (!entered.getSpeaker().isRedstonePowered()) {
                     entered.getSpeaker().setRedstonePowered(true);
-                    if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(entered.getSpeaker())) entered.getSpeaker().getMedia().setStartInstant(System.currentTimeMillis());
                 }
 
                 ClientSpeaker cp = toClientSpeaker(entered, obstructions);
+
+                if (ExtraSpeakerOptions.RESET_PLAYTHROUGH_ON_REDSTONE_LOSS.isEnabledFor(entered.getSpeaker())) {
+                    if (entered.getSpeaker().getLastRedstoneToggle() == null) {
+                        entered.getSpeaker().setLastRedstoneToggle(Instant.now());
+                    }
+                }
+
+                cp.setStartInstant(entered.getSpeaker().getLastRedstoneToggle().toEpochMilli());
 
                 // overwrite sync flag
                 if (ExtraSpeakerOptions.IGNORE_SYNCHRONIZATION.isEnabledFor(entered.getSpeaker())) {
