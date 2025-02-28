@@ -3,6 +3,7 @@ import { Globe } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { compareProdVersions } from '../../client/util/versioning';
 import { getGlobalState } from '../../state/store';
+import { VERSION } from '../../build';
 
 export class BaseSegmentedPage extends React.Component {
   // prop types
@@ -97,7 +98,14 @@ export class BaseSegmentedPage extends React.Component {
                 href="https://openaudiomc.net/docs/client_major_changelog"
                 className="text-gray-500 hover:text-white flex items-center transition-colors duration-200"
               >
-                <span className="text-sm font-mono">v1.125.301</span>
+                <span className="text-sm font-mono">
+                  v
+                  {VERSION.major}
+                  .
+                  {VERSION.minor}
+                  .
+                  {VERSION.revision}
+                </span>
                 <span className={`ml-2 ${this.state.versionDiff.color}`}>
                   (
                   {this.state.versionDiff.text}
