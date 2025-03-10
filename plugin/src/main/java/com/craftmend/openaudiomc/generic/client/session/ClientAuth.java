@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.generic.client.session;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.clients.ClientBaseAuthentication;
 import com.craftmend.openaudiomc.generic.authentication.AuthenticationService;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.middleware.CatchLegalBindingMiddleware;
@@ -25,7 +26,7 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 
 @Getter
 @AllArgsConstructor
-public class ClientAuth implements Serializable {
+public class ClientAuth implements Serializable, ClientBaseAuthentication {
 
     @Setter private transient ClientConnection client;
     private String webSessionKey;
@@ -112,4 +113,8 @@ public class ClientAuth implements Serializable {
     }
 
 
+    @Override
+    public String getToken() {
+        return staticToken;
+    }
 }
