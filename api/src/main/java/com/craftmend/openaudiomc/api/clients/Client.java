@@ -75,4 +75,11 @@ public interface Client {
      */
     void kickProximityPeer(@NotNull Client otherClient);
 
+    /**
+     * Get the authentication data for this client
+     * @return the authentication data
+     * @since 6.10.11
+     */
+    ClientBaseAuthentication getAuthenticationData();
+
 }
