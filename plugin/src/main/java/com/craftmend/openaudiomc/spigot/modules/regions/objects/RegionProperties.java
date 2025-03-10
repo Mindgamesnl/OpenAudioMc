@@ -30,7 +30,6 @@ public class RegionProperties extends DataStore {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column private Boolean hasWorlds = false;
-
     public RegionProperties(String source, int volume, int fadeTimeMs, boolean allowsVoiceChat, String regionName, String... worldNames) {
         this.source = source;
         this.volume = volume;

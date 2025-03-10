@@ -61,9 +61,11 @@ public class SessionData {
     public void bumpConnectReminder() {
         boolean remindToConnect = OpenAudioMc.getInstance().getConfiguration().getBoolean(StorageKey.SETTINGS_REMIND_TO_CONNECT);
 
+        int interval = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
+        int secondsSinceLastPrompt = (int) Duration.between(getLastConnectPrompt(), Instant.now()).getSeconds();
+
         if (remindToConnect) {
-            int reminderInterval = OpenAudioMc.getInstance().getConfiguration().getInt(StorageKey.SETTINGS_REMIND_TO_CONNECT_INTERVAL);
-            if (!isConnected() && (Duration.between(getLastConnectPrompt(), Instant.now()).toMillis() * 1000) > reminderInterval) {
+            if (!isConnected() && secondsSinceLastPrompt > interval) {
                 client.getUser().sendMessage(Platform.translateColors(OpenAudioMc.getInstance().getConfiguration().getString(StorageKey.MESSAGE_PROMPT_TO_CONNECT)));
                 setLastConnectPrompt(Instant.now());
             }
