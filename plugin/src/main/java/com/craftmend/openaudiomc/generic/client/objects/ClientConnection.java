@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.EventApi;
 import com.craftmend.openaudiomc.api.basic.Actor;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.clients.ClientBaseAuthentication;
 import com.craftmend.openaudiomc.api.events.client.ClientConnectEvent;
 import com.craftmend.openaudiomc.api.events.client.ClientDisconnectEvent;
 import com.craftmend.openaudiomc.api.events.client.MediaErrorEvent;
@@ -325,6 +326,11 @@ public class ClientConnection implements Authenticatable, Client, Serializable,
             this.rtcSessionManager.getCurrentProximityPeers().remove(other.getActor().getUniqueId());
             this.getPeerQueue().drop(other.getRtcSessionManager().getStreamKey());
         }
+    }
+
+    @Override
+    public ClientBaseAuthentication getAuthenticationData() {
+        return getAuth();
     }
 
     @Override
