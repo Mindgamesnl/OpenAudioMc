@@ -183,6 +183,10 @@ class OpenAudioAppContainer extends React.Component {
       return;
     }
 
+    if (serverData.defaultVolume) {
+      setGlobalState({ settings: { normalVolume: serverData.defaultVolume } });
+    }
+
     if (serverData.isVoicechatEnabled) {
       setGlobalState({
         voiceState: {
