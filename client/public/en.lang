@@ -101,7 +101,6 @@ vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyon
 vc.noMicInputYetTitle=We're having trouble hearing you!
 vc.noMicInputYetBody=Please make sure that you have the correct microphone selected, or try lowering your noise gate.
 vc.peersHiddenTitle=Voicechat players are hidden
-vc.peersHiddenTitle=Server privacy setting
 vc.peersHiddenText=This server has disabled the ability to see who is in voice chat to prevent unfair advantages, you can still hear them though.
 vc.isTalking=is talking
 vc.people=people
