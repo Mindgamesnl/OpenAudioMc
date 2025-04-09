@@ -183,7 +183,11 @@ class OpenAudioAppContainer extends React.Component {
       return;
     }
 
-    if (serverData.defaultVolume) {
+    // restore last volume
+    const lastStoredVolume = Cookies.get('setting_normalVolume');
+    if (lastStoredVolume && isNum(lastStoredVolume) && !serverData.ignoreLastVolume) {
+      setGlobalState({ settings: { normalVolume: parseFloat(lastStoredVolume) } });
+    } else if (serverData.defaultVolume) {
       setGlobalState({ settings: { normalVolume: serverData.defaultVolume } });
     }
 
@@ -406,4 +410,12 @@ function isVoicechatCompatible() {
     return false;
   }
   return true;
+}
+
+function isNum(value) {
+  if (typeof value === 'number') {
+    return true;
+  }
+
+  return !Number.isNaN(parseInt(value, 10));
 }
