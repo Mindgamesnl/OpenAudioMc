@@ -73,4 +73,10 @@ public interface VoiceChannel {
      * @param client the client to remove
      */
     void removeMember(Client client);
+
+    /**
+     * Check if the channel requires permission to see
+     * @return true if the channel requires permission to see
+     */
+    boolean requiresPermissionToSee();
 }

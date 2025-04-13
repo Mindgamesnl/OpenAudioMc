@@ -11,6 +11,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
 import lombok.SneakyThrows;
 
 import java.util.Collection;
@@ -39,6 +40,11 @@ public class ChannelListCommand extends SubCommand {
         sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_HEADER.getString()));
 
         for (Channel channel : channels) {
+            // is this player able to see this channel? if not, then continue
+            if (channel.isRequiresPermissionToSee() && channel.attemptEnter(sender) != ChannelEnterResponse.OK) {
+                continue;
+            }
+
             StringBuilder readableOccupants;
             Collection<Client> occupants = channel.getMembers();
             if (occupants.isEmpty()) {

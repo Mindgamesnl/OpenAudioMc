@@ -14,6 +14,7 @@ import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -26,6 +27,8 @@ public class Channel implements VoiceChannel {
     private final Map<UUID, ClientConnection> members = new HashMap<>();
     private final VoiceChannelService voiceChannelService;
     private final String requiredPermission;
+    @Setter
+    @Getter private boolean requiresPermissionToSee = false;
     @Getter private final ChannelType type;
 
     public Channel(@Nullable User creator, String name, VoiceChannelService voiceChannelService) {
@@ -174,5 +177,10 @@ public class Channel implements VoiceChannel {
     @Override
     public void removeMember(Client client) {
         removeMember(((ClientConnection) client).getUser());
+    }
+
+    @Override
+    public boolean requiresPermissionToSee() {
+        return this.requiresPermissionToSee;
     }
 }

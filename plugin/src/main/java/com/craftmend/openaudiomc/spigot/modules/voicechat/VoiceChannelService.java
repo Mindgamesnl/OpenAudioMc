@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat;
 
 import com.craftmend.openaudiomc.api.EventApi;
+import com.craftmend.openaudiomc.api.channels.ChannelJoinResponse;
 import com.craftmend.openaudiomc.api.channels.VoiceChannel;
 import com.craftmend.openaudiomc.api.channels.events.ChannelCreatedEvent;
 import com.craftmend.openaudiomc.api.channels.events.ChannelDeletedEvent;
@@ -22,11 +23,13 @@ import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
+import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -108,6 +111,12 @@ public class VoiceChannelService extends Service implements Listener {
                         requirePermission ? permission : null,
                         this
                 );
+
+                Object permissionViabilityBoolean = obj.get("requirePermissionToSee");
+                if (permissionViabilityBoolean != null && permissionViabilityBoolean instanceof Boolean) {
+                    staticChannel.setRequiresPermissionToSee((boolean) permissionViabilityBoolean);
+                }
+
                 channelMap.put(staticChannel.getName(), staticChannel);
                 OpenAudioLogger.info("Created static channel: " + staticChannel.getName());
 
@@ -189,8 +198,11 @@ public class VoiceChannelService extends Service implements Listener {
             return;
         }
         User<?> user = (User<?>) event.getClient().getActor();
-        PacketClientChannelsDisplayPacket packet = new PacketClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(channelMap.values(), user, ClientChannelsDisplayPayload.ClientChannelOperation.ALL));
+        Collection<Channel> visibleChannels = new ArrayList<>(channelMap.values());
 
+        // filter out channels that require permission to see, and we don't have the permission
+        visibleChannels.removeIf(channel -> channel.isRequiresPermissionToSee() && channel.attemptEnter(user) != ChannelEnterResponse.OK);
+        PacketClientChannelsDisplayPacket packet = new PacketClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(visibleChannels, user, ClientChannelsDisplayPayload.ClientChannelOperation.ALL));
         ClientConnection client = (ClientConnection) event.getClient();
         client.sendPacket(packet);
     }
@@ -204,6 +216,11 @@ public class VoiceChannelService extends Service implements Listener {
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
+                // is this channel visible to the client?
+                if (event.getChannel().requiresPermissionToSee() && event.getChannel().joinPreconditionCheck(client) != ChannelJoinResponse.NO_PERMISSION) {
+                    continue;
+                }
+
                 PacketClientChannelsDisplayPacket packet = new PacketClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
                         Collections.singleton((Channel) event.getChannel()),
                         client.getUser(),
@@ -223,6 +240,10 @@ public class VoiceChannelService extends Service implements Listener {
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
+                if (event.getChannel().requiresPermissionToSee() && event.getChannel().joinPreconditionCheck(client) != ChannelJoinResponse.NO_PERMISSION) {
+                    continue;
+                }
+
                 PacketClientChannelsDisplayPacket packet = new PacketClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
                         Collections.singleton((Channel) event.getChannel()),
                         client.getUser(),
@@ -242,6 +263,10 @@ public class VoiceChannelService extends Service implements Listener {
         for (ClientConnection client : getService(NetworkingService.class).getClients()) {
             // are they connected and are they in voice chat?
             if (client.getRtcSessionManager().isReady()) {
+                if (event.getChannel().requiresPermissionToSee() && event.getChannel().joinPreconditionCheck(client) != ChannelJoinResponse.NO_PERMISSION) {
+                    continue;
+                }
+
                 PacketClientChannelsDisplayPacket packet = new PacketClientChannelsDisplayPacket(new ClientChannelsDisplayPayload(
                         Collections.singleton((Channel) event.getChannel()),
                         client.getUser(),

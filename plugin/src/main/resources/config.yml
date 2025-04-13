@@ -335,6 +335,12 @@ static-channels:
       permission: channels.staffchat
       requirePermission: true
 
+
+    - name: admin-chat
+      permission: channels.adminchat
+      requirePermission: true
+      requirePermissionToSee: true # hide this channel for players who don't have the permission
+
 # PlaceholderAPI
 papi:
   # Value to display when player is connected to the web client
