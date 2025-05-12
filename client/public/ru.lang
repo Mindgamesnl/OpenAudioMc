@@ -1,0 +1,182 @@
+lang.name=Русский
+
+lang.detectedAs=Мы изменили ваш язык на %langName, хотите оставить его таким?
+lang.keep=Оставить %langName
+lang.toEn=Переключиться на Русский
+
+ui.loading=Загрузка...
+ui.logout=Выйти
+
+ui.urlChangeDetected=Обнаружено изменение URL
+ui.hashchange=URL был изменён. Хотите перезагрузить страницу и начать новую сессию? Это очистит вашу текущую сессию.
+
+navbar.audio=Аудио сервера
+navbar.vc=Голосовой чат
+navbar.settings=Настройки
+navbar.debug=Отладка
+navbar.free=бесплатно
+navbar.premium=премиум
+navbar.upgradeRequired=Требуется обновление
+navbar.isPlaying=Играет музыка
+navbar.menu=Открыть меню
+
+home.confirmLoginHeader=С возвращением!
+home.confirmLoginBody=Вы пытаетесь войти как <i>%player</i>?<br />Если это не вы, пожалуйста, закройте это окно.
+home.confirmLoginButton=Начать аудиосессию
+home.confirmLoginWithVoicechat=Начать сессию с голосовым чатом
+home.onboarding.subtext=Подключите свой игровой аудиоопыт и погрузитесь в новое измерение геймплея.
+home.onboarding.title=Подключиться к аудио
+home.onboarding.description=Выберите, как вы хотите использовать аудио в игре:
+home.onboarding.audioonly.title=Только аудио
+home.onboarding.audioonly.description=Подключение в режиме аудио, позволяющее слышать спикеры и регионы
+home.onboarding.withvoice.title=Аудио + Голосовой чат
+home.onboarding.withvoice.description=Полное погружение с голосовой связью
+home.onboarding.features.title=Улучшенный аудиоопыт
+home.onboarding.features.one=Аудио, которое движется вместе с вашими действиями в игре
+home.onboarding.features.two=Не требуется ресурс-пак или загрузки
+home.onboarding.features.three=Выберите способ подключения и просто оставьте эту вкладку открытой в фоновом режиме
+
+home.activate=Активировать сессию
+home.activateText=Эта персональная веб-страница будет использоваться для воспроизведения аудио и голоса во время вашего визита. Пожалуйста, кликните в любом месте страницы, чтобы начать.
+home.clickAnywhere=Кликните в любом месте, чтобы начать
+home.activateHeader=Кликните здесь, чтобы подключиться
+home.welcome=Добро пожаловать, %player!
+home.header=Добро пожаловать в наш аудиоклиент! Держите эту страницу открытой, чтобы наслаждаться игровой музыкой и эффектами. Вы можете вернуться сюда в любое время во время сессии, чтобы изменить громкость и настройки.
+home.volumeContext=Этот ползунок управляет громкостью игровой музыки и эффектов. Вы также можете использовать <pre>/volume <volume></pre>, чтобы изменить громкость прямо в игре в любое время, или установить 0, чтобы временно заглушить.
+home.audioControls=Управление аудио
+home.notificationsTitle=Уведомления
+home.notificationsEmpty=На данный момент у вас нет уведомлений
+
+vc.badClient=Голосовой чат требует веб-клиента, работающего через HTTPS, пожалуйста, обновите базовый URL на HTTPS и/или настройте действительные SSL-сертификаты.
+vc.notCompatible=Ваш браузер не поддерживает голосовой чат. Пожалуйста, используйте современный (десктопный) браузер, такой как Chrome, Safari и т.д.
+vc.voiceModerationEnabled=На этом сервере включена модерация. Некоторые сотрудники могут прослушивать, пока ваш микрофон активен.
+vc.notice=Уведомление
+vc.micErrorPopupTitle=Ошибка микрофона
+vc.micErrorPopup=Что-то пошло не так при попытке доступа к вашему микрофону. Пожалуйста, нажмите "разрешить", когда браузер запросит разрешение на использование микрофона, или посетите вики для дополнительной информации.
+vc.disabled=Голосовой чат временно отключён %serverName
+vc.title=Голосовой чат по близости
+vc.boardingTitle=Введение в голосовой чат
+vc.onboarding=Этот сервер поддерживает голосовой чат по близости, который позволяет общаться с игроками в радиусе %range блоков. Хотите включить эту функцию и предоставить доступ к вашему микрофону?
+vc.settings=Настройки голосового чата
+vc.muteMic=Заглушить микрофон
+vc.unmuteMic=Включить микрофон
+vc.input=Устройство ввода
+vc.aboutInput=Выберите микрофон, который хотите использовать, изменение этого приведёт к перезапуску сессии.
+vc.positionalAudio=Пространственное аудио
+vc.aboutPositionalAudio=Создаёт звуковую сцену на 360 градусов, обеспечивая пространственную ориентацию голосов.
+vc.settingsDisable=Отключить
+vc.settingsEnablePositionalAudio=Включить пространственное аудио
+vc.settingsDisablePositionalAudio=Отключить пространственное аудио
+vc.automaticAdjustments=Автоматическая настройка чувствительности
+vc.sensitivity=Шумовой порог
+vc.aboutSensitivity=Настройте шумовой порог вашего микрофона, это автоматически заглушит микрофон, когда вы не говорите. <b>Полностью влево</b> отключает шумовой порог, <b>полностью вправо</b> заглушает микрофон всё время.
+vc.peerTable=подключено к {total} игрокам, {talking} говорят
+vc.toggleMicrophone=Переключить микрофон
+vc.you=вы
+vc.safetyTitle=Для вашей безопасности
+vc.safetyDisclaimer=Вы будете получать внутриигровые сообщения, когда люди появляются или покидают зону вашего голосового чата, и сможете просматривать список тех, кого вы слышите (и кто слышит вас), а также заглушить их при желании. OpenAudioMc полагается на ваш сервер для модерации и обработки жалоб на нарушения. Пожалуйста, свяжитесь с персоналом, если у вас есть вопросы или опасения.
+vc.safetyFooter=<b>Хотите немного приватности? Вы можете заглушить микрофон в любое время, выполнив <pre style="display: inline;">/mm</pre> или нажав <pre style="display: inline;">shift + F</pre> в игре, или нажав кнопку на этой веб-странице.</b>
+vc.join=Присоединиться к голосовому чату
+vc.empty.title=Ищете кого-то?
+vc.empty.description=Голосовой чат веселее вместе! Вот как вы можете связаться с другими:
+vc.empty.move.title=Подойдите ближе к другим игрокам
+vc.empty.move.description=Голосовой чат работает на основе близости. Найдите и подойдите к другим игрокам!
+vc.empty.channel.title=Присоединитесь к каналу голосового чата
+vc.empty.channel.description=На некоторых серверах есть каналы голосового чата. Проверьте, есть ли канал, к которому вы можете присоединиться!
+vc.empty.invite.title=Пригласите друзей
+vc.empty.invite.description=Расскажите другим о голосовом чате — возможно, они ещё не включили его!
+vc.muteMicrophone=Заглушить
+vc.unmuteMicrophone=Включить
+vc.myStatus=Статус вашего микрофона
+vc.hero.title=Добро пожаловать в голосовой чат!
+vc.hero.subtitle=Это ваша панель голосового чата, здесь вы можете видеть, кто находится в зоне вашего голоса, и кого вы слышите. Вы также можете заглушить людей, если не хотите их слышать.
+vc.statusTitle=Мой статус
+vc.settings.globalVolumeTitle=Общая громкость голосового чата
+vc.settings.surround.toggle=Объёмный звук
+vc.settings.globalVolumeAbout=Измените основную громкость всех участников голосового чата
+vc.settings.completelyFadePeers=Полностью уменьшать громкость на расстоянии
+vc.settings.monitoring.title=Мониторинг микрофона (слушать себя)
+vc.operaWarning=Ваш вход в систему занимает много времени, скорее всего, из-за настроек Opera. Пожалуйста, откройте настройки браузера, найдите "WebRTC" и выберите опцию включения всего.
+vc.youAreModerating=Осторожно! Вы теперь модератор, вы можете слышать всех в голосовом чате, но они не могут слышать вас.
+vc.noMicInputYetTitle=Мы не слышим вас!
+vc.noMicInputYetBody=Пожалуйста, убедитесь, что выбран правильный микрофон, или попробуйте снизить шумовой порог.
+vc.peersHiddenTitle=Игроки в голосовом чате скрыты
+vc.peersHiddenTitle=Настройка приватности сервера
+vc.peersHiddenText=Этот сервер отключил возможность видеть, кто находится в голосовом чате, чтобы предотвратить несправедливые преимущества, но вы всё равно можете их слышать.
+vc.isTalking=говорит
+vc.people=люди
+vc.person=человек
+vc.deafened=Вы сейчас заглушены
+vc.tooltip.local=Голосовой чат по близости
+vc.tooltip.global=Глобальный голосовой чат
+vc.peerLoading=Загрузка {name}
+
+vc.state.loading.title=Подключение к голосовому чату
+vc.state.loading.body=Настройка вашего голосового соединения...
+vc.state.error.title=Не удалось подключиться к голосовому чату
+vc.state.error.body=Мы не смогли установить соединение с голосовым сервером.
+vc.state.error.hints=Что можно проверить
+vc.state.error.fix1=Проверьте, включены ли VPN или программы, блокирующие WebRTC
+vc.state.error.fix2=Проверьте, есть ли у браузера разрешение на использование микрофона
+vc.state.error.fix3=Попробуйте обновить страницу
+vc.state.error.fix4=Сервер может быть полным, и у него может не быть свободных голосовых слотов
+
+vc.channel.title=Непространственные голосовые каналы
+vc.channel.single=канал
+vc.channel.multiple=каналы
+vc.channel.moreMembers=ещё участники
+vc.channel.noMembersYet=Пока нет участников
+vc.channel.joining=Присоединение...
+vc.channel.leave=Покинуть канал
+vc.channel.leaving=Покидание...
+vc.channel.leaveCurrentFirst=Сначала покиньте текущий канал
+vc.channel.noPermissions=Нет разрешений
+vc.channel.join=Присоединиться к каналу
+
+settings.voicechat.echocancel.title=Подавление эха
+settings.voicechat.echocancel.body=Это попытается устранить эхо, которое улавливает ваш микрофон, это полезно, если вы используете динамики вместо наушников, но может затруднить восприятие вашего голоса на некоторых платформах.
+settings.voicechat.echocancel.button=Включить подавление эха
+settings.voicechat.chimes.title=Звуки голосового чата
+settings.voicechat.chimes.body=Звуки — это небольшие сигналы, которые воспроизводятся при включении/выключении микрофона. Контент-креаторы могут захотеть отключить это.
+settings.voicechat.chimes.button=использовать звуки
+settings.theme.title=Тёмный режим
+settings.theme.body=Использовать (по умолчанию) тёмный режим этого веб-клиента
+settings.theme.button=тёмный режим
+settings.voicechat.peer.title=Уведомления о контактах
+settings.voicechat.peer.body=Получать уведомления на рабочем столе, когда кто-то входит или выходит из зоны вашего голосового чата
+settings.voicechat.peer.button=включить уведомления
+settings.mix-and-fade.title=Автоматическое микширование музыки
+settings.mix-and-fade.body=Автоматически выполнять кроссфейд и микширование аудиоисточников
+settings.mix-and-fade.button=Включить микширование
+settings.preload.title=Автоматическая предварительная загрузка аудиофайлов
+settings.preload.body=При включении OpenAudioMc будет автоматически предварительно загружать файлы, часто используемые в вашем игровом местоположении. Это сделает аудио более отзывчивым, но потребует больше данных.
+settings.preload.button=Включить предварительную загрузку
+settings.language.title=Язык
+settings.language.body=Выберите предпочитаемый язык
+
+settings.spatial.section.title=Пространственное аудио (динамики и голосовой чат)
+settings.spatial.stereo.title=Стереоразделение
+settings.spatial.stereo.body=Это контролирует, насколько сильно аудио будет смещаться в левый или правый динамик.
+settings.spatial.stereo.low=Выкл
+settings.spatial.stereo.medium=Средне
+settings.spatial.stereo.high=Высоко
+settings.spatial.stereo.max=Макс
+
+settings.spatial.rolloff.title=Затухание аудио
+settings.spatial.rolloff.body=Это контролирует, насколько сильно уменьшается громкость аудио, когда слушатель отдаляется от источника звука.
+settings.spatial.rolloff.none=Нет
+settings.spatial.rolloff.default=Средне
+settings.spatial.rolloff.medium=Средне
+settings.spatial.rolloff.max=Макс
+
+settings.spatial.bypass.title=Обход пространственного аудио
+settings.spatial.bypass.body=Это отключит все эффекты пространственного аудио, заставляя все источники звука звучать так, будто они исходят из одного места.
+settings.spatial.bypass.button=Включить обход
+
+settings.interpolation.title=Сглаживание местоположения
+settings.interpolation.body=Автоматически сглаживает движения, чтобы минимизировать заикание динамиков/голосового чата при ходьбе. Это добавляет небольшую задержку движения, но звучит лучше.
+settings.interpolation.button=Включить сглаживание
+
+network.serverUnhealthy=Соединение {serverName} с OpenAudioMc нестабильно, функциональность клиента может быть ограничена, пока соединение не восстановится.
+
+tooltip.close=Закрыть
