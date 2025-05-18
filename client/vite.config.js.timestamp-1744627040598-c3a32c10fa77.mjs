@@ -1,0 +1,44 @@
+// vite.config.js
+import MillionLint from "file:///home/mats/workspace/openaudiomc/OpenAudioMc/client/node_modules/@million/lint/dist/compiler/index.mjs";
+import { defineConfig } from "file:///home/mats/workspace/openaudiomc/OpenAudioMc/client/node_modules/vite/dist/node/index.js";
+import react from "file:///home/mats/workspace/openaudiomc/OpenAudioMc/client/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import svgr from "file:///home/mats/workspace/openaudiomc/OpenAudioMc/client/node_modules/vite-plugin-svgr/dist/index.js";
+import eslint from "file:///home/mats/workspace/openaudiomc/OpenAudioMc/client/node_modules/vite-plugin-eslint/dist/index.mjs";
+Array.prototype.some = function someMatchUtil(fun) {
+  const len = this.length;
+  for (let i = 0; i < len; i += 1) {
+    if (fun(this[i], i, this)) {
+      return true;
+    }
+  }
+  return false;
+};
+var millionPlugins = [svgr({
+  svgrOptions: {
+    ref: true
+  }
+}), {
+  name: "singleHMR",
+  handleHotUpdate({
+    modules
+  }) {
+    return modules;
+  }
+}, react({
+  include: "**/*.jsx"
+}), eslint()];
+millionPlugins.unshift(MillionLint.vite());
+var vite_config_default = defineConfig({
+  plugins: millionPlugins,
+  server: {
+    port: 3e3,
+    host: true
+  },
+  build: {
+    outDir: "./build"
+  }
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcuanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvaG9tZS9tYXRzL3dvcmtzcGFjZS9vcGVuYXVkaW9tYy9PcGVuQXVkaW9NYy9jbGllbnRcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfZmlsZW5hbWUgPSBcIi9ob21lL21hdHMvd29ya3NwYWNlL29wZW5hdWRpb21jL09wZW5BdWRpb01jL2NsaWVudC92aXRlLmNvbmZpZy5qc1wiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9pbXBvcnRfbWV0YV91cmwgPSBcImZpbGU6Ly8vaG9tZS9tYXRzL3dvcmtzcGFjZS9vcGVuYXVkaW9tYy9PcGVuQXVkaW9NYy9jbGllbnQvdml0ZS5jb25maWcuanNcIjtpbXBvcnQgTWlsbGlvbkxpbnQgZnJvbSAnQG1pbGxpb24vbGludCc7XG4vKiBlc2xpbnQtZGlzYWJsZSBpbXBvcnQvbm8tZXh0cmFuZW91cy1kZXBlbmRlbmNpZXMgKi9cblxuaW1wb3J0IHsgZGVmaW5lQ29uZmlnIH0gZnJvbSAndml0ZSc7XG5pbXBvcnQgcmVhY3QgZnJvbSAnQHZpdGVqcy9wbHVnaW4tcmVhY3QnO1xuaW1wb3J0IHN2Z3IgZnJvbSAndml0ZS1wbHVnaW4tc3Zncic7XG5pbXBvcnQgZXNsaW50IGZyb20gJ3ZpdGUtcGx1Z2luLWVzbGludCc7XG5cbi8vIHNvbWUgcHJvdG90eXBlXG4vLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbm8tZXh0ZW5kLW5hdGl2ZVxuQXJyYXkucHJvdG90eXBlLnNvbWUgPSBmdW5jdGlvbiBzb21lTWF0Y2hVdGlsKGZ1bikge1xuICBjb25zdCBsZW4gPSB0aGlzLmxlbmd0aDtcbiAgZm9yIChsZXQgaSA9IDA7IGkgPCBsZW47IGkgKz0gMSkge1xuICAgIGlmIChmdW4odGhpc1tpXSwgaSwgdGhpcykpIHtcbiAgICAgIHJldHVybiB0cnVlO1xuICAgIH1cbiAgfVxuICByZXR1cm4gZmFsc2U7XG59O1xuY29uc3QgbWlsbGlvblBsdWdpbnMgPSBbc3Zncih7XG4gIHN2Z3JPcHRpb25zOiB7XG4gICAgcmVmOiB0cnVlLFxuICB9LFxufSksIHtcbiAgbmFtZTogJ3NpbmdsZUhNUicsXG4gIGhhbmRsZUhvdFVwZGF0ZSh7XG4gICAgbW9kdWxlcyxcbiAgfSkge1xuICAgIHJldHVybiBtb2R1bGVzO1xuICB9LFxufSwgcmVhY3Qoe1xuICBpbmNsdWRlOiAnKiovKi5qc3gnLFxufSksIGVzbGludCgpXTtcbm1pbGxpb25QbHVnaW5zLnVuc2hpZnQoTWlsbGlvbkxpbnQudml0ZSgpKTtcbmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7XG4gIHBsdWdpbnM6IG1pbGxpb25QbHVnaW5zLFxuICBzZXJ2ZXI6IHtcbiAgICBwb3J0OiAzMDAwLFxuICAgIGhvc3Q6IHRydWUsXG4gIH0sXG4gIGJ1aWxkOiB7XG4gICAgb3V0RGlyOiAnLi9idWlsZCcsXG4gIH0sXG59KTtcbiJdLAogICJtYXBwaW5ncyI6ICI7QUFBMlUsT0FBTyxpQkFBaUI7QUFHblcsU0FBUyxvQkFBb0I7QUFDN0IsT0FBTyxXQUFXO0FBQ2xCLE9BQU8sVUFBVTtBQUNqQixPQUFPLFlBQVk7QUFJbkIsTUFBTSxVQUFVLE9BQU8sU0FBUyxjQUFjLEtBQUs7QUFDakQsUUFBTSxNQUFNLEtBQUs7QUFDakIsV0FBUyxJQUFJLEdBQUcsSUFBSSxLQUFLLEtBQUssR0FBRztBQUMvQixRQUFJLElBQUksS0FBSyxDQUFDLEdBQUcsR0FBRyxJQUFJLEdBQUc7QUFDekIsYUFBTztBQUFBLElBQ1Q7QUFBQSxFQUNGO0FBQ0EsU0FBTztBQUNUO0FBQ0EsSUFBTSxpQkFBaUIsQ0FBQyxLQUFLO0FBQUEsRUFDM0IsYUFBYTtBQUFBLElBQ1gsS0FBSztBQUFBLEVBQ1A7QUFDRixDQUFDLEdBQUc7QUFBQSxFQUNGLE1BQU07QUFBQSxFQUNOLGdCQUFnQjtBQUFBLElBQ2Q7QUFBQSxFQUNGLEdBQUc7QUFDRCxXQUFPO0FBQUEsRUFDVDtBQUNGLEdBQUcsTUFBTTtBQUFBLEVBQ1AsU0FBUztBQUNYLENBQUMsR0FBRyxPQUFPLENBQUM7QUFDWixlQUFlLFFBQVEsWUFBWSxLQUFLLENBQUM7QUFDekMsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDMUIsU0FBUztBQUFBLEVBQ1QsUUFBUTtBQUFBLElBQ04sTUFBTTtBQUFBLElBQ04sTUFBTTtBQUFBLEVBQ1I7QUFBQSxFQUNBLE9BQU87QUFBQSxJQUNMLFFBQVE7QUFBQSxFQUNWO0FBQ0YsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K

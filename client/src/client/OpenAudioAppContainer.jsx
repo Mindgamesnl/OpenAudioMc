@@ -187,7 +187,7 @@ class OpenAudioAppContainer extends React.Component {
     const lastStoredVolume = Cookies.get('setting_normalVolume');
     if (lastStoredVolume && isNum(lastStoredVolume) && !serverData.ignoreLastVolume) {
       setGlobalState({ settings: { normalVolume: parseFloat(lastStoredVolume) } });
-    } else if (serverData.defaultVolume) {
+    } else if (serverData.defaultVolume != undefined) {
       setGlobalState({ settings: { normalVolume: serverData.defaultVolume } });
     }
 
