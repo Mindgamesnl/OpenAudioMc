@@ -44,6 +44,7 @@ public class StateService extends Service {
             registerDetail(new SpigotSpeakerDetail());
             registerDetail(new SpigotAliasDetail());
             registerDetail(new SpigotVersionDetail());
+
         } else {
             registerDetail(new GeneralConnectedClients());
         }

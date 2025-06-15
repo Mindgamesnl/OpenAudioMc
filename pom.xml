@@ -14,7 +14,7 @@
     <description>The OpenAudioMc Java plugin and Api</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oa.version>6.10.10</oa.version>
+        <oa.version>6.10.11</oa.version>
 
         <!-- dev deps -->
         <deps.lombok.version>1.18.36</deps.lombok.version>
@@ -41,7 +41,7 @@
         <deps.bkcommonlib.version>${deps.traincarts.version}</deps.bkcommonlib.version>
         <deps.litebans.version>0.3.4</deps.litebans.version>
         <deps.essentialsx.version>2.19.0-SNAPSHOT</deps.essentialsx.version>
-        <deps.placeholderapi.version>2.10.9</deps.placeholderapi.version>
+        <deps.placeholderapi.version>2.11.6</deps.placeholderapi.version>
     </properties>
 
 
