@@ -50,9 +50,9 @@ ext {
     // Production dependencies
     spigotVersion = '1.13.2-R0.1-SNAPSHOT'
     okhttpVersion = '4.7.0'
-    velocityApiVersion = '3.0.1'
+    velocityApiVersion = '3.1.0'
     stormVersion = 'e1f961b'
-    nbtApiVersion = '2.14.1-SNAPSHOT'
+    nbtApiVersion = '2.15.0'
 
     // Bungeecord dependencies
     bungeeProxyVersion = 'b23a51825e'

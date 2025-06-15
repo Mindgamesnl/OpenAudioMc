@@ -1,4 +1,4 @@
-rootProject.name = 'OpenAudioMc'
+rootProject.name = 'OpenAudioMc-Root'
 
 // Subprojects
 include ':OpenAudioMc:OA-WorldguardIntegration'
@@ -8,8 +8,7 @@ include 'OpenAudioMc:OA-WorldGuardModern'
 
 // Main modules
 include ':OpenAudioMc:API'
-include 'plugin'
-include 'client'
+include ':OpenAudioMc:Plugin'
 
 // Module directory modules
 //include 'modules:jutils'
