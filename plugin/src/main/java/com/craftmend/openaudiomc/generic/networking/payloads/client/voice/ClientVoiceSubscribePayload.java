@@ -7,11 +7,13 @@ import com.craftmend.openaudiomc.generic.client.helpers.ClientRtcLocationUpdate;
 import com.craftmend.openaudiomc.spigot.services.world.Vector3;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 public class ClientVoiceSubscribePayload extends AbstractPacketPayload {
 

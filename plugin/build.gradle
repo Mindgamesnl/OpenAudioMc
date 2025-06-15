@@ -1,0 +1,93 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id("io.freefair.lombok") version "8.13.1"
+}
+
+description = 'OpenAudioMc Plugin'
+
+dependencies {
+    // Core dependencies
+    implementation deps.nbtApi
+    implementation deps.storm
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation(deps.okhttp) {
+        exclude group: 'com.google.android', module: 'android'
+    }
+    implementation 'io.socket:socket.io-client:1.0.0'
+    implementation 'io.lettuce:lettuce-core:6.3.0.RELEASE'
+
+    // OA
+    implementation project(':OpenAudioMc:API')
+    implementation project(':OpenAudioMc:OA-WorldguardIntegration')
+    implementation project(':OpenAudioMc:OA-WorldGuardLegacy')
+    implementation project(':OpenAudioMc:OA-WorldGuardModern')
+
+    // Provided dependencies
+    compileOnly deps.spigot
+    compileOnly deps.bungeeProxy
+    compileOnly deps.bungeeProtocol
+    compileOnly deps.bungeeApi
+    compileOnly deps.traincarts
+    compileOnly deps.bkcommonlib
+    compileOnly deps.velocityApi
+    compileOnly deps.litebans
+    compileOnly deps.essentialsx
+    compileOnly deps.placeholderapi
+
+    // Test dependencies
+    testImplementation 'com.coreoz:wisp:2.4.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+// make javadoc ignore errors
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    // depend on :OpenAudioMc:API:jar
+    dependsOn project(':OpenAudioMc:API').tasks.named('jar')
+    archiveBaseName = 'openaudiomc'
+
+//    // Include all dependencies in the final jar
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+
+    // Exclude duplicate files
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Exclude test dependencies
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'openaudiomc'
+            version = project.version
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'github'
+            url = uri('https://maven.pkg.github.com/Mindgamesnl/OpenAudioMc')
+            credentials {
+                username = System.getenv('GITHUB_ACTOR')
+                password = System.getenv('GITHUB_TOKEN')
+            }
+        }
+    }
+}

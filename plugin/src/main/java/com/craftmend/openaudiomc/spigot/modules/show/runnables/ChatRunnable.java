@@ -1,8 +1,8 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
+import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ProxiedCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
-import com.craftmend.openaudiomc.spigot.modules.show.interfaces.FakeCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,7 +38,7 @@ public class ChatRunnable extends ShowRunnable {
         if (args.length < 1) return;
 
         SpigotPlayerSelector spigotPlayerSelector = new SpigotPlayerSelector();
-        spigotPlayerSelector.setSender(new SpigotUserAdapter(new FakeCommandSender(Bukkit.getWorld(worldName))));
+        spigotPlayerSelector.setSender(new SpigotUserAdapter(ProxiedCommandSender.makeForWorld(Bukkit.getWorld(worldName))));
         spigotPlayerSelector.setString(args[0]);
 
         String[] subArgs = new String[args.length - 1];

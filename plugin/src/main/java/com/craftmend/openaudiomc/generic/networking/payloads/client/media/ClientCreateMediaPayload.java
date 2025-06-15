@@ -5,9 +5,11 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayl
 import com.craftmend.openaudiomc.generic.networking.payloads.client.interfaces.SourceHolder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientCreateMediaPayload extends AbstractPacketPayload implements SourceHolder {

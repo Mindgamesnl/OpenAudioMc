@@ -1,0 +1,96 @@
+package com.craftmend.openaudiomc.generic.networking.health;
+
+import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import java.util.UUID;
+
+public class ServerHealthResponse extends AbstractRestResponse {
+    @SerializedName("relay")
+    @Expose
+    private UUID relay;
+    @SerializedName("domain")
+    @Expose
+    private String domain;
+    @SerializedName("startSound")
+    @Expose
+    private String startSound;
+    @SerializedName("backgroundImage")
+    @Expose
+    private String backgroundImage;
+    @SerializedName("clientWelcomeMessage")
+    @Expose
+    private String clientWelcomeMessage;
+    @SerializedName("clientErrorMessage")
+    @Expose
+    private String clientErrorMessage;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("accentColor")
+    @Expose
+    private String accentColor;
+    @SerializedName("ambianceSound")
+    @Expose
+    private String ambianceSound;
+    @SerializedName("connectButtonText")
+    @Expose
+    private String connectButtonText;
+    @SerializedName("greetingMessage")
+    @Expose
+    private String greetingMessage;
+    @SerializedName("secureEndpoint")
+    @Expose
+    private String secureEndpoint;
+
+    public UUID getRelay() {
+        return this.relay;
+    }
+
+    public String getDomain() {
+        return this.domain;
+    }
+
+    public String getStartSound() {
+        return this.startSound;
+    }
+
+    public String getBackgroundImage() {
+        return this.backgroundImage;
+    }
+
+    public String getClientWelcomeMessage() {
+        return this.clientWelcomeMessage;
+    }
+
+    public String getClientErrorMessage() {
+        return this.clientErrorMessage;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getAccentColor() {
+        return this.accentColor;
+    }
+
+    public String getAmbianceSound() {
+        return this.ambianceSound;
+    }
+
+    public String getConnectButtonText() {
+        return this.connectButtonText;
+    }
+
+    public String getGreetingMessage() {
+        return this.greetingMessage;
+    }
+
+    public String getSecureEndpoint() {
+        return this.secureEndpoint;
+    }
+
+    public ServerHealthResponse() {
+    }
+}

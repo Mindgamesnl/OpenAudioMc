@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.craftmend.openaudiomc'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly deps.spigot
+}
+
+test {
+    useJUnitPlatform()
+}
+

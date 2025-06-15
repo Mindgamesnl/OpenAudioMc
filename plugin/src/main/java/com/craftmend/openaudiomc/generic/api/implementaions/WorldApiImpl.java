@@ -11,9 +11,9 @@ import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
+import com.craftmend.openaudiomc.integrations.regionprovider.RegisteredRegion;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.regions.RegionModule;
-import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.ApiRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.TimedRegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
@@ -42,7 +42,7 @@ public class WorldApiImpl implements WorldApi {
 
         List<AudioRegion> regions = new ArrayList<>();
 
-        for (ApiRegion apiRegion : regionModule.getRegionAdapter().getRegionsAtLocation(
+        for (RegisteredRegion apiRegion : regionModule.getRegionAdapter().getRegionsAtLocation(
                 new Location(Bukkit.getWorld(world), x, y, z)
         )) {
             RegionProperties rp = regionModule.getWorld(world).getRegionProperties(apiRegion.getName());
@@ -253,7 +253,7 @@ public class WorldApiImpl implements WorldApi {
     @AllArgsConstructor
     private static class WrappedRegion implements AudioRegion {
 
-        private ApiRegion region;
+        private RegisteredRegion region;
         private String world;
         private Media media;
 

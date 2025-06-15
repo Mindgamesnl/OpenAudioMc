@@ -27,7 +27,6 @@ import com.craftmend.openaudiomc.generic.platform.interfaces.OpenAudioInvoker;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.proxy.ProxyHostService;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
-import com.craftmend.openaudiomc.generic.rd.RestDirectService;
 import com.craftmend.openaudiomc.generic.redis.RedisService;
 import com.craftmend.openaudiomc.generic.resources.RuntimeDependencyService;
 import com.craftmend.openaudiomc.generic.rest.ServerEnvironment;
@@ -154,7 +153,6 @@ public class OpenAudioMc {
                 CommandService.class,           // standardized command processor regardless of platform
                 RedisService.class,             // redis hook/service implementation
                 OpenaudioAccountService.class,  // platform specific features, like voice chat
-                RestDirectService.class,        // manage rest direct
                 ClientDataService.class,        // manage player profiles
                 ApiService.class,               // initialize api implementations
                 UploadIndexService.class        // track uploaded content

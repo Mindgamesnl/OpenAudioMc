@@ -3,9 +3,11 @@ package com.craftmend.openaudiomc.generic.oac.response;
 import com.craftmend.openaudiomc.generic.oac.enums.AccountState;
 import com.craftmend.openaudiomc.generic.rest.response.AbstractRestResponse;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 public class OpenaudioSettingsResponse extends AbstractRestResponse {
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientEnabledHuePayload extends AbstractPacketPayload {

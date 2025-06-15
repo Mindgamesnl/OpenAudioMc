@@ -4,9 +4,11 @@ import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacketPayl
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientDestroyMediaPayload extends AbstractPacketPayload {

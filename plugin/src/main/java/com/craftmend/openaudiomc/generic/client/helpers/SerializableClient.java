@@ -11,12 +11,17 @@ import lombok.Setter;
 @Builder
 public class SerializableClient {
 
+    @Builder.Default
     private int volume = -1;
+    @Builder.Default
     private boolean isConnected = false;
     private RtcSessionManager rtcSessionManager;
     private String streamKey;
+    @Builder.Default
     private boolean isConnectedToRtc = false;
+    @Builder.Default
     private boolean hasHueLinked = false;
+    @Builder.Default
     private boolean sessionUpdated = false;
     private ClientAuth auth;
 

@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.ChannelEnterResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 public class ClientChannelStatusPayload extends AbstractPacketPayload {
 

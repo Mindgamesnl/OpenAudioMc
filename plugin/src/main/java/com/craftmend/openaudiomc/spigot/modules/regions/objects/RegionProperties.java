@@ -10,6 +10,7 @@ import com.craftmend.storm.api.markers.Column;
 import lombok.*;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegionProperties extends DataStore {

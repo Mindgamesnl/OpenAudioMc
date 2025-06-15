@@ -9,17 +9,20 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
+import com.craftmend.openaudiomc.integrations.regionprovider.RegionRegistry;
+import com.craftmend.openaudiomc.integrations.wglegacy.LegacyWorldguardRegistry;
+import com.craftmend.openaudiomc.integrations.wgmodern.ModernWorldguardRegistry;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
-import com.craftmend.openaudiomc.spigot.modules.regions.adapters.LegacyRegionAdapter;
-import com.craftmend.openaudiomc.spigot.modules.regions.adapters.ModernRegionAdapter;
+import com.craftmend.openaudiomc.spigot.modules.regions.adapters.WorldguardRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.AbstractRegionAdapter;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.IRegion;
 import com.craftmend.openaudiomc.spigot.modules.regions.interfaces.RegionMutator;
 import com.craftmend.openaudiomc.spigot.modules.regions.listeners.WorldLoadListener;
 import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
 import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
+import com.craftmend.openaudiomc.spigot.modules.version.MinecraftVersion;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import lombok.Getter;
@@ -42,26 +45,12 @@ public class RegionModule {
         OpenAudioLogger.info("Turns out you have WorldGuard installed! enabling regions and the region tasks..");
 
         if (customAdapter == null) {
-            if (OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.MODERN) {
-                OpenAudioLogger.info("Enabling the newer 1.13 regions");
-                regionAdapter = new ModernRegionAdapter(this);
-            } else {
-                OpenAudioLogger.warn("Unknown version. Falling back to the 1.8 to 1.12 region implementation.");
-                regionAdapter = new LegacyRegionAdapter(this);
-            }
+            // get the correct registry by version
+            RegionRegistry worldguardRegistry = getWorldguardRegistry();
+            this.regionAdapter = new WorldguardRegionAdapter(this, worldguardRegistry);
         } else {
             this.regionAdapter = customAdapter;
             this.regionAdapter.boot(this);
-        }
-
-        //validate detection
-        if (customAdapter == null && OpenAudioMc.getService(ServerService.class).getVersion() == ServerVersion.LEGACY) {
-            try {
-                Class.forName("com.sk89q.worldguard.bukkit.WGBukkit");
-            } catch (ClassNotFoundException e) {
-                OpenAudioLogger.warn("Wrong world guard detection! re-switching to 1.13");
-                regionAdapter = new ModernRegionAdapter(this);
-            }
         }
 
         // do cleanup
@@ -279,5 +268,13 @@ public class RegionModule {
 
     public Collection<WorldRegionManager> getWorlds() {
         return worldManagers.values();
+    }
+
+    private RegionRegistry getWorldguardRegistry() {
+        if (MinecraftVersion.getCurrent().isAtLeast(MinecraftVersion.V_1_13)) {
+            return new ModernWorldguardRegistry();
+        } else {
+            return new LegacyWorldguardRegistry();
+        }
     }
 }
