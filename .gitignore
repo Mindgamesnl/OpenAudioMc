@@ -34,3 +34,4 @@ javadoc/
 !client/*.html
 
 .gradle/
+**/build/
