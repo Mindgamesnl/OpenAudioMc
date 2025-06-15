@@ -17,11 +17,11 @@ dependencies {
     compileOnly deps.spigot
 
     // https://mvnrepository.com/artifact/com.sk89q.worldguard/worldguard-bukkit
-    implementation("com.sk89q.worldguard:worldguard-bukkit:7.0.0") {
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.0") {
         // ignore target compatibility, I know we're compiling for 1.8 and these dependencies are 1.17+, but we should be fine
         because("We are using the WorldGuard API, which is compatible with 1.8+")
     }
-    implementation("com.sk89q.worldedit:worldedit-bukkit:7.0.0") {
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.0.0") {
         // ignore target compatibility, I know we're compiling for 1.8 and these dependencies are 1.17+, but we should be fine
         because("We are using the WorldEdit API, which is compatible with 1.8+")
     }
