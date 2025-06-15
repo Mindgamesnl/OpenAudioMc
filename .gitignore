@@ -26,3 +26,11 @@ test-server-vistas/
 test-server/
 .buildconfig
 javadoc/
+
+// ignore jar files, no matter the name where they are
+*.jar
+// ignore .html, except for the client directory
+*.html
+!client/*.html
+
+.gradle/
