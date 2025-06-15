@@ -63,7 +63,7 @@ public class RegionCreateSubCommand extends ParameteredSubCommand {
         } catch (InvalidThreadException e) {
             throw new RuntimeException(e);
         } catch (InvalidRegionException e) {
-            throw new CommandError("The region with that id already exists or the region is invalid.");
+            throw new CommandError("Could not create region: " + e.getMessage());
         }
 
         message(sender, ChatColor.GREEN + "The WorldGuard region with the id " + args[1] + " now has the sound " + args[2]);
