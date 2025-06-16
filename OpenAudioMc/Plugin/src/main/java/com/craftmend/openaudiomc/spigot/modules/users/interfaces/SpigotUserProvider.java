@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.users.interfaces;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

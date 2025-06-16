@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -31,14 +30,6 @@ public class SpigotUserAdapter implements User<CommandSender> {
         }
     }
 
-    @Override
-    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        if (player instanceof Player) {
-            ((Player) player).sendTitle(title, subtitle, fadeIn, stay, fadeOut);
-        }
-    }
-
-    @Override
     public void sendMessage(TextComponent textComponent) {
         player.spigot().sendMessage(textComponent);
     }

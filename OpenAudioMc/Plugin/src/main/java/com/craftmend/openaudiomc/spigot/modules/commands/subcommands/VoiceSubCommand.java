@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceInspectSubCommand;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.voice.VoiceModSubCommand;
 

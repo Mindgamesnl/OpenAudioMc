@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.networking.interfaces;
 import com.craftmend.openaudiomc.generic.networking.abstracts.AbstractPacket;
 import com.craftmend.openaudiomc.generic.client.objects.ClientConnection;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.service.Service;
 
 import org.jetbrains.annotations.Nullable;

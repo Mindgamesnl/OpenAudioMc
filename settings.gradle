@@ -8,6 +8,7 @@ include 'OpenAudioMc:OA-WorldGuardModern'
 
 // Main modules
 include ':OpenAudioMc:API'
+include 'OpenAudioMc:OA-PaperUserAdapter'
 include ':OpenAudioMc:Plugin'
 
 // Module directory modules
@@ -19,5 +20,4 @@ include ':OpenAudioMc:Plugin'
 //include 'modules:parties-module'
 //include 'modules:skywars-module'
 //include 'modules:rinaorc-legacy'
-
 

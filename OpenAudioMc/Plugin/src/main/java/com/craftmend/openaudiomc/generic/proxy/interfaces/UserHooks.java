@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.proxy.interfaces;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
 import com.craftmend.openaudiomc.generic.service.Servicable;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collection;

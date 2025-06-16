@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.generic.commands.interfaces;
 
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 import java.util.HashMap;
 import java.util.Map;

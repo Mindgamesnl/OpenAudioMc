@@ -1,17 +1,13 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.title.Title;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.jetbrains.annotations.Nullable;
 
-import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,32 +23,6 @@ public class VelocityUserAdapter implements User<CommandSource> {
         for (String s : string.split("\\\\n")) {
             sender.sendMessage(Component.text(s));
         }
-    }
-
-    /**
-     * Thanks to 4drian3d (https://github.dev/4drian3d/TitleAnnouncer) for this code
-     * I wouldn't have been able to figure this out without you, kyori adventure scares me lol
-     */
-    @Override
-    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        // convert ticks to milliseconds
-        fadeIn *= 50;
-        stay *= 50;
-        fadeOut *= 50;
-
-        // Send the title to the specified audience.
-        sender.showTitle(Title.title(
-                Component.text(translateColors(title)),
-                Component.text(translateColors(title)),
-                Title.Times.of(
-                        Duration.ofMillis(fadeIn),
-                        Duration.ofMillis(stay),
-                        Duration.ofMillis(fadeOut))));
-    }
-
-    @Override
-    public void sendMessage(TextComponent textComponent) {
-        return;
     }
 
     @Override
@@ -132,6 +102,11 @@ public class VelocityUserAdapter implements User<CommandSource> {
             }
         }
         return "unknown";
+    }
+
+    @Override
+    public String getWorld() {
+        return "world"; // Velocity does not have a world concept like Bukkit, so we return a placeholder
     }
 
     @Override

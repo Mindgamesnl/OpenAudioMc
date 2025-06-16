@@ -3,13 +3,12 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.d
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.playlists.PlaylistService;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.Playlist;
 import com.craftmend.openaudiomc.spigot.modules.playlists.models.PlaylistEntry;
 import lombok.SneakyThrows;
 
-import java.util.Collection;
 import java.util.Locale;
 
 public class PlaylistViewSubCommand extends SubCommand {

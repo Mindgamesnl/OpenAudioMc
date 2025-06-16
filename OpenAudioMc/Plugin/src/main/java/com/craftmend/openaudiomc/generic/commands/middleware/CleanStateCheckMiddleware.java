@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 public class CleanStateCheckMiddleware implements CommandMiddleware {
 

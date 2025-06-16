@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.commands.selectors;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 import java.util.ArrayList;
 import java.util.List;

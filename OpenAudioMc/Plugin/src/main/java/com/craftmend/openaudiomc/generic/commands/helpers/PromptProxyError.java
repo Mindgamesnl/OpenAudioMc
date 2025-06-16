@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.commands.helpers;
 
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 public class PromptProxyError {
 

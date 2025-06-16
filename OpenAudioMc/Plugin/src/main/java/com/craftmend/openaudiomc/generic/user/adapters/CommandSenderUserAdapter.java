@@ -1,9 +1,8 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,18 +19,6 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
         for (String s : string.split("\\\\n")) {
             sender.sendMessage(s);
         }
-    }
-
-    @Override
-    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        if (sender instanceof Player) {
-            ((Player) sender).sendTitle(title, subtitle, fadeIn, stay, fadeOut);
-        }
-    }
-
-    @Override
-    public void sendMessage(TextComponent textComponent) {
-        return;
     }
 
     @Override

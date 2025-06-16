@@ -13,7 +13,8 @@ import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
+import com.craftmend.openaudiomc.generic.utils.BedrockUtil;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import lombok.AllArgsConstructor;
@@ -90,7 +91,7 @@ public class ClientAuth implements Serializable, ClientBaseAuthentication {
         StorageKey messageToSend;
 
         // unless we're bedrock
-        if (client.getUser().isGeyser()) {
+        if (BedrockUtil.isGeyser(client.getUser())) {
             messageToSend = StorageKey.MESSAGE_CONNECT_PROMPT_BEDROCK;
         } else {
             messageToSend = StorageKey.MESSAGE_CLICK_TO_CONNECT;

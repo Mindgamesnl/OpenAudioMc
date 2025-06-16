@@ -23,6 +23,7 @@ dependencies {
 
     // OA (these will be shaded)
     implementation project(':OpenAudioMc:API')
+    implementation project(':OpenAudioMc:OA-PaperUserAdapter')
     implementation project(':OpenAudioMc:OA-WorldguardIntegration')
     implementation project(':OpenAudioMc:OA-WorldGuardLegacy')
     implementation project(':OpenAudioMc:OA-WorldGuardModern')

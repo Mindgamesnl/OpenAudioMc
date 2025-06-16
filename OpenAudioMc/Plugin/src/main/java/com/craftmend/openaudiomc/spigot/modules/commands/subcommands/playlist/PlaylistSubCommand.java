@@ -2,10 +2,9 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
-import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.delegates.*;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.playlist.tabcomplete.PlaylistTabCompleteProvider;
 

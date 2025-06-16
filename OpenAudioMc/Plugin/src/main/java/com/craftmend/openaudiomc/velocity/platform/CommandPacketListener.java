@@ -5,7 +5,7 @@ import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService
 import com.craftmend.openaudiomc.generic.node.packets.ClientRunAudioPacket;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketListener;
 import com.craftmend.openaudiomc.generic.proxy.messages.ProxyPacketHandler;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 public class CommandPacketListener implements PacketListener {
 

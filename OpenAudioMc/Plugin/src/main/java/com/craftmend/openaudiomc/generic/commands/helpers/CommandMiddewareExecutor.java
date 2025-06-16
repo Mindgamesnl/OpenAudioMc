@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.generic.commands.helpers;
 import com.craftmend.openaudiomc.generic.commands.interfaces.CommandMiddleware;
 
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 public class CommandMiddewareExecutor {
 

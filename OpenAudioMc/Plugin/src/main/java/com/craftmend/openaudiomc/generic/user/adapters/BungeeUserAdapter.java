@@ -1,15 +1,12 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -28,25 +25,8 @@ public class BungeeUserAdapter implements User<CommandSender> {
         }
     }
 
-    @Override
-    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        if (sender instanceof ProxiedPlayer) {
-            // wtf?
-            Title bgTitle = ProxyServer.getInstance().createTitle();
 
-            bgTitle.title(new TextComponent(translateColors(title)));
-            bgTitle.subTitle(new TextComponent(translateColors(subtitle)));
-
-            bgTitle.fadeIn(fadeIn);
-            bgTitle.stay(stay);
-            bgTitle.fadeOut(fadeOut);
-
-            bgTitle.send(((ProxiedPlayer) sender));
-        }
-    }
-
-    @Override
-    public void sendMessage(TextComponent textComponent) {
+    private void sendMessage(TextComponent textComponent) {
         sender.sendMessage(textComponent);
     }
 
@@ -131,6 +111,11 @@ public class BungeeUserAdapter implements User<CommandSender> {
             if (ip != null) return ip;
         }
         return "unknown";
+    }
+
+    @Override
+    public String getWorld() {
+        return "world"; // BungeeCord does not have a world concept, so we return a default value
     }
 
     @Override

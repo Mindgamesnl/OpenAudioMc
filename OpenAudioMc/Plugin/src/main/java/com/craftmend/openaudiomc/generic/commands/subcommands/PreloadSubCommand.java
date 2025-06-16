@@ -10,7 +10,7 @@ import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvi
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 import java.util.Optional;
 

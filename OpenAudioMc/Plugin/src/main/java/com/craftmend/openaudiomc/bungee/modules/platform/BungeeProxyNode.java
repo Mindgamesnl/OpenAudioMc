@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.bungee.modules.platform;
 import com.craftmend.openaudiomc.bungee.OpenAudioMcBungee;
 import com.craftmend.openaudiomc.bungee.utils.BungeeUtils;
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.BungeeUserAdapter;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;

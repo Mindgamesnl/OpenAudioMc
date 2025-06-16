@@ -2,15 +2,10 @@ package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.show;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.show.ShowService;
-import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ShowRunnable;
 import com.craftmend.openaudiomc.spigot.modules.show.objects.Show;
-import com.craftmend.openaudiomc.spigot.modules.show.util.TimeParser;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.BlockCommandSender;
-import org.bukkit.entity.Player;
 
 public class ShowInfoSubCommand extends SubCommand {
 

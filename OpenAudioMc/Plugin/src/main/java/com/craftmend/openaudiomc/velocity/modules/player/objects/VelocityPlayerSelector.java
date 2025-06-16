@@ -2,14 +2,12 @@ package com.craftmend.openaudiomc.velocity.modules.player.objects;
 
 import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
-import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,6 +1,5 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
-import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.WorldApi;
 import com.craftmend.openaudiomc.api.exceptions.InvalidRegionException;
 import com.craftmend.openaudiomc.api.exceptions.InvalidThreadException;
@@ -8,14 +7,10 @@ import com.craftmend.openaudiomc.api.exceptions.UnknownWorldException;
 import com.craftmend.openaudiomc.api.regions.RegionMediaOptions;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
 import com.craftmend.openaudiomc.generic.commands.interfaces.ParameteredSubCommand;
-import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
-import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
-import com.craftmend.openaudiomc.spigot.modules.regions.objects.RegionProperties;
-import com.craftmend.openaudiomc.spigot.modules.regions.registry.WorldRegionManager;
 import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
 

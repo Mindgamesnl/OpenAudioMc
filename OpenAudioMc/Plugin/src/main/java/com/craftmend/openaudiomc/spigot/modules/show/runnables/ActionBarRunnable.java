@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ProxiedCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;

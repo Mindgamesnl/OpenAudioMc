@@ -4,7 +4,7 @@ import com.craftmend.openaudiomc.generic.commands.helpers.ParameterUtil;
 import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region.*;
 import com.craftmend.openaudiomc.spigot.modules.regions.gui.RegionSelectionGui;

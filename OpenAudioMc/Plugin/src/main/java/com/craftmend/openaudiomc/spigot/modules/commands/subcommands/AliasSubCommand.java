@@ -6,13 +6,11 @@ import com.craftmend.openaudiomc.generic.commands.interfaces.SubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.media.tabcomplete.MediaTabcompleteProvider;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.shortner.AliasService;
 import com.craftmend.openaudiomc.spigot.modules.shortner.completer.AliasNameTabCompleter;
 import com.craftmend.openaudiomc.spigot.modules.shortner.data.Alias;
 import org.bukkit.*;
-
-import java.util.Locale;
 
 public class AliasSubCommand extends SubCommand {
 

@@ -1,6 +1,6 @@
 package com.craftmend.openaudiomc.generic.proxy.models;
 
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.proxy.messages.StandardPacket;
 
 import java.util.Collection;

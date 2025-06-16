@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.api.interfaces;
 
 import com.craftmend.openaudiomc.generic.media.objects.Media;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 
 @Deprecated
 public interface Client {

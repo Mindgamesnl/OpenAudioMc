@@ -1,7 +1,7 @@
 package com.craftmend.openaudiomc.velocity.platform;
 
 import com.craftmend.openaudiomc.generic.proxy.models.ProxyNode;
-import com.craftmend.openaudiomc.generic.user.User;
+import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
 import com.craftmend.openaudiomc.generic.proxy.messages.PacketPlayer;
