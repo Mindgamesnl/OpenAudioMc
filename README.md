@@ -25,7 +25,7 @@ OpenAudioMc is a plugin for Minecraft that provides proximity voice chat and aud
 - [Velocity](https://www.spigotmc.org/resources/openaudiomc-open-source-audio-client.30691/ "Spigot Plugin Page")
 
 ## Notes on testing
-The Java plugin/implementation and vistas platforms come bundled with maven unit tests. All tests *must* pass before pull requests can definitively be reviewed.
+The Java plugin/implementation and vistas platforms come bundled with gradle unit tests. All tests *must* pass before pull requests can definitively be reviewed.
 Please note that the test for `vistas-server` test cases require a redis server to be running on `localhost:6379` with no password. These test cases will fail prematurely if this is not the case.
 
 ## Useful Links
@@ -43,11 +43,10 @@ Please note that the test for `vistas-server` test cases require a redis server 
 - **Module**: Modules are jar files with extra content, features or scripts that modify default OpenAudioMc behaviour. Usually used to integrate with third party plugins.
 
 # Project structure
-- `plugin/` contains the plugin and framework source code
+- `OpenAudioMc/Plugin/` contains the plugin and framework source code
 - `client/` contains the source code, build scripts and assets of the production web client
-- `modules/jutils` contains legacy java libraries that are only used during migrations
-- `modules/migrator` contains the migrator that converts legacy MapDB database stores to Sqlite through Storm
-- `modules/parties` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
-- `modules/skywars` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
-- `modules/vistas-server` a standalone OpenAudioMc installation that links over redis, for enterprise deployments with multiple bungee or lilypad proxies
-- `modules/vistas-client` a plugin runtime implementation for vistas, to hook into a redis based mesh network
+- `OpenAudioMc/OA-PartiesModule` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
+- `OpenAudioMc/OA-SkywarsModule` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
+- `OpenAudioMc/OA-PaperUserAdapter` work-in-progress paper port for our user system, adding support for minimessage
+- `OpenAudioMc/vistas-server` a standalone OpenAudioMc installation that links over redis, for enterprise deployments with multiple bungee or lilypad proxies
+- `OpenAudioMc/vistas-client` a plugin runtime implementation for vistas, to hook into a redis based mesh network
