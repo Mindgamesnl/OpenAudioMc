@@ -1,0 +1,15 @@
+name: OpenAudioMc
+version: 6.10.12
+main: com.craftmend.openaudiomc.bungee.OpenAudioMcBungee
+author: Mindgamesnl
+authors: [Mindgamesnl]
+softdepend: [LiteBans]
+description: "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more."
+website: https://openaudiomc.net/
+commands:
+  audio:
+    aliases: [sound, connect, media, muziek, geluid]
+  volume:
+    aliases: [setvolume, vol]
+  openaudiomc:
+    aliases: [oam, oa, openaudio]

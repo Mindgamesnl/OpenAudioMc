@@ -1,0 +1,29 @@
+rootProject.name = 'OpenAudioMc-Root'
+
+// Subprojects
+include ':OpenAudioMc:OA-WorldguardIntegration'
+
+include ':OpenAudioMc:OA-WorldGuardLegacy'
+include 'OpenAudioMc:OA-WorldGuardModern'
+
+// Main modules
+include ':OpenAudioMc:API'
+include 'OpenAudioMc:OA-PaperUserAdapter'
+include ':OpenAudioMc:Plugin'
+
+// Ported modules
+include ':OpenAudioMc:OA-PartiesModule'
+include ':OpenAudioMc:OA-SkywarsModule'
+include ':OpenAudioMc:OA-VistasClient'
+include ':OpenAudioMc:OA-VistasServer'
+
+// Module directory modules
+//include 'modules:jutils'
+//include 'modules:voice-join-permission'
+//include 'modules:vistas-client'
+//include 'modules:vistas-server'
+//include 'modules:mapdb-migrator'
+//include 'modules:parties-module'
+//include 'modules:skywars-module'
+//include 'modules:rinaorc-legacy'
+

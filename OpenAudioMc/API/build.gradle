@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id("io.freefair.lombok") version "8.13.1"
+}
+
+description = 'OpenAudioMc API'
+
+dependencies {
+    compileOnly deps.spigot
+    compileOnly deps.jetbrainsAnnot
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+javadoc {
+    options {
+        source = '8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+        docEncoding = 'UTF-8'
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'openaudiomc-api'
+            version = project.version
+        }
+    }
+}
+
+jar {
+    archiveBaseName = 'openaudiomc-api'
+}

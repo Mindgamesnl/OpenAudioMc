@@ -1,0 +1,215 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id("io.freefair.lombok") version "8.13.1"
+    id 'dev.s7a.gradle.minecraft.server' version '3.2.1'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+description = 'OpenAudioMc Plugin'
+
+dependencies {
+    // Core dependencies (these will be shaded)
+    implementation deps.nbtApi
+    implementation deps.storm
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation(deps.okhttp) {
+        exclude group: 'com.google.android', module: 'android'
+    }
+
+    implementation 'io.socket:socket.io-client:1.0.0'
+    implementation 'io.lettuce:lettuce-core:6.3.0.RELEASE'
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+
+    // OA (these will be shaded)
+    implementation project(':OpenAudioMc:API')
+//    implementation project(':OpenAudioMc:OA-PaperUserAdapter')
+    implementation project(':OpenAudioMc:OA-WorldguardIntegration')
+    implementation project(':OpenAudioMc:OA-WorldGuardLegacy')
+    implementation project(':OpenAudioMc:OA-WorldGuardModern')
+
+    // Provided dependencies (these will NOT be shaded)
+    compileOnly deps.spigot
+    compileOnly deps.bungeeProxy
+    compileOnly deps.bungeeProtocol
+    compileOnly deps.bungeeApi
+    compileOnly deps.traincarts
+    compileOnly deps.bkcommonlib
+    compileOnly deps.velocityApi
+    compileOnly deps.litebans
+    compileOnly deps.essentialsx
+    compileOnly deps.placeholderapi
+
+    // Test dependencies
+    testImplementation 'com.coreoz:wisp:2.4.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+// Configure the Shadow plugin
+shadowJar {
+    archiveBaseName = 'openaudiomc'
+    archiveClassifier = '' // This removes the '-all' suffix from the JAR name
+
+    // Relocations to match your Maven configuration
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'io', 'com.craftmend.thirdparty.io', {
+        // Exclude netty classes to not break invocations with bungee
+        exclude 'io.netty.channel.Channel'
+        exclude 'io.netty.channel.ChannelPipeline'
+        exclude 'io.netty.channel.ChannelHandler'
+    }
+    relocate 'org.json', 'com.craftmend.thirdparty.json'
+    relocate 'reactor', 'com.craftmend.thirdparty.reactor'
+    relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
+    relocate 'okio', 'com.craftmend.thirdparty.okio'
+    relocate 'org.projectlombok', 'com.craftmend.thirdparty.org'
+    relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
+    relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
+
+    // Exclude duplicate files and signing files
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/LICENSE*'
+    exclude 'META-INF/NOTICE*'
+
+    // Merge service files instead of excluding them
+    mergeServiceFiles()
+
+    // Transform to handle duplicate entries
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) {
+        resource = 'META-INF/spring.handlers'
+    }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) {
+        resource = 'META-INF/spring.schemas'
+    }
+}
+
+// Make javadoc ignore errors
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.encoding = 'UTF-8'
+}
+
+// Configure the regular jar task (optional - you might want to disable it)
+jar {
+    dependsOn project(':OpenAudioMc:API').tasks.named('jar')
+    archiveBaseName = 'openaudiomc'
+    archiveClassifier = 'thin' // Mark as thin jar
+
+    // Exclude duplicate files
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Exclude test dependencies
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+
+// Make build depend on shadowJar instead of jar
+build {
+    dependsOn shadowJar
+}
+
+// Configure publishing to use the shadow jar
+publishing {
+    publications {
+        maven(MavenPublication) {
+            // Use the shadow jar as the main artifact
+            artifact shadowJar
+            artifact sourcesJar
+            artifact javadocJar
+
+            groupId = project.group
+            artifactId = 'openaudiomc'
+            version = project.version
+
+            // Configure the POM
+            pom {
+                name = 'OpenAudioMc'
+                description = 'The OpenAudioMc Java plugin and Api'
+                url = 'https://openaudiomc.net/'
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'github'
+            url = uri('https://maven.pkg.github.com/Mindgamesnl/OpenAudioMc')
+            credentials {
+                username = System.getenv('GITHUB_ACTOR')
+                password = System.getenv('GITHUB_TOKEN')
+            }
+        }
+    }
+}
+
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
+
+[
+        ["8", "1.8.8"],
+        ["12", "1.12.2"],
+        ["20", "1.20.4"],
+        ["21", "1.21.4"],
+        ["217", "1.21.7"]
+].each { name, version ->
+    task("testPlugin$name", type: LaunchMinecraftServerTask) {
+        dependsOn 'shadowJar' // Changed from 'build' to use the shaded jar
+        doFirst {
+            copy {
+                from shadowJar.archiveFile
+                into "$buildDir/MinecraftServer$name/plugins"
+            }
+        }
+        serverDirectory = "$buildDir/MinecraftServer$name"
+        jarUrl = LaunchMinecraftServerTask.JarUrl.INSTANCE.Paper(version)
+        agreeEula = true
+    }
+}
+
+def placeholder = "@OA_VERSION@"
+def versionValue = project.version.toString()
+
+task replaceVersionPlaceholders {
+    description = 'Replaces @OA_VERSION@ in all source and resource files with the project version.'
+    group = 'build'
+
+    // Define file extensions to process
+    def extensions = ['java', 'kt', 'json', 'txt', 'html', 'xml', 'properties', 'yml', 'yaml']
+
+    doLast {
+        // Define the directories to search
+        def dirs = [
+                file('src/main/java'),
+                file('src/main/resources'),
+                file('src/test/java'),
+                file('src/test/resources')
+        ]
+
+        dirs.each { dir ->
+            if (!dir.exists()) return
+
+            dir.eachFileRecurse { file ->
+                if (file.isFile() && extensions.any { file.name.endsWith(it) }) {
+                    def content = file.getText('UTF-8')
+                    def newContent = content.replace(placeholder, versionValue)
+                    if (content != newContent) {
+                        file.write(newContent, 'UTF-8')
+                        println "Updated: ${file}"
+                    }
+                }
+            }
+        }
+    }
+}
+
+compileJava.dependsOn replaceVersionPlaceholders
+processResources.dependsOn replaceVersionPlaceholders
+

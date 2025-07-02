@@ -33,6 +33,7 @@ export class Sound extends AudioSourceProcessor {
     this.usesDateSync = false;
     this.startAtMillis = 0;
     this.needsCors = false;
+    this.playbackSpeed = 100; // default to 100% playback speed
   }
 
   withCors() {
@@ -306,6 +307,16 @@ export class Sound extends AudioSourceProcessor {
         v = 0;
       }
       this.soundElement.volume = v;
+    });
+  }
+
+  setPlaybackSpeed(speed) {
+    this.whenInitialized(() => {
+      if (speed <= 0) {
+        speed = 0.1; // minimum playback speed
+      }
+      this.playbackSpeed = speed;
+      this.soundElement.playbackRate = speed / 100; // convert to fraction
     });
   }
 

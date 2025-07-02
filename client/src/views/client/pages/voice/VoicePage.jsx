@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import {
   Users, UserPlus, Map, Radio, AlertTriangle, Loader2,
@@ -137,7 +137,7 @@ function VoicePage({ voiceState, color }) {
       <div className="max-w-2/3 h-full mx-auto">
         <div className="flex h-full flex-col lg:flex-row gap-3">
           {/* Sidebar */}
-          <aside className="w-full lg:w-[320px] space-y-3">
+          <aside className="w-full lg:w-[320px] h-full lg:max-h-full overflow-y-auto space-y-3">
             <DarkPanel className="p-4" color={color}>
               <VoiceQuickSettings />
               {voiceState.serverHasModeration ? (
@@ -210,4 +210,6 @@ const mapStateToProps = (state) => ({
   color: state.settings.accentColor,
 });
 
-export default connect(mapStateToProps)(VoicePage);
+const MemoizedVoicePage = memo(VoicePage);
+
+export default connect(mapStateToProps)(MemoizedVoicePage);

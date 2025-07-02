@@ -1,0 +1,99 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+}
+
+allprojects {
+    group = 'com.craftmend.openaudiomc'
+    version = '6.10.12'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+        maven { url 'https://repo.velocitypowered.com/snapshots/' }
+        maven { url 'https://repo.spongepowered.org/maven' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo.essentialsx.net/releases/' }
+        maven { url 'https://repo.papermc.io/repository/maven-public/' }
+        maven { url 'https://repo.codemc.org/repository/maven-public/' }
+        maven { url 'https://oss.sonatype.org/content/groups/public/' }
+        maven { url 'https://maven.enginehub.org/repo/' }
+        maven { url 'https://ci.mg-dev.eu/plugin/repository/everything' }
+        maven { url 'https://libraries.minecraft.net/' }
+        maven { url 'https://repo.essentialsx.net/snapshots/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+        gradlePluginPortal()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+// Version variables (matching Maven properties)
+ext {
+    // Project version
+    oaVersion = '6.10.11'
+
+    // Dev dependencies
+    lombokVersion = '1.18.38'  // Updated to latest version
+    jetbrainsAnnotVersion = '24.1.0'
+
+    // Production dependencies
+    spigotVersion = '1.13.2-R0.1-SNAPSHOT'
+    okhttpVersion = '4.7.0'
+    velocityApiVersion = '3.1.0'
+    stormVersion = 'e1f961b'
+    nbtApiVersion = '2.15.1'
+
+    // Bungeecord dependencies
+    bungeeProxyVersion = 'b23a51825e'
+    bungeeProtocolVersion = bungeeProxyVersion
+    bungeeApiVersion = bungeeProxyVersion
+
+    // Integration dependencies
+    traincartsVersion = '1.15.2-v2-SNAPSHOT'
+    bkcommonlibVersion = traincartsVersion
+    litebansVersion = '0.6.1'
+    essentialsxVersion = '2.19.0-SNAPSHOT'
+    placeholderapiVersion = '2.11.6'
+}
+
+// Common dependencies that can be used by all subprojects
+ext.deps = [
+    // Dev dependencies
+    lombok: [
+        compileOnly: "org.projectlombok:lombok:${lombokVersion}",
+        annotationProcessor: "org.projectlombok:lombok:${lombokVersion}",
+        testCompileOnly: "org.projectlombok:lombok:${lombokVersion}",
+        testAnnotationProcessor: "org.projectlombok:lombok:${lombokVersion}"
+    ],
+    jetbrainsAnnot: "org.jetbrains:annotations-java5:${jetbrainsAnnotVersion}",
+
+    // Production dependencies
+    spigot: "org.spigotmc:spigot-api:${spigotVersion}",
+    okhttp: "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+    velocityApi: "com.velocitypowered:velocity-api:${velocityApiVersion}",
+    storm: "com.github.Mindgamesnl:Storm:${stormVersion}",
+    nbtApi: "de.tr7zw:item-nbt-api:${nbtApiVersion}",
+
+    // BungeeCord dependencies
+    bungeeProxy: "com.github.SpigotMC.BungeeCord:bungeecord-proxy:${bungeeProxyVersion}",
+    bungeeProtocol: "com.github.SpigotMC.BungeeCord:bungeecord-protocol:${bungeeProtocolVersion}",
+    bungeeApi: "com.github.SpigotMC.BungeeCord:bungeecord-api:${bungeeApiVersion}",
+
+    // Integration dependencies
+    traincarts: "com.bergerkiller.bukkit:TrainCarts:${traincartsVersion}",
+    bkcommonlib: "com.bergerkiller.bukkit:BKCommonLib:${bkcommonlibVersion}",
+    litebans: "litebans:api:${litebansVersion}",
+    essentialsx: "net.essentialsx:EssentialsX:${essentialsxVersion}",
+    placeholderapi: "me.clip:placeholderapi:${placeholderapiVersion}"
+]

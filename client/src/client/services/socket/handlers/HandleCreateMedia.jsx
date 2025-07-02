@@ -19,6 +19,7 @@ export async function handleCreateMedia(data) {
   const { maxDistance } = data;
   const { muteRegions, muteSpeakers } = data.media;
   const { startAt } = data.media;
+  const { speed } = data.media;
   let volume = 100;
 
   // only if its a new version and provided, then use that volume
@@ -37,6 +38,11 @@ export async function handleCreateMedia(data) {
 
   createdChannel.addSound(createdMedia);
   MediaManager.mixer.addChannel(createdChannel);
+
+  if (speed != null && speed !== 1) {
+    debugLog(`Setting speed to ${speed}`);
+    createdMedia.setPlaybackSpeed(speed);
+  }
 
   createdChannel.setTag(id);
 
