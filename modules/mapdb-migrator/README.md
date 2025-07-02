@@ -1,2 +1,0 @@
-# MapDB > Storm migration
-This is a bundled module thats only loaded during runtime when an old legacy MapDB database file is detected. This module will load the old MapDB library, migrate all user data and then store a backup of the old database.

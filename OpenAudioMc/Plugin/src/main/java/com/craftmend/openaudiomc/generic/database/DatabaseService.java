@@ -72,12 +72,6 @@ public class DatabaseService extends Service implements StormLogger {
         for (Class<? extends DataStore> table : tables) {
             getRepository(table);
         }
-
-        // migrate old data if there's a map.db
-        if (new File(storageDir, "database.db").exists()) {
-            OpenAudioLogger.warn("Found old legacy database! loading the temporary module to replace it.");
-            getService(ModuleLoaderService.class).loadModFromFile(new File(storageDir, "modules/migrate.map-to-storm.jar"));
-        }
     }
 
     public void shutdown() {
