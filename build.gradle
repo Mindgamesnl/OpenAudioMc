@@ -52,7 +52,7 @@ ext {
     okhttpVersion = '4.7.0'
     velocityApiVersion = '3.1.0'
     stormVersion = 'e1f961b'
-    nbtApiVersion = '2.15.0'
+    nbtApiVersion = '2.15.1'
 
     // Bungeecord dependencies
     bungeeProxyVersion = 'b23a51825e'
