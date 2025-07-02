@@ -77,17 +77,63 @@ export class Sound extends AudioSourceProcessor {
   }
 
   destroy() {
-    this.whenInitialized(() => {
-      // cancel current fades
-      this.channel.interruptFade();
+    // Set shutdown flags immediately to prevent race conditions
+    this.destroyed = true;
+    this.gotShutDown = true;
 
-      this.destroyed = true;
-      this.gotShutDown = true;
-      this.setLooping(false);
-      this.soundElement.pause();
-      this.soundElement.remove();
-      return true;
-    });
+    const performDestroy = () => {
+      try {
+        // Cancel current fades if channel exists
+        if (this.channel && this.channel.interruptFade) {
+          this.channel.interruptFade();
+        }
+
+        this.setLooping(false);
+
+        // Clean up sound element
+        if (this.soundElement) {
+          // Remove all event listeners to prevent memory leaks
+          this.soundElement.onended = null;
+          this.soundElement.onplay = null;
+          this.soundElement.onprogress = null;
+          this.soundElement.oncanplay = null;
+          this.soundElement.oncanplaythrough = null;
+          this.soundElement.onerror = null;
+
+          this.soundElement.pause();
+          this.soundElement.remove();
+          this.soundElement = null;
+        }
+
+        // Clean up Web Audio API nodes
+        if (this.controller) {
+          try {
+            this.controller.disconnect();
+          } catch (e) {
+            // Ignore disconnect errors
+          }
+          this.controller = null;
+        }
+
+        // Clear callbacks
+        this.initCallbacks = [];
+        this.onFinish = [];
+      } catch (error) {
+        debugLog('Error during sound destruction:', error);
+      }
+    };
+
+    if (this.loaded) {
+      performDestroy();
+    } else {
+      // If not loaded yet, add destroy to callbacks and perform immediately
+      this.initCallbacks.push(() => {
+        performDestroy();
+        return true; // Stop further callbacks
+      });
+      // Also perform destroy immediately in case tick() never gets called
+      performDestroy();
+    }
   }
 
   getMediaQueryParam(key, defaultValue = null) {
@@ -97,30 +143,59 @@ export class Sound extends AudioSourceProcessor {
 
   finalize() {
     return new Promise(((resolve) => {
+      if (this.gotShutDown) {
+        resolve();
+        return;
+      }
+
       this.soundElement.onended = async () => {
         if (this.gotShutDown) return;
         if (!this.finsishedInitializing) return;
-        this.onFinish.forEach((runnable) => {
-          runnable();
-        });
-        if (this.loop) {
-          // possibly fetch next playlist entry
-          const nextSource = await this.translate(this.rawSource);
-          // Did it change? then re-handle
-          if (nextSource !== this.source) {
-            if (this.needsCors && isProxyRequired(nextSource)) {
-              this.soundElement.src = proxifyUrl(nextSource);
-            } else {
-              // no cors needed, just yeet
-              this.soundElement.src = nextSource;
+
+        try {
+          this.onFinish.forEach((runnable) => {
+            try {
+              runnable();
+            } catch (error) {
+              debugLog('Error in onFinish callback:', error);
             }
-            this.source = nextSource;
+          });
+        } catch (error) {
+          debugLog('Error processing onFinish callbacks:', error);
+        }
+
+        if (this.loop && !this.gotShutDown) {
+          try {
+            // possibly fetch next playlist entry
+            const nextSource = await this.translate(this.rawSource);
+            // Did it change? then re-handle
+            if (nextSource !== this.source) {
+              if (this.needsCors && isProxyRequired(nextSource)) {
+                this.soundElement.src = proxifyUrl(nextSource);
+              } else {
+                // no cors needed, just yeet
+                this.soundElement.src = nextSource;
+              }
+              this.source = nextSource;
+            }
+            this.setTime(0);
+            if (!this.gotShutDown) {
+              this.soundElement.play();
+            }
+          } catch (error) {
+            debugLog('Error handling loop:', error);
           }
-          this.setTime(0);
-          this.soundElement.play();
-        } else {
-          this.mixer.removeChannel(this.channel);
-          if (!this.soundElement.paused) this.soundElement.pause();
+        } else if (!this.gotShutDown) {
+          try {
+            if (this.mixer && this.channel) {
+              this.mixer.removeChannel(this.channel);
+            }
+            if (this.soundElement && !this.soundElement.paused) {
+              this.soundElement.pause();
+            }
+          } catch (error) {
+            debugLog('Error cleaning up after sound end:', error);
+          }
         }
       };
 
@@ -129,10 +204,18 @@ export class Sound extends AudioSourceProcessor {
       const attemptToPlay = () => {
         if (this.gotShutDown) return;
         if (!fired) {
-          const prom = this.soundElement.play();
-          if (prom instanceof Promise) {
-            prom.then(resolve).catch(resolve);
-          } else {
+          try {
+            const prom = this.soundElement.play();
+            if (prom instanceof Promise) {
+              prom.then(resolve).catch((error) => {
+                debugLog('Play promise rejected:', error);
+                resolve();
+              });
+            } else {
+              resolve();
+            }
+          } catch (error) {
+            debugLog('Error attempting to play:', error);
             resolve();
           }
         }
@@ -140,16 +223,26 @@ export class Sound extends AudioSourceProcessor {
       };
 
       const whenStarted = () => {
-        if (this.gotShutDown) {
-          this.soundElement.pause();
+        if (this.gotShutDown && this.soundElement) {
+          try {
+            this.soundElement.pause();
+          } catch (error) {
+            debugLog('Error pausing sound on start:', error);
+          }
         }
       };
 
-      this.soundElement.onplay = whenStarted;
-      this.soundElement.onprogress = attemptToPlay;
-      this.soundElement.oncanplay = attemptToPlay;
-      this.soundElement.oncanplaythrough = attemptToPlay;
-      attemptToPlay();
+      // Set up event listeners with error handling
+      try {
+        this.soundElement.onplay = whenStarted;
+        this.soundElement.onprogress = attemptToPlay;
+        this.soundElement.oncanplay = attemptToPlay;
+        this.soundElement.oncanplaythrough = attemptToPlay;
+        attemptToPlay();
+      } catch (error) {
+        debugLog('Error setting up sound element listeners:', error);
+        resolve();
+      }
     }));
   }
 
@@ -162,14 +255,21 @@ export class Sound extends AudioSourceProcessor {
       const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
         || bypassBuffer; // alternatively allow a bypass
 
-      let requiredReadyState = 4;
+      // Optimize loading logic: for synchronized playback, we only need metadata (readyState 2)
+      // and some buffered data (readyState 3). Full buffering (readyState 4) is not required.
+      let requiredReadyState = this.usesDateSync ? 2 : 3; // Require less for synced media
       if (bypassBuffer) {
-        requiredReadyState = 3;
+        requiredReadyState = 2; // Only need metadata for bypass
       }
 
-      if (this.soundElement.readyState >= requiredReadyState && loadedFinished) {
+      // For synchronized playback, prioritize speed over full buffering
+      const hasMinimumData = this.soundElement.readyState >= requiredReadyState;
+      const hasMetadata = this.soundElement.readyState >= 2; // HAVE_METADATA
+      const canStart = bypassBuffer ? hasMetadata : (hasMinimumData && (loadedFinished || this.usesDateSync));
+
+      if (canStart) {
         const loadDuration = parseFloat(this.soundElement.getAttribute('stopwatchTime') || 0);
-        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s.`);
+        debugLog(`Ready state is ${this.soundElement.readyState}, metadata is available. Loading took ${loadDuration}s. Sync mode: ${this.usesDateSync}`);
         this.loaded = true;
 
         for (let i = 0; i < this.initCallbacks.length; i++) {
@@ -353,7 +453,19 @@ export class Sound extends AudioSourceProcessor {
   }
 
   setTime(target) {
-    this.soundElement.currentTime = target;
+    try {
+      if (this.soundElement && !this.gotShutDown) {
+        // Ensure we don't set time beyond duration
+        const { duration } = this.soundElement;
+        if (!Number.isNaN(duration) && duration > 0) {
+          target = Math.min(target, duration);
+        }
+        target = Math.max(0, target); // Ensure non-negative
+        this.soundElement.currentTime = target;
+      }
+    } catch (error) {
+      debugLog('Error setting sound time:', error);
+    }
   }
 }
 

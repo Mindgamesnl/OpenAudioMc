@@ -115,13 +115,13 @@ export class Channel {
       this.channelVolume = volume;
 
       if (step >= numSteps) {
-        extraCallback();
+        this.isFading = false;
         clearInterval(intervalId);
         const index = this.fadeTimer.indexOf(intervalId);
         if (index > -1) {
           this.fadeTimer.splice(index, 1);
         }
-        this.isFading = false;
+        extraCallback();
         intervalId = null;
       }
     }, intervalTime);
@@ -133,9 +133,14 @@ export class Channel {
     if (!this.isFading) return;
     this.isFading = false;
     this.setChannelVolume(this.targetAfterFade, cancelRecursive);
+
+    // Clear all fade timers and clean up the array
     this.fadeTimer.forEach((fadeTimerElement) => {
-      clearInterval(fadeTimerElement);
+      if (fadeTimerElement != null) {
+        clearInterval(fadeTimerElement);
+      }
     });
+    this.fadeTimer = []; // Clear the array to prevent memory leaks
   }
 
   updateVolume(cancelFade = true) {
@@ -155,7 +160,14 @@ export class Channel {
   tick() {
     // tick all sounds
     this.sounds.forEach((sound) => {
-      sound.tick.bind(sound)();
+      try {
+        if (sound && sound.tick) {
+          sound.tick();
+        }
+      } catch (error) {
+        // Log error but don't stop processing other sounds
+        console.warn('Error during sound tick:', error);
+      }
     });
   }
 

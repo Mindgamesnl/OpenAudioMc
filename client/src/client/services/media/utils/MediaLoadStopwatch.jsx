@@ -12,6 +12,12 @@ export class MediaPerformanceWatcher {
     this.running = false;
     this.finished = false;
 
+    // Stop when we have enough data to start playing (optimized for speed)
+    this.soundElement.addEventListener('canplay', () => {
+      this.stop();
+    });
+
+    // Also stop on canplaythrough for complete loading
     this.soundElement.addEventListener('canplaythrough', () => {
       this.stop();
     });
@@ -22,8 +28,8 @@ export class MediaPerformanceWatcher {
     // register waiting
     this.soundElement.addEventListener('waiting', this.handleDehydration.bind(this));
 
-    // is ready state already 4?
-    if (this.soundElement.readyState === 4) {
+    // is ready state already adequate?
+    if (this.soundElement.readyState >= 3) { // HAVE_FUTURE_DATA or better
       this.start();
       this.stop(true);
     }

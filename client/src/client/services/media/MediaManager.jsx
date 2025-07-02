@@ -67,7 +67,7 @@ export const MediaManager = new class IMediaManager {
         });
     } else {
       setTimeout(() => {
-        this.mixer.updatePlayingSounds();
+        this.mixer.forceUpdatePlayingSounds();
       }, 500);
     }
   }

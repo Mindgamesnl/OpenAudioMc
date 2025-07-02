@@ -9,6 +9,7 @@ export class Mixer {
     this.mixerName = mixerName;
     this.channels = new Map();
     this.areSoundsPlaying = false;
+    this.playingStateForceChanged = false;
     this.ambianceSoundMedia = null;
     this.recentSource = '/none';
 
@@ -20,61 +21,86 @@ export class Mixer {
     // if scores are over 1, then the channel will be muted
     this.inhibbitors = {};
 
-    // loop over channels and call tick()
-    setInterval(() => {
+    // Store the interval ID so we can clean it up later
+    this.tickIntervalId = setInterval(() => {
       this.tick();
     }, 250);
   }
 
+  forceUpdatePlayingSounds() {
+    this.playingStateForceChanged = true;
+    this.updatePlayingSounds();
+  }
+
   tick(forceInstant = false) {
-    this.channels.forEach((channel) => {
-      channel.tick();
-    });
-
-    // manually tick ambiance sound
-    if (this.ambianceSoundMedia != null) {
-      this.ambianceSoundMedia.tick();
-    }
-
-    // go over all destruction handlers and execute them
-    Object.keys(this.destructionHandlers).forEach((key) => {
-      // is there still a channel with this id?
-      if (this.channels.get(key) != null) return;
-      const handler = this.destructionHandlers[key];
-      if (handler != null) {
-        debugLog(`Executing destruction handler for ${key}`);
-        handler();
-      }
-      delete this.destructionHandlers[key];
-    });
-
-    // go over all channels and check if they should be inhibited
-    this.channels.forEach((channel) => {
-      let score = 0;
-      channel.tags.forEach((value, tag) => {
-        if (this.inhibbitors[tag] != null) {
-          score += this.inhibbitors[tag];
+    try {
+      this.channels.forEach((channel) => {
+        try {
+          channel.tick();
+        } catch (error) {
+          debugLog('Error during channel tick:', error);
         }
       });
 
-      const fade = channel.getPrefferedFadeTime() > 5 && !forceInstant;
-
-      if (score >= 1 && !channel.mutedByScore) {
-        channel.mutedByScore = true;
-        if (fade) {
-          channel.fadeChannel(0, channel.getPrefferedFadeTime());
-        } else {
-          channel.setChannelVolume(0);
-        }
-      } else if (score === 0 && channel.mutedByScore) {
-        channel.mutedByScore = false;
-        if (fade) {
-          channel.fadeChannel(channel.getOriginalVolume(), channel.getPrefferedFadeTime());
-        } else {
-          channel.setChannelVolume(channel.getOriginalVolume());
+      // manually tick ambiance sound
+      if (this.ambianceSoundMedia != null) {
+        try {
+          this.ambianceSoundMedia.tick();
+        } catch (error) {
+          debugLog('Error during ambiance sound tick:', error);
         }
       }
-    });
+
+      // go over all destruction handlers and execute them
+      Object.keys(this.destructionHandlers).forEach((key) => {
+        // is there still a channel with this id?
+        if (this.channels.get(key) != null) return;
+        const handler = this.destructionHandlers[key];
+        if (handler != null) {
+          try {
+            debugLog(`Executing destruction handler for ${key}`);
+            handler();
+          } catch (error) {
+            debugLog('Error during destruction handler execution:', error);
+          }
+        }
+        delete this.destructionHandlers[key];
+      });
+
+      // go over all channels and check if they should be inhibited
+      this.channels.forEach((channel) => {
+        try {
+          let score = 0;
+          channel.tags.forEach((value, tag) => {
+            if (this.inhibbitors[tag] != null) {
+              score += this.inhibbitors[tag];
+            }
+          });
+
+          const fade = channel.getPrefferedFadeTime() > 5 && !forceInstant;
+
+          if (score >= 1 && !channel.mutedByScore) {
+            channel.mutedByScore = true;
+            if (fade) {
+              channel.fadeChannel(0, channel.getPrefferedFadeTime());
+            } else {
+              channel.setChannelVolume(0);
+            }
+          } else if (score === 0 && channel.mutedByScore) {
+            channel.mutedByScore = false;
+            if (fade) {
+              channel.fadeChannel(channel.getOriginalVolume(), channel.getPrefferedFadeTime());
+            } else {
+              channel.setChannelVolume(channel.getOriginalVolume());
+            }
+          }
+        } catch (error) {
+          debugLog('Error during channel inhibition check:', error);
+        }
+      });
+    } catch (error) {
+      debugLog('Error during mixer tick:', error);
+    }
   }
 
   incrementInhibitor(tag) {
@@ -102,9 +128,10 @@ export class Mixer {
         foundPlayingSound = true;
       }
     });
-    if (foundPlayingSound !== this.areSoundsPlaying) {
+    if (foundPlayingSound !== this.areSoundsPlaying || this.playingStateForceChanged) {
       this.playingStateChangeChanged(foundPlayingSound);
       this.areSoundsPlaying = foundPlayingSound;
+      this.playingStateForceChanged = false;
     }
 
     feedDebugValue(DebugStatistic.MIXER_CHANNELS, this.channels.size);
@@ -228,5 +255,29 @@ export class Mixer {
     this.updatePlayingSounds();
     // eslint-disable-next-line no-console
     console.warn(`Added channel ${channel.channelName}`);
+  }
+
+  destroy() {
+    // Clear the tick interval
+    if (this.tickIntervalId) {
+      clearInterval(this.tickIntervalId);
+      this.tickIntervalId = null;
+    }
+
+    // Destroy all channels
+    this.channels.forEach((channel) => {
+      channel.destroy();
+    });
+    this.channels.clear();
+
+    // Clean up ambiance sound
+    if (this.ambianceSoundMedia) {
+      this.ambianceSoundMedia.destroy();
+      this.ambianceSoundMedia = null;
+    }
+
+    // Clear destruction handlers
+    this.destructionHandlers = {};
+    this.inhibbitors = {};
   }
 }
