@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import {
   Users, UserPlus, Map, Radio, AlertTriangle, Loader2,
@@ -210,4 +210,6 @@ const mapStateToProps = (state) => ({
   color: state.settings.accentColor,
 });
 
-export default connect(mapStateToProps)(VoicePage);
+const MemoizedVoicePage = memo(VoicePage);
+
+export default connect(mapStateToProps)(MemoizedVoicePage);
