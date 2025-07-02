@@ -396,6 +396,10 @@ export class Sound extends AudioSourceProcessor {
 
   setVolume(volume) {
     this.whenInitialized(() => {
+      if (!this.soundElement) {
+        debugLog('Sound element not initialized, cannot set volume');
+        return;
+      }
       if (volume > 100) volume = 100;
       let v = volume / 100;
       // is v non-finite?

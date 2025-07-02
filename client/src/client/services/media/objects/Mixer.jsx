@@ -4,7 +4,7 @@ import { getGlobalState, setGlobalState } from '../../../../state/store';
 import { debugLog, feedDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 
-export class Mixer {
+export class wwMixer {
   constructor(mixerName) {
     this.mixerName = mixerName;
     this.channels = new Map();
