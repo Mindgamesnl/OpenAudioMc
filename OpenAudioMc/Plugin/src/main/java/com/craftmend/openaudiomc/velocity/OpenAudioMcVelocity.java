@@ -36,7 +36,7 @@ import java.time.Instant;
 @Plugin(
         id = "openaudiomc",
         name = "OpenAudioMc Bungee Plugin Port for Velocity",
-        version = "6.10.11",
+        version = "6.10.12",
         authors = {"Mindgamesnl", "fluse1367"},
         description = "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more.",
         url = "https://openaudiomc.net/"

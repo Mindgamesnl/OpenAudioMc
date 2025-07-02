@@ -173,3 +173,43 @@ import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
         agreeEula = true
     }
 }
+
+def placeholder = "@OA_VERSION@"
+def versionValue = project.version.toString()
+
+task replaceVersionPlaceholders {
+    description = 'Replaces @OA_VERSION@ in all source and resource files with the project version.'
+    group = 'build'
+
+    // Define file extensions to process
+    def extensions = ['java', 'kt', 'json', 'txt', 'html', 'xml', 'properties', 'yml', 'yaml']
+
+    doLast {
+        // Define the directories to search
+        def dirs = [
+                file('src/main/java'),
+                file('src/main/resources'),
+                file('src/test/java'),
+                file('src/test/resources')
+        ]
+
+        dirs.each { dir ->
+            if (!dir.exists()) return
+
+            dir.eachFileRecurse { file ->
+                if (file.isFile() && extensions.any { file.name.endsWith(it) }) {
+                    def content = file.getText('UTF-8')
+                    def newContent = content.replace(placeholder, versionValue)
+                    if (content != newContent) {
+                        file.write(newContent, 'UTF-8')
+                        println "Updated: ${file}"
+                    }
+                }
+            }
+        }
+    }
+}
+
+compileJava.dependsOn replaceVersionPlaceholders
+processResources.dependsOn replaceVersionPlaceholders
+

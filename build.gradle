@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
     group = 'com.craftmend.openaudiomc'
-    version = '1.2'
+    version = '6.10.12'
 
     repositories {
         mavenCentral()
