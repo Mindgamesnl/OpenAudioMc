@@ -15,7 +15,7 @@ function AudioPage(props) {
     <>
       <div className="h-full w-full audio-page-bg overflow-y-auto">
         {/* Main Content Container */}
-        <div className="min-h-full flex flex-col lg:flex-row lg:items-center justify-center p-6 lg:p-8 gap-8 lg:gap-12">
+        <div className="min-h-full flex flex-col lg:flex-row items-center justify-center p-6 lg:p-8 gap-8 lg:gap-12">
 
           {/* Left Section - Audio Controls */}
           <div className="flex-1 max-w-2xl">
