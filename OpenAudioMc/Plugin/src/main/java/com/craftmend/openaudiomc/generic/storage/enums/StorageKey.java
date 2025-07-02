@@ -118,6 +118,8 @@ public enum StorageKey {
     SETTINGS_VOICE_FILTERS_GAMEMODE(false, "vc-filter.require-same-gamemode", StorageLocation.CONFIG_FILE),
     SETTINGS_VOICE_FILTERS_TEAM(false, "vc-filter.require-common-team", StorageLocation.CONFIG_FILE),
     SETTINGS_VOICE_FILTERS_CHANNEL(false, "vc-filter.require-no-channel", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICE_PERMISSION_ENABLED(false, "options.enable-voicechat-permission", StorageLocation.CONFIG_FILE),
+    SETTINGS_VOICE_PERMISSION_NAME(false, "options.join-voicechat-permission", StorageLocation.CONFIG_FILE),
 
     SETTINGS_BEDROCK_PREFIX(false, "options.bedrock-name-prefix", StorageLocation.CONFIG_FILE),
     SETTINGS_TOKEN_AUTO_LOGIN(false, "options.token-auto-login", StorageLocation.CONFIG_FILE),

@@ -208,6 +208,15 @@ public class SpigotVoiceChatService extends Service {
             OpenAudioLogger.info("Enabling voicechat channel filter");
             getService(FilterService.class).addCustomFilter(new PlayerInChannelFilter(networkingService));
         }
+
+        if (StorageKey.SETTINGS_VOICE_PERMISSION_ENABLED.getBoolean()) {
+            EventApi.getInstance().registerHandler(ClientEnableVoiceEvent.class, event -> {
+                boolean hasPermission = event.getClient().getActor().hasPermission(StorageKey.SETTINGS_VOICE_PERMISSION_NAME.getString());
+                if (!hasPermission) {
+                    event.setCancelled(true);
+                }
+            });
+        }
     }
 
     private void sendMessage(Actor player, String message) {

@@ -299,6 +299,11 @@ options:
   # This setting determines if the media played in a train should overwrite any media from speakers
   traincarts-mute-speakers: false
 
+  # Require a permission for voicechat usage.
+  # When enabled, users will only be presented with the option to connect to voicechat if they have the configured permission.
+  enable-voicechat-permission: false
+  join-voicechat-permission: 'voicechat.join'
+
 # Voicechat filters define requirements that players both have to meet before they will be able to hear eachother.
 # You can implement custom filters through the API, or enable some of the default ones below.
 vc-filter:
