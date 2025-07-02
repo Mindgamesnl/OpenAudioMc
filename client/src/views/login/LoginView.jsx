@@ -60,7 +60,6 @@ class LoginPageContent extends React.Component {
 
     return (
       <>
-        {/* Left panel - Branding */}
         <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-start space-y-8 pt-8">
           <div className="text-center lg:text-left">
             <div className="relative">
@@ -77,7 +76,7 @@ class LoginPageContent extends React.Component {
             </p>
           </div>
 
-          {/* Animated waves */}
+
           <div className="hidden lg:block w-full h-24 relative overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center">
               <svg className="w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -90,7 +89,6 @@ class LoginPageContent extends React.Component {
           </div>
         </div>
 
-      {/* Right panel - Login options */}
         <div className="w-full lg:w-7/12 max-w-2xl">
           <div
             className="backdrop-blur-xl bg-black bg-opacity-30 rounded-2xl p-8 border shadow-2xl"

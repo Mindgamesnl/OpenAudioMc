@@ -19,7 +19,7 @@ function AudioPage(props) {
 
           {/* Left Section - Audio Controls */}
           <div className="flex-1 max-w-2xl">
-            <div className="backdrop-blur-md bg-black bg-opacity-10 rounded-2xl p-8 lg:p-10 border border-white border-opacity-5 shadow-lg">
+            <div className="backdrop-blur-md  bg-opacity-10 audio-card-bg-accent rounded-2xl p-8 lg:p-10 border border-white border-opacity-5 shadow-lg">
               <VolumeMemo />
               <div className="mt-8">
                 <HeaderMemo />

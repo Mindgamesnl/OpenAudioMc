@@ -1091,11 +1091,11 @@ footer {
 
 .navbar-bg-modern {
     background: linear-gradient(
-        135deg, 
+        135deg,
         rgba(0, 0, 0, 0.8) 0%,
         rgba(0, 0, 0, 0.9) 50%,
         rgba(0, 0, 0, 0.8) 100%
-    ), 
+    ),
     linear-gradient(
         45deg,
         color-mix(in srgb, var(--primary-accent), transparent 90%) 0%,
@@ -1105,7 +1105,7 @@ footer {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 
+    box-shadow:
         0 -4px 20px rgba(0, 0, 0, 0.3),
         0 0 40px rgba(var(--primary-accent-rgb, 248, 224, 71), 0.1);
 }
@@ -1230,12 +1230,16 @@ pre {
 
 .audio-page-bg {
     background: linear-gradient(
-            78deg, var(--dark-primary-background) 43%,
+            78deg, rgba(from var(--dark-primary-background) r g b / 0.85) 43%,
             transparent,
-            color-mix(in srgb, transparent, var(--dark-primary-background) 70%) 100%
+            rgba(from var(--dark-primary-background) r g b / 0.2) 10%
     ), var(--background-image);
     background-size: cover;
     background-position-y: center;
+}
+
+.audio-card-bg-accent {
+    background-color: rgba(from var(--dark-primary-background) r g b / 0.3);
 }
 
 .dark-bg {
