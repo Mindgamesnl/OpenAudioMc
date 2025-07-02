@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Volume2, Mic, MicOff } from 'lucide-react';
 import { setGlobalState } from '../../../state/store';
 import { reRenderAllGainNodes } from '../../../client/services/voice/VoiceModule';
 import { msg } from '../../../client/OpenAudioAppContainer';
@@ -79,21 +80,47 @@ class VoiceQuickSettings extends React.Component {
       uuid = '00000000-0000-0000-0000-000000000000';
     }
 
+    let avatarStyling;
+    if (this.props.isSpeaking) {
+      avatarStyling = 'border-green-400 shadow-lg shadow-green-400/25';
+    } else if (this.props.voicechatMuted) {
+      avatarStyling = 'border-red-400 shadow-lg shadow-red-400/25';
+    } else {
+      avatarStyling = 'border-gray-600';
+    }
+
     return (
-      <div className="w-full">
-        <div
-          className={`avatar-container ${this.props.isSpeaking ? ' speaking' : ''}${this.props.voicechatMuted ? ' muted-self' : ''}`}
-        >
-          <img
-            alt="Speaking indicator"
-            className="avatar !rounded-xl"
-            src={`https://visage.surgeplay.com/face/512/${uuid}`}
-          />
-          {msg('vc.myStatus')}
+      <div className="space-y-4">
+        {/* User Status */}
+        <div className="text-center space-y-3">
+          <div className="relative inline-block">
+            <img
+              alt="Your avatar"
+              className={`w-16 h-16 rounded-xl border-2 transition-all duration-200 ${avatarStyling}`}
+              src={`https://visage.surgeplay.com/face/512/${uuid}`}
+            />
+            {this.props.isSpeaking ? (
+              <div
+                className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-gray-900 flex items-center justify-center"
+              >
+                <Mic className="w-3 h-3 text-white" />
+              </div>
+            ) : null}
+            {this.props.voicechatMuted ? (
+              <div
+                className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 rounded-full border-2 border-gray-900 flex items-center justify-center"
+              >
+                <MicOff className="w-3 h-3 text-white" />
+              </div>
+            ) : null}
+          </div>
+          <div className="text-sm text-gray-300 font-medium">
+            {msg('vc.myStatus')}
+          </div>
         </div>
 
-        <div className={`grid gap-2 mt-2 ${!this.props.peersHidden ? 'grid-cols-3' : 'grid-cols-2'}`}>
-
+        {/* Control Buttons */}
+        <div className={`grid gap-3 ${!this.props.peersHidden ? 'grid-cols-3' : 'grid-cols-2'}`}>
           <VoicePageButton
             highlighted={this.props.voicechatMuted}
             highlightRed
@@ -123,37 +150,65 @@ class VoiceQuickSettings extends React.Component {
           ) : null}
         </div>
 
-        <div className="content-card-buttons mt-2 w-full">
-          <div className="w-full content-pill status-button" style={{ backgroundColor: 'var(--dark-primary-background) !important' }}>
-            <div className="flex w-full">
-              <svg
-                className="h-8 pr-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-              </svg>
+        {/* Voice Volume Control */}
+        <div className="bg-black bg-opacity-20 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-5">
+          <div className="flex items-center space-x-3 mb-4">
+            <div
+              className="p-2 bg-blue-500 bg-opacity-20 rounded-lg border border-blue-500 border-opacity-30 flex-shrink-0"
+            >
+              <Volume2 className="border-blue-500, border-opacity-30" />
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-medium text-gray-200">Voice Volume</div>
+              <div className="text-xs text-gray-400">
+                {this.props.voicechatVolume}
+                %
+              </div>
+            </div>
+          </div>
 
+          <div className="space-y-2">
+            <div className="relative">
+              {/* Background track */}
+              <div className="w-full h-3 bg-gray-700 rounded-full overflow-hidden">
+                {/* Progress fill */}
+                <div
+                  className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-200 ease-out"
+                  style={{ width: `${Math.min((this.props.voicechatVolume / 120) * 100, 100)}%` }}
+                />
+              </div>
+
+              {/* Slider input */}
               <input
                 onInput={this.onVolumeChange}
-                className="w-full"
-                style={{ borderRadius: '8px' }}
+                className="absolute inset-0 w-full h-3 opacity-0 cursor-pointer"
                 type="range"
                 min="0"
                 max="120"
                 step="1"
                 value={this.props.voicechatVolume}
               />
+
+              {/* Custom thumb */}
+              <div
+                className="absolute top-1/2 w-5 h-5 bg-white rounded-full shadow-lg border-2 border-blue-500 transform -translate-y-1/2 transition-all duration-200 pointer-events-none"
+                style={{
+                  left: `calc(${Math.min((this.props.voicechatVolume / 120) * 100, 100)}% - 10px)`,
+                }}
+              />
+            </div>
+
+            {/* Labels */}
+            <div className="flex justify-between text-xs text-gray-400">
+              <span>0%</span>
+              <span>100%</span>
+              <span>120%</span>
             </div>
           </div>
         </div>
 
-        {(this.props.voicePiPEnabled && !this.props.peersHidden) ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
+        {(this.props.voicePiPEnabled && !this.props.peersHidden)
+          ? <DocumentPictureInPicture><VoiceChatPiP /></DocumentPictureInPicture> : null}
       </div>
     );
   }

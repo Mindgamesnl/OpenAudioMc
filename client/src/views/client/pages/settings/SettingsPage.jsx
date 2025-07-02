@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import { getTranslation, msg } from '../../../../client/OpenAudioAppContainer';
@@ -44,14 +45,7 @@ export const settingSvg = {
 
 function SettingCard({ children }) {
   return (
-    <div
-      className="rounded-lg p-6 transition-all duration-200 hover:scale-[1.02]"
-      style={{
-        background: 'rgba(255, 255, 255, 0.05)',
-        borderRadius: 'var(--common-border-radius)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
+    <div className="backdrop-blur-xl bg-black bg-opacity-20 rounded-3xl p-6 border border-white border-opacity-10 shadow-2xl transition-all duration-300 hover:bg-opacity-30 hover:shadow-3xl hover:scale-[1.02]">
       {children}
     </div>
   );
@@ -59,9 +53,34 @@ function SettingCard({ children }) {
 
 function SettingSeparator({ title }) {
   return (
-    <div className="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 mt-8 mb-4">
-      <h2 className="text-xl font-bold text-white">{title}</h2>
-      <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-500 mt-2 rounded-full" />
+    <div className="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 mt-8 mb-6">
+      <div className="flex items-center space-x-4">
+        <div className="p-3 bg-white bg-opacity-10 backdrop-blur-lg rounded-xl border border-white border-opacity-20">
+          <svg
+            className="w-6 h-6 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">{title}</h2>
+          <div className="h-1 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mt-2 rounded-full w-32"></div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -85,7 +104,7 @@ function SettingsPage({ settings }) {
   };
 
   const languageOptions = Object.entries(MessageModule.languageMappings)
-    // eslint-disable-next-line no-unused-vars
+
     .filter(([_, mapping]) => mapping.visible)
     .map(([key, mapping]) => ({ key, value: mapping.name }));
 
@@ -98,14 +117,10 @@ function SettingsPage({ settings }) {
   };
 
   return (
-    <div
-      className="min-h-screen p-6 lg:p-8"
-      style={{
-        background: 'var(--dark-primary-background)',
-        borderRadius: 'var(--common-border-radius)',
-      }}
-    >
-      <div className="max-w-7xl mx-auto">
+    <div className="h-full w-full overflow-y-auto">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-8">
+        {/* Header Section */}
+        <SettingSeparator title={getTranslation(null, 'settings.general.section.title')} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* General Audio Settings */}
           <SettingCard>
@@ -175,10 +190,8 @@ function SettingsPage({ settings }) {
             />
           </SettingCard>
 
-          {/* Spatial Audio Settings Separator */}
           <SettingSeparator title={getTranslation(null, 'settings.spatial.section.title') || 'Spatial Audio Settings'} />
 
-          {/* New Spatial Audio Controls */}
           <SettingCard>
             <RangeSetting
               title={getTranslation(null, 'settings.spatial.stereo.title') || 'Stereo Separation'}

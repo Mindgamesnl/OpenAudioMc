@@ -1,8 +1,71 @@
-.main-vol-slider::-webkit-slider-thumb{
-    box-shadow: -908px 0 0 900px var(--primary-accent) !important;
+/* Modern Volume Slider Styling */
+.main-vol-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    border: 2px solid var(--primary-accent);
+    box-shadow: 
+        0 0 0 4px rgba(255, 255, 255, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--primary-accent)40;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
 }
-/* white outline for the track */
-.main-vol-slider::-webkit-slider-runnable-track{
-    background-color: color-mix(in srgb, var(--primary-accent), #07020D 60%) !important;
+
+.main-vol-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 0 0 6px rgba(255, 255, 255, 0.15),
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        0 0 24px var(--primary-accent)60;
+}
+
+.main-vol-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 12px;
+    cursor: pointer;
+    background: linear-gradient(
+        to right,
+        var(--primary-accent) 0%,
+        var(--primary-accent) var(--slider-percentage, 27%),
+        rgba(255, 255, 255, 0.2) var(--slider-percentage, 27%),
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    border-radius: 6px;
+    border: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.main-vol-slider {
+    background: transparent;
+    position: relative;
+}
+
+/* Firefox styles */
+.main-vol-slider::-moz-range-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    border: 2px solid var(--primary-accent);
+    box-shadow: 
+        0 0 0 4px rgba(255, 255, 255, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.main-vol-slider::-moz-range-track {
+    height: 12px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    border: none;
 }
 

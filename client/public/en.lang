@@ -96,6 +96,7 @@ vc.settings.surround.toggle=Surround sound
 vc.settings.globalVolumeAbout=Change the master volume of all your VoiceChat peers
 vc.settings.completelyFadePeers=Fade volume out completely over distance
 vc.settings.monitoring.title=Microphone Monitoring (listen to yourself)
+vc.settings.monitoring.body=This will allow you to hear yourself through your speakers, this is useful if you want to make sure that your microphone is working properly.
 vc.operaWarning=Your login seems to be taking a while, this is most likely due to your Opera settings. Please open your browser settings, search for "WebRTC" and select the enable-all option
 vc.youAreModerating=Watch out! you are now a moderator, you can now hear everyone in voice chat but they can't hear you.
 vc.noMicInputYetTitle=We're having trouble hearing you!
@@ -110,6 +111,16 @@ vc.deafened=You are currently deafened
 vc.tooltip.local=Proximity Voice Chat
 vc.tooltip.global=Global Voice Chat
 vc.peerLoading=Loading {name}
+vc.settings.micActivation.title=Microphone Activation
+vc.settings.micActivation.body=Configure when your microphone activates
+vc.settings.micActivationAuto.title=Automatic Sensitivity
+vc.settings.micActivationAuto.body=Let the system automatically adjust your microphone threshold
+vc.settings.micActivationManual.title=Manual Threshold Control
+vc.settings.micActivationManual.body=Adjust how loud you need to speak for your microphone to activate. The blue bar shows your current microphone level. Move the slider to set when you want to start transmitting.
+vc.settings.micActivationManual.lowerBound=Very Sensitive
+vc.settings.micActivationManual.upperBound=Very Insensitive
+vc.settings.micActivationManual.active=Microphone Active
+vc.settings.micActivationManual.inactive=Microphone Inactive
 
 vc.state.loading.title=Connecting to Voice Chat
 vc.state.loading.body=Setting up your voice connection...
@@ -133,7 +144,9 @@ vc.channel.leaveCurrentFirst=Leave Current Channel First
 vc.channel.noPermissions=No permissions
 vc.channel.join=Join Channel
 
-
+settings.pagetitle=Settings
+settings.subtitle=Customize your audio experience
+settings.general.section.title=General OpenAudioMc Settings
 settings.voicechat.echocancel.title=Echo cancellation
 settings.voicechat.echocancel.body=This will attempt to cancel out any echo that your microphone picks up, this is useful if you're using speakers instead of headphones but may make your harder to hear on some platforms.
 settings.voicechat.echocancel.button=Enable echo cancellation

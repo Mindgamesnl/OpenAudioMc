@@ -23,6 +23,7 @@
     --overlay-bg: rgba(36, 39, 59, 0.3);
     --scrollbar-bg: rgb(1 2 3 / 40%);
     --primary-accent: #f8e047;
+    --primary-accent-rgb: 248, 224, 71;
     --background-image: url("../assets/clientbg.jpg");
     --dark-primary-background: color-mix(in srgb, var(--primary-accent), #07020D 75%);
 
@@ -1086,6 +1087,27 @@ footer {
             color-mix(in srgb, var(--primary-accent), var(--dark-primary-background) 65%),
             var(--dark-primary-background) 100%
     );
+}
+
+.navbar-bg-modern {
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.9) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    ), 
+    linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--primary-accent), transparent 90%) 0%,
+        transparent 50%,
+        color-mix(in srgb, var(--primary-accent), transparent 90%) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 -4px 20px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(var(--primary-accent-rgb, 248, 224, 71), 0.1);
 }
 
 .navbar-bg-button {
