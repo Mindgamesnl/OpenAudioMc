@@ -92,6 +92,13 @@ public class Media {
     private MediaFlag flag = MediaFlag.DEFAULT;
 
     /**
+     * The speed of the media, 100 by default, but can be used to speed up or slow down the media.
+     * 100 = normal speed, 200 = double speed, 50 = half speed, etc.
+     */
+    @Setter
+    private int speed = 100;
+
+    /**
      * Create a new media based on a url
      * the source will first be processed by the mutation api
      * so you can just use addons without needing to wor§§ry
@@ -120,6 +127,7 @@ public class Media {
         this.muteRegions = options.isMuteRegions();
         this.muteSpeakers = options.isMuteSpeakers();
         this.startAtMillis = options.getStartAtMillis();
+        this.speed = options.getSpeed();
         return this;
     }
 

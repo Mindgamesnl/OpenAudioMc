@@ -60,6 +60,12 @@ public class MediaOptions {
     private int startAtMillis = 0;
 
     /**
+     * The speed of the media, 100 by default, but can be used to speed up or slow down the media.
+     * 100 = normal speed, 200 = double speed, 50 = half speed, etc.
+     */
+    private int speed = 100;
+
+    /**
      * validation rules for the media options
      * @return a validation result
      */
