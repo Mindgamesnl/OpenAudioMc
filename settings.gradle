@@ -11,6 +11,12 @@ include ':OpenAudioMc:API'
 include 'OpenAudioMc:OA-PaperUserAdapter'
 include ':OpenAudioMc:Plugin'
 
+// Ported modules
+include ':OpenAudioMc:OA-PartiesModule'
+include ':OpenAudioMc:OA-SkywarsModule'
+include ':OpenAudioMc:OA-VistasClient'
+include ':OpenAudioMc:OA-VistasServer'
+
 // Module directory modules
 //include 'modules:jutils'
 //include 'modules:voice-join-permission'

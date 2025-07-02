@@ -1,1 +1,2 @@
 - Voice join permissions
+- mapdb migrator is gone

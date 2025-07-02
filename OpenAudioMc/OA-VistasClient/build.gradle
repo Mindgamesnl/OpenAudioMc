@@ -1,0 +1,48 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow'
+    id("io.freefair.lombok") version "8.13.1"
+}
+
+description = 'OpenAudioMc Vistas Client'
+
+dependencies {
+    // https://mvnrepository.com/artifact/io.lettuce/lettuce-core
+    implementation("io.lettuce:lettuce-core:6.3.1.RELEASE")
+    compileOnly project(':OpenAudioMc:API')
+    compileOnly project(':OpenAudioMc:Plugin')
+    compileOnly deps.spigot
+    implementation deps.lombok.compileOnly
+    annotationProcessor deps.lombok.annotationProcessor
+}
+
+shadowJar {
+    archiveBaseName = 'vistas-client'
+    archiveClassifier = ''
+
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'io.', 'com.craftmend.thirdparty.io'
+    relocate 'org.json.', 'com.craftmend.thirdparty.json'
+    relocate 'reactor.', 'com.craftmend.thirdparty.reactor'
+    relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
+    relocate 'okio', 'com.craftmend.thirdparty.okio'
+    relocate 'org.projectlombok', 'com.craftmend.thirdparty.org'
+    relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
+    relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
+}
+
+processResources {
+    filter { line ->
+        line.replace('${oa.version}', project.version)
+    }
+}
+
+shadowJar {
+    archiveBaseName = 'vistas-client'
+    archiveClassifier = ''
+}
+
+
+artifacts {
+    archives shadowJar
+}

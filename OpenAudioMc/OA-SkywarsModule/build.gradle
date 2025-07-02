@@ -1,0 +1,47 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow'
+    id("io.freefair.lombok") version "8.13.1"
+}
+
+description = 'OpenAudioMc Skywars Integration'
+
+repositories {
+    maven { url 'https://nexuslite.gcnt.net/repos/gcnt' }
+}
+
+dependencies {
+    compileOnly project(':OpenAudioMc:API')
+    compileOnly project(':OpenAudioMc:Plugin')
+    compileOnly deps.spigot
+    compileOnly 'net.gcnt:skywarsreloaded:5.6.1'
+}
+
+shadowJar {
+    archiveBaseName = 'skywars-hook'
+    archiveClassifier = ''
+
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'io.', 'com.craftmend.thirdparty.io'
+    relocate 'org.json.', 'com.craftmend.thirdparty.json'
+    relocate 'reactor.', 'com.craftmend.thirdparty.reactor'
+    relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
+    relocate 'okio', 'com.craftmend.thirdparty.okio'
+    relocate 'org.projectlombok', 'com.craftmend.thirdparty.org'
+    relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
+    relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
+}
+
+processResources {
+    filter { line ->
+        line.replace('${oa.version}', project.version)
+    }
+}
+
+jar {
+    enabled = false
+}
+
+artifacts {
+    archives shadowJar
+}
