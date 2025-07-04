@@ -1,0 +1,12 @@
+{
+  "id": "openaudiomc",
+  "name": "OpenAudioMc",
+  "version": "6.10.13",
+  "description": "OpenAudioMc: Proximity voice chat & audio plugin for Minecraft, no mods needed. Supports Bungeecord, Velocity, Spigot & more.",
+  "authors": [
+    "Mindgamesnl",
+    "fluse1367"
+  ],
+  "dependencies": [],
+  "main": "com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity"
+}
