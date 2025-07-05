@@ -39,7 +39,7 @@ export async function handleCreateMedia(data) {
   createdChannel.addSound(createdMedia);
   MediaManager.mixer.addChannel(createdChannel);
 
-  if (speed != null && speed !== 1) {
+  if (speed != null && speed !== 1 && speed !== 0) {
     debugLog(`Setting speed to ${speed}`);
     createdMedia.setPlaybackSpeed(speed);
   }
