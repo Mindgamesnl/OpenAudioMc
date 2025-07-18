@@ -10,4 +10,5 @@ export const DebugStatistic = {
   CACHED_STREAMS: { name: 'Cached Streams', fill: false, advancesItself: false },
   PRELOADED_SOUNDS: { name: 'Preloaded Sounds', fill: false, advancesItself: false },
   MEDIA_LOAD_TIME: { name: 'Media Load Time (MS)', fill: false, advancesItself: false },
+  MEMORY_USAGE_MB: { name: 'Memory Usage (MB)', fill: true, advancesItself: true },
 };
