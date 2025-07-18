@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class VelocityConfiguration implements Configuration {
 
+    private boolean configChanged = false;
+
     private final ConfigurationNode dataConfig;
     private final Map<StorageKey, String> cachedConfigStrings = new ConcurrentHashMap<>();
     private ConfigurationNode mainConfig;
@@ -179,6 +181,7 @@ public class VelocityConfiguration implements Configuration {
 
             case CONFIG_FILE:
                 mainConfig.getNode(path).setValue(token, string);
+                configChanged = true;
                 cachedConfigStrings.put(location, string);
                 break;
         }
@@ -202,6 +205,7 @@ public class VelocityConfiguration implements Configuration {
                 break;
 
             case CONFIG_FILE:
+                configChanged = true;
                 mainConfig.getNode(pathArr).setValue(token, string);
                 break;
         }
@@ -223,6 +227,7 @@ public class VelocityConfiguration implements Configuration {
                 break;
 
             case CONFIG_FILE:
+                configChanged = true;
                 mainConfig.getNode(pathArr).setValue(value);
                 break;
         }
@@ -276,6 +281,7 @@ public class VelocityConfiguration implements Configuration {
                 break;
 
             case CONFIG_FILE:
+                configChanged = true;
                 mainConfig.getNode(path).setValue(token, value);
                 break;
         }
@@ -300,9 +306,12 @@ public class VelocityConfiguration implements Configuration {
             File config = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "config.yml");
             File data = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "data.yml");
 
-            YAMLConfigurationLoader.builder()
-                    .setFile(config)
-                    .build().save(mainConfig);
+            if (configChanged) {
+                YAMLConfigurationLoader.builder()
+                        .setFile(config)
+                        .build().save(mainConfig);
+                configChanged = false;
+            }
 
             YAMLConfigurationLoader.builder()
                     .setFile(data)
@@ -337,12 +346,13 @@ public class VelocityConfiguration implements Configuration {
                 .setFile(file)
                 .setFlowStyle(DumperOptions.FlowStyle.BLOCK)
                 .build();
+        ConfigurationNode node = null;
         try {
-            return yamlLoader.load();
+            node = yamlLoader.load();
         } catch (IOException e) {
             OpenAudioLogger.error(e, "Failed to load file " + filename);
         }
-        return null;
+        return node;
     }
 
     private void saveDefaultFile(String filename, boolean hard) {
@@ -377,6 +387,7 @@ public class VelocityConfiguration implements Configuration {
                 break;
 
             case CONFIG_FILE:
+                configChanged = true;
                 mainConfig.getNode(path).setValue(value);
                 break;
         }
