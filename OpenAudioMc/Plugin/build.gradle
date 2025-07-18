@@ -174,6 +174,19 @@ import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
     }
 }
 
+task("testPluginBungee", type: LaunchMinecraftServerTask) {
+    dependsOn 'shadowJar'
+    doFirst {
+        copy {
+            from shadowJar.archiveFile
+            into "$buildDir/BungeeServer/plugins"
+        }
+    }
+    serverDirectory = "$buildDir/BungeeServer"
+    jarUrl = "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar"
+    agreeEula = true
+}
+
 def placeholder = "@OA_VERSION@"
 def versionValue = project.version.toString()
 

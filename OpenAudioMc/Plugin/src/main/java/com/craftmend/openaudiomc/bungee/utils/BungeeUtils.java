@@ -37,7 +37,8 @@ public class BungeeUtils {
 
             // obfuscate netty package so maven relocation doesn't break during vistas compilation
             StringBuilder nettyPackage = new StringBuilder();
-            nettyPackage.append("io");
+            nettyPackage.append("i");
+            nettyPackage.append("o");
             nettyPackage.append(".");
             nettyPackage.append("netty");
             nettyPackage.append(".");
