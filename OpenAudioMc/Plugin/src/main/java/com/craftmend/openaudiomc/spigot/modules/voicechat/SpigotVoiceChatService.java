@@ -119,9 +119,9 @@ public class SpigotVoiceChatService extends Service {
 
                 // remove mods
                 manager.getCurrentProximityAdditions()
-                        .removeIf(uuid -> clientFromId(uuid).isModerating());
+                        .removeIf(this::isModeratingOrNull);
                 manager.getCurrentProximityDrops()
-                        .removeIf(uuid -> clientFromId(uuid).isModerating());
+                        .removeIf(this::isModeratingOrNull);
 
                 // handle their join messages, if any
                 if (!manager.getCurrentProximityAdditions().isEmpty()) {
@@ -228,6 +228,12 @@ public class SpigotVoiceChatService extends Service {
             // normal
             player.sendMessage(message);
         }
+    }
+
+    private boolean isModeratingOrNull(UUID uuid) {
+        ClientConnection client = clientFromId(uuid);
+        if (client == null) return true;
+        return client.isModerating();
     }
 
     @Getter
