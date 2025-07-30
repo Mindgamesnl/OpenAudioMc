@@ -48,6 +48,10 @@ public class AuthenticationService extends Service {
         // add provisioning key, if we have it, look for it in the launch properties
         String provisioningKey = System.getProperty("openaudio.provisioningKey");
         if (provisioningKey != null) {
+            // a valid key requires a previous valid installation, and thus prior acceptance of the TOS.
+            // It's okay to bypass the check later in this case.
+            OpenAudioMc.getInstance().getConfiguration().setBoolean(StorageKey.LEGAL_ACCEPTED_TOS_AND_PRIVACY, true);
+            OpenAudioMc.getInstance().getConfiguration().saveAll(false);
             registrationProvider.setQuery("provisioningKey", provisioningKey);
         }
 
