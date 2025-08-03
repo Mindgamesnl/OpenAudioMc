@@ -18,7 +18,7 @@ export async function handleCreateMedia(data) {
   const { flag } = data.media;
   const { maxDistance } = data;
   const { muteRegions, muteSpeakers } = data.media;
-  const { startAt } = data.media;
+  const { startAtMillis } = data.media;
   const { speed } = data.media;
   let volume = 100;
 
@@ -78,7 +78,7 @@ export async function handleCreateMedia(data) {
   createdChannel.setChannelVolume(0);
   createdChannel.originalVolume = volume;
   createdMedia.setLooping(looping);
-  createdMedia.setStartAt(startAt);
+  createdMedia.setStartAt(startAtMillis);
   // convert distance
   if (maxDistance !== 0) {
     const startVolume = convertDistanceToVolume(maxDistance, distance);
