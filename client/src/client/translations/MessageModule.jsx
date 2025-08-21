@@ -151,6 +151,10 @@ export const MessageModule = new class MessageModule {
         name: 'Русский',
         visible: true,
       },
+      tr: {
+        file: 'lang-tr.lang',
+        name: 'Türkçe',
+        visible: true,
     };
 
     this.load = this.load.bind(this);
