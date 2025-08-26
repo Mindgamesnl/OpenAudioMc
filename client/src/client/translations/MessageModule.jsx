@@ -155,7 +155,7 @@ export const MessageModule = new class MessageModule {
         file: 'lang-tr.lang',
         name: 'Türkçe',
         visible: true,
-    };
+      }}
 
     this.load = this.load.bind(this);
     this.getString = this.getString.bind(this);
