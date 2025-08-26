@@ -33,11 +33,12 @@ export const MessageModule = new class MessageModule {
      */
 
     this.languageMappings = {
-      gb: {
-        file: 'en.lang',
-        name: 'English',
-        visible: true,
-      },
+      gb: { file: 'en.lang', name: 'English', visible: true },
+      us: { file: 'en.lang', name: 'English' },
+      nl: { file: 'nl.lang', name: 'Nederlands', visible: true }, // dutch
+
+    this.languageMappings = {
+      gb: { file: 'en.lang', name: 'English', visible: true },
       us: {
         file: 'en.lang',
         name: 'English',
@@ -131,21 +132,9 @@ export const MessageModule = new class MessageModule {
         name: 'Polski',
         visible: true,
       },
-      'pt-BR': {
-        file: 'pt-BR.lang',
-        name: 'Português Brasileiro',
-        visible: true,
-      },
-      it: {
-        file: 'it.lang',
-        name: 'Italiano',
-        visible: true,
-      },
-      cs: {
-        file: 'cs.lang',
-        name: 'Čeština',
-        visible: true,
-      },
+      'pt-BR': { file: 'pt-BR.lang', name: 'Português Brasileiro', visible: true },
+      it: { file: 'it.lang', name: 'Italiano', visible: true },
+      cs: { file: 'cs.lang', name: 'Čeština', visible: true },
       ru: {
         file: 'ru.lang',
         name: 'Русский',
@@ -155,7 +144,7 @@ export const MessageModule = new class MessageModule {
         file: 'lang-tr.lang',
         name: 'Türkçe',
         visible: true,
-      }}
+      } }
 
     this.load = this.load.bind(this);
     this.getString = this.getString.bind(this);
@@ -288,9 +277,7 @@ export const MessageModule = new class MessageModule {
       }
     }
 
-    const payload = {
-      messages: this.messages,
-    };
+    const payload = { messages: this.messages };
     store.dispatch({ type: 'SET_LANG_MESSAGES', payload });
 
     this.currentLangKey = langMapKey;
