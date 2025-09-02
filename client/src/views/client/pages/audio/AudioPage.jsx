@@ -20,7 +20,7 @@ function AudioPage(props) {
     <BaseSegmentedPage noFooter>
       <div className="flex w-full flex-col">
         <div className="w-full">
-          <div className="backdrop-blur-xl bg-black bg-opacity-40 p-4 shadow-2xl rounded-3xl border " style={{ borderColor: 'var(--primary-accent)', borderWidth: '1px' }}>
+          <div className="backdrop-blur-xl bg-black bg-opacity-40 p-4 shadow-2xl rounded-3xl border " style={{ borderColor: 'var(--primary-accent)', borderWidth: '5px' }}>
             <div
               className="container mx-auto my-8 z-10 flex flex-col lg:flex-row items-center justify-center gap-8 px-4"
             >
