@@ -133,7 +133,6 @@ function AudioPage(props) {
                               strokeWidth="3"
                               strokeLinecap="round"
                               strokeDasharray={`${props.volume * 2.83} 283`}
-                              className="transition-all duration-500 ease-out"
                               style={{
                                 filter: 'drop-shadow(0 0 12px var(--primary-accent))',
                               }}
