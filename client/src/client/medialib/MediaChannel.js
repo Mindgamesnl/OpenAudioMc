@@ -62,8 +62,8 @@ export class MediaChannel {
     this.updateVolumeFromMaster();
   }
 
-  updateVolumeFromMaster() {
-    const master = getGlobalState().settings.normalVolume || 100;
+  updateVolumeFromMaster(optionalNewMaster = getGlobalState().settings.normalVolume) {
+    const master = optionalNewMaster;
     const pct = (this.currentVolumePct / 100) * (master / 100);
     const result = Math.max(0, Math.min(1, pct));
     Array.from(this.tracks.values()).forEach((t) => t.setVolume(result));

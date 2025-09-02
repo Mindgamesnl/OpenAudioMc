@@ -15,10 +15,10 @@ import { OaStyleCard } from '../../components/card/OaStyleCard';
 import DebugPage from './pages/debug/DebugPage';
 import { MusicNoteSvg } from '../../components/icons/musicnote';
 import { VoiceChatSvg } from '../../components/icons/voicechat';
-import NewAudioPage from './pages/audio/NewAudioPage';
+import AudioPage from './pages/audio/AudioPage';
 
 const SettingsPageMemo = React.memo(SettingsPage);
-const AudioPagememo = NewAudioPage;
+const AudioPagememo = React.memo(AudioPage);
 const VoicePageMemo = React.memo(VoicePage);
 const TabWindowMemo = React.memo(TabWindow);
 

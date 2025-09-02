@@ -66,7 +66,7 @@ export class MediaEngine {
   }
 
   // Master volume bump: ask channels to recompute effective volume from global state
-  bumpVolumeChange() { Array.from(this.channels.values()).forEach((ch) => ch.updateVolumeFromMaster()); }
+  bumpVolumeChange(optionalNewVolume = null) { Array.from(this.channels.values()).forEach((ch) => ch.updateVolumeFromMaster(optionalNewVolume)); }
 
   // Inhibitors API to mute channels with matching tags (replaces legacy Mixer inhibitors)
   incrementInhibitor(tag, fadeMs = 150) {

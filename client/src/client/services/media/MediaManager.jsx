@@ -17,7 +17,7 @@ export const MediaManager = new class IMediaManager {
       if (store.getState().settings.normalVolume === null) return;
       if (lastVolume !== store.getState().settings.normalVolume) {
         lastVolume = store.getState().settings.normalVolume;
-        this.setMasterVolume();
+        this.setMasterVolume(lastVolume);
       }
     });
 
@@ -68,11 +68,13 @@ export const MediaManager = new class IMediaManager {
         });
         engineChannel.addTrack(track);
         track.play();
-      } catch (e) { /* ignore */ }
+      } catch (e) { /* ignore */
+      }
     }
   }
 
-  destroySounds(soundId, all, instantly, transition, atTheEnd = () => {}) {
+  destroySounds(soundId, all, instantly, transition, atTheEnd = () => {
+  }) {
     debugLog('Destroying sounds', soundId, all, instantly, transition);
     const matched = this.engine.destroySounds({
       soundId, all, instantly, fadeTimeMs: transition,
@@ -87,8 +89,8 @@ export const MediaManager = new class IMediaManager {
     return matched;
   }
 
-  setMasterVolume() {
-  // Update all engine channels to reflect the new master volume
-    if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange();
+  setMasterVolume(optionalNewVolume = null) {
+    // Update all engine channels to reflect the new master volume
+    if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange(optionalNewVolume);
   }
 }();
