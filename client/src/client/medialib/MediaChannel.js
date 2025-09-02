@@ -86,11 +86,6 @@ export class MediaChannel {
     if (this._isDestroying && this._pendingRemoveFinalizer) {
       // Snap to requested volume, then finalize removal immediately.
       this.setChannelVolumePct(targetPct);
-      const fin = this._pendingRemoveFinalizer;
-      this._pendingRemoveFinalizer = null;
-      this._isDestroying = false;
-      if (typeof fin === 'function') fin();
-      return;
     }
 
     // Cancel any ongoing fade timers, but DO NOT clear the pending finalizer.
