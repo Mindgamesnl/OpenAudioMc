@@ -60,7 +60,7 @@ export class Sound extends AudioSourceProcessor {
     this.startedLoading = true;
     this.rawSource = source;
     this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
-    // Bridge into MediaTrack with preloaded audio element
+  // Bridge into MediaTrack with preloaded audio element
     this._track = new MediaTrack({
       id: `sound:${Math.random().toString(36).slice(2)}`, source, audio: this.soundElement, loop: this.loop, startAtMillis: this.startAtMillis,
     });
@@ -70,6 +70,40 @@ export class Sound extends AudioSourceProcessor {
     if (this.options.startMuted) {
       this.soundElement.volume = 0;
     }
+
+    // Eagerly mark as loaded when metadata is available (no mixer tick required)
+    const flushInitCallbacks = () => {
+      // Prevent multiple flushes
+      if (this.loaded) return;
+      this.loaded = true;
+      try {
+        for (let i = 0; i < this.initCallbacks.length; i++) {
+          const shouldStop = this.initCallbacks[i].bind(this)();
+          if (shouldStop) {
+            this.initCallbacks = [];
+            break;
+          }
+        }
+        this.initCallbacks = [];
+      } catch (_) { /* ignore */ }
+    };
+    const onMeta = () => { flushInitCallbacks(); cleanupMeta(); };
+    const cleanupMeta = () => {
+      try {
+        this.soundElement.removeEventListener('loadedmetadata', onMeta);
+        this.soundElement.removeEventListener('durationchange', onMeta);
+        this.soundElement.removeEventListener('canplay', onMeta);
+      } catch (_) { /* ignore */ }
+    };
+    try {
+      this.soundElement.addEventListener('loadedmetadata', onMeta);
+      this.soundElement.addEventListener('durationchange', onMeta);
+      this.soundElement.addEventListener('canplay', onMeta);
+      // If metadata is already present, flush on next tick
+      if ((Number.isFinite(this.soundElement.duration) && this.soundElement.duration > 0) || this.soundElement.readyState >= 1) {
+        setTimeout(onMeta, 0);
+      }
+    } catch (_) { /* ignore */ }
 
     // error handling (guarded to ignore intentional shutdowns)
     this.soundElement.onerror = (error) => {
@@ -84,10 +118,10 @@ export class Sound extends AudioSourceProcessor {
     };
 
     // set attributes
-    this.soundElement.setAttribute('preload', 'auto');
+  this.soundElement.setAttribute('preload', 'metadata');
     this.soundElement.setAttribute('controls', 'none');
     this.soundElement.setAttribute('display', 'none');
-    this.soundElement.preload = 'auto';
+  this.soundElement.preload = 'metadata';
   }
 
   destroy() {
@@ -395,7 +429,9 @@ export class Sound extends AudioSourceProcessor {
     if (this.controller == null) {
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
     }
-    renderer.connect(this.controller);
+  // Route element into spatial renderer and mute direct element output to avoid double audio
+  renderer.connect(this.controller);
+  try { this.soundElement.muted = true; } catch (_) { /* ignore */ }
   }
 
   setMediaMuted(muted) {

@@ -109,7 +109,7 @@ export const AudioPreloader = new class IAudPreload {
       media = null;
     }
 
-    // ignore cache if we need cors and the source is not cors safe
+  // ignore cache if we need cors and the source is not cors safe
     if (media == null || !cacheCorsSafe) {
       // possibly adapt source
       if (corsRequired && !cacheCorsSafe) {
@@ -119,7 +119,8 @@ export const AudioPreloader = new class IAudPreload {
           debugLog(`Preloaded media was not cors safe, adapting source to ${source}`);
         }
       }
-      media = new PreloadedMedia(source, null, false, corsRequired);
+  // Create a fresh preloaded media element (metadata-only). If CORS is required, enable crossOrigin.
+  media = new PreloadedMedia(source, null, false, corsRequired);
     } else {
       debugLog(`Using preloaded media, found ${media.source} in namespace ${media.namespace}, and it already has ready state ${media.audio.readyState} with stopwatch value ${media.audio.hasAttribute('stopwatchReady')}`);
     }

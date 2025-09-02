@@ -42,9 +42,8 @@ export class SpeakerPlayer {
       MediaManager.engine.incrementInhibitor('REGION', 500);
     }
 
-    createdChannel.mixer = MediaManager.mixer;
-    createdChannel.addSound(createdMedia);
-    MediaManager.mixer.addChannel(createdChannel);
+  // Legacy mixer is removed; keep a local Channel for legacy fade helpers only
+  createdChannel.addSound(createdMedia);
 
     await createdMedia.load(this.source);
 
@@ -54,7 +53,7 @@ export class SpeakerPlayer {
       if (this.doPickup) {
         createdMedia.startDate(this.startInstant, true);
       }
-      MediaManager.mixer.updateCurrent();
+  // Mixer removed; no global mixer update
 
       createdMedia.finish();
     });

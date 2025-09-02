@@ -17,15 +17,16 @@ export class PreloadedMedia {
       });
     });
 
-    WatchMediaPerformance(soundElement);
-    soundElement.autoplay = false;
+  WatchMediaPerformance(soundElement);
+  soundElement.autoplay = false;
 
     if (corsRequired) {
       soundElement.crossOrigin = 'anonymous';
     }
 
-    soundElement.src = source;
-    soundElement.load();
+  // Eager metadata: set preload to metadata, assign src, and allow the browser to fetch headers only
+  soundElement.preload = 'metadata';
+  soundElement.src = source;
 
     this.audio = soundElement;
   }

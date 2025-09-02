@@ -22,14 +22,16 @@ export class MediaTrack {
     this.speedPct = speedPct || 100;
     this.muted = !!muted;
 
-    this.audio = providedAudio || new Audio();
-    this.audio.preload = 'auto';
-    this.audio.autoplay = false;
-    this.audio.controls = false;
-    if (!this.audio.crossOrigin) this.audio.crossOrigin = 'anonymous';
-    this.audio.muted = this.muted;
-    if (source && (!this.audio.src || this.audio.src !== source)) this.audio.src = source;
-    this.audio.loop = !!loop;
+  this.audio = providedAudio || new Audio();
+  // Prefer eager metadata loading so we can compute duration/start offsets early
+  if (!providedAudio) this.audio.preload = 'metadata';
+  this.audio.autoplay = false;
+  this.audio.controls = false;
+  if (!this.audio.crossOrigin) this.audio.crossOrigin = 'anonymous';
+  this.audio.muted = this.muted;
+  // Only set src for fresh elements; provided audio already bound to the correct source
+  if (!providedAudio && source && (!this.audio.src || this.audio.src !== source)) this.audio.src = source;
+  this.audio.loop = !!loop;
 
     this.epoch = 0;
     this.state = 'idle';
@@ -60,13 +62,21 @@ export class MediaTrack {
     this._handlers.ended = onEnd;
     this.audio.addEventListener('error', onErr);
     this.audio.addEventListener('ended', onEnd);
-    const canProceed = () => this.audio && this.audio.readyState >= 2;
-    if (canProceed()) { this.state = 'ready'; return; }
+    const hasMeta = () => this.audio && ((Number.isFinite(this.audio.duration) && this.audio.duration > 0) || this.audio.readyState >= 1);
+    if (hasMeta()) { this.state = 'ready'; return; }
     await new Promise((resolve) => {
-  const onCanPlay = endGuard(() => { cleanup(); this.state = 'ready'; resolve(); });
-  const cleanup = () => { this.audio.removeEventListener('canplay', onCanPlay); this.audio.removeEventListener('loadedmetadata', onCanPlay); };
-      this.audio.addEventListener('canplay', onCanPlay);
-      this.audio.addEventListener('loadedmetadata', onCanPlay);
+      const onMeta = endGuard(() => { cleanup(); this.state = 'ready'; resolve(); });
+      const cleanup = () => {
+        try {
+          this.audio.removeEventListener('loadedmetadata', onMeta);
+          this.audio.removeEventListener('durationchange', onMeta);
+          this.audio.removeEventListener('canplay', onMeta);
+        } catch {}
+      };
+      this.audio.addEventListener('loadedmetadata', onMeta);
+      this.audio.addEventListener('durationchange', onMeta);
+      // Fallback in case some browsers only fire canplay
+      this.audio.addEventListener('canplay', onMeta);
     });
   }
 
