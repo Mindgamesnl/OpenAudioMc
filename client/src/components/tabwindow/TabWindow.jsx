@@ -86,7 +86,7 @@ class TabWindow extends Component {
           >
             {/* Header: Logo (expanded) + centered toggle */}
             <div className={`flex items-center px-3 py-4 ${this.state.sidebarExpanded ? 'justify-between' : 'justify-center'}`}>
-              {this.state.sidebarExpanded && (
+              {this.state.sidebarExpanded ? (
                 <div className="flex items-center space-x-3 overflow-hidden">
                   <div className="relative">
                     <img src={this.props.logoImage} alt="Logo" className="h-10 w-10 rounded-xl object-cover shadow-lg" />
@@ -101,7 +101,7 @@ class TabWindow extends Component {
                     {msg('serverName')}
                   </span>
                 </div>
-              )}
+              ) : null}
 
               <button
                 type="button"
@@ -151,7 +151,7 @@ class TabWindow extends Component {
                       </div>
 
                       {/* Labels (only when expanded) */}
-                      {this.state.sidebarExpanded && (
+                      {this.state.sidebarExpanded ? (
                         <div className="flex-1 min-w-0 pr-3 py-2">
                           <div className="font-medium text-sm truncate">{page.name}</div>
                           {page.subtext ? (
@@ -163,15 +163,15 @@ class TabWindow extends Component {
                             </div>
                           ) : null}
                         </div>
-                      )}
+                      ) : null}
 
                       {/* Active indicator: left accent bar for better alignment */}
-                      {isActive && (
+                      {isActive ? (
                         <div
                           className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full"
                           style={{ backgroundColor: accent || '#ffffff', boxShadow: `0 0 8px ${(accent || '#ffffff')}66` }}
                         />
-                      )}
+                      ) : null}
                     </button>
                   );
                 })}
@@ -190,9 +190,7 @@ class TabWindow extends Component {
                     />
                   ) : null}
                 </div>
-                {this.state.sidebarExpanded && (
-                  <span className="ml-3 text-sm font-medium text-gray-200 truncate">{playerName}</span>
-                )}
+                {this.state.sidebarExpanded ? <span className="ml-3 text-sm font-medium text-gray-200 truncate">{playerName}</span> : null}
               </div>
             </div>
           </nav>

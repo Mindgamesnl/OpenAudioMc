@@ -30,7 +30,7 @@ const millionPlugins = [svgr({
   },
 }, react({
   include: '**/*.jsx',
-})];
+}), eslint()];
 millionPlugins.unshift(MillionLint.vite());
 export default defineConfig({
   plugins: millionPlugins,
