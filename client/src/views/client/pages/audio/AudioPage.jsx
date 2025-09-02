@@ -138,6 +138,17 @@ function AudioPage(props) {
                                 filter: 'drop-shadow(0 0 12px var(--primary-accent))',
                               }}
                             />
+                            {props.volume > 0 && (
+                              <circle
+                                cx={50 + 45 * Math.cos((((props.volume / 100) * 360) * Math.PI) / 180)}
+                                cy={50 + 45 * Math.sin((((props.volume / 100) * 360) * Math.PI) / 180)}
+                                r="4"
+                                fill="var(--primary-accent)"
+                                style={{
+                                  filter: 'drop-shadow(0 0 6px var(--primary-accent))',
+                                }}
+                              />
+                            )}
                           </svg>
 
                           {/* Center content */}
