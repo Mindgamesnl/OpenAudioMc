@@ -18,7 +18,6 @@ import { MusicNoteSvg } from '../../components/icons/musicnote';
 import { VoiceChatSvg } from '../../components/icons/voicechat';
 
 const SettingsPageMemo = React.memo(SettingsPage);
-const DebugPageMemo = React.memo(DebugPage);
 const AudioPagememo = React.memo(AudioPage);
 const VoicePageMemo = React.memo(VoicePage);
 const TabWindowMemo = React.memo(TabWindow);
@@ -65,7 +64,7 @@ function ClientView(props) {
             name={getTranslation(null, 'navbar.debug')}
             hidden={!props.debugMode}
             buttonContent={<IconMemos.Debug />}
-            content={<DebugPageMemo />}
+            content={<DebugPage />}
             transparentNavbar
           />
         </TabWindowMemo>

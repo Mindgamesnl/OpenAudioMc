@@ -1,7 +1,8 @@
-import { Channel } from '../../media/objects/Channel';
-import { Sound } from '../../media/objects/Sound';
 import { MediaManager } from '../../media/MediaManager';
+import { MediaTrack } from '../../../medialib/MediaTrack';
+import { MediaEngine } from '../../../medialib/MediaEngine';
 import { debugLog } from '../../debugging/DebugService';
+import { AudioPreloader } from '../../preloading/AudioPreloader';
 
 export async function handleCreateMedia(data) {
   function convertDistanceToVolume(maxDistance, currentDistance) {
@@ -30,87 +31,52 @@ export async function handleCreateMedia(data) {
   // attempt to stop the existing one, if any
   MediaManager.destroySounds(id, false, true);
 
-  // register with metadata
-  const createdChannel = new Channel(id, volume);
-  createdChannel.trackable = true;
-  createdChannel.setPrefferedFadeTime(fadeTime);
-  const createdMedia = new Sound();
+  // Engine path: create or reuse channel
+  const engine = MediaManager.engine instanceof MediaEngine ? MediaManager.engine : new MediaEngine();
+  const newChannel = engine.ensureChannel(id, volume);
+  newChannel.setTag(id);
 
-  createdChannel.addSound(createdMedia);
-  MediaManager.mixer.addChannel(createdChannel);
 
-  if (speed != null && speed !== 1 && speed !== 0) {
-    debugLog(`Setting speed to ${speed}`);
-    createdMedia.setPlaybackSpeed(speed);
-  }
+  // Use the same fadeTime as the media to crossfade regions/speakers
+  if (muteRegions) { debugLog('Incrementing region inhibit'); MediaManager.engine.incrementInhibitor('REGION', fadeTime); }
+  if (muteSpeakers) { debugLog('Incrementing speaker inhibit'); MediaManager.engine.incrementInhibitor('SPEAKER', fadeTime); }
 
-  createdChannel.setTag(id);
-
-  if (muteRegions) {
-    debugLog('Incrementing region inhibit');
-    MediaManager.mixer.incrementInhibitor('REGION');
-  }
-
-  if (muteSpeakers) {
-    debugLog('Incrementing speaker inhibit');
-    MediaManager.mixer.incrementInhibitor('SPEAKER');
-  }
-
-  MediaManager.mixer.whenFinished(id, () => {
-    // undo inhibit
-    if (muteRegions) {
-      debugLog('Decrementing region inhibit');
-      MediaManager.mixer.decrementInhibitor('REGION');
-    }
-
-    if (muteSpeakers) {
-      debugLog('Decrementing speaker inhibit');
-      MediaManager.mixer.decrementInhibitor('SPEAKER');
-    }
+  // Undo inhibitors when the engine channel is finally removed
+  engine.whenFinished(id, () => {
+    if (muteRegions) MediaManager.engine.decrementInhibitor('REGION', fadeTime);
+    if (muteSpeakers) MediaManager.engine.decrementInhibitor('SPEAKER', fadeTime);
   });
 
-  createdChannel.setTag(flag);
-
-  MediaManager.mixer.tick();
-
-  // load file and play
-  await createdMedia.load(source);
-  createdChannel.setChannelVolume(0);
-  createdChannel.originalVolume = volume;
-  createdMedia.setLooping(looping);
-  createdMedia.setStartAt(startAtMillis);
+  newChannel.setTag(flag);
+  // Preload audio element and create track
+  const preloaded = await AudioPreloader.getResource(source, false);
+  const track = new MediaTrack({ id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant });
+  if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
+  newChannel.addTrack(track);
+  if (!looping) {
+    track.onEnded(() => {
+      if (MediaManager.engine) MediaManager.engine.removeChannel(id);
+    });
+  }
+  newChannel.setChannelVolumePct(0);
   // convert distance
   if (maxDistance !== 0) {
     const startVolume = convertDistanceToVolume(maxDistance, distance);
-    createdChannel.setTag('SPECIAL');
-    createdChannel.maxDistance = maxDistance;
-    createdMedia.whenInitialized(() => {
-      createdChannel.fadeChannel(startVolume, fadeTime);
-    });
+    newChannel.setTag('SPECIAL');
+    newChannel.maxDistance = maxDistance;
+    newChannel.fadeTo(startVolume, fadeTime);
   } else {
     // default sound, just play
-    createdChannel.setTag('DEFAULT');
+    newChannel.setTag('DEFAULT');
 
-    createdMedia.whenInitialized(() => {
-      // are we not already nicked from the start?
-      if (createdChannel.mutedByScore) {
-        return;
-      }
-
-      if (fadeTime === 0) {
-        createdChannel.setChannelVolume(volume);
-        createdChannel.updateFromMasterVolume();
-      } else {
-        createdChannel.updateFromMasterVolume();
-        createdChannel.fadeChannel(volume, fadeTime);
-      }
-    });
+    if (fadeTime === 0) {
+      newChannel.setChannelVolumePct(volume);
+    } else {
+      newChannel.fadeTo(volume, fadeTime);
+    }
   }
 
-  MediaManager.mixer.updateCurrent();
-
-  createdMedia.finalize().then(() => {
-    if (doPickup) createdMedia.startDate(startInstant, true);
-    createdMedia.finish();
-  });
+  // Start playback via MediaTrack
+  if (doPickup) { /* startInstant already handled by track */ }
+  await track.play();
 }

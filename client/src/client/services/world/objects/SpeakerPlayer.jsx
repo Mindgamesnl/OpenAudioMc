@@ -4,6 +4,8 @@ import { SPEAKER_2D } from '../constants/SpeakerType';
 import { SpeakerRenderNode } from './SpeakerRenderNode';
 import { MediaManager } from '../../media/MediaManager';
 import { debugLog } from '../../debugging/DebugService';
+import { MediaTrack } from '../../../medialib/MediaTrack';
+import { MediaEngine } from '../../../medialib/MediaEngine';
 
 /* eslint-disable no-console */
 
@@ -36,16 +38,9 @@ export class SpeakerPlayer {
     this.media.withCors();
 
     if (this.cancelRegions) {
-      MediaManager.mixer.incrementInhibitor('REGION');
+      // Use a reasonable default crossfade for speaker-initiated region mutes
+      MediaManager.engine.incrementInhibitor('REGION', 500);
     }
-
-    MediaManager.mixer.whenFinished(this.id, () => {
-      // undo inhibit
-      if (this.cancelRegions) {
-        debugLog('Decrementing region inhibit from speaker');
-        MediaManager.mixer.decrementInhibitor('REGION');
-      }
-    });
 
     createdChannel.mixer = MediaManager.mixer;
     createdChannel.addSound(createdMedia);
@@ -65,6 +60,29 @@ export class SpeakerPlayer {
     });
 
     await createdMedia.finalize();
+
+    // New medialib track for deterministic control
+    const engine = MediaManager.engine instanceof MediaEngine ? MediaManager.engine : MediaManager.engine;
+    const mlChannel = engine.ensureChannel(this.id, 100);
+  mlChannel.setTag('SPEAKER');
+    mlChannel.setTag(this.id);
+    const track = new MediaTrack({
+      id: `${this.id}::0`, source: this.source, audio: createdMedia.soundElement, loop: this.doLoop, startInstant: this.startInstant,
+    });
+    mlChannel.addTrack(track);
+    if (!this.doLoop) {
+      track.onEnded(() => {
+        if (MediaManager.engine) MediaManager.engine.removeChannel(this.id);
+      });
+    }
+    // When the speaker finishes (channel removed), undo region inhibitor if it was applied
+  if (this.cancelRegions) {
+      engine.whenFinished(this.id, () => {
+        debugLog('Decrementing region inhibit from speaker (engine)');
+    MediaManager.engine.decrementInhibitor('REGION', 500);
+      });
+    }
+    track.play();
 
     this.initialized = true;
   }
@@ -87,6 +105,9 @@ export class SpeakerPlayer {
         return;
       }
       this.channel.fadeChannel(volume, 100);
+      // also apply to medialib channel
+      const ch = MediaManager.engine.channels.get(this.id);
+      if (ch) ch.fadeTo(volume, 100);
     } else if (!this.speakerNodes.has(closest.id)) {
       this.speakerNodes.set(closest.id, new SpeakerRenderNode(closest, world, player, this.media, this.source, this.channel));
     }
@@ -107,5 +128,9 @@ export class SpeakerPlayer {
         this.media.destroy();
       }
     });
+    // also remove medialib channel if exists
+    if (MediaManager.engine) {
+      MediaManager.engine.removeChannel(this.id);
+    }
   }
 }

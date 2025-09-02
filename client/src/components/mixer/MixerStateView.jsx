@@ -10,6 +10,7 @@ export default class MixerStateView extends React.Component {
 
     this.state = {
       channels: [],
+      engineChannels: [],
       loop: -1,
     };
   }
@@ -19,6 +20,7 @@ export default class MixerStateView extends React.Component {
       loop: setInterval(() => {
         this.setState({
           channels: Array.from(MediaManager.mixer.getChannels()),
+          engineChannels: MediaManager.engine ? Array.from(MediaManager.engine.channels.values()) : [],
         });
       }, 500),
     });
@@ -119,6 +121,21 @@ export default class MixerStateView extends React.Component {
         <ul className="list-disc text-black">
           {channels}
         </ul>
+        {this.state.engineChannels && this.state.engineChannels.length > 0 ? (
+          <>
+            <h2 className="text-black mt-4">Engine Channels</h2>
+            <ul className="list-disc text-black">
+              {this.state.engineChannels.map((ch, i) => (
+                <li key={i}>
+                  <b>{ch.id}</b>
+                  {' '}
+                  — tracks:
+                  {Array.from(ch.tracks.values()).length}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
       </OaStyleCard>
     );
   }

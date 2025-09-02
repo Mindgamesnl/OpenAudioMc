@@ -7,6 +7,7 @@ import { getGlobalState } from '../../../../state/store';
 import { debugLog } from '../../debugging/DebugService';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
 import { isProxyRequired, proxifyUrl } from '../utils/corsutil';
+import { MediaTrack } from '../../../medialib/MediaTrack';
 
 export class Sound extends AudioSourceProcessor {
   constructor(opts = {}) {
@@ -34,6 +35,10 @@ export class Sound extends AudioSourceProcessor {
     this.startAtMillis = 0;
     this.needsCors = false;
     this.playbackSpeed = 100; // default to 100% playback speed
+
+    // New engine track (created after load())
+    this._track = null;
+  this.suppressErrors = false;
   }
 
   withCors() {
@@ -55,6 +60,10 @@ export class Sound extends AudioSourceProcessor {
     this.startedLoading = true;
     this.rawSource = source;
     this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
+    // Bridge into MediaTrack with preloaded audio element
+    this._track = new MediaTrack({
+      id: `sound:${Math.random().toString(36).slice(2)}`, source, audio: this.soundElement, loop: this.loop, startAtMillis: this.startAtMillis,
+    });
     this.source = this.soundElement.src;
 
     // mute default
@@ -62,8 +71,13 @@ export class Sound extends AudioSourceProcessor {
       this.soundElement.volume = 0;
     }
 
-    // error handling
+    // error handling (guarded to ignore intentional shutdowns)
     this.soundElement.onerror = (error) => {
+      if (this.gotShutDown || this.destroyed || this.suppressErrors) return;
+      // ignore empty-src errors caused by intentional stop
+      try {
+        if (!this.soundElement || !this.soundElement.src) return;
+      } catch (_) { /* ignore */ }
       this.hadError = true;
       this.error = error;
       this.handleError();
@@ -89,6 +103,12 @@ export class Sound extends AudioSourceProcessor {
         }
 
         this.setLooping(false);
+
+        // New engine hard stop
+        if (this._track) {
+          this._track.stop();
+          this._track.destroy();
+        }
 
         // Clean up sound element
         if (this.soundElement) {
@@ -180,7 +200,8 @@ export class Sound extends AudioSourceProcessor {
             }
             this.setTime(0);
             if (!this.gotShutDown) {
-              this.soundElement.play();
+              // play guarded by MediaTrack epoch
+              if (this._track) await this._track.play();
             }
           } catch (error) {
             debugLog('Error handling loop:', error);
@@ -190,9 +211,7 @@ export class Sound extends AudioSourceProcessor {
             if (this.mixer && this.channel) {
               this.mixer.removeChannel(this.channel);
             }
-            if (this.soundElement && !this.soundElement.paused) {
-              this.soundElement.pause();
-            }
+            if (this._track) this._track.pause();
           } catch (error) {
             debugLog('Error cleaning up after sound end:', error);
           }
@@ -205,15 +224,14 @@ export class Sound extends AudioSourceProcessor {
         if (this.gotShutDown) return;
         if (!fired) {
           try {
-            const prom = this.soundElement.play();
-            if (prom instanceof Promise) {
-              prom.then(resolve).catch((error) => {
-                debugLog('Play promise rejected:', error);
+            if (this._track) {
+              const prom = this._track.play();
+              if (prom instanceof Promise) {
+                prom.then(resolve).catch(() => resolve());
+              } else {
                 resolve();
-              });
-            } else {
-              resolve();
-            }
+              }
+            } else resolve();
           } catch (error) {
             debugLog('Error attempting to play:', error);
             resolve();
@@ -307,9 +325,19 @@ export class Sound extends AudioSourceProcessor {
 
   handleError() {
     if (this.hadError) {
+      if (this.gotShutDown || this.destroyed || this.suppressErrors) {
+        return; // ignore errors after intentional stop/destroy
+      }
       if (this.error.type === 'error') {
-        const errorCode = this.soundElement.error.code;
+        const errorCode = this.soundElement && this.soundElement.error ? this.soundElement.error.code : null;
         let type = null;
+
+        // Ignore empty src errors from intentional stop
+        try {
+          if ((!this.soundElement || !this.soundElement.src) && errorCode === 4) {
+            return;
+          }
+        } catch (_) { /* ignore */ }
 
         // depends really, if it is youtube, we can assume its a yt fuckup, if not, handle it like any other media
         if (this.isYoutube) {
@@ -349,7 +377,7 @@ export class Sound extends AudioSourceProcessor {
 
           SocketManager.send(PluginChannel.MEDIA_FAILURE, {
             mediaError: type,
-            source: this.soundElement.src,
+            source: (this.soundElement && this.soundElement.src) ? this.soundElement.src : this.source,
           });
         }
       }
@@ -373,7 +401,8 @@ export class Sound extends AudioSourceProcessor {
   setMediaMuted(muted) {
     this.whenInitialized(() => {
       // override mute state
-      this.soundElement.muted = muted;
+      if (this._track) this._track.setMuted(muted);
+      if (this.soundElement) this.soundElement.muted = muted;
     });
   }
 
@@ -410,7 +439,8 @@ export class Sound extends AudioSourceProcessor {
         // specification. See https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-volume
         v = 0;
       }
-      this.soundElement.volume = v;
+      if (this._track) this._track.setVolume(v);
+      if (this.soundElement) this.soundElement.volume = v;
     });
   }
 
@@ -420,7 +450,8 @@ export class Sound extends AudioSourceProcessor {
         speed = 0.1; // minimum playback speed
       }
       this.playbackSpeed = speed;
-      this.soundElement.playbackRate = speed / 100; // convert to fraction
+      if (this._track) this._track.setPlaybackSpeed(speed);
+      else this.soundElement.playbackRate = speed / 100; // convert to fraction
     });
   }
 
@@ -458,7 +489,9 @@ export class Sound extends AudioSourceProcessor {
 
   setTime(target) {
     try {
-      if (this.soundElement && !this.gotShutDown) {
+      if (this._track && !this.gotShutDown) {
+        this._track.seek(target);
+      } else if (this.soundElement && !this.gotShutDown) {
         // Ensure we don't set time beyond duration
         const { duration } = this.soundElement;
         if (!Number.isNaN(duration) && duration > 0) {

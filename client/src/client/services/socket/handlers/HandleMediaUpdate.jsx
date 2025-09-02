@@ -1,4 +1,5 @@
 import { MediaManager } from '../../media/MediaManager';
+import { MediaEngine } from '../../../medialib/MediaEngine';
 
 export function handleMediaUpdate(data) {
   // old for old versions
@@ -12,15 +13,16 @@ export function handleMediaUpdate(data) {
   const { reApplyVolume } = data.mediaOptions;
   const newVolume = data.mediaOptions.volume;
 
-  MediaManager.mixer.getChannels().forEach((channel) => {
-    if (channel.hasTag(id)) {
+  const engine = MediaManager.engine instanceof MediaEngine ? MediaManager.engine : null;
+  if (engine) {
+    const ch = engine.channels.get(id);
+    if (ch) {
       if (reApplyVolume) {
-        // update master volume
-        channel.fadeChannel(newVolume, fadeTime);
+        ch.fadeTo(newVolume, fadeTime);
       } else {
-        // only update distance
-        channel.fadeChannel(convertDistanceToVolume(channel.maxDistance, distance), fadeTime);
+        const vol = convertDistanceToVolume(ch.maxDistance || 0, distance);
+        ch.fadeTo(vol, fadeTime);
       }
     }
-  });
+  }
 }
