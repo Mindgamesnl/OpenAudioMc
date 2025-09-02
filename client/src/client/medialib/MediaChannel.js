@@ -3,19 +3,19 @@ import { getGlobalState } from '../../state/store';
 export class MediaChannel {
   constructor({ id, originalVolumePct = 100 }) {
     this.id = id;
-  // baseVolumePct: the intended loudness from distance/explicit settings
-  // currentVolumePct: the actual audible loudness before master, affected by fades/inhibitors
-  this.baseVolumePct = originalVolumePct;
-  this.currentVolumePct = originalVolumePct;
+    // baseVolumePct: the intended loudness from distance/explicit settings
+    // currentVolumePct: the actual audible loudness before master, affected by fades/inhibitors
+    this.baseVolumePct = originalVolumePct;
+    this.currentVolumePct = originalVolumePct;
     this.tagSet = new Set();
     this.tracks = new Map();
     this.mutedByScore = false;
     this.fadeTimers = new Set();
-  // When a destroy fade is initiated, we keep the finalizer here so
-  // subsequent fades (like distance updates) don't cancel the removal.
-  this._pendingRemoveFinalizer = null;
-  this._isDestroying = false;
-  this._engine = null; // set by MediaEngine.ensureChannel
+    // When a destroy fade is initiated, we keep the finalizer here so
+    // subsequent fades (like distance updates) don't cancel the removal.
+    this._pendingRemoveFinalizer = null;
+    this._isDestroying = false;
+    this._engine = null; // set by MediaEngine.ensureChannel
   }
 
   setTag(tag) {
@@ -93,7 +93,7 @@ export class MediaChannel {
       return;
     }
 
-  // Cancel any ongoing fade timers, but DO NOT clear the pending finalizer.
+    // Cancel any ongoing fade timers, but DO NOT clear the pending finalizer.
     for (const id of this.fadeTimers) clearInterval(id);
     this.fadeTimers.clear();
 

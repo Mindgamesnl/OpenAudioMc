@@ -22,23 +22,23 @@ export class MediaTrack {
     this.speedPct = speedPct || 100;
     this.muted = !!muted;
 
-  this.audio = providedAudio || new Audio();
-  // Prefer eager metadata loading so we can compute duration/start offsets early
-  if (!providedAudio) this.audio.preload = 'metadata';
-  this.audio.autoplay = false;
-  this.audio.controls = false;
-  if (!this.audio.crossOrigin) this.audio.crossOrigin = 'anonymous';
-  this.audio.muted = this.muted;
-  // Only set src for fresh elements; provided audio already bound to the correct source
-  if (!providedAudio && source && (!this.audio.src || this.audio.src !== source)) this.audio.src = source;
-  this.audio.loop = !!loop;
+    this.audio = providedAudio || new Audio();
+    // Prefer eager metadata loading so we can compute duration/start offsets early
+    if (!providedAudio) this.audio.preload = 'metadata';
+    this.audio.autoplay = false;
+    this.audio.controls = false;
+    if (!this.audio.crossOrigin) this.audio.crossOrigin = 'anonymous';
+    this.audio.muted = this.muted;
+    // Only set src for fresh elements; provided audio already bound to the correct source
+    if (!providedAudio && source && (!this.audio.src || this.audio.src !== source)) this.audio.src = source;
+    this.audio.loop = !!loop;
 
     this.epoch = 0;
     this.state = 'idle';
     this.volume = 1.0;
-  this.timerBag = new TimerBag();
-  this.onFinish = new Set();
-  this._handlers = { ended: null, error: null };
+    this.timerBag = new TimerBag();
+    this.onFinish = new Set();
+    this._handlers = { ended: null, error: null };
   }
 
   setLoop(state) { this.loop = !!state; if (this.audio) this.audio.loop = !!state; }
@@ -135,7 +135,7 @@ export class MediaTrack {
       if (this._handlers.ended) this.audio.removeEventListener('ended', this._handlers.ended);
       this._handlers.error = null; this._handlers.ended = null;
     } catch {}
-  // Remove the element; avoid clearing src to prevent “Empty src attribute” errors
-  try { this.audio.remove(); } catch {}
+    // Remove the element; avoid clearing src to prevent “Empty src attribute” errors
+    try { this.audio.remove(); } catch {}
   }
 }

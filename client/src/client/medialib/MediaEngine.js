@@ -4,10 +4,10 @@ export class MediaEngine {
   constructor() {
     this.channels = new Map();
     this._destructionHandlers = new Map(); // id -> Set<fn>
-  // tag -> { count: number, fadeMs: number }
-  this._inhibitors = Object.create(null);
-  this._areSoundsPlaying = false;
-  this._tickIntervalId = setInterval(() => { try { this._tick(); } catch {} }, 250);
+    // tag -> { count: number, fadeMs: number }
+    this._inhibitors = Object.create(null);
+    this._areSoundsPlaying = false;
+    this._tickIntervalId = setInterval(() => { try { this._tick(); } catch {} }, 250);
   }
 
   ensureChannel(id, originalVolumePct = 100) {
@@ -45,10 +45,10 @@ export class MediaEngine {
     let matched = false; const time = instantly ? 0 : (fadeTimeMs ?? 500);
     for (const ch of this.channels.values()) {
       if (all || (soundId ? ch.hasTag(soundId) : (!ch.hasTag('SPECIAL') && !ch.hasTag('REGION') && !ch.hasTag('SPEAKER')))) {
-      if (filterFn && !filterFn(ch)) continue; matched = true;
-      // Initiate a destructive fade; MediaChannel will preserve pending finalizer
-      // so later fades (e.g., distance) don't cancel the removal.
-      ch.fadeTo(0, time, () => this.removeChannel(ch.id));
+        if (filterFn && !filterFn(ch)) continue; matched = true;
+        // Initiate a destructive fade; MediaChannel will preserve pending finalizer
+        // so later fades (e.g., distance) don't cancel the removal.
+        ch.fadeTo(0, time, () => this.removeChannel(ch.id));
       }
     }
     return matched;

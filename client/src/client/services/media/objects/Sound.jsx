@@ -38,7 +38,7 @@ export class Sound extends AudioSourceProcessor {
 
     // New engine track (created after load())
     this._track = null;
-  this.suppressErrors = false;
+    this.suppressErrors = false;
   }
 
   withCors() {
@@ -60,7 +60,7 @@ export class Sound extends AudioSourceProcessor {
     this.startedLoading = true;
     this.rawSource = source;
     this.soundElement = await AudioPreloader.getResource(source, this.needsCors);
-  // Bridge into MediaTrack with preloaded audio element
+    // Bridge into MediaTrack with preloaded audio element
     this._track = new MediaTrack({
       id: `sound:${Math.random().toString(36).slice(2)}`, source, audio: this.soundElement, loop: this.loop, startAtMillis: this.startAtMillis,
     });
@@ -118,10 +118,10 @@ export class Sound extends AudioSourceProcessor {
     };
 
     // set attributes
-  this.soundElement.setAttribute('preload', 'metadata');
+    this.soundElement.setAttribute('preload', 'metadata');
     this.soundElement.setAttribute('controls', 'none');
     this.soundElement.setAttribute('display', 'none');
-  this.soundElement.preload = 'metadata';
+    this.soundElement.preload = 'metadata';
   }
 
   destroy() {
@@ -429,9 +429,9 @@ export class Sound extends AudioSourceProcessor {
     if (this.controller == null) {
       this.controller = player.audioCtx.createMediaElementSource(this.soundElement);
     }
-  // Route element into spatial renderer and mute direct element output to avoid double audio
-  renderer.connect(this.controller);
-  try { this.soundElement.muted = true; } catch (_) { /* ignore */ }
+    // Route element into spatial renderer and mute direct element output to avoid double audio
+    renderer.connect(this.controller);
+    try { this.soundElement.muted = true; } catch (_) { /* ignore */ }
   }
 
   setMediaMuted(muted) {

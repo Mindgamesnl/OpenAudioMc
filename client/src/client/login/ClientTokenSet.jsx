@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import UrlReader from '../util/UrlReader';
 import { API_ENDPOINT } from '../config/ApiEndpoints';
 import { ReportError } from '../util/ErrorReporter';

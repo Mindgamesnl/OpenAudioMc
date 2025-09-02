@@ -42,8 +42,8 @@ export class SpeakerPlayer {
       MediaManager.engine.incrementInhibitor('REGION', 500);
     }
 
-  // Legacy mixer is removed; keep a local Channel for legacy fade helpers only
-  createdChannel.addSound(createdMedia);
+    // Legacy mixer is removed; keep a local Channel for legacy fade helpers only
+    createdChannel.addSound(createdMedia);
 
     await createdMedia.load(this.source);
 
@@ -53,7 +53,7 @@ export class SpeakerPlayer {
       if (this.doPickup) {
         createdMedia.startDate(this.startInstant, true);
       }
-  // Mixer removed; no global mixer update
+      // Mixer removed; no global mixer update
 
       createdMedia.finish();
     });
@@ -63,7 +63,7 @@ export class SpeakerPlayer {
     // New medialib track for deterministic control
     const engine = MediaManager.engine instanceof MediaEngine ? MediaManager.engine : MediaManager.engine;
     const mlChannel = engine.ensureChannel(this.id, 100);
-  mlChannel.setTag('SPEAKER');
+    mlChannel.setTag('SPEAKER');
     mlChannel.setTag(this.id);
     const track = new MediaTrack({
       id: `${this.id}::0`, source: this.source, audio: createdMedia.soundElement, loop: this.doLoop, startInstant: this.startInstant,
@@ -75,10 +75,10 @@ export class SpeakerPlayer {
       });
     }
     // When the speaker finishes (channel removed), undo region inhibitor if it was applied
-  if (this.cancelRegions) {
+    if (this.cancelRegions) {
       engine.whenFinished(this.id, () => {
         debugLog('Decrementing region inhibit from speaker (engine)');
-    MediaManager.engine.decrementInhibitor('REGION', 500);
+        MediaManager.engine.decrementInhibitor('REGION', 500);
       });
     }
     track.play();

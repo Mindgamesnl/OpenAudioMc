@@ -9,11 +9,13 @@ export class BaseSegmentedPage extends React.Component {
   // prop types
   static propTypes = {
     showVersion: PropTypes.bool,
+    noFooter: PropTypes.bool,
   };
 
   // default props
   static defaultProps = {
     showVersion: false,
+    noFooter: false,
   };
 
   constructor(props) {
@@ -61,7 +63,7 @@ export class BaseSegmentedPage extends React.Component {
     document.documentElement.style.setProperty('--accent-color', accentColor);
 
     return (
-      <div className="min-h-screen bg-black flex flex-col overflow-auto">
+      <div className="h-full bg-black flex flex-col overflow-auto">
         {/* Animated gradient background */}
         <div className="fixed inset-0 bg-black z-0 overflow-hidden">
           <div
@@ -88,40 +90,42 @@ export class BaseSegmentedPage extends React.Component {
         </div>
 
         {/* Footer */}
-        <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-black bg-opacity-80 backdrop-blur-md border-t border-gray-800 z-10">
-          <div className="mb-2 sm:mb-0 text-center sm:text-left">
-            &copy; OpenAudioMc 2016-2025. All Rights Reserved.
-          </div>
-          <div className="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-2 sm:space-y-0">
-            {this.props.showVersion ? (
+        {!this.props.noFooter ? (
+          <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-black bg-opacity-80 backdrop-blur-md border-t border-gray-800 z-10">
+            <div className="mb-2 sm:mb-0 text-center sm:text-left">
+              &copy; OpenAudioMc 2016-2025. All Rights Reserved.
+            </div>
+            <div className="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-2 sm:space-y-0">
+              {this.props.showVersion ? (
+                <a
+                  href="https://openaudiomc.net/docs/client_major_changelog"
+                  className="text-gray-500 hover:text-white flex items-center transition-colors duration-200"
+                >
+                  <span className="text-sm font-mono">
+                    v
+                    {VERSION.major}
+                    .
+                    {VERSION.minor}
+                    .
+                    {VERSION.revision}
+                  </span>
+                  <span className={`ml-2 ${this.state.versionDiff.color}`}>
+                    (
+                    {this.state.versionDiff.text}
+                    )
+                  </span>
+                </a>
+              ) : null}
               <a
-                href="https://openaudiomc.net/docs/client_major_changelog"
+                href="https://openaudiomc.net/"
                 className="text-gray-500 hover:text-white flex items-center transition-colors duration-200"
               >
-                <span className="text-sm font-mono">
-                  v
-                  {VERSION.major}
-                  .
-                  {VERSION.minor}
-                  .
-                  {VERSION.revision}
-                </span>
-                <span className={`ml-2 ${this.state.versionDiff.color}`}>
-                  (
-                  {this.state.versionDiff.text}
-                  )
-                </span>
+                <Globe size={14} className="mr-1" />
+                <span>Website</span>
               </a>
-            ) : null}
-            <a
-              href="https://openaudiomc.net/"
-              className="text-gray-500 hover:text-white flex items-center transition-colors duration-200"
-            >
-              <Globe size={14} className="mr-1" />
-              <span>Website</span>
-            </a>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     );
   }

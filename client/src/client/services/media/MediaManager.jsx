@@ -17,7 +17,7 @@ export const MediaManager = new class IMediaManager {
       if (store.getState().settings.normalVolume === null) return;
       if (lastVolume !== store.getState().settings.normalVolume) {
         lastVolume = store.getState().settings.normalVolume;
-  this.setMasterVolume(store.getState().settings.normalVolume);
+        this.setMasterVolume(store.getState().settings.normalVolume);
       }
     });
 
@@ -43,15 +43,15 @@ export const MediaManager = new class IMediaManager {
     if (source === '' || source == null) return;
     // Register an engine channel for ambiance for deterministic control
     try {
-  const chId = 'ambiance-from-account';
-  const engineChannel = this.engine.ensureChannel(chId, 0);
-  engineChannel.setTag('AMBIANCE');
+      const chId = 'ambiance-from-account';
+      const engineChannel = this.engine.ensureChannel(chId, 0);
+      engineChannel.setTag('AMBIANCE');
       const preloaded = await (await import('../preloading/AudioPreloader')).AudioPreloader.getResource(source, false);
       const track = new MediaTrack({
         id: `${chId}::0`, source, audio: preloaded, loop: true,
       });
       engineChannel.addTrack(track);
-  engineChannel.setChannelVolumePct(0); // start muted, engine tick will fade based on activity
+      engineChannel.setChannelVolumePct(0); // start muted, engine tick will fade based on activity
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Failed to setup medialib ambiance track', e);
@@ -63,16 +63,20 @@ export const MediaManager = new class IMediaManager {
       try {
         const engineChannel = this.engine.ensureChannel('startsound', 100);
         const preloaded = await (await import('../preloading/AudioPreloader')).AudioPreloader.getResource(this.startSound, false);
-        const track = new MediaTrack({ id: 'startsound::0', source: this.startSound, audio: preloaded, loop: false });
+        const track = new MediaTrack({
+          id: 'startsound::0', source: this.startSound, audio: preloaded, loop: false,
+        });
         engineChannel.addTrack(track);
         track.play();
       } catch (e) { /* ignore */ }
-  }
+    }
   }
 
   destroySounds(soundId, all, instantly, transition, atTheEnd = () => {}) {
     debugLog('Destroying sounds', soundId, all, instantly, transition);
-    const matched = this.engine.destroySounds({ soundId, all, instantly, fadeTimeMs: transition });
+    const matched = this.engine.destroySounds({
+      soundId, all, instantly, fadeTimeMs: transition,
+    });
     if (soundId && typeof atTheEnd === 'function') {
       if (instantly) {
         atTheEnd();
@@ -85,6 +89,6 @@ export const MediaManager = new class IMediaManager {
 
   setMasterVolume(volume) {
   // Update all engine channels to reflect the new master volume
-  if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange();
+    if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange();
   }
 }();

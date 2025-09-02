@@ -16,9 +16,10 @@ import { OaStyleCard } from '../../components/card/OaStyleCard';
 import DebugPage from './pages/debug/DebugPage';
 import { MusicNoteSvg } from '../../components/icons/musicnote';
 import { VoiceChatSvg } from '../../components/icons/voicechat';
+import NewAudioPage from './pages/audio/NewAudioPage.jsx';
 
 const SettingsPageMemo = React.memo(SettingsPage);
-const AudioPagememo = React.memo(AudioPage);
+const AudioPagememo = NewAudioPage;
 const VoicePageMemo = React.memo(VoicePage);
 const TabWindowMemo = React.memo(TabWindow);
 

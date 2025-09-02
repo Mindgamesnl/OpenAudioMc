@@ -36,7 +36,6 @@ export async function handleCreateMedia(data) {
   const newChannel = engine.ensureChannel(id, volume);
   newChannel.setTag(id);
 
-
   // Use the same fadeTime as the media to crossfade regions/speakers
   if (muteRegions) { debugLog('Incrementing region inhibit'); MediaManager.engine.incrementInhibitor('REGION', fadeTime); }
   if (muteSpeakers) { debugLog('Incrementing speaker inhibit'); MediaManager.engine.incrementInhibitor('SPEAKER', fadeTime); }
@@ -50,7 +49,9 @@ export async function handleCreateMedia(data) {
   newChannel.setTag(flag);
   // Preload audio element and create track
   const preloaded = await AudioPreloader.getResource(source, false);
-  const track = new MediaTrack({ id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant });
+  const track = new MediaTrack({
+    id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant,
+  });
   if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
   newChannel.addTrack(track);
   if (!looping) {

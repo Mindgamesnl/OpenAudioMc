@@ -7,7 +7,6 @@ export default class EnhancedMixerView extends React.Component {
     super(props);
 
     this.state = {
-      channels: [],
       engineChannels: [],
       loop: -1,
     };
@@ -25,72 +24,6 @@ export default class EnhancedMixerView extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.state.loop);
-  }
-
-  onlyFileName(path) {
-    if (path == null) return 'null';
-    return path.split('/').pop().split('.').shift();
-  }
-
-  getProgressPercentage(current, total) {
-    if (!current || !total || Number.isNaN(current) || Number.isNaN(total)) return 0;
-    return Math.min(100, Math.max(0, (current / total) * 100));
-  }
-
-  getStatusColor(sound) {
-    if (sound.hadError) return 'bg-red-500';
-    if (sound.destroyed) return 'bg-gray-500';
-    if (!sound.loaded) return 'bg-yellow-500';
-    if (sound.startedLoading) return 'bg-green-500';
-    return 'bg-blue-500';
-  }
-
-  getStatusText(sound) {
-    if (sound.hadError) return 'ERROR';
-    if (sound.destroyed) return 'DESTROYED';
-    if (sound.gotShutDown) return 'SHUTDOWN';
-    if (!sound.loaded) return 'LOADING';
-    if (sound.startedLoading) return 'PLAYING';
-    return 'IDLE';
-  }
-
-  getReadyStateText(readyState) {
-    switch (readyState) {
-      case 0:
-        return 'HAVE_NOTHING';
-      case 1:
-        return 'HAVE_METADATA';
-      case 2:
-        return 'HAVE_CURRENT_DATA';
-      case 3:
-        return 'HAVE_FUTURE_DATA';
-      case 4:
-        return 'HAVE_ENOUGH_DATA';
-      default:
-        return 'UNKNOWN';
-    }
-  }
-
-  getNetworkStateText(networkState) {
-    switch (networkState) {
-      case 0:
-        return 'EMPTY';
-      case 1:
-        return 'IDLE';
-      case 2:
-        return 'LOADING';
-      case 3:
-        return 'NO_SOURCE';
-      default:
-        return 'UNKNOWN';
-    }
-  }
-
-  formatTime(seconds) {
-    if (!seconds || Number.isNaN(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 
   render() {
@@ -154,8 +87,15 @@ export default class EnhancedMixerView extends React.Component {
                         <span>
                           Ch Vol:
                           {' '}
-                          <span className="font-mono text-cyan-300">{Math.round(ch.baseVolumePct ?? 0)}%</span>
-                          <span className="font-mono text-amber-300 ml-1">→ {Math.round(ch.currentVolumePct ?? 0)}%</span>
+                          <span className="font-mono text-cyan-300">
+                            {Math.round(ch.baseVolumePct ?? 0)}
+                            %
+                          </span>
+                          <span className="font-mono text-amber-300 ml-1">
+                            →
+                            {Math.round(ch.currentVolumePct ?? 0)}
+                            %
+                          </span>
                         </span>
                         {ch._pendingRemoveFinalizer ? (
                           <span className="text-red-300">pending-destroy</span>
@@ -186,12 +126,18 @@ export default class EnhancedMixerView extends React.Component {
                           <div>
                             <span className="text-gray-400">Vol:</span>
                             {' '}
-                            <span className="font-mono text-cyan-300">{Math.round((t.volume || 0) * 100)}%</span>
+                            <span className="font-mono text-cyan-300">
+                              {Math.round((t.volume || 0) * 100)}
+                              %
+                            </span>
                           </div>
                           <div>
                             <span className="text-gray-400">Speed:</span>
                             {' '}
-                            <span className="font-mono text-purple-300">{t.speedPct || 100}%</span>
+                            <span className="font-mono text-purple-300">
+                              {t.speedPct || 100}
+                              %
+                            </span>
                           </div>
                           <div>
                             <span className="text-gray-400">Loop:</span>
