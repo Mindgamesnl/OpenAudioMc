@@ -167,7 +167,7 @@ export class Channel {
         }
       } catch (error) {
         // Log error but don't stop processing other sounds
-        console.warn('Error during sound tick:', error);
+        // Error during sound tick
       }
     });
   }

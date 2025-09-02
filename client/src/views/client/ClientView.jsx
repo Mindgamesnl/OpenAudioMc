@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TabWindow, { TabPage } from '../../components/tabwindow/TabWindow';
-import AudioPage from './pages/audio/AudioPage';
 import VoicePage from './pages/voice/VoicePage';
 import ResetLanguageBanner from '../../components/language/ResetLanguageBanner';
 import SettingsPage from './pages/settings/SettingsPage';
@@ -16,7 +15,7 @@ import { OaStyleCard } from '../../components/card/OaStyleCard';
 import DebugPage from './pages/debug/DebugPage';
 import { MusicNoteSvg } from '../../components/icons/musicnote';
 import { VoiceChatSvg } from '../../components/icons/voicechat';
-import NewAudioPage from './pages/audio/NewAudioPage.jsx';
+import NewAudioPage from './pages/audio/NewAudioPage';
 
 const SettingsPageMemo = React.memo(SettingsPage);
 const AudioPagememo = NewAudioPage;

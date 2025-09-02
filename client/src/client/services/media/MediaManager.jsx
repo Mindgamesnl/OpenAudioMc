@@ -17,7 +17,7 @@ export const MediaManager = new class IMediaManager {
       if (store.getState().settings.normalVolume === null) return;
       if (lastVolume !== store.getState().settings.normalVolume) {
         lastVolume = store.getState().settings.normalVolume;
-        this.setMasterVolume(store.getState().settings.normalVolume);
+        this.setMasterVolume();
       }
     });
 
@@ -87,7 +87,7 @@ export const MediaManager = new class IMediaManager {
     return matched;
   }
 
-  setMasterVolume(volume) {
+  setMasterVolume() {
   // Update all engine channels to reflect the new master volume
     if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange();
   }

@@ -23,7 +23,7 @@ export class MediaChannel {
     this.tagSet.add(tag);
     // If engine is present, re-apply inhibitors for this channel when tags change.
     if (this._engine && typeof this._engine._applyInhibitionsFor === 'function') {
-      try { this._engine._applyInhibitionsFor(this); } catch {}
+      try { this._engine._applyInhibitionsFor(this); } catch (e) { /* ignore */ }
     }
   }
 
@@ -40,7 +40,7 @@ export class MediaChannel {
           this._engine.removeChannel(this.id);
         }
       });
-    } catch {}
+    } catch (e) { /* ignore */ }
     this.updateVolumeFromMaster();
   }
 
@@ -66,7 +66,7 @@ export class MediaChannel {
     const master = getGlobalState().settings.normalVolume || 100;
     const pct = (this.currentVolumePct / 100) * (master / 100);
     const result = Math.max(0, Math.min(1, pct));
-    for (const t of this.tracks.values()) t.setVolume(result);
+    Array.from(this.tracks.values()).forEach((t) => t.setVolume(result));
     // If fully silent and no tracks are playing, allow cleanup to proceed
     if (result === 0 && this.tracks.size === 0 && this._engine) {
       this._engine.removeChannel(this.id);
@@ -94,18 +94,16 @@ export class MediaChannel {
     }
 
     // Cancel any ongoing fade timers, but DO NOT clear the pending finalizer.
-    for (const id of this.fadeTimers) clearInterval(id);
+    this.fadeTimers.forEach((id) => clearInterval(id));
     this.fadeTimers.clear();
 
     const finish = () => {
       const fin = this._pendingRemoveFinalizer || cb;
       // Make sure we only run once
       this._pendingRemoveFinalizer = null;
-      const wasDestroying = this._isDestroying;
       this._isDestroying = false;
       if (typeof fin === 'function') fin();
       // If this wasn’t a destroying fade, nothing else to do.
-      if (!wasDestroying) return;
     };
 
     if (!ms || ms <= 0) {
@@ -156,16 +154,14 @@ export class MediaChannel {
     }
 
     // Cancel ongoing fades but keep pending finalizer
-    for (const id of this.fadeTimers) clearInterval(id);
+    this.fadeTimers.forEach((id) => clearInterval(id));
     this.fadeTimers.clear();
 
     const finish = () => {
       const fin = this._pendingRemoveFinalizer || cb;
       this._pendingRemoveFinalizer = null;
-      const wasDestroying = this._isDestroying;
       this._isDestroying = false;
       if (typeof fin === 'function') fin();
-      if (!wasDestroying) return;
     };
 
     if (!ms || ms <= 0) {
@@ -196,9 +192,9 @@ export class MediaChannel {
   }
 
   destroy() {
-    for (const id of this.fadeTimers) clearInterval(id);
+    this.fadeTimers.forEach((id) => clearInterval(id));
     this.fadeTimers.clear();
-    for (const t of this.tracks.values()) t.destroy();
+    Array.from(this.tracks.values()).forEach((t) => t.destroy());
     this.tracks.clear();
   }
 }

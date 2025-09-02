@@ -19,8 +19,7 @@ export class Player {
         this.listener = SpatialAudioListener.getInstance(this.audioCtx);
         this.updateLocation(location, pitch, yaw);
       })
-      .catch((err) => {
-        console.error('AudioWorklet failed to load:', err);
+      .catch(() => {
         haltCriticalError(
           'PROCESSOR_LOAD_FAILED',
           'Failed to load the audio processor',

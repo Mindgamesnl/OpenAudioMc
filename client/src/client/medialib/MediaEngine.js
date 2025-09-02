@@ -7,7 +7,7 @@ export class MediaEngine {
     // tag -> { count: number, fadeMs: number }
     this._inhibitors = Object.create(null);
     this._areSoundsPlaying = false;
-    this._tickIntervalId = setInterval(() => { try { this._tick(); } catch {} }, 250);
+    this._tickIntervalId = setInterval(() => { try { this._tick(); } catch (e) { /* ignore */ } }, 250);
   }
 
   ensureChannel(id, originalVolumePct = 100) {
@@ -26,14 +26,14 @@ export class MediaEngine {
     if (!ch) return;
     try {
       // Stop tracks first to avoid late events firing after channel is gone
-      for (const t of ch.tracks.values()) { try { t.stop(); } catch {} }
+      Array.from(ch.tracks.values()).forEach((t) => { try { t.stop(); } catch (e) { /* ignore */ } });
       ch.destroy();
     } finally {
       this.channels.delete(id);
       // Fire destruction handlers, if any
       const set = this._destructionHandlers.get(id);
       if (set) {
-        for (const fn of set) { try { fn(); } catch {} }
+        set.forEach((fn) => { try { fn(); } catch (e) { /* ignore */ } });
         this._destructionHandlers.delete(id);
       }
     }
@@ -42,21 +42,23 @@ export class MediaEngine {
   destroySounds({
     soundId, all = false, instantly = false, fadeTimeMs = 500, filterFn = null,
   }) {
-    let matched = false; const time = instantly ? 0 : (fadeTimeMs ?? 500);
-    for (const ch of this.channels.values()) {
+    let matched = false;
+    const time = instantly ? 0 : (fadeTimeMs ?? 500);
+    Array.from(this.channels.values()).forEach((ch) => {
       if (all || (soundId ? ch.hasTag(soundId) : (!ch.hasTag('SPECIAL') && !ch.hasTag('REGION') && !ch.hasTag('SPEAKER')))) {
-        if (filterFn && !filterFn(ch)) continue; matched = true;
+        if (filterFn && !filterFn(ch)) return;
+        matched = true;
         // Initiate a destructive fade; MediaChannel will preserve pending finalizer
         // so later fades (e.g., distance) don't cancel the removal.
         ch.fadeTo(0, time, () => this.removeChannel(ch.id));
       }
-    }
+    });
     return matched;
   }
 
   whenFinished(id, handler) {
     if (!id || typeof handler !== 'function') return () => {};
-    if (!this.channels.has(id)) { try { handler(); } catch {} return () => {}; }
+    if (!this.channels.has(id)) { try { handler(); } catch (e) { /* ignore */ } return () => {}; }
     let set = this._destructionHandlers.get(id);
     if (!set) { set = new Set(); this._destructionHandlers.set(id, set); }
     set.add(handler);
@@ -64,7 +66,7 @@ export class MediaEngine {
   }
 
   // Master volume bump: ask channels to recompute effective volume from global state
-  bumpVolumeChange() { for (const ch of this.channels.values()) ch.updateVolumeFromMaster(); }
+  bumpVolumeChange() { Array.from(this.channels.values()).forEach((ch) => ch.updateVolumeFromMaster()); }
 
   // Inhibitors API to mute channels with matching tags (replaces legacy Mixer inhibitors)
   incrementInhibitor(tag, fadeMs = 150) {
@@ -91,13 +93,13 @@ export class MediaEngine {
     let total = 0;
     let maxFade = 150;
     if (ch.tagSet) {
-      for (const tag of ch.tagSet.values()) {
+      ch.tagSet.forEach((tag) => {
         const entry = this._inhibitors[tag];
         if (entry && entry.count > 0) {
           total += entry.count;
           if (entry.fadeMs && entry.fadeMs > maxFade) maxFade = entry.fadeMs;
         }
-      }
+      });
     }
 
     const wantsMute = total >= 1;
@@ -114,19 +116,20 @@ export class MediaEngine {
   }
 
   _applyInhibitions() {
-    for (const ch of this.channels.values()) this._applyInhibitionsFor(ch);
+    Array.from(this.channels.values()).forEach((ch) => this._applyInhibitionsFor(ch));
   }
 
   _tick() {
     // Determine if any non-ambiance channel has an actively playing track
     let foundPlaying = false;
-    for (const ch of this.channels.values()) {
-      if (ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) continue;
-      for (const t of ch.tracks.values()) {
-        if (t && t.state === 'playing') { foundPlaying = true; break; }
-      }
-      if (foundPlaying) break;
-    }
+    Array.from(this.channels.values()).some((ch) => {
+      if (ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) return false;
+      Array.from(ch.tracks.values()).some((t) => {
+        if (t && t.state === 'playing') { foundPlaying = true; return true; }
+        return false;
+      });
+      return foundPlaying;
+    });
     if (foundPlaying !== this._areSoundsPlaying) {
       this._areSoundsPlaying = foundPlaying;
       this._applyAmbianceState(foundPlaying);
@@ -136,9 +139,9 @@ export class MediaEngine {
   _applyAmbianceState(isPlaying) {
     // Find ambiance channel (tagged as AMBIANCE, or fallback to well-known id)
     let ambiance = null;
-    for (const ch of this.channels.values()) {
-      if ((ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) || ch.id === 'ambiance-from-account') { ambiance = ch; break; }
-    }
+    Array.from(this.channels.values()).forEach((ch) => {
+      if ((ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) || ch.id === 'ambiance-from-account') { ambiance = ch; }
+    });
     if (!ambiance) return;
     const fadeMs = 800;
     if (isPlaying) {
