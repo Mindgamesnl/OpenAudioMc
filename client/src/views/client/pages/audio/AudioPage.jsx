@@ -19,9 +19,9 @@ function AudioPage(props) {
     <BaseSegmentedPage noFooter>
       <div className="container mx-auto my-8 z-10 flex flex-col lg:flex-row items-center justify-center gap-8 px-4">
         {/* Left panel - User avatar and welcome text */}
-        <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-start space-y-8 pt-8">
-          <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-start space-y-8 pt-8">
-            <div className="text-center lg:text-left">
+        <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-end space-y-8 pt-8 pr-24">
+          <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-end space-y-8 pt-8">
+            <div className="text-center lg:text-right">
               <div className="relative inline-block w-fit mx-auto lg:mx-0">
                 {/* Main image bubble */}
                 <img
@@ -41,7 +41,7 @@ function AudioPage(props) {
             </div>
           </div>
 
-          <div className="text-gray-400 max-w-md">
+          <div className="text-gray-400 max-w-md text-right">
             <h1 className="text-white text-3xl font-bold">
               {msg('home.welcome')}
             </h1>
@@ -68,7 +68,7 @@ function AudioPage(props) {
 
             {/* Glowing accent border effect */}
             <div
-              className="absolute -inset-1 rounded-2xl blur opacity-20"
+              className="absolute -inset-1 rounded-2xl blur opacity-10"
               style={{ backgroundColor: 'var(--primary-accent)' }}
             />
 
