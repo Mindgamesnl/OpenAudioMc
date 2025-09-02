@@ -6,6 +6,7 @@ import SoundCloudPlayer from '../../../../components/soundcloud/SoundCloudPlayer
 import { UnsupportedBanner } from '../../../../components/voice/UnsupportedBanner';
 import { msg } from '../../../../client/OpenAudioAppContainer';
 import { BaseSegmentedPage } from '../../../../components/layout/BaseSegmentedPage';
+import { MusicNoteSvg } from '../../../../components/icons/musicnote';
 
 function AudioPage(props) {
   const { currentUser } = props;
@@ -88,7 +89,7 @@ function AudioPage(props) {
                             className="relative w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold"
                             style={{ backgroundColor: 'var(--primary-accent)' }}
                           >
-                            ♪
+                            <MusicNoteSvg />
                           </div>
                         </div>
                         <div>
