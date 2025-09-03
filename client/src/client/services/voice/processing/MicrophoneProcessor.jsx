@@ -44,6 +44,14 @@ export class MicrophoneProcessor {
     this.micTriggerCount = 0;
     this.micSanityPassed = false;
 
+    // New properties for improved sensitivity system
+    this.volumeBuffer = [];
+    this.bufferSize = 200; // Keep last 200 volume samples
+    this.noiseFloor = -60; // Initial noise floor estimate
+    this.speechLevel = -30; // Initial speech level estimate
+    this.adaptiveOffset = 12; // dB offset above noise floor for threshold
+    this.manualSensitivity = 50; // 0-100 scale for manual control
+
     this.setupAudioContext();
     this.setupHarkEvents();
     this.setupGainController();
@@ -82,7 +90,7 @@ export class MicrophoneProcessor {
 
     this.harkEvents = new Hark(this.stream, {
       audioContext: this.audioContext,
-      threshold: -50,
+      threshold: -45, // Better default threshold
       interval: 25,
       history: 6,
     });
@@ -97,35 +105,90 @@ export class MicrophoneProcessor {
       this.handleSpeakingStop();
     });
 
-    this.harkEvents.on('volume_change', (volume, threshold) => {
+    this.harkEvents.on('volume_change', (volume) => {
       // Force speaking state if volume is consistently high
-      if (volume > threshold + 10 && !this.isSpeaking) {
+      if (volume > this.harkEvents.getThreshold() + 10 && !this.isSpeaking) {
         clearTimeout(speakingTimeout);
         this.handleSpeakingStart();
       }
     });
 
-    let lowestVolume = 0;
     let volumeChangeI = 0;
 
-    this.harkEvents.on('volume_change', (volume, threshold) => {
+    this.harkEvents.on('volume_change', (volume) => {
       if (this.destroyed) return;
 
       volumeChangeI++;
 
-      if (volume < lowestVolume && lowestVolume > -Infinity && volume > -Infinity) {
-        lowestVolume = volume;
+      // Add volume to buffer for analysis
+      this.volumeBuffer.push(volume);
+      if (this.volumeBuffer.length > this.bufferSize) {
+        this.volumeBuffer.shift();
       }
 
-      const normalizedOutput = Math.min(100, 100 - ((volume / lowestVolume) * 100));
+      // Update noise floor and speech level estimates
+      this.updateNoiseAndSpeechLevels();
+
+      // Calculate normalized volume for UI (0-100 scale)
+      const normalizedVolume = this.calculateNormalizedVolume(volume);
+
+      // Update threshold if in auto mode
+      if (getGlobalState().settings.automaticSensitivity) {
+        this.updateAdaptiveThreshold();
+      }
 
       if (volumeChangeI > 100) {
-        feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, normalizedOutput);
+        feedDebugValue(DebugStatistic.MICROPHONE_LOUDNESS, normalizedVolume);
         volumeChangeI = 0;
       }
 
-      invokeMicVolumeListeners(normalizedOutput, this.isSpeaking, threshold, lowestVolume);
+      // Pass normalized volume, speaking state, current threshold, and noise floor to listeners
+      invokeMicVolumeListeners(normalizedVolume, this.isSpeaking, this.harkEvents.getThreshold(), this.noiseFloor);
     });
+  }
+
+  updateNoiseAndSpeechLevels() {
+    if (this.volumeBuffer.length < 50) return; // Need some data first
+
+    // Sort buffer to find percentiles
+    const sorted = [...this.volumeBuffer].sort((a, b) => a - b);
+
+    // Noise floor: 10th percentile (low volumes)
+    this.noiseFloor = sorted[Math.floor(sorted.length * 0.1)];
+
+    // Speech level: 90th percentile (high volumes)
+    this.speechLevel = sorted[Math.floor(sorted.length * 0.9)];
+
+    // Ensure reasonable bounds
+    this.noiseFloor = Math.max(this.noiseFloor, -80);
+    this.noiseFloor = Math.min(this.noiseFloor, -20);
+    this.speechLevel = Math.max(this.speechLevel, this.noiseFloor + 10);
+  }
+
+  calculateNormalizedVolume(currentVolume) {
+    // Normalize volume to 0-100 scale based on noise floor and speech level
+    if (this.speechLevel <= this.noiseFloor) {
+      return currentVolume > this.noiseFloor ? 100 : 0;
+    }
+
+    const range = this.speechLevel - this.noiseFloor;
+    const normalized = ((currentVolume - this.noiseFloor) / range) * 100;
+    return Math.max(0, Math.min(100, normalized));
+  }
+
+  updateAdaptiveThreshold() {
+    // Set threshold as noise floor + adaptive offset
+    const newThreshold = this.noiseFloor + this.adaptiveOffset;
+
+    // Smooth the threshold changes to avoid jitter
+    const currentThreshold = this.harkEvents.getThreshold();
+    const smoothedThreshold = currentThreshold * 0.9 + newThreshold * 0.1;
+
+    this.harkEvents.setThreshold(smoothedThreshold);
+
+    // Update stored sensitivity value for consistency
+    const sensitivityValue = Math.abs(smoothedThreshold);
+    setGlobalState({ settings: { microphoneSensitivity: sensitivityValue } });
   }
 
   setupGainController() {
@@ -135,7 +198,8 @@ export class MicrophoneProcessor {
 
   setupStateManagement() {
     let lastMonitoringState = false;
-    this.lastAutoAdjustmentsState = false;
+    let lastSensitivityValue = null;
+    let lastAutoMode = null;
     let lastStateMuted = false;
 
     const onSettingsChange = () => {
@@ -148,9 +212,21 @@ export class MicrophoneProcessor {
         this.enableMonitoringCheckbox(lastMonitoringState);
       }
 
-      if (settings.microphoneSensitivity !== this.lastAutoAdjustmentsState) {
-        this.lastAutoAdjustmentsState = settings.microphoneSensitivity;
-        this.updateSensitivity(this.lastAutoAdjustmentsState);
+      // Handle sensitivity changes, but only in manual mode
+      const currentAutoMode = settings.automaticSensitivity;
+      if (currentAutoMode !== lastAutoMode) {
+        lastAutoMode = currentAutoMode;
+        if (currentAutoMode) {
+          // Switched to auto mode - start adaptive threshold
+          this.updateAdaptiveThreshold();
+        } else {
+          // Switched to manual mode - apply stored sensitivity
+          this.updateSensitivity(settings.microphoneSensitivity || 50);
+        }
+      } else if (!currentAutoMode && settings.microphoneSensitivity !== lastSensitivityValue) {
+        // Manual mode and sensitivity changed
+        lastSensitivityValue = settings.microphoneSensitivity;
+        this.updateSensitivity(lastSensitivityValue);
       }
 
       if (settings.voicechatMuted !== lastStateMuted) {
@@ -171,17 +247,17 @@ export class MicrophoneProcessor {
       const timeActive = Date.now() - this.startedTalking;
       const secondsTalked = timeActive / 1000;
 
-      if (secondsTalked > 10) {
+      // For very long sessions (>30 seconds), slightly decrease sensitivity
+      // This helps if background noise is causing continuous triggering
+      if (secondsTalked > 30) {
         this.longSessions++;
-        this.startedTalking = Date.now();
+        if (this.longSessions > 2) {
+          this.decreaseSensitivity();
+          this.longSessions = 0;
+          this.startedTalking = Date.now();
+        }
       }
-
-      if (this.longSessions > 1) {
-        this.decreaseSensitivity();
-        this.longSessions = 0;
-        this.startedTalking = Date.now();
-      }
-    }, 500);
+    }, 1000); // Check less frequently
   }
 
   handleSpeakingStart() {
@@ -261,19 +337,36 @@ export class MicrophoneProcessor {
     }
   }
 
-  updateSensitivity(toPositive) {
-    const target = -Math.abs(toPositive);
-    this.harkEvents.setThreshold(target);
+  updateSensitivity(sensitivityValue) {
+    // sensitivityValue is now 0-100, where 0 is most sensitive, 100 is least sensitive
+    this.manualSensitivity = sensitivityValue;
+
+    // Map 0-100 to threshold range (e.g., -20 to -70 dB)
+    const minThreshold = -20; // Most sensitive (easiest to trigger)
+    const maxThreshold = -70; // Least sensitive (hardest to trigger)
+
+    const threshold = maxThreshold + ((minThreshold - maxThreshold) * (sensitivityValue / 100));
+
+    this.harkEvents.setThreshold(threshold);
     this.currentThreshold = this.harkEvents.getThreshold();
 
-    this.lastAutoAdjustmentsState = toPositive;
-    setGlobalState({ settings: { microphoneSensitivity: toPositive } });
+    setGlobalState({ settings: { microphoneSensitivity: sensitivityValue } });
   }
 
   decreaseSensitivity() {
     if (!getGlobalState().settings.automaticSensitivity) return;
-    const current = Math.abs(this.currentThreshold);
-    this.updateSensitivity(current - 5);
+
+    // For short triggers, increase offset (make less sensitive)
+    this.adaptiveOffset = Math.min(this.adaptiveOffset + 2, 30);
+    this.updateAdaptiveThreshold();
+  }
+
+  increaseSensitivity() {
+    if (!getGlobalState().settings.automaticSensitivity) return;
+
+    // For cases where we might need to be more sensitive
+    this.adaptiveOffset = Math.max(this.adaptiveOffset - 1, 5);
+    this.updateAdaptiveThreshold();
   }
 
   onMute() {
@@ -291,11 +384,18 @@ export class MicrophoneProcessor {
   }
 
   loadDefaults() {
-    let presetVolume = getGlobalState().settings.microphoneSensitivity;
-    if (presetVolume != null) {
-      presetVolume = parseInt(presetVolume, 10);
-      this.harkEvents.setThreshold(presetVolume);
+    const { settings } = getGlobalState();
+    const autoMode = settings.automaticSensitivity;
+
+    if (autoMode) {
+      // In auto mode, start with default threshold
+      this.harkEvents.setThreshold(-50);
+    } else {
+      // In manual mode, use stored sensitivity value (0-100 scale)
+      const sensitivity = settings.microphoneSensitivity || 50;
+      this.updateSensitivity(sensitivity);
     }
+
     this.currentThreshold = this.harkEvents.getThreshold();
     this.isSpeaking = false;
     this.harkEvents.setInterval(50);

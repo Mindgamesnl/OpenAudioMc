@@ -18,7 +18,6 @@ class GeneralVoiceSettings extends React.Component {
       listenerId: null,
       isAboveThreshold: false,
       currentMicVolume: 0,
-      micMax: 0,
     };
 
     this.micSensitiveInput = this.micSensitiveInput.bind(this);
@@ -30,22 +29,12 @@ class GeneralVoiceSettings extends React.Component {
 
   componentDidMount() {
     if (!this.state.listenerId) {
-      const id = addMicVolumeListener((volume, isActive, threshold, lowestRecorded) => {
-        // is volume over the max measured volume?
-        let tempMax = this.state.micMax;
-        if (volume > this.state.micMax) {
-          tempMax = volume;
-          this.setState({ micMax: volume });
-        }
-
-        // rescale volume to percentage
-        let scaled = (volume / tempMax) * 100;
-
-        // scaled might still be over 100, so clamp it
-        if (scaled > 100) {
-          scaled = 100;
-        }
-        this.setState({ currentMicVolume: scaled, isAboveThreshold: isActive, lowestRecorded: Math.abs(lowestRecorded) });
+      const id = addMicVolumeListener((volume, isActive) => {
+        // volume is now 0-100 normalized
+        this.setState({
+          currentMicVolume: volume,
+          isAboveThreshold: isActive,
+        });
       });
       this.setState({ listenerId: id });
     }
@@ -169,10 +158,10 @@ class GeneralVoiceSettings extends React.Component {
                       style={{ width: `${this.state.currentMicVolume}%` }}
                     />
 
-                    {/* Threshold line */}
+                    {/* Threshold line - now based on sensitivity setting */}
                     <div
                       className="absolute top-0 w-1 h-full bg-red-400 transition-all duration-200"
-                      style={{ left: `${((this.props.microphoneSensitivity / this.state.lowestRecorded) * 100) || 0}%` }}
+                      style={{ left: `${this.props.microphoneSensitivity}%` }}
                     />
 
                     {/* Labels */}
@@ -189,13 +178,13 @@ class GeneralVoiceSettings extends React.Component {
                       onInput={this.micSensitiveInput}
                       type="range"
                       min="0"
-                      max={this.state.lowestRecorded}
+                      max="100"
                       step="1"
                       value={this.props.microphoneSensitivity}
                     />
                     <div className="flex justify-between text-xs text-gray-400">
-                      <span>{msg('vc.settings.micActivationManual.lowerBound')}</span>
-                      <span>{msg('vc.settings.micActivationManual.upperBound')}</span>
+                      <span>More Sensitive</span>
+                      <span>Less Sensitive</span>
                     </div>
                   </div>
 
