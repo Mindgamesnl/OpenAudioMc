@@ -37,13 +37,12 @@ export default class ClientTokenSet {
         const params = UrlReader.getParametersFromUrl(url.split('?')[1]);
 
         // if the params does not contain shit, dont return shit either
-        // fuck off
-        if (params.data == null) {
+        if (params.session == null) {
           resolve(null);
           return;
         }
 
-        const query = atob(params.data).split(':');
+        const query = atob(params.session).split(':');
 
         // validate all data
         if (query.length !== 4) {
@@ -126,6 +125,11 @@ export default class ClientTokenSet {
               if (VERSION.isDev()) {
                 window._devTokenCache = out;
               }
+
+              // use history push to add the base64 data to the url
+              const base64Data = btoa(`${ses.playerName}:${ses.playerUuid}:${ses.publicKey}:${ses.session}`);
+              window.history.pushState({}, document.title, `${window.location.pathname}?session=${base64Data}`);
+
               resolve(out);
             });
           })
