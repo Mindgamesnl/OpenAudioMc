@@ -23,6 +23,8 @@ export async function handleCreateMedia(data) {
   const { speed } = data.media;
   let volume = 100;
 
+  const preloaded = await AudioPreloader.getResource(source, false);
+
   // only if its a new version and provided, then use that volume
   if (data.media.volume != null) {
     volume = data.media.volume;
@@ -48,7 +50,6 @@ export async function handleCreateMedia(data) {
 
   newChannel.setTag(flag);
   // Preload audio element and create track
-  const preloaded = await AudioPreloader.getResource(source, false);
   const track = new MediaTrack({
     id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant,
   });
