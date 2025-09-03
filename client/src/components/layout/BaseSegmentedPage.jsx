@@ -102,11 +102,8 @@ export class BaseSegmentedPage extends React.Component {
                   className="text-gray-500 hover:text-white flex items-center transition-colors duration-200"
                 >
                   <span className="text-sm font-mono">
-                    v
-                    {VERSION.major}
-                    .
-                    {VERSION.minor}
-                    .
+                    Version
+                    {' '}
                     {VERSION.revision}
                   </span>
                   <span className={`ml-2 ${this.state.versionDiff.color}`}>

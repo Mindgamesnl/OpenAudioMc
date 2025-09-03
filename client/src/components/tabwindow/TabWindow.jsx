@@ -8,6 +8,7 @@ import { msg } from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 import UserAvatar from '../avatar/UserAvatar';
 import { reportVital } from '../../client/util/vitalreporter';
+import { VERSION } from '../../build';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -216,6 +217,13 @@ class TabWindow extends Component {
               : 'rgba(0,0,0,0.4)',
           }}
         >
+          <span
+            className="text-xs text-aqua-800 hover:text-white transition-all duration-300 font-medium tracking-wide pr-3"
+          >
+            Version
+            {' '}
+            {VERSION.revision}
+          </span>
           <a
             className="text-xs text-gray-400 hover:text-white transition-all duration-300 font-medium tracking-wide"
             id="notice"
