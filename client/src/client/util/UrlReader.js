@@ -1,22 +1,16 @@
 export default class UrlReader {
+  // input is a string like "param1=value1&param2=value2", but values MAY have trailing = because they are base64 encoded
   static getParametersFromUrl(url) {
-    if (url.indexOf('&') === -1) return {}; const lets = url.split('&');
-    const queryString = {};
-    for (let i = 0; i < lets.length; i++) {
-      const pair = lets[i].split('=');
-      const key = decodeURIComponent(pair[0]);
-      const value = decodeURIComponent(pair[1]);
-      // If first entry with this name
-      if (typeof queryString[key] === 'undefined') {
-        queryString[key] = decodeURIComponent(value);
-        // If second entry with this name
-      } else if (typeof queryString[key] === 'string') {
-        queryString[key] = [queryString[key], decodeURIComponent(value)];
-        // If third or later entry with this name
-      } else {
-        queryString[key].push(decodeURIComponent(value));
+    const params = {};
+    const parts = url.split('&');
+    parts.forEach((part) => {
+      const keyValue = part.split('=');
+      if (keyValue.length >= 2) {
+        const key = keyValue[0];
+        const value = keyValue.slice(1).join('='); // re-join the rest in case value had '='
+        params[key] = decodeURIComponent(value);
       }
-    }
-    return queryString;
+    });
+    return params;
   }
 }

@@ -8,6 +8,7 @@ import { msg } from '../../client/OpenAudioAppContainer';
 import ServerConnectionWarning from '../connectionwarning/ServerConnectionWarning';
 import UserAvatar from '../avatar/UserAvatar';
 import { reportVital } from '../../client/util/vitalreporter';
+import { VERSION } from '../../build';
 
 export const setTab = (tab) => {
   setGlobalState({
@@ -19,8 +20,8 @@ class TabWindow extends Component {
   constructor(props) {
     super(props);
     this.openUpgradeDialog = this.openUpgradeDialog.bind(this);
-    this.state = { mobileMenuOpen: false };
-    this.toggleMobileMenu = this.toggleMobileMenu.bind(this);
+    this.state = { sidebarExpanded: false };
+    this.toggleSidebar = this.toggleSidebar.bind(this);
   }
 
   openUpgradeDialog() {
@@ -33,8 +34,8 @@ class TabWindow extends Component {
     );
   }
 
-  toggleMobileMenu() {
-    this.setState((prevState) => ({ mobileMenuOpen: !prevState.mobileMenuOpen }));
+  toggleSidebar() {
+    this.setState((prev) => ({ sidebarExpanded: !prev.sidebarExpanded }));
   }
 
   render() {
@@ -65,347 +66,147 @@ class TabWindow extends Component {
       tabToRender = 0;
     }
 
-    const { transparentNavbar } = pages[tabToRender];
+    const sidebarWidth = hiddenNavbar ? 0 : (this.state.sidebarExpanded ? '16rem' : '4rem'); // 64 / 16 in Tailwind
+    const accent = this.props.accentColor;
 
     return (
-      <div className="flex flex-col-reverse bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
-        <main className="flex justify-center overflow-x-hidden overflow-y-auto w-full h-full backdrop-blur">
-          <div className="content-wrapper">
-            <ServerConnectionWarning />
-            {pages[tabToRender].content}
-          </div>
-        </main>
-
+      <div className="flex bg-gray-800 bg-opacity-25 text-white h-screen w-screen">
+        {/* Vertical Sidebar */}
         {!hiddenNavbar && (
-          <>
-            {/* Mobile Bottom Navbar */}
-            <nav className="relative w-full p-3 md:hidden bg-black bg-opacity-50 backdrop-blur-xl border-t border-white border-opacity-10 z-10">
-              <div className="flex justify-between items-center w-full relative">
-                {/* Logo and Server Name */}
-                <div className="flex items-center space-x-3">
-                  <div className="relative">
-                    <img src={this.props.logoImage} alt="Logo" className="h-8 w-8 rounded-lg object-cover" />
-                    {this.props.accentColor ? (
-                      <div
-                        className="absolute inset-0 rounded-lg opacity-20 blur-sm"
-                        style={{
-                          background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                        }}
-                      />
-                    ) : null}
-                  </div>
-                  <div>
-                    <span className="font-semibold text-base text-gray-100 tracking-tight">
-                      {msg('serverName')}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Hamburger Menu Button */}
-                <button
-                  type="button"
-                  className="relative text-gray-300 hover:text-white transition-all duration-300 p-3 bg-black bg-opacity-40 backdrop-blur-lg rounded-2xl border border-white border-opacity-10 shadow-lg hover:shadow-xl group"
-                  style={{
-                    boxShadow: this.props.accentColor ? `0 0 20px -8px ${this.props.accentColor}40` : '',
-                  }}
-                  onClick={this.toggleMobileMenu}
-                >
-                  <div className="relative">
-                    <MenuIcon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                    {this.props.accentColor ? (
-                      <div
-                        className="absolute inset-0 opacity-20 blur-sm"
-                        style={{
-                          background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                        }}
-                      />
-                    ) : null}
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-                </button>
-
-                {/* Ambient background */}
-                {this.props.accentColor ? (
-                  <div
-                    className="absolute inset-0 pointer-events-none opacity-15"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${this.props.accentColor}20, transparent)`,
-                    }}
-                  />
-                ) : null}
-              </div>
-            </nav>
-
-            {/* Mobile Menu Overlay */}
-            <div
-              className={`fixed inset-0 bg-black bg-opacity-95 backdrop-blur-2xl transform ${
-                this.state.mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-              } transition-transform duration-300 ease-in-out z-50 md:hidden`}
-            >
-              <div className="flex flex-col h-full">
-                {/* Header */}
-                <div className="flex justify-between items-center p-6 border-b border-white border-opacity-10">
-                  <div className="flex items-center space-x-4">
-                    <div className="relative">
-                      <img src={this.props.logoImage} alt="Logo" className="h-10 w-10 rounded-xl object-cover" />
-                      {this.props.accentColor ? (
-                        <div
-                          className="absolute inset-0 rounded-xl opacity-20 blur-sm"
-                          style={{
-                            background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                          }}
-                        />
-                      ) : null}
-                    </div>
-                    <div>
-                      <span className="font-semibold text-xl text-gray-100 tracking-tight">
-                        {msg('serverName')}
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="relative text-gray-300 hover:text-white transition-all duration-300 bg-black bg-opacity-40 backdrop-blur-lg p-3 rounded-2xl border border-white border-opacity-10 shadow-lg group"
-                    style={{
-                      boxShadow: this.props.accentColor ? `0 0 20px -8px ${this.props.accentColor}40` : '',
-                    }}
-                    onClick={this.toggleMobileMenu}
-                  >
-                    <span className="text-sm font-medium">Close</span>
-                    <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-                  </button>
-                </div>
-
-                {/* Navigation Items */}
-                <nav className="flex flex-col py-8 px-6 space-y-4 flex-grow">
-                  {pages.map((page, index) => {
-                    const isActive = this.props.currentTab === index;
-                    const activeStyle = isActive && this.props.accentColor ? {
-                      background: `linear-gradient(135deg, ${this.props.accentColor}20, ${this.props.accentColor}10)`,
-                      borderColor: this.props.accentColor,
-                      boxShadow: `0 8px 32px -8px ${this.props.accentColor}30`,
-                    } : isActive ? {
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
-                      borderColor: 'rgba(255,255,255,0.2)',
-                      boxShadow: '0 8px 32px -8px rgba(0,0,0,0.3)',
-                    } : {};
-
-                    return (
-                      <button
-                        key={page.name}
-                        type="button"
-                        className={`relative py-4 px-5 text-base transition-all duration-300 rounded-2xl border group ${
-                          isActive
-                            ? 'text-white bg-opacity-80 backdrop-blur-lg border-opacity-20'
-                            : 'text-gray-300 hover:text-white border-transparent hover:bg-white hover:bg-opacity-5 hover:border-white hover:border-opacity-10'
-                        }`}
-                        style={activeStyle}
-                        onClick={() => {
-                          setTab(index);
-                          this.toggleMobileMenu();
-                        }}
-                      >
-                        {/* Background glow for active item */}
-                        {isActive && this.props.accentColor ? (
-                          <div
-                            className="absolute inset-0 rounded-2xl opacity-20 blur-md"
-                            style={{
-                              background: `radial-gradient(ellipse at center, ${this.props.accentColor}40, transparent 70%)`,
-                            }}
-                          />
-                        ) : null}
-
-                        <div className="flex items-center space-x-4 relative">
-                          {/* Icon */}
-                          <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`}>
-                            {page.buttonContent ? page.buttonContent : null}
-                          </div>
-
-                          {/* Text */}
-                          <div className="flex-1 text-left">
-                            <span className="font-semibold text-lg">{page.name}</span>
-                            {page.subtext ? (
-                              <div
-                                className="text-sm mt-1 font-medium"
-                                style={isActive && this.props.accentColor ? {
-                                  color: `${this.props.accentColor}dd`,
-                                } : {
-                                  color: isActive ? '#a7f3d0' : '#86efac',
-                                }}
-                              >
-                                {page.subtext}
-                              </div>
-                            ) : null}
-                          </div>
-
-                          {/* Active indicator */}
-                          {isActive ? (
-                            <div
-                              className="w-2 h-2 rounded-full shadow-lg"
-                              style={{
-                                backgroundColor: this.props.accentColor || '#ffffff',
-                                boxShadow: `0 0 12px ${this.props.accentColor || '#ffffff'}80`,
-                              }}
-                            />
-                          ) : null}
-                        </div>
-
-                        {/* Hover effect */}
-                        <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-3 transition-opacity duration-300" />
-                      </button>
-                    );
-                  })}
-                </nav>
-
-                {/* Footer User Section */}
-                <div className="p-6 border-t border-white border-opacity-10">
-                  <div className="flex items-center bg-black bg-opacity-40 backdrop-blur-lg px-4 py-3 rounded-2xl border border-white border-opacity-10 shadow-lg">
-                    <div className="relative mr-3">
-                      <UserAvatar />
-                      {this.props.accentColor ? (
-                        <div
-                          className="absolute inset-0 rounded-full opacity-20 blur-sm"
-                          style={{
-                            background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                          }}
-                        />
-                      ) : null}
-                    </div>
-                    <span className="text-base font-medium text-gray-200">{playerName}</span>
-                  </div>
-
-                  {/* Ambient background glow */}
-                  {this.props.accentColor ? (
-                    <div
-                      className="absolute inset-0 pointer-events-none opacity-10"
-                      style={{
-                        background: `radial-gradient(ellipse at 50% 100%, ${this.props.accentColor}40, transparent 80%)`,
-                      }}
-                    />
-                  ) : null}
-                </div>
-              </div>
-            </div>
-
-            {/* Desktop Navbar */}
-            <nav
-              className={transparentNavbar
-                ? 'hidden-on-mobile relative w-full py-3 px-6 bg-black bg-opacity-40 backdrop-blur-xl border-t border-white border-opacity-10 z-10'
-                : 'hidden-on-mobile md:flex navbar-bg-modern shadow-2xl flex items-center py-3 px-6'}
-            >
-              <div className="container mx-auto flex justify-between items-center relative">
-                {/* Logo and Server Name */}
-                <div className="flex items-center space-x-3">
+          <nav
+            className={`fixed left-0 top-0 h-screen z-30 transition-[width] duration-300 ease-in-out
+                        bg-black bg-opacity-50 backdrop-blur-2xl border-r border-white border-opacity-10
+                        shadow-2xl`}
+            style={{
+              width: sidebarWidth,
+              boxShadow: accent ? `0 10px 40px -10px ${accent}30` : undefined,
+              background: accent
+                ? `linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.65)), radial-gradient(ellipse at top left, ${accent}12, transparent 60%)`
+                : undefined,
+            }}
+          >
+            {/* Header: Logo (expanded) + centered toggle */}
+            <div className={`flex items-center px-3 py-4 ${this.state.sidebarExpanded ? 'justify-between' : 'justify-center'}`}>
+              {this.state.sidebarExpanded ? (
+                <div className="flex items-center space-x-3 overflow-hidden">
                   <div className="relative">
                     <img src={this.props.logoImage} alt="Logo" className="h-10 w-10 rounded-xl object-cover shadow-lg" />
-                    {this.props.accentColor ? (
+                    {accent ? (
                       <div
                         className="absolute inset-0 rounded-xl opacity-20 blur-sm"
-                        style={{
-                          background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                        }}
+                        style={{ background: `radial-gradient(circle at center, ${accent}60, transparent 70%)` }}
                       />
                     ) : null}
                   </div>
-                  <div>
-                    <span className="font-semibold text-lg text-white tracking-tight">
-                      {msg('serverName')}
-                    </span>
-                  </div>
+                  <span className="font-semibold text-lg text-white tracking-tight whitespace-nowrap">
+                    {msg('serverName')}
+                  </span>
                 </div>
+              ) : null}
 
-                {/* Navigation Tabs */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center bg-black bg-opacity-30 backdrop-blur-lg rounded-2xl p-1.5 border border-white border-opacity-10 shadow-xl">
-                  {pages.map((page, index) => {
-                    const isActive = this.props.currentTab === index;
-                    return (
-                      <button
-                        key={page.name}
-                        type="button"
-                        className={`relative px-6 py-3 whitespace-nowrap text-sm flex flex-row items-center justify-center font-medium transition-all duration-300 rounded-xl group ${
-                          isActive ? 'text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-10'
-                        }`}
-                        style={isActive && this.props.accentColor ? {
-                          background: `linear-gradient(135deg, ${this.props.accentColor}90, ${this.props.accentColor}60)`,
-                          boxShadow: `0 8px 32px -8px ${this.props.accentColor}40, 0 0 0 1px ${this.props.accentColor}30`,
-                        } : isActive ? {
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))',
-                          boxShadow: '0 8px 32px -8px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
-                        } : {}}
-                        onClick={() => setTab(index)}
+              <button
+                type="button"
+                aria-label="Toggle sidebar"
+                className="ml-2 text-gray-300 hover:text-white transition-all duration-300 p-2
+                           bg-black bg-opacity-40 rounded-xl border border-white border-opacity-10
+                           hover:bg-opacity-50"
+                style={{ boxShadow: accent ? `0 0 16px -8px ${accent}40` : undefined }}
+                onClick={this.toggleSidebar}
+              >
+                <MenuIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Tabs */}
+            <div className="mt-2 px-2 h-[calc(100vh-9rem)] overflow-y-auto flex">
+              <div className="flex flex-col space-y-2 justify-center h-full w-full">
+                {pages.map((page, index) => {
+                  const isActive = this.props.currentTab === index;
+                  const activeStyle = isActive && accent ? {
+                    background: `linear-gradient(135deg, ${accent}25, ${accent}10)`,
+                    borderColor: `${accent}66`,
+                    boxShadow: `0 10px 30px -10px ${accent}40`,
+                  } : isActive ? {
+                    background: 'rgba(255,255,255,0.06)',
+                    borderColor: 'rgba(255,255,255,0.15)',
+                  } : {};
+
+                  return (
+                    <button
+                      key={page.name}
+                      type="button"
+                      title={!this.state.sidebarExpanded ? page.name : undefined}
+                      className={`group relative w-full flex items-center rounded-2xl border
+                                  ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'}
+                                  bg-white/5 hover:bg-white/10 border-white/10 transition-all duration-300`}
+                      style={activeStyle}
+                      onClick={() => setTab(index)}
+                    >
+                      {/* Icon cell */}
+                      <div
+                        className={`flex items-center justify-center ${this.state.sidebarExpanded ? 'h-12 w-12 ml-1 my-1' : 'h-12 w-12 m-1'} rounded-xl border
+                                    transition-transform duration-300 ${isActive ? 'scale-105' : 'group-hover:scale-105'}`}
+                        style={isActive && accent ? { background: `${accent}14`, borderColor: `${accent}55` } : { background: 'rgba(0,0,0,0.25)', borderColor: 'rgba(255,255,255,0.08)' }}
                       >
-                        {/* Active tab background glow */}
-                        {isActive && this.props.accentColor ? (
-                          <div
-                            className="absolute inset-0 rounded-xl opacity-30 blur-md"
-                            style={{
-                              background: `radial-gradient(ellipse at center, ${this.props.accentColor}40, transparent 70%)`,
-                            }}
-                          />
-                        ) : null}
+                        {page.buttonContent ? page.buttonContent : null}
+                      </div>
 
-                        {/* Icon */}
-                        <div className={`relative transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`}>
-                          {page.buttonContent ? page.buttonContent : null}
-                        </div>
-
-                        {/* Text content */}
-                        <div className="ml-3 relative">
-                          <div className="font-medium">
-                            {page.name}
-                          </div>
+                      {/* Labels (only when expanded) */}
+                      {this.state.sidebarExpanded ? (
+                        <div className="flex-1 min-w-0 pr-3 py-2">
+                          <div className="font-medium text-sm truncate">{page.name}</div>
                           {page.subtext ? (
                             <div
-                              className="text-xs mt-0.5 font-medium"
-                              style={isActive && this.props.accentColor ? {
-                                color: `${this.props.accentColor}dd`,
-                              } : {
-                                color: isActive ? '#a7f3d0' : '#86efac',
-                              }}
+                              className="text-xs mt-0.5 font-medium truncate"
+                              style={isActive && accent ? { color: `${accent}dd` } : { color: isActive ? '#a7f3d0' : '#86efac' }}
                             >
                               {page.subtext}
                             </div>
                           ) : null}
                         </div>
+                      ) : null}
 
-                        {/* Hover effect */}
-                        <div className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* User Profile Section */}
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center bg-black bg-opacity-40 backdrop-blur-lg px-4 py-2.5 rounded-2xl border border-white border-opacity-10 shadow-lg hover:bg-opacity-50 transition-all duration-300">
-                    <span className="text-sm font-medium text-gray-200 mr-3">{playerName}</span>
-                    <div className="relative">
-                      <UserAvatar />
-                      {this.props.accentColor ? (
+                      {/* Active indicator: left accent bar for better alignment */}
+                      {isActive ? (
                         <div
-                          className="absolute inset-0 rounded-full opacity-20 blur-sm"
-                          style={{
-                            background: `radial-gradient(circle at center, ${this.props.accentColor}60, transparent 70%)`,
-                          }}
+                          className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full"
+                          style={{ backgroundColor: accent || '#ffffff', boxShadow: `0 0 8px ${(accent || '#ffffff')}66` }}
                         />
                       ) : null}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Ambient background glow */}
-                {this.props.accentColor ? (
-                  <div
-                    className="absolute inset-0 pointer-events-none opacity-10"
-                    style={{
-                      background: `radial-gradient(ellipse at 50% 100%, ${this.props.accentColor}30, transparent 80%)`,
-                    }}
-                  />
-                ) : null}
+                    </button>
+                  );
+                })}
               </div>
-            </nav>
-          </>
+            </div>
+
+            {/* Footer: User */}
+            <div className="absolute bottom-0 left-0 right-0 px-3 py-3 border-t border-white border-opacity-10">
+              <div className={`flex ${this.state.sidebarExpanded ? 'items-center px-3 py-2.5' : 'items-center justify-center -px-2'} bg-black bg-opacity-40 backdrop-blur-lg rounded-xl border border-white border-opacity-10`}>
+                <div className="relative">
+                  <UserAvatar classes={this.state.sidebarExpanded ? 'h-8 w-8 rounded-xl mx-2' : 'h-8 w-8 rounded-xl'} />
+                  {accent ? (
+                    <div
+                      className="absolute inset-0 rounded-full opacity-20 blur-sm"
+                      style={{ background: `radial-gradient(circle at center, ${accent}60, transparent 70%)` }}
+                    />
+                  ) : null}
+                </div>
+                {this.state.sidebarExpanded ? <span className="ml-3 text-sm font-medium text-gray-200 truncate">{playerName}</span> : null}
+              </div>
+            </div>
+          </nav>
         )}
+
+        {/* Main content */}
+        <main
+          className="flex-1 h-screen w-full overflow-x-hidden overflow-y-auto backdrop-blur"
+          style={{ marginLeft: sidebarWidth }}
+        >
+          <div className="content-wrapper">
+            <ServerConnectionWarning />
+            {pages[tabToRender].content}
+          </div>
+        </main>
 
         {/* Copyright Footer */}
         <div
@@ -416,6 +217,13 @@ class TabWindow extends Component {
               : 'rgba(0,0,0,0.4)',
           }}
         >
+          <span
+            className="text-xs text-aqua-800 hover:text-white transition-all duration-300 font-medium tracking-wide pr-3"
+          >
+            Version
+            {' '}
+            {VERSION.revision}
+          </span>
           <a
             className="text-xs text-gray-400 hover:text-white transition-all duration-300 font-medium tracking-wide"
             id="notice"

@@ -286,9 +286,7 @@ class OpenAudioAppContainer extends React.Component {
     this.setState({ allowedToUnlock: true });
     this.context.fadeToComponent(null);
 
-    // eslint-disable-next-line no-underscore-dangle
     if (VERSION.isDev() && window._devUnlock) {
-      // eslint-disable-next-line no-underscore-dangle
       setGlobalState({ voiceState: { autoJoinVoiceChat: window._devUnlockWithVoice } });
       this.bootApp();
     }
@@ -303,11 +301,10 @@ class OpenAudioAppContainer extends React.Component {
 
     // store dev vars
     if (VERSION.isDev()) {
-      // eslint-disable-next-line no-underscore-dangle
       window._devTokenCache = getGlobalState().currentUser;
-      // eslint-disable-next-line no-underscore-dangle
+
       window._devUnlock = true;
-      // eslint-disable-next-line no-underscore-dangle
+
       window._devUnlockWithVoice = getGlobalState().voiceState.autoJoinVoiceChat;
     }
   }
