@@ -18,7 +18,6 @@ export const AudioPreloader = new class IAudPreload {
     //   source = proxifyUrl(source);
     // }
 
-    debugLog(`Preloading audio: ${source}`);
     const media = new PreloadedMedia(source, namespace, replenish);
 
     if (this.namespaces[namespace] == null) {

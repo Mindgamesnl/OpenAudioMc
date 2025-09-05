@@ -34,7 +34,6 @@ export class MediaChannel {
     // If a non-looping track ends, auto-remove the channel if this was the last track
     try {
       track.onEnded(() => {
-        // Remove this finished track
         this.tracks.delete(track.id);
         if (this.tracks.size === 0 && this._engine) {
           this._engine.removeChannel(this.id);

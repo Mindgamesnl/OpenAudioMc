@@ -46,9 +46,16 @@ export async function handleCreateMedia(data) {
     if (muteSpeakers) { debugLog('Incrementing speaker inhibit'); MediaManager.engine.incrementInhibitor('SPEAKER', fadeTime); }
 
     // Undo inhibitors when the engine channel is finally removed
-    engine.whenFinished(id, () => {
-      if (muteRegions) MediaManager.engine.decrementInhibitor('REGION', fadeTime);
-      if (muteSpeakers) MediaManager.engine.decrementInhibitor('SPEAKER', fadeTime);
+    engine.whenFinished(id, async () => {
+      // eslint-disable-next-line no-console
+      console.log(`Channel ${id} finished, removing inhibitors`);
+      try {
+        await MEDIA_MUTEX.unlock();
+        if (muteRegions) MediaManager.engine.decrementInhibitor('REGION', fadeTime);
+        if (muteSpeakers) MediaManager.engine.decrementInhibitor('SPEAKER', fadeTime);
+      } finally {
+        MEDIA_MUTEX.unlock();
+      }
     });
 
     newChannel.setTag(flag);
