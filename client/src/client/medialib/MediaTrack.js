@@ -91,6 +91,7 @@ export class MediaTrack {
     if (this.state !== 'idle') return;
     this.state = 'loading';
     const endGuard = (fn) => (...args) => {
+      if (this.state === 'destroyed' || this.state === 'stopped') return;
       fn(...args);
     };
     const onErr = endGuard(() => {
