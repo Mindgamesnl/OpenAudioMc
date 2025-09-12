@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.api.user.User;
@@ -30,6 +31,17 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
         for (String line : lines) {
             sender.sendMessage(Platform.translateColors(line));
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        if (sender instanceof Player) {
+            return ActorCategory.PLAYER;
+        }
+        if (sender instanceof org.bukkit.command.ConsoleCommandSender) {
+            return ActorCategory.CONSOLE;
+        }
+        return ActorCategory.UNKNOWN;
     }
 
     public void sendMessage(TextComponent textComponent) {

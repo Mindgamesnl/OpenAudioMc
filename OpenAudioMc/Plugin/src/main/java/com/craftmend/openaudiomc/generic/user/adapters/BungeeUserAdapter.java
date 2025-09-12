@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
@@ -23,6 +24,14 @@ public class BungeeUserAdapter implements User<CommandSender> {
         for (String s : string.split("\\\\n")) {
             sender.sendMessage(s);
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        if (sender instanceof ProxiedPlayer) {
+            return ActorCategory.PLAYER;
+        }
+        return ActorCategory.CONSOLE;
     }
 
 

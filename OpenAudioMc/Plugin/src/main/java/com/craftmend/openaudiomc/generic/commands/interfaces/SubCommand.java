@@ -71,7 +71,10 @@ public abstract class SubCommand {
      */
     public boolean isAllowed(User<?> commandSender) {
         if (ignorePermissions) return true;
+        return hasRequiredPermissions(commandSender);
+    }
 
+    public boolean hasRequiredPermissions(User<?> commandSender) {
         return commandSender.hasPermission(permissionScope + command)
                 || commandSender.hasPermission(permissionScope + "*")
                 || commandSender.hasPermission("openaudiomc.*")

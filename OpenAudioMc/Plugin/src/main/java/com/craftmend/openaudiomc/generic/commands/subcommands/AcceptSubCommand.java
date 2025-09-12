@@ -15,6 +15,7 @@ public class AcceptSubCommand extends SubCommand {
 
     public AcceptSubCommand() {
         super("accept");
+        this.ignorePermissions = true;
     }
 
     @Override
@@ -28,10 +29,12 @@ public class AcceptSubCommand extends SubCommand {
 
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
-        OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> service.connectIfDown());
+        if (this.hasRequiredPermissions(sender)) {
+            OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> service.connectIfDown());
 
-        for (ClientConnection client : service.getClients()) {
-            client.getAuth().publishSessionUrl();
+            for (ClientConnection client : service.getClients()) {
+                client.getAuth().publishSessionUrl();
+            }
         }
     }
 }

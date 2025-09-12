@@ -24,8 +24,9 @@ export class PreloadedMedia {
       soundElement.crossOrigin = 'anonymous';
     }
 
+    // Eager metadata: set preload to metadata, assign src, and allow the browser to fetch headers only
+    soundElement.preload = 'metadata';
     soundElement.src = source;
-    soundElement.load();
 
     this.audio = soundElement;
   }

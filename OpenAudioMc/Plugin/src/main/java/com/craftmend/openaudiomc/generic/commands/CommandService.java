@@ -147,7 +147,7 @@ public class CommandService extends Service {
                     }
                 }
             } else {
-                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry! (" + OpenAudioMc.getInstance().getPlatform() + ")");
+                sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You dont have the permissions to do this, sorry! (must be configured on your " + OpenAudioMc.getInstance().getPlatform().getReadableName() + ")");
             }
         } else {
             sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Unknown sub command: " + args[0].toLowerCase());

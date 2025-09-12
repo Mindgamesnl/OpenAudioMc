@@ -6,15 +6,22 @@ import com.craftmend.openaudiomc.generic.commands.selectors.SelectorTranslator;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
 import com.craftmend.openaudiomc.velocity.modules.player.objects.VelocityPlayerSelector;
 import com.craftmend.openaudiomc.velocity.utils.VelocityChatColor;
+import lombok.Getter;
 
 public enum Platform {
 
-    UNKNOWN,
-    SPIGOT,
-    BUNGEE,
-    VELOCITY,
-    STANDALONE,
+    UNKNOWN("Unknown"),
+    SPIGOT("Minecraft Server"),
+    BUNGEE("BuneeCord (proxy)"),
+    VELOCITY("Velocity (proxy)"),
+    STANDALONE("Standalone"),
     ;
+
+    @Getter private final String readableName;
+
+    Platform(String readableName) {
+        this.readableName = readableName;
+    }
 
     public static String translateColors(String input) {
         switch (OpenAudioMc.getInstance().getPlatform()) {

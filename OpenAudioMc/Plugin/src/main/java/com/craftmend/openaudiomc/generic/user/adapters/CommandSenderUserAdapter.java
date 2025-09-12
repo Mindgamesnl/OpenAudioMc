@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,14 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
         for (String s : string.split("\\\\n")) {
             sender.sendMessage(s);
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        if (sender instanceof Player) {
+            return ActorCategory.PLAYER;
+        }
+        return ActorCategory.CONSOLE;
     }
 
     @Override

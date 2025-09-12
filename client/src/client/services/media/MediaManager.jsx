@@ -1,23 +1,23 @@
-import { Mixer } from './objects/Mixer';
-import { Channel } from './objects/Channel';
-import { Sound } from './objects/Sound';
+// Legacy Mixer removed; medialib is the single source of truth
 import { getGlobalState, store } from '../../../state/store';
 import { SocketManager } from '../socket/SocketModule';
 import * as PluginChannel from '../../util/PluginChannel';
 import { debugLog } from '../debugging/DebugService';
+import { MediaEngine } from '../../medialib/MediaEngine';
+import { MediaTrack } from '../../medialib/MediaTrack';
 
 export const MediaManager = new class IMediaManager {
   constructor() {
     this.sounds = {};
     this.startSound = null;
-    this.mixer = new Mixer(null);
+    this.engine = new MediaEngine();
 
     let lastVolume = 0;
     store.subscribe(() => {
       if (store.getState().settings.normalVolume === null) return;
       if (lastVolume !== store.getState().settings.normalVolume) {
         lastVolume = store.getState().settings.normalVolume;
-        this.setMasterVolume(store.getState().settings.normalVolume);
+        this.setMasterVolume(lastVolume);
       }
     });
 
@@ -41,83 +41,56 @@ export const MediaManager = new class IMediaManager {
   async setupAmbianceSound(source) {
     // dont do anything if its empty or whatever
     if (source === '' || source == null) return;
-    await this.mixer.setupAmbianceSound(source);
+    // Register an engine channel for ambiance for deterministic control
+    try {
+      const chId = 'ambiance-from-account';
+      const engineChannel = this.engine.ensureChannel(chId, 0);
+      engineChannel.setTag('AMBIANCE');
+      const preloaded = await (await import('../preloading/AudioPreloader')).AudioPreloader.getResource(source, false);
+      const track = new MediaTrack({
+        id: `${chId}::0`, source, audio: preloaded, loop: true,
+      });
+      engineChannel.addTrack(track);
+      engineChannel.setChannelVolumePct(0); // start muted, engine tick will fade based on activity
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to setup medialib ambiance track', e);
+    }
   }
 
-  postBoot() {
+  async postBoot() {
     if (this.startSound != null) {
-      const createdChannel = new Channel('startsound');
-      const createdMedia = new Sound();
-
-      createdChannel.mixer = this.mixer;
-      createdMedia.load(this.startSound)
-        .then(() => {
-          createdChannel.addSound(createdMedia);
-          createdMedia.setOnFinish(() => {
-            setTimeout(() => {
-              this.mixer.updatePlayingSounds();
-            }, 1000);
-          });
-          createdMedia.finalize().then(() => {
-            this.mixer.addChannel(createdChannel);
-            createdChannel.setChannelVolume(100);
-            createdChannel.updateFromMasterVolume();
-            createdMedia.finish();
-          });
+      try {
+        const engineChannel = this.engine.ensureChannel('startsound', 100);
+        const preloaded = await (await import('../preloading/AudioPreloader')).AudioPreloader.getResource(this.startSound, false);
+        const track = new MediaTrack({
+          id: 'startsound::0', source: this.startSound, audio: preloaded, loop: false,
         });
-    } else {
-      setTimeout(() => {
-        this.mixer.forceUpdatePlayingSounds();
-      }, 500);
-    }
-  }
-
-  destroySounds(soundId, all, instantly, transition, atTheEnd = () => {}) {
-    debugLog('Destroying sounds', soundId, all, instantly, transition);
-    let time = transition;
-    if (time == null) {
-      time = 500;
-    }
-    if (instantly) time = 0;
-
-    let matchedAndStopped = null;
-    const chls = this.mixer.getChannels();
-    for (let i = 0; i < chls.length; i++) {
-      const channel = chls[i];
-      if (all) {
-        channel.fadeChannel(0, time, () => {
-          this.mixer.removeChannel(channel);
-        });
-        matchedAndStopped = channel;
-      } else if (soundId == null || soundId === '') {
-        if ((!channel.hasTag('SPECIAL') && !channel.hasTag('REGION') && !channel.hasTag('SPEAKER'))) {
-          channel.fadeChannel(0, time, () => {
-            this.mixer.removeChannel(channel);
-          });
-          matchedAndStopped = channel;
-        }
-      } else if (channel.hasTag(soundId)) {
-        channel.sounds.forEach((sound) => {
-          sound.gotShutDown = true;
-        });
-
-        const callback = () => {
-          this.mixer.removeChannel(channel);
-          atTheEnd();
-        };
-
-        channel.fadeChannel(0, time, callback);
-        matchedAndStopped = channel;
+        engineChannel.addTrack(track);
+        track.play();
+      } catch (e) { /* ignore */
       }
     }
-
-    if (matchedAndStopped == null) {
-      return false;
-    }
-    return true;
   }
 
-  setMasterVolume(volume) {
-    this.mixer.bumpVolumeChange(volume);
+  destroySounds(soundId, all, instantly, transition, atTheEnd = () => {
+  }) {
+    debugLog('Destroying sounds', soundId, all, instantly, transition);
+    const matched = this.engine.destroySounds({
+      soundId, all, instantly, fadeTimeMs: transition,
+    });
+    if (soundId && typeof atTheEnd === 'function') {
+      if (instantly) {
+        atTheEnd();
+      } else {
+        this.engine.whenFinished(soundId, atTheEnd);
+      }
+    }
+    return matched;
+  }
+
+  setMasterVolume(optionalNewVolume = null) {
+    // Update all engine channels to reflect the new master volume
+    if (this.engine && this.engine.bumpVolumeChange) this.engine.bumpVolumeChange(optionalNewVolume);
   }
 }();

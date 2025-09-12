@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.integrations.user;
 
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -24,6 +25,17 @@ public class ModernPaperUserAdapter implements User<CommandSender> {
         for (String s : string.split("\\\\n")) {
             player.sendMessage(s);
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        if (player instanceof Player) {
+            return ActorCategory.PLAYER;
+        }
+        if (player instanceof org.bukkit.command.ConsoleCommandSender) {
+            return ActorCategory.CONSOLE;
+        }
+        return ActorCategory.UNKNOWN;
     }
 
     @Override

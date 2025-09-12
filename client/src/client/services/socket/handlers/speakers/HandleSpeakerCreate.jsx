@@ -1,37 +1,43 @@
 import { Vector3 } from '../../../../util/math/Vector3';
 import { Speaker } from '../../../world/objects/Speaker';
 import { WorldModule } from '../../../world/WorldModule';
+import { MEDIA_MUTEX } from '../../../../util/mutex';
 
-export function handleSpeakerCreate(data) {
-  // speaker in range
-  const speaker = data.clientSpeaker;
+export async function handleSpeakerCreate(data) {
+  try {
+    await MEDIA_MUTEX.lock();
+    // speaker in range
+    const speaker = data.clientSpeaker;
 
-  // Vector3 representing the center of the speaker
-  const loc = new Vector3(
-    speaker.location.x,
-    speaker.location.y,
-    speaker.location.z,
-  ).add(0.5, 0.5, 0.5);
+    // Vector3 representing the center of the speaker
+    const loc = new Vector3(
+      speaker.location.x,
+      speaker.location.y,
+      speaker.location.z,
+    ).add(0.5, 0.5, 0.5);
 
-  // eslint-disable-next-line no-prototype-builtins
-  const hasExtraProperties = speaker.hasOwnProperty('doLoop');
-  const doLoop = hasExtraProperties ? speaker.doLoop : true;
-  const doPickup = hasExtraProperties ? speaker.doPickup : true;
-  const cancelRegions = hasExtraProperties ? speaker.cancelRegions : false;
+    // eslint-disable-next-line no-prototype-builtins
+    const hasExtraProperties = speaker.hasOwnProperty('doLoop');
+    const doLoop = hasExtraProperties ? speaker.doLoop : true;
+    const doPickup = hasExtraProperties ? speaker.doPickup : true;
+    const cancelRegions = hasExtraProperties ? speaker.cancelRegions : false;
 
-  // create speaker
-  const speakerData = new Speaker(
-    speaker.id,
-    speaker.source,
-    loc,
-    speaker.type,
-    speaker.maxDistance,
-    speaker.startInstant,
-    doLoop,
-    doPickup,
-    cancelRegions,
-  );
+    // create speaker
+    const speakerData = new Speaker(
+      speaker.id,
+      speaker.source,
+      loc,
+      speaker.type,
+      speaker.maxDistance,
+      speaker.startInstant,
+      doLoop,
+      doPickup,
+      cancelRegions,
+    );
 
-  // add it to the render queue
-  WorldModule.addSpeaker(speaker.id, speakerData);
+    // add it to the render queue
+    WorldModule.addSpeaker(speaker.id, speakerData);
+  } finally {
+    MEDIA_MUTEX.unlock();
+  }
 }

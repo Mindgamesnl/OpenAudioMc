@@ -68,7 +68,10 @@ export class CustomSpatialRenderer {
     this.gainNode = this.audioContext.createGain();
     this.gainNode.gain.value = 1.0;
 
-    // Create the worklet node
+  // Queue sources that try to connect before worklet/fallback is ready
+  this._pendingSources = [];
+
+  // Create the worklet node
     this._createWorkletNode();
 
     // Apply settings
@@ -93,6 +96,14 @@ export class CustomSpatialRenderer {
       // Connect the worklet to gain node
       this.workletNode.connect(this.gainNode);
 
+      // Flush any pending sources
+      if (this._pendingSources.length) {
+        this._pendingSources.forEach((src) => {
+          try { src.connect(this.workletNode); } catch (_) {}
+        });
+        this._pendingSources = [];
+      }
+
       // Set up debug message handler
       this.workletNode.port.onmessage = (event) => {
         if (event.data.type === 'debug') {
@@ -111,6 +122,13 @@ export class CustomSpatialRenderer {
     } catch (error) {
       console.error('Failed to create worklet node:', error);
       this._createFallbackNodes();
+      // Flush pending sources into fallback if available
+      if (this.fallbackPanner && this._pendingSources.length) {
+        this._pendingSources.forEach((src) => {
+          try { src.connect(this.fallbackPanner); } catch (_) {}
+        });
+        this._pendingSources = [];
+      }
     }
   }
 
@@ -118,6 +136,13 @@ export class CustomSpatialRenderer {
     console.warn('Using fallback stereo panner');
     this.fallbackPanner = this.audioContext.createStereoPanner();
     this.fallbackPanner.connect(this.gainNode);
+    // Flush pending sources if any queued
+    if (this._pendingSources.length) {
+      this._pendingSources.forEach((src) => {
+        try { src.connect(this.fallbackPanner); } catch (_) {}
+      });
+      this._pendingSources = [];
+    }
   }
 
   applySettingsFromGlobalState() {
@@ -155,9 +180,12 @@ export class CustomSpatialRenderer {
   // Connect an audio source to this renderer
   connect(source) {
     if (this.workletNode) {
-      source.connect(this.workletNode);
+      try { source.connect(this.workletNode); } catch (_) {}
     } else if (this.fallbackPanner) {
-      source.connect(this.fallbackPanner);
+      try { source.connect(this.fallbackPanner); } catch (_) {}
+    } else {
+      // Not ready yet; queue it
+      this._pendingSources.push(source);
     }
   }
 
