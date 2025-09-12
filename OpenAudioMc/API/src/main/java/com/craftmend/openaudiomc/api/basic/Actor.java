@@ -39,4 +39,10 @@ public interface Actor {
      */
     void sendMessage(String message);
 
+    /**
+     * Get the "type" of actor. This is usually determined by the platform, and can be used to differentiate between players, console, etc.
+     * @return the category of the actor
+     */
+    ActorCategory getCategory();
+
 }
