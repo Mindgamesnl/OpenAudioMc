@@ -37,7 +37,7 @@ public class LinkSubCommand extends SubCommand {
         }
 
         boolean isPlayer = sender.getCategory() == ActorCategory.PLAYER;
-        boolean isPrivileged = isAllowed(sender);
+        boolean isPrivileged = hasRequiredPermissions(sender);
 
         // if the sender is allowed, we can just enter normal behavior
         if (isPrivileged) {
@@ -47,7 +47,7 @@ public class LinkSubCommand extends SubCommand {
 
         // if the sender is a player, but they likely do not understand how permissions work, we can give them a more friendly message
         if (isPlayer) {
-            int minutesSinceLastGeneration = Math.toIntExact(Duration.between(lastLinkGeneration, Instant.now()).toMinutes());
+            long minutesSinceLastGeneration = Duration.between(lastLinkGeneration, Instant.now()).toMinutes();
 
             if (minutesSinceLastGeneration < 5) {
                 message(sender, OaColor.RED + "You have to wait " + (5 - minutesSinceLastGeneration) + " more minute(s) before you can generate a new link.");

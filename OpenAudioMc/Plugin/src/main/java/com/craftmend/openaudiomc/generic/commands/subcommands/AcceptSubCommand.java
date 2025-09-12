@@ -29,7 +29,7 @@ public class AcceptSubCommand extends SubCommand {
 
         sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Welcome to OpenAudioMc! you accepted the terms, enjoy the service!");
 
-        if (this.isAllowed(sender)) {
+        if (this.hasRequiredPermissions(sender)) {
             OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> service.connectIfDown());
 
             for (ClientConnection client : service.getClients()) {
