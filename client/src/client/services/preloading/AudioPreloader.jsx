@@ -101,9 +101,6 @@ export const AudioPreloader = new class IAudPreload {
       cacheCorsSafe = false;
     }
 
-    // eslint-disable-next-line no-console
-    console.log(`Getting resource for ${source}, corsRequired=${corsRequired}, cacheCorsSafe=${cacheCorsSafe}, found preloaded media: ${media != null}`);
-
     const bypassBuffer = this.getMediaQueryParam(source, 'oaSkipBuffer', 'false') === 'true';
 
     if (bypassBuffer) {
@@ -114,7 +111,7 @@ export const AudioPreloader = new class IAudPreload {
     // ignore cache if we need cors and the source is not cors safe
     if (media == null || !cacheCorsSafe) {
       // possibly adapt source
-      if (corsRequired && !cacheCorsSafe) {
+      if (corsRequired || !cacheCorsSafe) {
         source = proxifyUrl(source);
         // log
         if (media != null) {
