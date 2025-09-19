@@ -4,6 +4,9 @@ import { MediaEngine } from '../../../medialib/MediaEngine';
 import { debugLog } from '../../debugging/DebugService';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
 import { MEDIA_MUTEX } from '../../../util/mutex';
+import { AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
+
+const sourceRewriter = new AudioSourceProcessor();
 
 export async function handleCreateMedia(data) {
   function convertDistanceToVolume(maxDistance, currentDistance) {
@@ -25,7 +28,7 @@ export async function handleCreateMedia(data) {
   let volume = 100;
 
   await MEDIA_MUTEX.lock();
-  source = await this.sourceRewriter.translate(source);
+  source = await sourceRewriter.translate(source);
   let preloaded;
   try {
     preloaded = await AudioPreloader.getResource(source, false, true);
