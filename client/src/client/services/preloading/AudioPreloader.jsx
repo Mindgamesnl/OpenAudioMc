@@ -90,8 +90,8 @@ export const AudioPreloader = new class IAudPreload {
     return null;
   }
 
-  async getResource(source, corsRequired = false) {
-    source = await this.sourceRewriter.translate(source);
+  async getResource(source, corsRequired = false, preMutated = false) {
+    source = preMutated ? source : await this.sourceRewriter.translate(source);
 
     // find a preloaded media that matches the source
     let media = this.findAndRemoveMedia(source);

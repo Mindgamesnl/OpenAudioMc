@@ -13,7 +13,7 @@ export async function handleCreateMedia(data) {
   const looping = data.media.loop;
   const { startInstant } = data.media;
   const id = data.media.mediaId;
-  const { source } = data.media;
+  let { source } = data.media;
   const { doPickup } = data.media;
   const { fadeTime } = data.media;
   const { distance } = data;
@@ -25,9 +25,10 @@ export async function handleCreateMedia(data) {
   let volume = 100;
 
   await MEDIA_MUTEX.lock();
+  source = await this.sourceRewriter.translate(source);
   let preloaded;
   try {
-    preloaded = await AudioPreloader.getResource(source, false);
+    preloaded = await AudioPreloader.getResource(source, false, true);
   } catch (e) {
     console.error(`Failed to load audio from ${source}`, e);
     MEDIA_MUTEX.unlock();
