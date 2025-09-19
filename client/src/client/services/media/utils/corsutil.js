@@ -3,7 +3,7 @@ import { AUDIO_ENDPOINTS } from '../../../util/AudioSourceProcessor';
 
 export function isProxyRequired(url) {
   // does the url begin with http or https?
-  if (url.startsWith('http')) {
+  if (url.startsWith('http://')) {
     // local or invalid url
     return true;
   }
