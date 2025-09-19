@@ -69,7 +69,6 @@ export class MediaPerformanceWatcher {
       debugLog(`Early stop of media load ${this.soundElement.src} after ${integ}s`);
       return 0;
     }
-    debugLog(`Media load time for ${this.soundElement.src}: ${integ}s`);
 
     return time;
   }

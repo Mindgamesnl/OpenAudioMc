@@ -18,7 +18,6 @@ export const AudioPreloader = new class IAudPreload {
     //   source = proxifyUrl(source);
     // }
 
-    debugLog(`Preloading audio: ${source}`);
     const media = new PreloadedMedia(source, namespace, replenish);
 
     if (this.namespaces[namespace] == null) {
@@ -91,8 +90,8 @@ export const AudioPreloader = new class IAudPreload {
     return null;
   }
 
-  async getResource(source, corsRequired = false) {
-    source = await this.sourceRewriter.translate(source);
+  async getResource(source, corsRequired = false, preMutated = false) {
+    source = preMutated ? source : await this.sourceRewriter.translate(source);
 
     // find a preloaded media that matches the source
     let media = this.findAndRemoveMedia(source);
@@ -112,13 +111,14 @@ export const AudioPreloader = new class IAudPreload {
     // ignore cache if we need cors and the source is not cors safe
     if (media == null || !cacheCorsSafe) {
       // possibly adapt source
-      if (corsRequired && !cacheCorsSafe) {
+      if (corsRequired || !cacheCorsSafe) {
         source = proxifyUrl(source);
         // log
         if (media != null) {
           debugLog(`Preloaded media was not cors safe, adapting source to ${source}`);
         }
       }
+      // Create a fresh preloaded media element (metadata-only). If CORS is required, enable crossOrigin.
       media = new PreloadedMedia(source, null, false, corsRequired);
     } else {
       debugLog(`Using preloaded media, found ${media.source} in namespace ${media.namespace}, and it already has ready state ${media.audio.readyState} with stopwatch value ${media.audio.hasAttribute('stopwatchReady')}`);

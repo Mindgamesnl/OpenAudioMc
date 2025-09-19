@@ -20,6 +20,8 @@ import org.bukkit.World;
         this.command = serialized;
         this.worldName = world.getName();
         if (this.command.startsWith("/")) this.command = this.command.replace("/" , "");
+        // trim command
+        this.command = this.command.trim();
     }
 
     @Override
@@ -32,7 +34,7 @@ import org.bukkit.World;
         if (!isExecutedFromRedis() && !command.toLowerCase().startsWith("oa show")) new ExecuteCommandPacket(command).send();
 
 
-        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
+        Bukkit.getScheduler().runTask(OpenAudioMcSpigot.getInstance(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.trim()));
 
         /**
         if (worldName == null) {

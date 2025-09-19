@@ -1,7 +1,12 @@
-import { Channel } from '../../media/objects/Channel';
-import { Sound } from '../../media/objects/Sound';
 import { MediaManager } from '../../media/MediaManager';
+import { MediaTrack } from '../../../medialib/MediaTrack';
+import { MediaEngine } from '../../../medialib/MediaEngine';
 import { debugLog } from '../../debugging/DebugService';
+import { AudioPreloader } from '../../preloading/AudioPreloader';
+import { MEDIA_MUTEX } from '../../../util/mutex';
+import { AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
+
+const sourceRewriter = new AudioSourceProcessor();
 
 export async function handleCreateMedia(data) {
   function convertDistanceToVolume(maxDistance, currentDistance) {
@@ -11,7 +16,7 @@ export async function handleCreateMedia(data) {
   const looping = data.media.loop;
   const { startInstant } = data.media;
   const id = data.media.mediaId;
-  const { source } = data.media;
+  let { source } = data.media;
   const { doPickup } = data.media;
   const { fadeTime } = data.media;
   const { distance } = data;
@@ -22,6 +27,19 @@ export async function handleCreateMedia(data) {
   const { speed } = data.media;
   let volume = 100;
 
+  await MEDIA_MUTEX.lock();
+  const initialSource = source;
+  source = await sourceRewriter.translate(source);
+  console.log(`translaged source ${initialSource} to ${source}`);
+  let preloaded;
+  try {
+    preloaded = await AudioPreloader.getResource(source, false, true);
+  } catch (e) {
+    console.error(`Failed to load audio from ${source}`, e);
+    MEDIA_MUTEX.unlock();
+    return;
+  }
+
   // only if its a new version and provided, then use that volume
   if (data.media.volume != null) {
     volume = data.media.volume;
@@ -30,87 +48,62 @@ export async function handleCreateMedia(data) {
   // attempt to stop the existing one, if any
   MediaManager.destroySounds(id, false, true);
 
-  // register with metadata
-  const createdChannel = new Channel(id, volume);
-  createdChannel.trackable = true;
-  createdChannel.setPrefferedFadeTime(fadeTime);
-  const createdMedia = new Sound();
+  // Engine path: create or reuse channel
+  const engine = MediaManager.engine instanceof MediaEngine ? MediaManager.engine : new MediaEngine();
+  const newChannel = engine.ensureChannel(id, volume);
+  newChannel.setTag(id);
 
-  createdChannel.addSound(createdMedia);
-  MediaManager.mixer.addChannel(createdChannel);
+  // Use the same fadeTime as the media to crossfade regions/speakers
+  if (muteRegions) { debugLog('Incrementing region inhibit'); MediaManager.engine.incrementInhibitor('REGION', fadeTime); }
+  if (muteSpeakers) { debugLog('Incrementing speaker inhibit'); MediaManager.engine.incrementInhibitor('SPEAKER', fadeTime); }
 
-  if (speed != null && speed !== 1 && speed !== 0) {
-    debugLog(`Setting speed to ${speed}`);
-    createdMedia.setPlaybackSpeed(speed);
-  }
-
-  createdChannel.setTag(id);
-
-  if (muteRegions) {
-    debugLog('Incrementing region inhibit');
-    MediaManager.mixer.incrementInhibitor('REGION');
-  }
-
-  if (muteSpeakers) {
-    debugLog('Incrementing speaker inhibit');
-    MediaManager.mixer.incrementInhibitor('SPEAKER');
-  }
-
-  MediaManager.mixer.whenFinished(id, () => {
-    // undo inhibit
-    if (muteRegions) {
-      debugLog('Decrementing region inhibit');
-      MediaManager.mixer.decrementInhibitor('REGION');
-    }
-
-    if (muteSpeakers) {
-      debugLog('Decrementing speaker inhibit');
-      MediaManager.mixer.decrementInhibitor('SPEAKER');
+  // Undo inhibitors when the engine channel is finally removed
+  engine.whenFinished(id, async () => {
+    // eslint-disable-next-line no-console
+    console.log(`Channel ${id} finished, removing inhibitors`);
+    try {
+      await MEDIA_MUTEX.unlock();
+      if (muteRegions) MediaManager.engine.decrementInhibitor('REGION', fadeTime);
+      if (muteSpeakers) MediaManager.engine.decrementInhibitor('SPEAKER', fadeTime);
+    } finally {
+      MEDIA_MUTEX.unlock();
     }
   });
 
-  createdChannel.setTag(flag);
+  newChannel.setTag(flag);
+  // Preload audio element and create track
+  const track = new MediaTrack({
+    id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant,
+  });
 
-  MediaManager.mixer.tick();
+  if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
+  newChannel.addTrack(track);
+  if (!looping) {
+    track.onEnded(() => {
+      if (MediaManager.engine) MediaManager.engine.removeChannel(id);
+    });
+  }
 
-  // load file and play
-  await createdMedia.load(source);
-  createdChannel.setChannelVolume(0);
-  createdChannel.originalVolume = volume;
-  createdMedia.setLooping(looping);
-  createdMedia.setStartAt(startAtMillis);
+  newChannel.setChannelVolumePct(0);
   // convert distance
   if (maxDistance !== 0) {
     const startVolume = convertDistanceToVolume(maxDistance, distance);
-    createdChannel.setTag('SPECIAL');
-    createdChannel.maxDistance = maxDistance;
-    createdMedia.whenInitialized(() => {
-      createdChannel.fadeChannel(startVolume, fadeTime);
-    });
+    newChannel.setTag('SPECIAL');
+    newChannel.maxDistance = maxDistance;
+    newChannel.fadeTo(startVolume, fadeTime);
   } else {
     // default sound, just play
-    createdChannel.setTag('DEFAULT');
+    newChannel.setTag('DEFAULT');
 
-    createdMedia.whenInitialized(() => {
-      // are we not already nicked from the start?
-      if (createdChannel.mutedByScore) {
-        return;
-      }
-
-      if (fadeTime === 0) {
-        createdChannel.setChannelVolume(volume);
-        createdChannel.updateFromMasterVolume();
-      } else {
-        createdChannel.updateFromMasterVolume();
-        createdChannel.fadeChannel(volume, fadeTime);
-      }
-    });
+    if (fadeTime === 0) {
+      newChannel.setChannelVolumePct(volume);
+    } else {
+      newChannel.fadeTo(volume, fadeTime);
+    }
   }
 
-  MediaManager.mixer.updateCurrent();
-
-  createdMedia.finalize().then(() => {
-    if (doPickup) createdMedia.startDate(startInstant, true);
-    createdMedia.finish();
-  });
+  MEDIA_MUTEX.unlock();
+  // Start playback via MediaTrack
+  if (doPickup) { /* startInstant already handled by track */ }
+  await track.play();
 }

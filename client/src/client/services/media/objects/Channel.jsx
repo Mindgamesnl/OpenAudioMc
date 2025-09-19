@@ -45,9 +45,10 @@ export class Channel {
 
   addSound(sound) {
     this.sounds.push(sound);
-    this.sounds.forEach((rs) => {
-      rs.registerMixer(this.mixer, this);
-    });
+    // Legacy mixer removed; avoid registering with undefined mixer
+    if (this.mixer) {
+      this.sounds.forEach((rs) => rs.registerMixer(this.mixer, this));
+    }
     this.updateVolume();
   }
 
@@ -64,9 +65,9 @@ export class Channel {
 
   registerMixer(mixer) {
     this.mixer = mixer;
-    this.sounds.forEach((sound) => {
-      sound.registerMixer(this.mixer, this);
-    });
+    if (this.mixer) {
+      this.sounds.forEach((sound) => sound.registerMixer(this.mixer, this));
+    }
   }
 
   fadeChannel(targetVolume, time, extraCallback) {
@@ -166,7 +167,7 @@ export class Channel {
         }
       } catch (error) {
         // Log error but don't stop processing other sounds
-        console.warn('Error during sound tick:', error);
+        // Error during sound tick
       }
     });
   }

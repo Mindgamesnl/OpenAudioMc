@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Vector3 } from './Vector3';
 import { getGlobalState } from '../../../state/store';
 

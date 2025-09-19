@@ -21,8 +21,7 @@ class BedrockTokenHandleContent extends React.Component {
       .then(() => {
         OAC.bootApp();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         this.context.fadeToComponent(null);
       });
   }
@@ -34,7 +33,9 @@ class BedrockTokenHandleContent extends React.Component {
         this.setState({ copied: true });
         setTimeout(() => this.setState({ copied: false }), 2000);
       })
-      .catch((err) => console.error('Could not copy text: ', err));
+      .catch(() => {
+        // Could not copy text
+      });
   }
 
   render() {

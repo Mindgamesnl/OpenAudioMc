@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
@@ -23,6 +24,14 @@ public class VelocityUserAdapter implements User<CommandSource> {
         for (String s : string.split("\\\\n")) {
             sender.sendMessage(Component.text(s));
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        if (sender instanceof Player) {
+            return ActorCategory.PLAYER;
+        }
+        return ActorCategory.CONSOLE;
     }
 
     @Override

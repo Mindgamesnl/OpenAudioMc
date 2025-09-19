@@ -1,22 +1,17 @@
-import { Channel } from './objects/Channel';
 import { MediaManager } from './MediaManager';
-import { Sound } from './objects/Sound';
+import { MediaTrack } from '../../medialib/MediaTrack';
+import { AudioPreloader } from '../preloading/AudioPreloader';
 
 export async function playInternalEffect(src) {
-  const createdChannel = new Channel(src);
-  const createdMedia = new Sound({
-    startMuted: false,
+  // Engine-only simple effect
+  const engineChannel = MediaManager.engine.ensureChannel(src, 100);
+  const preloaded = await AudioPreloader.getResource(src, false);
+  const track = new MediaTrack({
+    id: `${src}::0`, source: src, audio: preloaded, loop: false,
   });
-  await createdMedia.load(src);
-  createdMedia.setOnFinish(() => {
-    MediaManager.mixer.updatePlayingSounds();
-    MediaManager.mixer.removeChannel(src);
+  engineChannel.addTrack(track);
+  MediaManager.engine.whenFinished(src, () => {
+    MediaManager.engine.removeChannel(src);
   });
-  createdMedia.finalize().then(() => {
-    MediaManager.mixer.addChannel(createdChannel);
-    createdChannel.addSound(createdMedia);
-    createdChannel.setChannelVolume(100);
-    createdChannel.updateFromMasterVolume();
-    createdMedia.finish();
-  });
+  track.play();
 }

@@ -34,7 +34,8 @@
     "react/sort-default-props": "off",
     "react/no-danger": "off",
     "react/jsx-no-constructed-context-values": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-underscore-dangle": "off"
   },
   "reportUnusedDisableDirectives": true,
   "settings": {
