@@ -27,7 +27,11 @@ export class MediaTrack {
     if (!this.audio.crossOrigin) this.audio.crossOrigin = 'anonymous';
     this.audio.muted = this.muted;
     // Only set src for fresh elements; provided audio already bound to the correct source
-    if (!providedAudio && source && (!this.audio.src || this.audio.src !== source)) this.audio.src = source;
+    if (!providedAudio && source && (!this.audio.src || this.audio.src !== source)) {
+      // eslint-disable-next-line no-console
+      console.warn('Replacing audio src', this.audio.src, 'with', source);
+      this.audio.src = source;
+    }
     this.audio.loop = !!loop;
 
     this.epoch = 0;

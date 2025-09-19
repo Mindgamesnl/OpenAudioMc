@@ -28,7 +28,9 @@ export async function handleCreateMedia(data) {
   let volume = 100;
 
   await MEDIA_MUTEX.lock();
+  const initialSource = source;
   source = await sourceRewriter.translate(source);
+  console.log(`translaged source ${initialSource} to ${source}`);
   let preloaded;
   try {
     preloaded = await AudioPreloader.getResource(source, false, true);
