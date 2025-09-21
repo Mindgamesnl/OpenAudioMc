@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.api;
 
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.media.MediaPatchOptions;
 import com.craftmend.openaudiomc.api.media.Media;
 import com.craftmend.openaudiomc.api.media.UrlMutation;
 import org.jetbrains.annotations.NotNull;
@@ -139,5 +140,15 @@ public interface MediaApi {
      * @param clients Target clients
      */
     void stopFor(int fadeTime, @NotNull Client... clients);
+
+    /**
+     * Update playing media (like volume, pitch, etc) for a client.
+     * The media must be playing already, sending this command without media present will be ignored.
+     *
+     * @param mediaId Media ID
+     * @param options Media options to update
+     * @param clients Target clients
+     */
+    void pathMedia(String mediaId, @NotNull MediaPatchOptions options, @NotNull Client... clients);
 
 }

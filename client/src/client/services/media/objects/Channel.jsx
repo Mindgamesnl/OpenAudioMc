@@ -70,6 +70,12 @@ export class Channel {
     }
   }
 
+  updateMediaSpeed(newSpeed) {
+    this.sounds.forEach((sound) => {
+      sound.setPlaybackSpeed(newSpeed);
+    });
+  }
+
   fadeChannel(targetVolume, time, extraCallback) {
     this.interruptFade();
     if (extraCallback == null) {
