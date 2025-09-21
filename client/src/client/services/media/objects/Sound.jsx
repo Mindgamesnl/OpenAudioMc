@@ -431,7 +431,6 @@ export class Sound extends AudioSourceProcessor {
     }
     // Route element into spatial renderer and mute direct element output to avoid double audio
     renderer.connect(this.controller);
-    try { this.soundElement.muted = true; } catch (_) { /* ignore */ }
   }
 
   setMediaMuted(muted) {
