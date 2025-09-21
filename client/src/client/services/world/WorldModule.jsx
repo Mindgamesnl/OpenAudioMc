@@ -138,4 +138,17 @@ export const WorldModule = new class IWorldModule {
       }
     }
   }
+
+  updateSpeakerPosition(id, vector3) {
+    // loop over all speaker players in the audio map and update the position
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [, player] of this.audioMap) {
+      player.updateSpeakerSourcePosition(id, vector3);
+    }
+
+    const speaker = this.getSpeakerById(id);
+    if (speaker == null) return;
+    speaker.updateSourcePosition(vector3);
+    this.renderAudio2D();
+  }
 }();

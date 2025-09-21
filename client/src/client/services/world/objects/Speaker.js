@@ -12,6 +12,10 @@ export class Speaker {
     this.cancelRegions = cancelRegions;
   }
 
+  updateSourcePosition(newPosition) {
+    this.location = newPosition;
+  }
+
   getDistance(world, player) {
     return player.location.distance(this.location);
   }

@@ -59,21 +59,21 @@ public interface WorldApi {
      * Register a virtual speaker at a location.
      * This is a location that will play sound as if there's a speaker there, but there isn't.
      *
-     * @param x      x
-     * @param y      y
-     * @param z      z
-     * @param world  world
-     * @param media  The media source
-     * @param speakerType speaker type
-     * @param radius radius
+     * @param x            x
+     * @param y            y
+     * @param z            z
+     * @param world        world
+     * @param media        The media source
+     * @param speakerType  speaker type
+     * @param radius       radius
      * @param extraOptions extra options (redstone requirement, loop, etc)
-     *
+     * @return the created speaker
      * @throws InvalidThreadException   if called from the main thread.
      *                                  This is to prevent blocking the main thread with the underlying Sqlite database
      * @throws InvalidLocationException if the location is not valid (this location is already occupied by a real or virtual speaker)
      * @since 6.10.8
      */
-    void registerVirtualSpeaker(
+    BasicSpeaker registerVirtualSpeaker(
             int x,
             int y,
             int z,
@@ -83,6 +83,20 @@ public interface WorldApi {
             int radius,
             ExtraSpeakerOptions... extraOptions
     ) throws InvalidThreadException, InvalidLocationException;
+
+    /**
+     * Move a virtual speaker to a new location.
+     * This will update the tracking position on the server, and interpolate the position on the client.
+     *
+     * @param speaker the speaker to move
+     * @param newX new x
+     * @param newY new y
+     * @param newZ new z
+     * @throws InvalidSpeakerException if the speaker is not valid (already unregistered, or not registered by the api)
+     * @throws InvalidThreadException  if called from the main thread.
+     * @throws InvalidLocationException if there is already a speaker at the new location
+     */
+    void moveVirtualSpeaker(@NotNull BasicSpeaker speaker, int newX, int newY, int newZ) throws InvalidSpeakerException, InvalidThreadException;
 
     /**
      * Unregister a virtual speaker (which has been registered by the api)

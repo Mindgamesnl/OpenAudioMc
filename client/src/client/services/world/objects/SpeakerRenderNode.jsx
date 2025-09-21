@@ -36,6 +36,12 @@ export class SpeakerRenderNode {
     });
   }
 
+  updateSpeakerPosition(newPosition) {
+    if (this.spatialRenderer) {
+      this.spatialRenderer.setPosition(newPosition.x, newPosition.y, newPosition.z);
+    }
+  }
+
   preDelete() {
     untrackSpatialRenderer(this.spatialRendererId);
     if (this.spatialRenderer) {
