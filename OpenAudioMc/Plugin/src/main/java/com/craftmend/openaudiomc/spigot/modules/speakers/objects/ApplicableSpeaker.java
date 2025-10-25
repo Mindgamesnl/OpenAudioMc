@@ -19,7 +19,7 @@ public class ApplicableSpeaker {
     public boolean equals(Object otherSpeaker) {
         if (!(otherSpeaker instanceof ApplicableSpeaker)) return false;
         ApplicableSpeaker other = (ApplicableSpeaker) otherSpeaker;
-        return other.getLocation().equals(location) && speakerType.equals(other.getSpeakerType());
+        return other.getSpeaker().getSpeakerId().equals(speaker.getSpeakerId());
     }
 
 }

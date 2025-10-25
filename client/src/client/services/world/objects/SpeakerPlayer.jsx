@@ -112,6 +112,13 @@ export class SpeakerPlayer {
     }
   }
 
+  updateSpeakerSourcePosition(id, newPosition) {
+    const node = this.speakerNodes.get(id);
+    if (node != null) {
+      node.updateSpeakerPosition(newPosition);
+    }
+  }
+
   convertDistanceToVolume(maxDistance, currentDistance) {
     return Math.round(((maxDistance - currentDistance) / maxDistance) * 100);
   }

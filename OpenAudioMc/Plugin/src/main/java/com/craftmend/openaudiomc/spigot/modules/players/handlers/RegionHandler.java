@@ -1,9 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.players.handlers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.media.MediaPatchOptions;
 import com.craftmend.openaudiomc.generic.client.enums.RtcBlockReason;
 import com.craftmend.openaudiomc.generic.client.session.RtcSessionManager;
-import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.voice.PacketClientBlurVoiceUi;
@@ -57,12 +57,10 @@ public class RegionHandler implements ITickableHandler {
                 } else {
                     takeOverMedia.add(entered);
                     // send an update packet for the newly entered region, as the volume might have changed
-                    MediaUpdate mediaUpdate = new MediaUpdate(
-                            100,
-                            100,
-                            entered.getFadeTime(),
+                    MediaPatchOptions mediaUpdate = new MediaPatchOptions(
                             entered.getVolume(),
-                            true,
+                            null,
+                            entered.getFadeTime(),
                             entered.getMedia().getMediaId()
                     );
                     // send the updated packet

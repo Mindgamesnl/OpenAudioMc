@@ -3,13 +3,16 @@ package com.craftmend.openaudiomc.generic.api.implementaions;
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.api.MediaApi;
 import com.craftmend.openaudiomc.api.clients.Client;
+import com.craftmend.openaudiomc.api.media.MediaPatchOptions;
 import com.craftmend.openaudiomc.api.media.Media;
+import com.craftmend.openaudiomc.api.media.OptionalError;
 import com.craftmend.openaudiomc.api.media.UrlMutation;
 import com.craftmend.openaudiomc.generic.media.MediaService;
 import com.craftmend.openaudiomc.generic.media.time.TimeService;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientDestroyMedia;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientPreFetch;
+import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.generic.networking.payloads.client.media.ClientPreFetchPayload;
 import org.jetbrains.annotations.NotNull;
 
@@ -96,6 +99,20 @@ public class MediaApiImpl implements MediaApi {
     public void stopFor(int fadeTime, @NotNull Client... clients) {
         for (Client client : clients) {
             OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientDestroyMedia(null, fadeTime));
+        }
+    }
+
+    @Override
+    public void pathMedia(String mediaId, @NotNull MediaPatchOptions options, @NotNull Client... clients) {
+        OptionalError err = options.validate();
+        if (err.isError()) {
+            throw new IllegalArgumentException("Failed to patch media: " + err.getMessage());
+        }
+
+        options.setTarget(mediaId);
+
+        for (Client client : clients) {
+            OpenAudioMc.getService(NetworkingService.class).send(validateClient(client), new PacketClientUpdateMedia(options));
         }
     }
 }

@@ -63,7 +63,7 @@ public class WorldApiImpl implements WorldApi {
     }
 
     @Override
-    public void registerVirtualSpeaker(int x, int y, int z, @NotNull String world, @NotNull String mediaSource, SpeakerType type, int radius, ExtraSpeakerOptions... options) throws InvalidThreadException, InvalidLocationException {
+    public BasicSpeaker registerVirtualSpeaker(int x, int y, int z, @NotNull String world, @NotNull String mediaSource, SpeakerType type, int radius, ExtraSpeakerOptions... options) throws InvalidThreadException, InvalidLocationException {
         Objects.requireNonNull(world, "World cannot be null");
         Objects.requireNonNull(mediaSource, "Media source cannot be null");
 
@@ -107,6 +107,31 @@ public class WorldApiImpl implements WorldApi {
         OpenAudioMc.getService(DatabaseService.class)
                 .getRepository(Speaker.class)
                 .save(speaker);
+
+        return speaker;
+    }
+
+    @Override
+    public void moveVirtualSpeaker(@NotNull BasicSpeaker speaker, int newX, int newY, int newZ) throws InvalidSpeakerException, InvalidThreadException {
+        Objects.requireNonNull(speaker, "Speaker cannot be null");
+
+        if (!speaker.isVirtual()) {
+            throw new InvalidSpeakerException("Speaker is not virtual, only speakers managed by the API can be moved");
+        }
+
+        if (Bukkit.isPrimaryThread()) {
+            throw new InvalidThreadException("The move method should not be called from the main thread");
+        }
+
+        // check if there is already a speaker at the new location
+        if (getSpeakerAt(newX, newY, newZ, speaker.getLocation().getWorld()) != null) {
+            throw new InvalidLocationException("There is already a speaker at the new location");
+        }
+
+        OpenAudioMc.getService(SpeakerService.class).updateSpeakerPosition(
+                (Speaker) speaker,
+                new MappedLocation(newX, newY, newZ, speaker.getLocation().getWorld())
+        );
     }
 
     @Override

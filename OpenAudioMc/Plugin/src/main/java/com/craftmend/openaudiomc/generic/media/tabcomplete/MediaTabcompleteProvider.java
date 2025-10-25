@@ -2,7 +2,6 @@ package com.craftmend.openaudiomc.generic.media.tabcomplete;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
 import com.craftmend.openaudiomc.generic.commands.interfaces.TabCompleteProvider;
-import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.uploads.UploadIndexService;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.playlists.PlaylistService;
@@ -30,13 +29,11 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
 
         options.add("files:");
 
-        boolean hasFiles = false;
 
         if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(UploadIndexService.class)) {
             Collection<String> all = OpenAudioMc.getService(UploadIndexService.class).getAll();
             if (!all.isEmpty()) {
                 options.addAll(all);
-                hasFiles = true;
             }
         }
 
@@ -47,7 +44,6 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
             for (Playlist s : playlistService.getAll()) {
                 options.add("list:" + s.getName());
             }
-            hasFiles = true;
         }
 
         if (OpenAudioMc.getInstance().getServiceManager().isServiceEnabled(AliasService.class)) {
@@ -55,12 +51,6 @@ public class MediaTabcompleteProvider implements TabCompleteProvider {
             for (String s : aliasService.getAliasMap().keySet()) {
                 options.add("a:" + s);
             }
-            hasFiles = true;
-        }
-
-        // did we find anything?
-        if (!hasFiles) {
-            sender.sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "Couldn't find any media to tab complete. Is your server linked or do you have any media uploaded?");
         }
 
         return options.toArray(new String[0]);

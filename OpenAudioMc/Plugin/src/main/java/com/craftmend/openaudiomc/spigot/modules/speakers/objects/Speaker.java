@@ -25,6 +25,7 @@ public class Speaker extends DataStore implements BasicSpeaker {
 
     @Column @Setter @Getter private Integer radius;
 
+    @Setter
     @Column(
             storeAsBlob = true
     )

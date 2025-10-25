@@ -1,11 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.commands.subcommands.region;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.media.MediaPatchOptions;
 import com.craftmend.openaudiomc.generic.commands.helpers.CommandParameters;
 import com.craftmend.openaudiomc.generic.commands.interfaces.ParameteredSubCommand;
 import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
-import com.craftmend.openaudiomc.generic.media.objects.MediaUpdate;
 import com.craftmend.openaudiomc.generic.networking.packets.client.media.PacketClientUpdateMedia;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.utils.data.ArrayUtil;
@@ -118,12 +118,10 @@ public class RegionEditSubCommand extends ParameteredSubCommand {
         Collection<SpigotConnection> connections = OpenAudioMcSpigot.getInstance().getRegionModule().findPlayersInRegion(rp.getRegionName());
 
         // make update packet for region
-        MediaUpdate mediaUpdate = new MediaUpdate(
-                100,
-                100,
-                rp.getFadeTimeMs(),
+        MediaPatchOptions mediaUpdate = new MediaPatchOptions(
                 rp.getVolume(),
-                true,
+                null,
+                rp.getFadeTimeMs(),
                 rp.getMediaForWorld(wolrdName).getMediaId()
         );
 

@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.vistas.client.users;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.client.helpers.SerializableClient;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
@@ -167,6 +168,11 @@ public class VistasUser implements User<Object> {
                     lastSeenServer
             );
         }
+    }
+
+    @Override
+    public ActorCategory getCategory() {
+        return original.getCategory();
     }
 
     @Override

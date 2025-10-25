@@ -40,30 +40,30 @@ public class MediaOptions {
     private int fadeTime = 0;
 
     /**
-     * The volume of the media, 0-100
-     */
-    private int volume = 100;
-
-    /**
-     * If this media will mute current regions while playing. This is used to prevent overlapping media in regions.
-     */
-    private boolean muteSpeakers = false;
-
-    /**
-     * If this media will mute the speakers of the client. This is used to prevent overlapping media with speakers.
-     */
-    private boolean muteRegions = false;
-
-    /**
      * The starting point of the media, in milliseconds. 0 by default, but can be used to skip intros or start at a certain point.
      */
     private int startAtMillis = 0;
 
     /**
+     * The volume of the media, 0-100
+     */
+    protected int volume = 100;
+
+    /**
+     * If this media will mute current regions while playing. This is used to prevent overlapping media in regions.
+     */
+    protected boolean muteSpeakers = false;
+
+    /**
+     * If this media will mute the speakers of the client. This is used to prevent overlapping media with speakers.
+     */
+    protected boolean muteRegions = false;
+
+    /**
      * The speed of the media, 100 by default, but can be used to speed up or slow down the media.
      * 100 = normal speed, 200 = double speed, 50 = half speed, etc.
      */
-    private int speed = 100;
+    protected int speed = 100;
 
     /**
      * validation rules for the media options

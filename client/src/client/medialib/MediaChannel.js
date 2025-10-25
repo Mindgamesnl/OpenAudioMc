@@ -43,6 +43,10 @@ export class MediaChannel {
     this.updateVolumeFromMaster();
   }
 
+  updateMediaSpeed(speed) {
+    this.tracks.forEach((t) => t.setPlaybackSpeed(speed));
+  }
+
   removeTrack(id) {
     const t = this.tracks.get(id);
     if (t) { t.destroy(); this.tracks.delete(id); }

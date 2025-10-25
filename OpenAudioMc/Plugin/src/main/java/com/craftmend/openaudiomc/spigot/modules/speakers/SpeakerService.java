@@ -5,6 +5,9 @@ import com.craftmend.openaudiomc.api.speakers.Loc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.media.MediaService;
+import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
+import com.craftmend.openaudiomc.generic.networking.packets.client.speakers.PacketClientUpdateSpeakerPosition;
+import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.ClientSpeakerPositionUpdatePayload;
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
@@ -122,6 +125,36 @@ public class SpeakerService extends Service {
             }, interval, interval);
         } else {
             OpenAudioLogger.info("Redstone speaker tick task is disabled");
+        }
+    }
+
+    public void updateSpeakerPosition(Speaker speaker, MappedLocation newLocation) {
+        // find listeners to this speaker, so we can update them
+        List<SpigotConnection> listeners = new ArrayList<>();
+        for (SpigotConnection client : OpenAudioMc.getService(SpigotPlayerService.class).getClients()) {
+            if (client.getSpeakerHandler().isTrackingSpeaker(speaker)) {
+                listeners.add(client);
+            }
+        }
+
+        // unregister the old location
+        unlistSpeaker(speaker.getLocation());
+        // update the location
+        speaker.setLocation(newLocation);
+        // reregister the speaker
+        registerSpeaker(speaker);
+
+        // force update for all listeners
+        for (SpigotConnection listener : listeners) {
+            listener.getSpeakerHandler().tick();
+            listener.getClientConnection().sendPacket(
+                    new PacketClientUpdateSpeakerPosition(new ClientSpeakerPositionUpdatePayload(
+                            newLocation.getX(),
+                            newLocation.getY(),
+                            newLocation.getZ(),
+                            speaker.getSpeakerId().toString()
+                    ))
+            );
         }
     }
 
