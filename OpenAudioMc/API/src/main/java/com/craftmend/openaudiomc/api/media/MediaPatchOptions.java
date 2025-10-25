@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.api.media;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class MediaPatchOptions {
      * Fade time is the amount of milliseconds it takes to fade in or out. 0 by default, but can be used to create smooth transitions
      * between multiple regions, or to create a fade in effect.
      */
+    @SerializedName("fadeTime")
     private int fadeTimeMs = 1500;
 
     // util setter
