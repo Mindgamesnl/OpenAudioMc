@@ -55,6 +55,7 @@ public class CommandService extends Service {
                 new ClientsSubCommand(),
                 new StopSubCommand(),
                 new PlaySubCommand(),
+                new PatchSubCommand(),
                 new PreloadSubCommand(),
                 new SetKvSubCommand()
         );
