@@ -9,7 +9,6 @@ import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
@@ -33,7 +32,7 @@ public class SpeakerCreateListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Block placed = event.getBlockPlaced();
-        if (SpeakerUtils.isSpeakerSkull(placed)) {
+        if (speakerService.getSpeakerNbtUtil().isSpeakerSkull(placed)) {
             if (!isAllowed(event.getPlayer())) {
                 event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + "You are not allowed to place OpenAudioMc speakers, please ask the server administrator for more information.");
                 event.setCancelled(true);
@@ -41,6 +40,7 @@ public class SpeakerCreateListener implements Listener {
             }
 
             NBTItem nbti = new NBTItem(event.getItemInHand());
+            System.out.println(nbti);
             String src = nbti.getString("oa-src");
             Integer radius = nbti.getInteger("oa-radius");
 
@@ -62,6 +62,8 @@ public class SpeakerCreateListener implements Listener {
                     .save(speaker);
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
+        } else {
+            System.out.println("Not a speaker");
         }
     }
 

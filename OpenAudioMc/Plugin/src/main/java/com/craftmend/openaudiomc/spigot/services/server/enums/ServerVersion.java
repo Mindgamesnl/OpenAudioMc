@@ -2,6 +2,7 @@ package com.craftmend.openaudiomc.spigot.services.server.enums;
 
 import lombok.Getter;
 
+@Deprecated
 public enum ServerVersion {
 
     LEGACY(1),

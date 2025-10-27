@@ -23,6 +23,8 @@ dependencies {
 
     // OA (these will be shaded)
     implementation project(':OpenAudioMc:API')
+    implementation project(':OpenAudioMc:OA-LegacySkullUtil')
+    implementation project(':OpenAudioMc:OA-ModernSkullUtil')
 //    implementation project(':OpenAudioMc:OA-PaperUserAdapter')
     implementation project(':OpenAudioMc:OA-WorldguardIntegration')
     implementation project(':OpenAudioMc:OA-WorldGuardLegacy')
@@ -158,7 +160,8 @@ import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
         ["12", "1.12.2"],
         ["20", "1.20.4"],
 //        ["21", "1.21.4"],
-        ["21", "1.21.7"]
+        ["21", "1.21.7"],
+        ["2110", "1.21.10"]
 ].each { name, version ->
     task("testPlugin$name", type: LaunchMinecraftServerTask) {
         dependsOn 'shadowJar' // Changed from 'build' to use the shaded jar

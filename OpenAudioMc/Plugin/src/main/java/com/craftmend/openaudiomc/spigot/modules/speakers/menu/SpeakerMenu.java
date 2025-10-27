@@ -7,8 +7,8 @@ import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.api.speakers.SpeakerType;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.clicklib.Item;
 import com.craftmend.openaudiomc.spigot.services.clicklib.menu.Menu;
 import org.bukkit.ChatColor;
@@ -21,11 +21,13 @@ import java.util.Collection;
 
 public class SpeakerMenu extends Menu {
 
+    private final SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
+
     public SpeakerMenu(Speaker speaker) {
         super(ChatColor.BLUE + "Updating speaker", 3 * 9);
 
         // show source
-        setItem(3, new Item(SpeakerUtils.getSkull(speaker.getSource(), 10))
+        setItem(3, new Item(speakerService.getSpeakerNbtUtil().getSkull(speaker.getSource(), 10))
                 .setName(ChatColor.YELLOW + "Playing: " + ChatColor.AQUA + speaker.getMedia().getSource())
                 .setLore(new String[]{})
                 .onClick((p,i) -> {})

@@ -12,7 +12,6 @@ import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.MappedLocation;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.Speaker;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
 import com.craftmend.openaudiomc.spigot.services.server.ServerService;
 import com.craftmend.openaudiomc.spigot.services.server.enums.ServerVersion;
 import org.bukkit.ChatColor;
@@ -80,7 +79,7 @@ public class SpeakerSetSubCommand extends SubCommand {
         } else {
             location.getBlock().setBlockData(OpenAudioMc.getService(SpeakerService.class).getPlayerSkullBlock().createBlockData());
         }
-        s.setOwner(SpeakerUtils.speakerSkin);
+        s.setOwner(speakerService.getSpeakerNbtUtil().getSpeakerSkinName());
         s.update();
 
         message(sender, ChatColor.GREEN + "Speaker placed");

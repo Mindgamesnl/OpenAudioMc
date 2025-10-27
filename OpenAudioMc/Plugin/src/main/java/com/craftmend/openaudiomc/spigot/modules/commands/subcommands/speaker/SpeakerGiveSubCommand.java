@@ -8,7 +8,7 @@ import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.SpeakersSubCommand;
-import com.craftmend.openaudiomc.spigot.modules.speakers.utils.SpeakerUtils;
+import com.craftmend.openaudiomc.spigot.modules.speakers.SpeakerService;
 import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 
@@ -43,7 +43,8 @@ public class SpeakerGiveSubCommand extends SubCommand {
         }
 
         Player player = (Player) sender.getOriginal();
-        player.getInventory().addItem(SpeakerUtils.getSkull(OpenAudioMc.getService(MediaService.class).process(args[0]), radius));
+        SpeakerService speakerService = OpenAudioMc.getService(SpeakerService.class);
+        player.getInventory().addItem(speakerService.getSpeakerNbtUtil().getSkull(OpenAudioMc.getService(MediaService.class).process(args[0]), radius));
         message(sender, "Speaker media created! You've received a Speaker skull in your inventory. Placing it anywhere in the world will add the configured sound in the are.");
     }
 
