@@ -1,6 +1,9 @@
 package com.craftmend.openaudiomc.spigot.modules.speakers;
 
 import com.craftmend.openaudiomc.OpenAudioMc;
+import com.craftmend.openaudiomc.api.internal.AbstractSpeakerNbtUtil;
+import com.craftmend.openaudiomc.api.internal.speaker.ModernSpeakerAdapter;
+import com.craftmend.openaudiomc.api.internal.speakers.LegacySpeakerAdapter;
 import com.craftmend.openaudiomc.api.speakers.Loc;
 import com.craftmend.openaudiomc.generic.database.DatabaseService;
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
@@ -11,11 +14,13 @@ import com.craftmend.openaudiomc.generic.networking.payloads.client.speakers.Cli
 import com.craftmend.openaudiomc.generic.service.Inject;
 import com.craftmend.openaudiomc.generic.service.Service;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.utils.ClassMocker;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
 import com.craftmend.openaudiomc.api.speakers.ExtraSpeakerOptions;
 import com.craftmend.openaudiomc.api.speakers.SpeakerType;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.version.MinecraftVersion;
 import com.craftmend.openaudiomc.spigot.services.world.interfaces.IRayTracer;
 import com.craftmend.openaudiomc.spigot.modules.speakers.listeners.SpeakerSelectListener;
 import com.craftmend.openaudiomc.spigot.modules.speakers.objects.*;
@@ -33,6 +38,9 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.craftmend.openaudiomc.generic.storage.enums.StorageKey.SETTINGS_SPEAKER_SKIN_NAME;
+import static com.craftmend.openaudiomc.generic.storage.enums.StorageKey.SETTINGS_SPEAKER_SKIN_TEXTURE;
 
 @NoArgsConstructor
 public class SpeakerService extends Service {
@@ -52,6 +60,9 @@ public class SpeakerService extends Service {
     @Getter private Material playerSkullBlock;
     @Getter private ServerVersion version;
     private final IRayTracer estimatedRayTracer = new DummyTracer();
+
+    @Getter
+    private AbstractSpeakerNbtUtil speakerNbtUtil;
 
     @Override
     public void onEnable() {
@@ -78,6 +89,33 @@ public class SpeakerService extends Service {
         OpenAudioMc.getService(MediaService.class).getResetTriggers().add(() -> {
             speakerMediaMap.clear();
         });
+
+        // initialize speaker UTIL
+        if (MinecraftVersion.getCurrent().isAtLeast(MinecraftVersion.V_1_21_10)) {
+            // USE MODERN
+            OpenAudioLogger.info("Using modern speaker NBT util");
+            speakerNbtUtil = new ModernSpeakerAdapter(
+                    SETTINGS_SPEAKER_SKIN_NAME.getString(),
+                    SETTINGS_SPEAKER_SKIN_TEXTURE.getString(),
+                    UUID.fromString(StorageKey.SETTINGS_SPEAKER_SKIN_UUID.getString()),
+                    playerSkullItem
+            );
+        } else {
+            // USE LEGACY
+            UUID speakerUUID = UUID.fromString(StorageKey.SETTINGS_SPEAKER_SKIN_UUID.getString());
+            String speakerSkinPlayerName = SETTINGS_SPEAKER_SKIN_NAME.getString();
+            speakerNbtUtil = new LegacySpeakerAdapter(
+                    speakerSkinPlayerName,
+                    SETTINGS_SPEAKER_SKIN_TEXTURE.getString(),
+                    speakerUUID,
+                    playerSkullItem,
+                    version == ServerVersion.MODERN,
+                    new ClassMocker<OfflinePlayer>(OfflinePlayer.class)
+                            .addReturnValue("getUniqueId", speakerUUID)
+                            .addReturnValue("getName", speakerSkinPlayerName)
+                            .createProxy()
+            );
+        }
 
         // tick redstone speakers
         if (StorageKey.SETTINGS_SPEAKER_REDSTONE_TICK_ENABLED.getBoolean()) {

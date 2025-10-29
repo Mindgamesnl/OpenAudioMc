@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.craftmend.openaudiomc'
+version = '1.2'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc"
+        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    }
+}
+
+dependencies {
+    implementation project(':OpenAudioMc:API')
+
+    implementation deps.nbtApi
+
+    compileOnly("org.spigotmc:spigot-api:1.21.10-R0.1-SNAPSHOT")
+}
+
+test {
+    useJUnitPlatform()
+}

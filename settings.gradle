@@ -8,6 +8,8 @@ include 'OpenAudioMc:OA-WorldGuardModern'
 
 // Main modules
 include ':OpenAudioMc:API'
+include ':OpenAudioMc:OA-LegacySkullUtil'
+include ':OpenAudioMc:OA-ModernSkullUtil'
 include 'OpenAudioMc:OA-PaperUserAdapter'
 include ':OpenAudioMc:Plugin'
 

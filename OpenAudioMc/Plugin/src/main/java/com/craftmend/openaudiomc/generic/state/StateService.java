@@ -43,7 +43,7 @@ public class StateService extends Service {
             registerDetail(new SpigotSpeakerDetail());
             registerDetail(new SpigotAliasDetail());
             registerDetail(new SpigotVersionDetail());
-
+            registerDetail(new SpeakerDriverDetail());
         } else {
             registerDetail(new GeneralConnectedClients());
         }
