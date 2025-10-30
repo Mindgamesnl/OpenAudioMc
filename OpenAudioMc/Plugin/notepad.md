@@ -1,4 +1,5 @@
 # New
+- Requires Java 17+ (previously java 8+)
 - Added support for the new Minecraft "Player Profile" API
 - Added support for 1.21.10
 - Added the "patch" command, letting you update media volume/speed on the fly - https://openaudiomc.net/docs/patch_command
@@ -18,6 +19,3 @@
 - Fixed issues with media starting positions when using certain media types (`startAtMillis`)
 - Further continued internal gradle build migration
 - Fixed issues with the media caching layer, improving stability and performance
-
-# Important heads up
-- The next version of OpenAudioMc will drop support for java 8, and require at least java 11 to run. Please prepare for this change, as it will come in the next major release.
