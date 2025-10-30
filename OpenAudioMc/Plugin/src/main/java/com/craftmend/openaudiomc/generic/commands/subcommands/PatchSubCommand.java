@@ -27,10 +27,7 @@ public class PatchSubCommand extends SubCommand {
         super("patch", "update");
         registerArguments(
                 new Argument("<selector> <id> <options>",
-                        "Target all players in a selector, and update their media with a given id", 0),
-
-                new Argument("<selector> <source> <options>",
-                        "Plays a sound with configuration (like fade time, sync etc) for all players in a selection", 0)
+                        "Target all players in a selector, and update their media with a given id", 0)
         );
     }
 
@@ -42,20 +39,24 @@ public class PatchSubCommand extends SubCommand {
             return;
         }
 
-        List<Client> clients = new ArrayList<>();
-        MediaPatchOptions patchOptions = OpenAudioMc.getGson().fromJson(args[2], MediaPatchOptions.class);
+        try {
+            List<Client> clients = new ArrayList<>();
+            MediaPatchOptions patchOptions = OpenAudioMc.getGson().fromJson(args[2], MediaPatchOptions.class);
 
 
-        for (User<?> user : resolveSelector(sender, args[0])) {
-            Optional<Client> client = user.findClient();
-            if (client.isPresent()) {
-                if (client.get().isConnected()) {
-                    clients.add(client.get());
+            for (User<?> user : resolveSelector(sender, args[0])) {
+                Optional<Client> client = user.findClient();
+                if (client.isPresent()) {
+                    if (client.get().isConnected()) {
+                        clients.add(client.get());
+                    }
                 }
             }
-        }
 
-        MediaApi.getInstance().pathMedia(args[1], patchOptions, clients.toArray(new Client[0]));
-        message(sender, OaColor.GREEN + "Patched media for " + clients.size() + " clients");
+            MediaApi.getInstance().pathMedia(args[1], patchOptions, clients.toArray(new Client[0]));
+            message(sender, OaColor.GREEN + "Patched media for " + clients.size() + " clients");
+        } catch (Exception e) {
+            throw new CommandError("Invalid options param: " + e.getMessage());
+        }
     }
 }
