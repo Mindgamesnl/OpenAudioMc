@@ -40,7 +40,6 @@ public class SpeakerCreateListener implements Listener {
             }
 
             NBTItem nbti = new NBTItem(event.getItemInHand());
-            System.out.println(nbti);
             String src = nbti.getString("oa-src");
             Integer radius = nbti.getInteger("oa-radius");
 
@@ -62,8 +61,6 @@ public class SpeakerCreateListener implements Listener {
                     .save(speaker);
 
             event.getPlayer().sendMessage(MagicValue.COMMAND_PREFIX.get(String.class) + ChatColor.GREEN + "Placed a " + speakerType.getName() + " speaker" + ChatColor.GRAY + " (guessed bases on other nearby speakers, click placed speaker to edit)");
-        } else {
-            System.out.println("Not a speaker");
         }
     }
 

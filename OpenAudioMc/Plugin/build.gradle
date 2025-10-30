@@ -229,3 +229,85 @@ task replaceVersionPlaceholders {
 compileJava.dependsOn replaceVersionPlaceholders
 processResources.dependsOn replaceVersionPlaceholders
 
+// Add a Gradle task to replace the post-build bash script functionality
+// It increments BUILD_NUM in src/main/bash/data.bin, writes the
+// src/main/resources/openaudiomc-build.properties and copies data.bin
+// into resources so it ends up inside the jar.
+task updateBuildProperties {
+    description = 'Increment build number and update openaudiomc-build.properties and data.bin'
+    group = 'build'
+
+    doLast {
+        def bashDataFile = file('src/main/bash/data.bin')
+        // Ensure the directory exists
+        bashDataFile.parentFile?.mkdirs()
+
+        // Create the file if missing with BUILD_NUM=0
+        if (!bashDataFile.exists()) {
+            bashDataFile.text = 'BUILD_NUM="0"\n'
+            bashDataFile.setExecutable(true)
+        }
+
+        // Read current BUILD_NUM
+        def raw = bashDataFile.getText('UTF-8')
+        def matcher = raw =~ /BUILD_NUM\s*=\s*"?(\d+)"?/
+        def buildNum = 0
+        if (matcher) {
+            buildNum = matcher[0][1].toInteger()
+        }
+
+        // Increment
+        buildNum = buildNum + 1
+
+        // Write back to bash/data.bin
+        bashDataFile.text = "BUILD_NUM=\"${buildNum}\"\n"
+        try { bashDataFile.setExecutable(true) } catch (Exception ignored) {}
+
+        // Try to get git commit and author; fall back to placeholders
+        def commit = 'unknown'
+        def author = 'unknown'
+        try {
+            def stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine 'git', 'rev-parse', 'HEAD'
+                standardOutput = stdout
+                errorOutput = new ByteArrayOutputStream()
+                ignoreExitValue = true
+            }
+            def out = stdout.toString().trim()
+            if (out) commit = out
+        } catch (Exception e) {
+            logger.warn("Could not determine git commit: ${e.message}")
+        }
+
+        try {
+            def stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine 'git', 'log', '-1', "--pretty=format:%an"
+                standardOutput = stdout
+                errorOutput = new ByteArrayOutputStream()
+                ignoreExitValue = true
+            }
+            def out = stdout.toString().trim()
+            if (out) author = out
+        } catch (Exception e) {
+            logger.warn("Could not determine git author: ${e.message}")
+        }
+
+        // Write the properties file into src/main/resources
+        def propsFile = file('src/main/resources/openaudiomc-build.properties')
+        propsFile.parentFile?.mkdirs()
+        propsFile.text = "BUILD_VERSION=\"${buildNum}\"\nBUILD_COMMIT=\"${commit}\"\nBUILD_AUTHOR=\"${author}\"\n"
+
+        // Copy data.bin into resources so it will be included in the jar
+        copy {
+            from bashDataFile
+            into 'src/main/resources'
+        }
+
+        println "Updated build properties: BUILD_VERSION=${buildNum} BUILD_COMMIT=${commit} BUILD_AUTHOR=${author}"
+    }
+}
+
+// Make sure resources are updated before they're processed/packaged
+processResources.dependsOn updateBuildProperties
