@@ -29,15 +29,19 @@ export async function handleCreateMedia(data) {
 
   await MEDIA_MUTEX.lock();
   const initialSource = source;
+  const isPlaylist = source.startsWith('[') && source.endsWith(']');
+
   source = await sourceRewriter.translate(source);
-  console.log(`translaged source ${initialSource} to ${source}`);
+
   let preloaded;
-  try {
-    preloaded = await AudioPreloader.getResource(source, false, true);
-  } catch (e) {
-    console.error(`Failed to load audio from ${source}`, e);
-    MEDIA_MUTEX.unlock();
-    return;
+  if (!isPlaylist) {
+    try {
+      preloaded = await AudioPreloader.getResource(source, false, true);
+    } catch (e) {
+      console.error(`Failed to load audio from ${source}`, e);
+      MEDIA_MUTEX.unlock();
+      return;
+    }
   }
 
   // only if its a new version and provided, then use that volume
@@ -75,6 +79,10 @@ export async function handleCreateMedia(data) {
   const track = new MediaTrack({
     id: `${id}::0`, source, audio: preloaded, loop: looping, startAtMillis, startInstant,
   });
+
+  if (isPlaylist) {
+    track.setPlaylist(JSON.parse(initialSource));
+  }
 
   if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
   newChannel.addTrack(track);
