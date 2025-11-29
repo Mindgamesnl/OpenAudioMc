@@ -1,4 +1,5 @@
 import { TimeService } from '../services/time/TimeService';
+import { AudioSourceProcessor } from '../util/AudioSourceProcessor';
 
 export class MediaTrack {
   constructor({
@@ -18,6 +19,7 @@ export class MediaTrack {
     this.startInstant = startInstant || null;
     this.speedPct = speedPct || 100;
     this.muted = !!muted;
+    this.sourceRewriter = new AudioSourceProcessor();
 
     this.audio = providedAudio || new Audio();
     // Prefer eager metadata loading so we can compute duration/start offsets early
@@ -32,6 +34,8 @@ export class MediaTrack {
       console.warn('Replacing audio src', this.audio.src, 'with', source);
       this.audio.src = source;
     }
+
+    // this is not supported enough
     this.audio.loop = !!loop;
 
     this.epoch = 0;
@@ -40,6 +44,33 @@ export class MediaTrack {
     this.timers = new Set();
     this.onFinish = new Set();
     this._handlers = { ended: null, error: null };
+  }
+
+  setPlaylist(playlistArray) {
+    if (this.audio.loop) {
+      this.audio.loop = false;
+      this.currentSongIndex = playlistArray.length - 1;
+      this.audio.addEventListener('ended', () => {
+        let nextIndex = this.currentSongIndex + 1;
+        if (nextIndex >= playlistArray.length) {
+          if (this.loop) {
+            nextIndex = 0;
+            this.currentSongIndex = 0;
+          } else {
+            return;
+          }
+        }
+        this.currentSongIndex = nextIndex;
+
+        const nextSource = playlistArray[nextIndex];
+        this.sourceRewriter.translate(nextSource).then((translatedSrc) => {
+          // have we not been stopped/destroyed in the meantime?
+          if (this.state === 'destroyed' || this.state === 'stopped') return;
+          this.audio.src = translatedSrc;
+          this.audio.play();
+        });
+      });
+    }
   }
 
   setTimerInterval(fn, ms) {

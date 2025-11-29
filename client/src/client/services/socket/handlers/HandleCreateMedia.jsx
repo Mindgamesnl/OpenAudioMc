@@ -250,6 +250,10 @@ export async function handleCreateMedia(data) {
     startInstant,
   });
 
+  if (isPlaylist) {
+    track.setPlaylist(JSON.parse(initialSource));
+  }
+
   if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
   newChannel.addTrack(track);
 

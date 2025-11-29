@@ -203,6 +203,7 @@ export class Sound extends AudioSourceProcessor {
       }
 
       this.soundElement.onended = async () => {
+        console.log('onended');
         if (this.gotShutDown) return;
         if (!this.finsishedInitializing) return;
 
@@ -219,6 +220,7 @@ export class Sound extends AudioSourceProcessor {
         }
 
         if (this.loop && !this.gotShutDown) {
+          console.log('looping sound');
           try {
             // possibly fetch next playlist entry
             const nextSource = await this.translate(this.rawSource);
@@ -238,6 +240,7 @@ export class Sound extends AudioSourceProcessor {
               if (this._track) await this._track.play();
             }
           } catch (error) {
+            console.error('error');
             debugLog('Error handling loop:', error);
           }
         } else if (!this.gotShutDown) {
