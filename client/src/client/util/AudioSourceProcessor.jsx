@@ -8,13 +8,8 @@ export const AUDIO_ENDPOINTS = {
 };
 
 export class AudioSourceProcessor {
-  constructor() {
-    this.startedRandomly = false;
-    this.lastIndex = 0;
-  }
-
   async translate(sourceOg) {
-    let source = this.handleRandomizedPlaylist(sourceOg);
+    let source = sourceOg;
     const { publicServerKey } = getGlobalState().currentUser;
 
     // filter old
@@ -115,24 +110,5 @@ export class AudioSourceProcessor {
     // source += "&openAudioPublicServerKey=" + tokenSet.publicServerKey;
 
     return source;
-  }
-
-  handleRandomizedPlaylist(input) {
-    if (input.startsWith('[') && input.endsWith(']')) {
-      const sources = JSON.parse(input);
-      if (!this.startedRandomly) {
-        const randomIndex = Math.floor(Math.random() * sources.length);
-        this.lastIndex = randomIndex;
-        this.startedRandomly = true;
-        return sources[randomIndex];
-      }
-      // bump index
-      this.lastIndex++;
-      if ((this.lastIndex) > sources.length - 1) {
-        this.lastIndex = 0;
-      }
-      return sources[this.lastIndex];
-    }
-    return input;
   }
 }

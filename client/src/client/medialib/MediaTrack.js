@@ -118,6 +118,8 @@ export class MediaTrack {
   }
 
   onEnded(cb) {
+    // eslint-disable-next-line no-console
+    console.log(`[MediaTrack ${this.id}] Adding onEnded callback, total: ${this.onFinish.size + 1}`);
     this.onFinish.add(cb);
     return () => this.onFinish.delete(cb);
   }
@@ -132,12 +134,14 @@ export class MediaTrack {
     const onErr = endGuard(() => {
     });
     const onEnd = endGuard(() => {
-      if (this.loop) return;
+      // eslint-disable-next-line no-console
+      console.log(`[MediaTrack ${this.id}] Audio ended event fired, calling ${this.onFinish.size} callbacks`);
       this.onFinish.forEach((cb) => {
         try {
           cb();
         } catch (e) {
-          /* ignore */
+          // eslint-disable-next-line no-console
+          console.error(`[MediaTrack ${this.id}] Error in onFinish callback:`, e);
         }
       });
     });
@@ -240,6 +244,8 @@ export class MediaTrack {
     }
     // Do not clear src on stop to avoid MEDIA_ELEMENT_ERROR: Empty src attribute
     // Fire finish callbacks so channels can clean up non-looping tracks deterministically
+    // eslint-disable-next-line no-console
+    console.log(`[MediaTrack ${this.id}] stop() called, firing ${this.onFinish.size} callbacks`);
     try {
       this.onFinish.forEach((cb) => {
         try {

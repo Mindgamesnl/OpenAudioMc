@@ -16,6 +16,11 @@ export class MediaChannel {
     this._pendingRemoveFinalizer = null;
     this._isDestroying = false;
     this._engine = null; // set by MediaEngine.ensureChannel
+    this.playlistData = null; // { sources: [...], loop: bool, lastIndex: number }
+  }
+
+  setPlaylistData(data) {
+    this.playlistData = data;
   }
 
   setTag(tag) {
@@ -32,14 +37,17 @@ export class MediaChannel {
   addTrack(track) {
     this.tracks.set(track.id, track);
     // If a non-looping track ends, auto-remove the channel if this was the last track
-    try {
-      track.onEnded(() => {
-        this.tracks.delete(track.id);
-        if (this.tracks.size === 0 && this._engine) {
-          this._engine.removeChannel(this.id);
-        }
-      });
-    } catch (e) { /* ignore */ }
+    // UNLESS this is a playlist, which manages its own track transitions
+    if (!this.playlistData) {
+      try {
+        track.onEnded(() => {
+          this.tracks.delete(track.id);
+          if (this.tracks.size === 0 && this._engine) {
+            this._engine.removeChannel(this.id);
+          }
+        });
+      } catch (e) { /* ignore */ }
+    }
     this.updateVolumeFromMaster();
   }
 
