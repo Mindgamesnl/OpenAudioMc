@@ -161,7 +161,8 @@ import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
         ["20", "1.20.4"],
 //        ["21", "1.21.4"],
         ["21", "1.21.7"],
-        ["2110", "1.21.10"]
+        ["2110", "1.21.10"],
+        ["2111", "1.21.11"]
 ].each { name, version ->
     task("testPlugin$name", type: LaunchMinecraftServerTask) {
         dependsOn 'shadowJar' // Changed from 'build' to use the shaded jar

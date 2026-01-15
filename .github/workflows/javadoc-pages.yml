@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -27,10 +28,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'maven'
+          cache: 'gradle'
 
-      - name: Generate Javadoc
-        run: mvn clean javadoc:aggregate -pl :openaudiomc-api -U
+      - name: Generate Javadoc (API module)
+        run: ./gradlew :OpenAudioMc:API:javadoc --no-daemon
 
       - name: Checkout javadoc branch
         uses: actions/checkout@v3
@@ -46,7 +47,8 @@ jobs:
           mkdir -p javadoc
 
       - name: Copy new javadoc
-        run: cp -r api/target/reports/apidocs/* javadoc-branch/javadoc/
+        run: |
+          cp -r OpenAudioMc/API/build/docs/javadoc/* javadoc-branch/javadoc/
 
       - name: Commit and push javadoc
         run: |

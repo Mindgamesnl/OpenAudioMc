@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
     group = 'com.craftmend.openaudiomc'
-    version = '6.10.15'
+    version = '6.10.16'
 
     repositories {
         mavenCentral()
@@ -52,7 +52,7 @@ ext {
     okhttpVersion = '4.7.0'
     velocityApiVersion = '3.1.0'
     stormVersion = 'e1f961b'
-    nbtApiVersion = '2.15.3'
+    nbtApiVersion = '2.15.5'
 
     // Bungeecord dependencies
     bungeeProxyVersion = 'b23a51825e'

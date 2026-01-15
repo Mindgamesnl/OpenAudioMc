@@ -9,31 +9,49 @@ import com.craftmend.openaudiomc.generic.rest.response.SectionError;
 import com.craftmend.openaudiomc.generic.rest.response.ShorthandResponse;
 import com.craftmend.openaudiomc.generic.rest.routes.Endpoint;
 import com.craftmend.openaudiomc.generic.rest.routes.Method;
+import com.craftmend.openaudiomc.generic.utils.NamedExecutors;
 import lombok.Getter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import static com.craftmend.openaudiomc.generic.networking.certificate.CertificateHelper.ignore;
 
 public class RestRequest<T extends AbstractRestResponse> {
 
+    private static final OkHttpClient BASE_CLIENT = buildBaseClient();
+    private static OkHttpClient buildBaseClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.dispatcher(NamedExecutors.namedDispatcher("OA-RestRequest"));
+
+        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
+            OpenAudioLogger.warn("Running in development mode, disabling SSL verification");
+            ignore(builder);
+        }
+
+        return builder.build();
+    }
+
     private SectionError sectionError = SectionError.NONE;
-    private Endpoint endpoint;
-    private Map<String, String> queryParameters = new HashMap<>();
+    private final Endpoint endpoint;
+    private final Map<String, String> queryParameters = new HashMap<>();
+
+    private final Class<T> typeClass;
     private T response;
+
     private String baseUrl = null;
     private RequestBody postBody = null;
     private Method method = Method.GET;
     private int timeout = -1;
     private boolean parseResponse = true;
-    private Class<T> typeClass;
     private String rawResponse = null;
 
     public RestRequest(Class<T> typeClass, Endpoint endpoint) {
@@ -69,7 +87,6 @@ public class RestRequest<T extends AbstractRestResponse> {
 
     public RestRequest<T> setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-        // remove trailing slash, if any
         if (this.baseUrl.endsWith("/")) {
             this.baseUrl = this.baseUrl.substring(0, this.baseUrl.length() - 1);
         }
@@ -77,7 +94,10 @@ public class RestRequest<T extends AbstractRestResponse> {
     }
 
     public RestRequest<T> withPostJsonObject(Object o) {
-        this.postBody = RequestBody.create(OpenAudioMc.getGson().toJson(o), MediaType.get("application/json; charset=utf-8"));
+        this.postBody = RequestBody.create(
+                OpenAudioMc.getGson().toJson(o),
+                MediaType.get("application/json; charset=utf-8")
+        );
         this.method = Method.POST;
         return this;
     }
@@ -90,29 +110,25 @@ public class RestRequest<T extends AbstractRestResponse> {
     public RestRequest<T> run() {
         HttpRes res = this.preformRequest();
 
-        // catch timeout
         if (res.code == 408) {
             sectionError = SectionError.TIMEOUT;
             return this;
         }
 
-        // is it a 500?
         if (res.code == 500) {
             sectionError = SectionError.SERVER_ERROR;
             return this;
         }
 
-        // is it a 404?
         if (res.code == 404) {
             sectionError = SectionError.NOT_FOUND;
             return this;
         }
 
-        // ok, now parse it
         rawResponse = res.body;
-        IntermediateResponse<T> intermediateResponse = IntermediateResponse.fromJson(typeClass, res.body, parseResponse);
+        IntermediateResponse<T> intermediateResponse =
+                IntermediateResponse.fromJson(typeClass, res.body, parseResponse);
 
-        // copy over the error and response
         sectionError = intermediateResponse.getError();
         response = intermediateResponse.getResponse(typeClass);
         return this;
@@ -123,7 +139,7 @@ public class RestRequest<T extends AbstractRestResponse> {
         OpenAudioMc.resolveDependency(TaskService.class).runAsync(() -> {
             try {
                 this.run();
-                future.complete(new ShorthandResponse<T>(this.response, this.sectionError));
+                future.complete(new ShorthandResponse<>(this.response, this.sectionError));
             } catch (Exception e) {
                 future.completeExceptionally(e);
             }
@@ -132,56 +148,49 @@ public class RestRequest<T extends AbstractRestResponse> {
     }
 
     public String buildURL() {
-        String url = endpoint.getURL(this.baseUrl); // uses the default baseurl if null
+        StringBuilder url = new StringBuilder(endpoint.getURL(this.baseUrl));
 
-        // add query params
-        if (queryParameters.size() > 0) {
-            url = url + "?";
+        if (!queryParameters.isEmpty()) {
+            url.append("?");
             for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
-                url = url + entry.getKey() + "=" + entry.getValue() + "&";
+                url.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
-            url = url.substring(0, url.length() - 1);
+            url = new StringBuilder(url.substring(0, url.length() - 1));
         }
-        return url;
+        return url.toString();
     }
 
     private HttpRes preformRequest() {
-        // reset state
         sectionError = SectionError.NONE;
         response = null;
         rawResponse = null;
 
-        // create request
         Request.Builder requestBuilder = new Request.Builder()
                 .url(buildURL())
                 .header("oa-env", OpenAudioMc.SERVER_ENVIRONMENT.toString());
 
         if (method == Method.POST) {
-            requestBuilder = requestBuilder.post(postBody);
+            requestBuilder.post(postBody);
         } else {
-            requestBuilder = requestBuilder.get();
+            requestBuilder.get();
         }
 
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        OkHttpClient client = null;
-
+        // IMPORTANT FIX: reuse client, apply timeout via newBuilder()
+        OkHttpClient client = BASE_CLIENT;
         if (timeout != -1) {
-            clientBuilder.readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
-            clientBuilder.connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
+            client = BASE_CLIENT.newBuilder()
+                    .readTimeout(timeout, TimeUnit.SECONDS)
+                    .connectTimeout(timeout, TimeUnit.SECONDS)
+                    .build();
         }
 
-        if (OpenAudioMc.SERVER_ENVIRONMENT == ServerEnvironment.DEVELOPMENT) {
-            OpenAudioLogger.warn("Running in development mode, disabling SSL verification");
-            clientBuilder = ignore(clientBuilder);
-        }
-        client = clientBuilder.build();
-
-        try {
-            okhttp3.Response response = client.newCall(requestBuilder.build()).execute();
-            return new HttpRes(response.code(), response.body().string());
+        try (Response response = client.newCall(requestBuilder.build()).execute()) {
+            String body = response.body() != null ? response.body().string() : "";
+            return new HttpRes(response.code(), body);
         } catch (Exception e) {
-            if (!(e instanceof SocketTimeoutException))
+            if (!(e instanceof SocketTimeoutException)) {
                 e.printStackTrace();
+            }
             return new HttpRes(408, "Request timed out");
         }
     }
@@ -196,5 +205,4 @@ public class RestRequest<T extends AbstractRestResponse> {
             this.body = body;
         }
     }
-
 }
