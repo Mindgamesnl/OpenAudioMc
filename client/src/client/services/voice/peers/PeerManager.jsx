@@ -29,6 +29,10 @@ export class PeerManager {
     this.maxReconnectionAttempts = 3;
     this.connectionTimeout = null;
 
+    this.disconnectTimer = null;
+    this.iceRestartInProgress = false;
+    this.DISCONNECT_GRACE_MS = 5000;
+
     this.connectRtc = this.connectRtc.bind(this);
     this.sendMetaData = this.sendMetaData.bind(this);
     this.setMute = this.setMute.bind(this);
@@ -166,19 +170,77 @@ export class PeerManager {
 
   setupConnectionHandlers() {
     this.peerConnection.oniceconnectionstatechange = () => {
-      debugLog(`ICE connection state: ${this.peerConnection.iceConnectionState}`);
-      if (this.peerConnection.iceConnectionState === 'connected') {
-        this.handleConnectionEstablished();
-      } else if (this.peerConnection.iceConnectionState === 'disconnected') {
-        this.handleDisconnection();
-      } else if (this.peerConnection.iceConnectionState === 'failed') {
-        this.handleConnectionFailure();
+      const state = this.peerConnection.iceConnectionState;
+      debugLog(`ICE connection state: ${state}`);
+
+      if (state === 'connected' || state === 'completed') {
+        this.onIceRecovered();
+      }
+
+      if (state === 'disconnected') {
+        this.onIceDisconnected();
+      }
+
+      if (state === 'failed') {
+        this.onIceFailed();
       }
     };
 
     this.peerConnection.onconnectionstatechange = () => {
       debugLog(`Connection state: ${this.peerConnection.connectionState}`);
     };
+  }
+
+  onIceRecovered() {
+    debugLog('ICE recovered');
+
+    if (this.disconnectTimer) {
+      clearTimeout(this.disconnectTimer);
+      this.disconnectTimer = null;
+    }
+
+    this.iceRestartInProgress = false;
+    this.reconnectionAttempts = 0;
+  }
+
+  onIceDisconnected() {
+    debugLog('ICE disconnected — waiting for recovery');
+
+    if (this.disconnectTimer || this.iceRestartInProgress) return;
+
+    this.disconnectTimer = setTimeout(() => {
+      debugLog('ICE still disconnected — restarting ICE');
+      this.iceRestartInProgress = true;
+
+      try {
+        this.peerConnection.restartIce();
+      } catch (e) {
+        debugLog('restartIce() failed, falling back to full reconnect', e);
+        this.fullReconnect();
+      }
+    }, this.DISCONNECT_GRACE_MS);
+  }
+
+  onIceFailed() {
+    debugLog('ICE failed — full reconnect');
+    this.fullReconnect();
+  }
+
+  async fullReconnect() {
+    if (this.reconnectionAttempts >= this.maxReconnectionAttempts) {
+      VoiceModule.panic('Connection failed after multiple attempts');
+      return;
+    }
+
+    this.reconnectionAttempts++;
+
+    const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
+    await new Promise((r) => setTimeout(r, delay));
+
+    if (this.micStream) {
+      this.cleanup();
+      this.connectRtc(this.micStream);
+    }
   }
 
   setupDataChannel() {
@@ -217,13 +279,6 @@ export class PeerManager {
       this.reconnect();
     } else {
       VoiceModule.panic('Failed after multiple attempts, server rejected connection, slot or integrity error');
-    }
-  }
-
-  handleDisconnection() {
-    debugLog('Connection disconnected');
-    if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
-      this.reconnect();
     }
   }
 
