@@ -192,15 +192,27 @@ export class PeerManager {
   }
 
   onIceRecovered() {
-    debugLog('ICE recovered');
+    debugLog('ICE connected / recovered');
 
+    // clear any pending disconnect recovery
     if (this.disconnectTimer) {
       clearTimeout(this.disconnectTimer);
       this.disconnectTimer = null;
     }
 
+    // clear initial connection timeout
+    if (this.connectionTimeout) {
+      clearTimeout(this.connectionTimeout);
+      this.connectionTimeout = null;
+    }
+
     this.iceRestartInProgress = false;
     this.reconnectionAttempts = 0;
+
+    // mark first successful connect
+    if (!this.connectedOnce) {
+      this.connectedOnce = true;
+    }
   }
 
   onIceDisconnected() {
@@ -235,7 +247,9 @@ export class PeerManager {
     this.reconnectionAttempts++;
 
     const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
-    await new Promise((r) => setTimeout(r, delay));
+    await new Promise((r) => {
+      setTimeout(r, delay);
+    });
 
     if (this.micStream) {
       this.cleanup();
@@ -263,14 +277,6 @@ export class PeerManager {
     };
 
     this.registerDataChannel(this.dataChannel);
-  }
-
-  handleConnectionEstablished() {
-    if (this.connectionTimeout) {
-      clearTimeout(this.connectionTimeout);
-      this.connectionTimeout = null;
-    }
-    this.reconnectionAttempts = 0;
   }
 
   handleConnectionTimeout() {
