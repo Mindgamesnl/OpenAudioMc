@@ -283,6 +283,8 @@ export class PeerManager {
         const rtcPacket = new RtcPacket().fromString(message);
         incrementDebugValue(DebugStatistic.VB_EVENTS);
 
+        console.log('[DEBUG] Received RTC event:', rtcPacket.getEventName());
+
         switch (rtcPacket.getEventName()) {
           case 'REQUEST_NEG_INIT':
             await this.initializeRenegotiation();
@@ -418,6 +420,7 @@ export class PeerManager {
   }
 
   onStart() {
+    console.log('[DEBUG] Dispatching RTC_READY event - Voice chat is ready');
     setGlobalState({
       voiceState: { ready: true, loading: false },
     });

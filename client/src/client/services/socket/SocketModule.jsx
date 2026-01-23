@@ -41,6 +41,7 @@ export const SocketManager = new class ISocketManager {
     this.socket.on('connect', () => {
       setGlobalState({ relay: { connected: true, connecting: false } });
       this.outgoingQueue.forEach((waiting) => {
+        console.log('[DEBUG] Sending queued message', waiting);
         this.send(waiting.key, waiting.value);
       });
       this.hasConnected = true;
@@ -98,6 +99,7 @@ export const SocketManager = new class ISocketManager {
     incrementDebugValue(DebugStatistic.PACKETS_SENT);
     if (this.hasConnected) {
       if (this.callbacksEnabled) {
+        console.log('[DEBUG] Sending event', event, data);
         this.socket.emit(event, data);
       }
     } else {
