@@ -305,7 +305,7 @@ export class Sound extends AudioSourceProcessor {
     if (!this.loaded && this.soundElement != null) {
       // do we have metadata?
 
-      const bypassBuffer = this.getMediaQueryParam('oaSkipBuffer') === 'true';
+      const bypassBuffer = this.getMediaQueryParam('oaSkipBuffer') === 'true' || this.getMediaQueryParam('oaNoCors') === 'true';
 
       const loadedFinished = this.soundElement.hasAttribute('stopwatchReady')
         || bypassBuffer; // alternatively allow a bypass

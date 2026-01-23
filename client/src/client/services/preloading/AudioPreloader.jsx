@@ -2,7 +2,7 @@ import { AudioSourceProcessor } from '../../util/AudioSourceProcessor';
 import { PreloadedMedia } from './PreloadedMedia';
 import { debugLog, feedDebugValue } from '../debugging/DebugService';
 import { DebugStatistic } from '../debugging/DebugStatistic';
-import { isProxyRequired, proxifyUrl } from '../media/utils/corsutil';
+import { isProxyRequired, proxifyUrl, skipCors } from '../media/utils/corsutil';
 
 export const AudioPreloader = new class IAudPreload {
   constructor() {
@@ -101,7 +101,7 @@ export const AudioPreloader = new class IAudPreload {
       cacheCorsSafe = false;
     }
 
-    const bypassBuffer = this.getMediaQueryParam(source, 'oaSkipBuffer', 'false') === 'true';
+    const bypassBuffer = skipCors(source);
 
     if (bypassBuffer) {
       // reset the media

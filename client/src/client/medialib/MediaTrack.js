@@ -147,6 +147,13 @@ export class MediaTrack {
   seek(seconds) {
     try {
       const d = this.audio.duration;
+
+      // is duration infinite?
+      if (d === Infinity) {
+        console.warn(`[MediaTrack ${this.id}] Cannot seek, duration is infinite`);
+        return;
+      }
+
       if (Number.isFinite(d) && d > 0) seconds = Math.max(0, Math.min(seconds, d));
       this.audio.currentTime = seconds;
     } catch (e) { /* ignore */

@@ -1,5 +1,6 @@
 import { getGlobalState } from '../../../../state/store';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
+import { skipCors } from '../../media/utils/corsutil';
 
 export function handlePrefetchPacket(data) {
   const { clear, source } = data;
@@ -27,6 +28,10 @@ export function handlePrefetchPacket(data) {
     }
 
     setTimeout(() => {
+      if (skipCors(source)) {
+        console.warn('Skipping prefetch due to CORS requirements:', source);
+        return;
+      }
       AudioPreloader.fetch(source, origin, keepCopy);
     }, 500);
   }

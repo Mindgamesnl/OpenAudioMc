@@ -8,6 +8,10 @@ export function isProxyRequired(url) {
     return true;
   }
 
+  if (skipCors(url)) {
+    return false;
+  }
+
   // compare origins
   const isSourceOfficial = isDomainOfficial(getDomainOfStr(url));
 
@@ -40,12 +44,16 @@ function getQueryParam(url, key, defaultValue = null) {
   return urlObj.searchParams.get(key) || defaultValue;
 }
 
+export function skipCors(url) {
+  return getQueryParam(url, 'oaNoCors') === 'true' || getQueryParam(url, 'oaSkipBuffer') === 'true';
+}
+
 export function proxifyUrl(url) {
   // is it official?
   if (isDomainOfficial(getDomainOfStr(url))) {
     return url;
   }
-  if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1 && getQueryParam(url, 'oaNoCors') !== 'true') {
+  if (url.indexOf(AUDIO_ENDPOINTS.PROXY) === -1 && !skipCors(url)) {
     return AUDIO_ENDPOINTS.PROXY + encodeURIComponent(url);
   }
   // already proxified
