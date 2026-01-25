@@ -12,6 +12,7 @@ import { getTranslation } from '../../../OpenAudioAppContainer';
 import { debugLog, feedDebugValue, incrementDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 import { MagicValues } from '../../../config/MagicValues';
+import { reportVital } from '../../../util/vitalreporter';
 
 export class PeerManager {
   constructor() {
@@ -28,6 +29,10 @@ export class PeerManager {
     this.reconnectionAttempts = 0;
     this.maxReconnectionAttempts = 3;
     this.connectionTimeout = null;
+
+    this.disconnectTimer = null;
+    this.iceRestartInProgress = false;
+    this.DISCONNECT_GRACE_MS = 5000;
 
     this.connectRtc = this.connectRtc.bind(this);
     this.sendMetaData = this.sendMetaData.bind(this);
@@ -166,19 +171,98 @@ export class PeerManager {
 
   setupConnectionHandlers() {
     this.peerConnection.oniceconnectionstatechange = () => {
-      debugLog(`ICE connection state: ${this.peerConnection.iceConnectionState}`);
-      if (this.peerConnection.iceConnectionState === 'connected') {
-        this.handleConnectionEstablished();
-      } else if (this.peerConnection.iceConnectionState === 'disconnected') {
-        this.handleDisconnection();
-      } else if (this.peerConnection.iceConnectionState === 'failed') {
-        this.handleConnectionFailure();
+      const state = this.peerConnection.iceConnectionState;
+      debugLog(`ICE connection state: ${state}`);
+
+      reportVital(`ICE state changed to: ${state}`);
+
+      if (state === 'connected' || state === 'completed') {
+        this.onIceRecovered();
+      }
+
+      if (state === 'disconnected') {
+        this.onIceDisconnected();
+      }
+
+      if (state === 'failed') {
+        this.onIceFailed();
       }
     };
 
     this.peerConnection.onconnectionstatechange = () => {
       debugLog(`Connection state: ${this.peerConnection.connectionState}`);
     };
+  }
+
+  onIceRecovered() {
+    debugLog('ICE connected / recovered');
+    reportVital('ICE connection recovered');
+
+    // clear any pending disconnect recovery
+    if (this.disconnectTimer) {
+      clearTimeout(this.disconnectTimer);
+      this.disconnectTimer = null;
+    }
+
+    // clear initial connection timeout
+    if (this.connectionTimeout) {
+      clearTimeout(this.connectionTimeout);
+      this.connectionTimeout = null;
+    }
+
+    this.iceRestartInProgress = false;
+    this.reconnectionAttempts = 0;
+
+    // mark first successful connect
+    if (!this.connectedOnce) {
+      this.connectedOnce = true;
+    }
+  }
+
+  onIceDisconnected() {
+    debugLog('ICE disconnected — waiting for recovery');
+    reportVital('ICE connection lost');
+
+    if (this.disconnectTimer || this.iceRestartInProgress) return;
+
+    this.disconnectTimer = setTimeout(() => {
+      debugLog('ICE still disconnected — restarting ICE');
+      this.iceRestartInProgress = true;
+
+      try {
+        reportVital('Attempting ICE restart');
+        this.peerConnection.restartIce();
+      } catch (e) {
+        debugLog('restartIce() failed, falling back to full reconnect', e);
+        reportVital('ICE restart failed, performing full reconnect');
+        this.fullReconnect();
+      }
+    }, this.DISCONNECT_GRACE_MS);
+  }
+
+  onIceFailed() {
+    debugLog('ICE failed — full reconnect');
+    reportVital('ICE connection failed');
+    this.fullReconnect();
+  }
+
+  async fullReconnect() {
+    if (this.reconnectionAttempts >= this.maxReconnectionAttempts) {
+      VoiceModule.panic('Connection failed after multiple attempts');
+      return;
+    }
+
+    this.reconnectionAttempts++;
+
+    const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
+    await new Promise((r) => {
+      setTimeout(r, delay);
+    });
+
+    if (this.micStream) {
+      this.cleanup();
+      this.connectRtc(this.micStream);
+    }
   }
 
   setupDataChannel() {
@@ -189,11 +273,13 @@ export class PeerManager {
 
     this.dataChannel.onopen = () => {
       debugLog('DataChannel opened');
+      reportVital('DataChannel opened');
       this.processMessageQueue();
     };
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
+      reportVital('DataChannel closed');
     };
 
     this.dataChannel.onerror = (error) => {
@@ -203,27 +289,12 @@ export class PeerManager {
     this.registerDataChannel(this.dataChannel);
   }
 
-  handleConnectionEstablished() {
-    if (this.connectionTimeout) {
-      clearTimeout(this.connectionTimeout);
-      this.connectionTimeout = null;
-    }
-    this.reconnectionAttempts = 0;
-  }
-
   handleConnectionTimeout() {
     debugLog('Connection timeout');
     if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
       this.reconnect();
     } else {
       VoiceModule.panic('Failed after multiple attempts, server rejected connection, slot or integrity error');
-    }
-  }
-
-  handleDisconnection() {
-    debugLog('Connection disconnected');
-    if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
-      this.reconnect();
     }
   }
 
@@ -282,6 +353,8 @@ export class PeerManager {
         const message = event.data;
         const rtcPacket = new RtcPacket().fromString(message);
         incrementDebugValue(DebugStatistic.VB_EVENTS);
+
+        console.log('[DEBUG] Received RTC event:', rtcPacket.getEventName());
 
         switch (rtcPacket.getEventName()) {
           case 'REQUEST_NEG_INIT':
@@ -418,6 +491,7 @@ export class PeerManager {
   }
 
   onStart() {
+    console.log('[DEBUG] Dispatching RTC_READY event - Voice chat is ready');
     setGlobalState({
       voiceState: { ready: true, loading: false },
     });
