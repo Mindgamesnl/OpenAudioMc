@@ -12,6 +12,7 @@ import { getTranslation } from '../../../OpenAudioAppContainer';
 import { debugLog, feedDebugValue, incrementDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 import { MagicValues } from '../../../config/MagicValues';
+import { reportVital } from '../../../util/vitalreporter';
 
 export class PeerManager {
   constructor() {
@@ -173,6 +174,8 @@ export class PeerManager {
       const state = this.peerConnection.iceConnectionState;
       debugLog(`ICE connection state: ${state}`);
 
+      reportVital(`ICE state changed to: ${state}`);
+
       if (state === 'connected' || state === 'completed') {
         this.onIceRecovered();
       }
@@ -193,6 +196,7 @@ export class PeerManager {
 
   onIceRecovered() {
     debugLog('ICE connected / recovered');
+    reportVital('ICE connection recovered');
 
     // clear any pending disconnect recovery
     if (this.disconnectTimer) {
@@ -217,6 +221,7 @@ export class PeerManager {
 
   onIceDisconnected() {
     debugLog('ICE disconnected — waiting for recovery');
+    reportVital('ICE connection lost');
 
     if (this.disconnectTimer || this.iceRestartInProgress) return;
 
@@ -225,9 +230,11 @@ export class PeerManager {
       this.iceRestartInProgress = true;
 
       try {
+        reportVital('Attempting ICE restart');
         this.peerConnection.restartIce();
       } catch (e) {
         debugLog('restartIce() failed, falling back to full reconnect', e);
+        reportVital('ICE restart failed, performing full reconnect');
         this.fullReconnect();
       }
     }, this.DISCONNECT_GRACE_MS);
@@ -235,6 +242,7 @@ export class PeerManager {
 
   onIceFailed() {
     debugLog('ICE failed — full reconnect');
+    reportVital('ICE connection failed');
     this.fullReconnect();
   }
 
@@ -265,11 +273,13 @@ export class PeerManager {
 
     this.dataChannel.onopen = () => {
       debugLog('DataChannel opened');
+      reportVital('DataChannel opened');
       this.processMessageQueue();
     };
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
+      reportVital('DataChannel closed');
     };
 
     this.dataChannel.onerror = (error) => {

@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   TAILWIND MOBILE PERFORMANCE OVERRIDES
+   Override Tailwind's backdrop-blur utilities on mobile for performance
+   ========================================================================== */
+
+@layer utilities {
+
+  /* Mobile-first: disable all backdrop-blur on touch devices */
+  @media screen and (max-width: 768px),
+  screen and (hover: none) and (pointer: coarse) {
+
+    .backdrop-blur-sm,
+    .backdrop-blur,
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl,
+    .backdrop-blur-2xl,
+    .backdrop-blur-3xl {
+      --tw-backdrop-blur: none !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+
+    /* Also handle the backdrop-filter utility directly */
+    [class*="backdrop-filter"] {
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
