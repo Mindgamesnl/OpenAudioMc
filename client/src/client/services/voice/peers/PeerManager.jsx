@@ -36,6 +36,13 @@ export class PeerManager {
     this.KEEPALIVE_INTERVAL_MS = 5000; // Send ping every 5 seconds to keep NAT alive
     this.keepaliveInterval = null;
 
+    // Track last ping/pong for debugging
+    this.lastServerPing = null;
+    this.lastServerPong = null;
+    this.lastInboundTraffic = null; // Track ANY inbound message
+    this.inboundWatchdog = null;
+    this.INBOUND_TIMEOUT_MS = 15000; // 15 seconds with no inbound = NAT likely expired
+
     this.connectRtc = this.connectRtc.bind(this);
     this.sendMetaData = this.sendMetaData.bind(this);
     this.setMute = this.setMute.bind(this);
@@ -123,10 +130,13 @@ export class PeerManager {
       ],
       // ICE transport policy - use all candidates (host, srflx, relay)
       iceTransportPolicy: 'all',
+      // Pre-gather candidates for faster recovery
+      iceCandidatePoolSize: 2,
     });
 
     this.setupConnectionHandlers();
     this.setupDataChannel();
+    this.setupVisibilityHandler();
     this.listenForTracks();
 
     this.connectionTimeout = setTimeout(() => {
@@ -245,6 +255,29 @@ export class PeerManager {
     };
   }
 
+  setupVisibilityHandler() {
+    // Handle page visibility changes - browsers throttle background tabs
+    this.visibilityHandler = () => {
+      if (document.visibilityState === 'visible') {
+        debugLog('Page became visible - checking connection health');
+        // Page is visible again, check if connection is still healthy
+        if (this.peerConnection) {
+          const state = this.peerConnection.iceConnectionState;
+          reportVital(`Page visible - ICE state: ${state}`);
+          if (state === 'disconnected' || state === 'failed') {
+            // Connection died while backgrounded, trigger recovery
+            debugLog('Connection degraded while backgrounded, attempting recovery');
+            this.onIceDisconnected();
+          }
+        }
+      } else {
+        debugLog('Page hidden - browser may throttle');
+        this.lastHiddenTime = Date.now();
+      }
+    };
+    document.addEventListener('visibilitychange', this.visibilityHandler);
+  }
+
   async logIceDiagnostics(triggerState) {
     try {
       const stats = await this.peerConnection.getStats();
@@ -292,13 +325,25 @@ export class PeerManager {
 
       // On disconnect, log additional network info
       if (triggerState === 'disconnected') {
+        const now = Date.now();
+        const timeSinceLastPing = this.lastServerPing ? (now - this.lastServerPing) : 'never';
+        const timeSinceLastPong = this.lastServerPong ? (now - this.lastServerPong) : 'never';
+        const timeSinceHidden = this.lastHiddenTime ? (now - this.lastHiddenTime) : 'never';
+        const timeSinceInbound = this.lastInboundTraffic ? (now - this.lastInboundTraffic) : 'never';
+        const wasRecentlyHidden = this.lastHiddenTime && (now - this.lastHiddenTime) < 30000;
         console.warn('[ICE DISCONNECT DEBUG]', {
           timestamp: new Date().toISOString(),
           connectionUptime: this.connectedOnce ? 'was connected' : 'never connected',
           dataChannelState: this.dataChannel?.readyState,
           navigatorOnline: navigator.onLine,
           visibilityState: document.visibilityState,
+          timeSinceLastServerPing: timeSinceLastPing,
+          timeSinceLastServerPong: timeSinceLastPong,
+          timeSinceLastInbound: timeSinceInbound,
+          timeSinceHidden: timeSinceHidden,
+          wasRecentlyHidden,
         });
+        reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, pingAge=${timeSinceLastPing}ms`);
       }
     } catch (e) {
       console.error('Failed to get ICE diagnostics:', e);
@@ -374,6 +419,42 @@ export class PeerManager {
     this.fullReconnect();
   }
 
+  startInboundWatchdog() {
+    this.stopInboundWatchdog();
+    this.lastInboundTraffic = Date.now();
+
+    this.inboundWatchdog = setInterval(() => {
+      if (!this.lastInboundTraffic || !this.connectedOnce) return;
+
+      const timeSinceInbound = Date.now() - this.lastInboundTraffic;
+      if (timeSinceInbound > this.INBOUND_TIMEOUT_MS) {
+        // No inbound traffic for 15+ seconds - NAT mapping likely expired
+        const iceState = this.peerConnection?.iceConnectionState;
+        debugLog(`No inbound traffic for ${timeSinceInbound}ms - NAT likely expired (ICE: ${iceState})`);
+        reportVital(`NAT timeout detected: no inbound for ${Math.round(timeSinceInbound / 1000)}s, ICE=${iceState}`);
+
+        // Force ICE recovery even if ICE state still looks connected
+        // (ICE state can lag behind actual connectivity)
+        if (!this.iceRestartInProgress && this.reconnectionAttempts === 0) {
+          this.iceRestartInProgress = true;
+          this.fullReconnect();
+        }
+      }
+    }, 5000); // Check every 5 seconds
+  }
+
+  stopInboundWatchdog() {
+    if (this.inboundWatchdog) {
+      clearInterval(this.inboundWatchdog);
+      this.inboundWatchdog = null;
+    }
+  }
+
+  // Call this whenever we receive ANY message from the server
+  recordInboundTraffic() {
+    this.lastInboundTraffic = Date.now();
+  }
+
   async fullReconnect() {
     if (this.reconnectionAttempts >= this.maxReconnectionAttempts) {
       VoiceModule.panic('Connection failed after multiple attempts');
@@ -407,14 +488,18 @@ export class PeerManager {
 
       // Start keepalive ping to prevent NAT timeout and browser throttling
       this.startKeepalive();
+
+      // Start watchdog to detect NAT timeout (no inbound traffic)
+      this.startInboundWatchdog();
     };
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
       reportVital('DataChannel closed');
 
-      // Stop keepalive
+      // Stop keepalive and watchdog
       this.stopKeepalive();
+      this.stopInboundWatchdog();
 
       // If DataChannel closes but peer connection is still active, attempt recovery
       // But only if we're not already in a reconnection attempt
@@ -474,8 +559,15 @@ export class PeerManager {
   }
 
   cleanup() {
-    // Stop keepalive first
+    // Stop keepalive and watchdog first
     this.stopKeepalive();
+    this.stopInboundWatchdog();
+
+    // Remove visibility handler
+    if (this.visibilityHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityHandler);
+      this.visibilityHandler = null;
+    }
 
     if (this.connectionTimeout) {
       clearTimeout(this.connectionTimeout);
@@ -506,11 +598,20 @@ export class PeerManager {
     this.trackQueue.clear();
     this.waitingPromises.forEach((promise) => promise.handleError('Connection reset'));
     this.waitingPromises.clear();
+
+    // Reset ping tracking
+    this.lastServerPing = null;
+    this.lastServerPong = null;
+    this.lastHiddenTime = null;
+    this.lastInboundTraffic = null;
   }
 
   registerDataChannel(dataChannel) {
     dataChannel.addEventListener('message', async (event) => {
       try {
+        // Record that we received inbound traffic - critical for NAT keepalive detection
+        this.recordInboundTraffic();
+
         const message = event.data;
         const rtcPacket = new RtcPacket().fromString(message);
         incrementDebugValue(DebugStatistic.VB_EVENTS);
@@ -596,6 +697,7 @@ export class PeerManager {
 
           case 'PING':
             // Server is checking if we're alive, respond with PONG
+            this.lastServerPing = Date.now();
             if (this.dataChannel && this.dataChannel.readyState === 'open') {
               this.dataChannel.send(
                 new RtcPacket()
@@ -607,7 +709,7 @@ export class PeerManager {
 
           case 'PONG':
             // Server responded to our PING, connection is alive
-            // Nothing to do, just prevents the "Unknown RTC event" warning
+            this.lastServerPong = Date.now();
             break;
 
           case 'IDENTIFY_SELF':
