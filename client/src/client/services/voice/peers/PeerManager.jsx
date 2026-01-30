@@ -12,6 +12,7 @@ import { getTranslation } from '../../../OpenAudioAppContainer';
 import { debugLog, feedDebugValue, incrementDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 import { MagicValues } from '../../../config/MagicValues';
+import { reportVital } from '../../../util/vitalreporter';
 
 export class PeerManager {
   constructor() {
@@ -28,6 +29,19 @@ export class PeerManager {
     this.reconnectionAttempts = 0;
     this.maxReconnectionAttempts = 3;
     this.connectionTimeout = null;
+
+    this.disconnectTimer = null;
+    this.iceRestartInProgress = false;
+    this.DISCONNECT_GRACE_MS = 5000;
+    this.KEEPALIVE_INTERVAL_MS = 5000; // Send ping every 5 seconds to keep NAT alive
+    this.keepaliveInterval = null;
+
+    // Track last ping/pong for debugging
+    this.lastServerPing = null;
+    this.lastServerPong = null;
+    this.lastInboundTraffic = null; // Track ANY inbound message
+    this.inboundWatchdog = null;
+    this.INBOUND_TIMEOUT_MS = 15000; // 15 seconds with no inbound = NAT likely expired
 
     this.connectRtc = this.connectRtc.bind(this);
     this.sendMetaData = this.sendMetaData.bind(this);
@@ -109,10 +123,20 @@ export class PeerManager {
       + `/pn/${currentUser.userName}`
       + `/sk/${globalState.voiceState.streamKey}`;
 
-    this.peerConnection = new RTCPeerConnection();
+    this.peerConnection = new RTCPeerConnection({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+      ],
+      // ICE transport policy - use all candidates (host, srflx, relay)
+      iceTransportPolicy: 'all',
+      // Pre-gather candidates for faster recovery
+      iceCandidatePoolSize: 2,
+    });
 
     this.setupConnectionHandlers();
     this.setupDataChannel();
+    this.setupVisibilityHandler();
     this.listenForTracks();
 
     this.connectionTimeout = setTimeout(() => {
@@ -130,6 +154,37 @@ export class PeerManager {
 
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
+
+      // Wait for ICE gathering to complete before sending the offer
+      // This ensures all candidates (host, srflx) are included in the SDP
+      reportVital(`ICE gathering state before wait: ${this.peerConnection.iceGatheringState}`);
+      if (this.peerConnection.iceGatheringState !== 'complete') {
+        await new Promise((resolve) => {
+          const checkState = () => {
+            if (this.peerConnection.iceGatheringState === 'complete') {
+              this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+              reportVital('ICE gathering completed');
+              resolve();
+            }
+          };
+          this.peerConnection.addEventListener('icegatheringstatechange', checkState);
+          checkState();
+          setTimeout(() => {
+            this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+            debugLog('ICE gathering timed out, proceeding with available candidates');
+            reportVital(`ICE gathering timed out (state: ${this.peerConnection.iceGatheringState})`);
+            resolve();
+          }, 5000);
+        });
+      }
+
+      // Count candidates in the offer
+      const sdp = this.peerConnection.localDescription?.sdp || '';
+      const hostCandidates = (sdp.match(/typ host/g) || []).length;
+      const srflxCandidates = (sdp.match(/typ srflx/g) || []).length;
+      const relayCandidates = (sdp.match(/typ relay/g) || []).length;
+      reportVital(`Sending offer - candidates: host=${hostCandidates}, srflx=${srflxCandidates}, relay=${relayCandidates}`);
+      debugLog(`Sending offer with ICE gathering state: ${this.peerConnection.iceGatheringState}`);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -166,34 +221,303 @@ export class PeerManager {
 
   setupConnectionHandlers() {
     this.peerConnection.oniceconnectionstatechange = () => {
-      debugLog(`ICE connection state: ${this.peerConnection.iceConnectionState}`);
-      if (this.peerConnection.iceConnectionState === 'connected') {
-        this.handleConnectionEstablished();
-      } else if (this.peerConnection.iceConnectionState === 'disconnected') {
-        this.handleDisconnection();
-      } else if (this.peerConnection.iceConnectionState === 'failed') {
-        this.handleConnectionFailure();
+      const state = this.peerConnection.iceConnectionState;
+      debugLog(`ICE connection state: ${state}`);
+
+      reportVital(`ICE state changed to: ${state}`);
+
+      // Log detailed ICE diagnostics on state change
+      this.logIceDiagnostics(state);
+
+      if (state === 'connected' || state === 'completed') {
+        this.onIceRecovered();
+      }
+
+      if (state === 'disconnected') {
+        this.onIceDisconnected();
+      }
+
+      if (state === 'failed') {
+        this.onIceFailed();
       }
     };
 
     this.peerConnection.onconnectionstatechange = () => {
       debugLog(`Connection state: ${this.peerConnection.connectionState}`);
     };
+
+    // Log ICE candidates as they're gathered
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        const c = event.candidate;
+        debugLog(`ICE candidate: ${c.type} ${c.protocol} ${c.address}:${c.port} (${c.candidateType})`);
+      }
+    };
+  }
+
+  setupVisibilityHandler() {
+    // Handle page visibility changes - browsers throttle background tabs
+    this.visibilityHandler = () => {
+      if (document.visibilityState === 'visible') {
+        debugLog('Page became visible - checking connection health');
+        // Page is visible again, check if connection is still healthy
+        if (this.peerConnection) {
+          const state = this.peerConnection.iceConnectionState;
+          reportVital(`Page visible - ICE state: ${state}`);
+          if (state === 'disconnected' || state === 'failed') {
+            // Connection died while backgrounded, trigger recovery
+            debugLog('Connection degraded while backgrounded, attempting recovery');
+            this.onIceDisconnected();
+          }
+        }
+      } else {
+        debugLog('Page hidden - browser may throttle');
+        this.lastHiddenTime = Date.now();
+      }
+    };
+    document.addEventListener('visibilitychange', this.visibilityHandler);
+  }
+
+  async logIceDiagnostics(triggerState) {
+    try {
+      const stats = await this.peerConnection.getStats();
+      let candidatePairInfo = null;
+      let localCandidateInfo = null;
+      let remoteCandidateInfo = null;
+
+      stats.forEach((report) => {
+        if (report.type === 'candidate-pair' && report.state === 'succeeded') {
+          candidatePairInfo = {
+            localCandidateId: report.localCandidateId,
+            remoteCandidateId: report.remoteCandidateId,
+            bytesSent: report.bytesSent,
+            bytesReceived: report.bytesReceived,
+            currentRoundTripTime: report.currentRoundTripTime,
+            availableOutgoingBitrate: report.availableOutgoingBitrate,
+          };
+        }
+        if (report.type === 'local-candidate') {
+          localCandidateInfo = {
+            candidateType: report.candidateType,
+            protocol: report.protocol,
+            address: report.address,
+            port: report.port,
+            networkType: report.networkType,
+          };
+        }
+        if (report.type === 'remote-candidate') {
+          remoteCandidateInfo = {
+            candidateType: report.candidateType,
+            protocol: report.protocol,
+            address: report.address,
+            port: report.port,
+          };
+        }
+      });
+
+      console.log(`[ICE Diagnostics on ${triggerState}]`, {
+        localCandidate: localCandidateInfo,
+        remoteCandidate: remoteCandidateInfo,
+        candidatePair: candidatePairInfo,
+        signalingState: this.peerConnection.signalingState,
+        iceGatheringState: this.peerConnection.iceGatheringState,
+      });
+
+      // On disconnect, log additional network info
+      if (triggerState === 'disconnected') {
+        const now = Date.now();
+        const timeSinceLastPing = this.lastServerPing ? (now - this.lastServerPing) : 'never';
+        const timeSinceLastPong = this.lastServerPong ? (now - this.lastServerPong) : 'never';
+        const timeSinceHidden = this.lastHiddenTime ? (now - this.lastHiddenTime) : 'never';
+        const timeSinceInbound = this.lastInboundTraffic ? (now - this.lastInboundTraffic) : 'never';
+        const wasRecentlyHidden = this.lastHiddenTime && (now - this.lastHiddenTime) < 30000;
+        console.warn('[ICE DISCONNECT DEBUG]', {
+          timestamp: new Date().toISOString(),
+          connectionUptime: this.connectedOnce ? 'was connected' : 'never connected',
+          dataChannelState: this.dataChannel?.readyState,
+          navigatorOnline: navigator.onLine,
+          visibilityState: document.visibilityState,
+          timeSinceLastServerPing: timeSinceLastPing,
+          timeSinceLastServerPong: timeSinceLastPong,
+          timeSinceLastInbound: timeSinceInbound,
+          timeSinceHidden,
+          wasRecentlyHidden,
+        });
+        reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, pingAge=${timeSinceLastPing}ms`);
+      }
+    } catch (e) {
+      console.error('Failed to get ICE diagnostics:', e);
+    }
+  }
+
+  onIceRecovered() {
+    debugLog('ICE connected / recovered');
+    reportVital('ICE connection recovered');
+
+    // clear any pending disconnect recovery
+    if (this.disconnectTimer) {
+      clearTimeout(this.disconnectTimer);
+      this.disconnectTimer = null;
+    }
+
+    // clear initial connection timeout
+    if (this.connectionTimeout) {
+      clearTimeout(this.connectionTimeout);
+      this.connectionTimeout = null;
+    }
+
+    this.iceRestartInProgress = false;
+    this.reconnectionAttempts = 0;
+
+    // mark first successful connect
+    if (!this.connectedOnce) {
+      this.connectedOnce = true;
+    }
+  }
+
+  onIceDisconnected() {
+    debugLog('ICE disconnected — waiting for recovery');
+    reportVital('ICE connection lost');
+
+    if (this.disconnectTimer || this.iceRestartInProgress) return;
+
+    this.disconnectTimer = setTimeout(() => {
+      debugLog('ICE still disconnected — performing full reconnect');
+      reportVital('ICE failed to recover, performing full reconnect');
+      this.iceRestartInProgress = true;
+
+      // ICE restart via restartIce() doesn't work reliably when the DataChannel
+      // is broken, so do a full reconnect to establish a fresh connection
+      this.fullReconnect();
+    }, this.DISCONNECT_GRACE_MS);
+  }
+
+  startKeepalive() {
+    this.stopKeepalive(); // Clear any existing interval
+    this.keepaliveInterval = setInterval(() => {
+      if (this.dataChannel && this.dataChannel.readyState === 'open') {
+        try {
+          // Send a lightweight ping through DataChannel to keep NAT bindings alive
+          this.dataChannel.send(new RtcPacket().setEventName('PING').serialize());
+        } catch (e) {
+          debugLog('Keepalive ping failed', e);
+        }
+      }
+    }, this.KEEPALIVE_INTERVAL_MS);
+  }
+
+  stopKeepalive() {
+    if (this.keepaliveInterval) {
+      clearInterval(this.keepaliveInterval);
+      this.keepaliveInterval = null;
+    }
+  }
+
+  onIceFailed() {
+    debugLog('ICE failed — full reconnect');
+    reportVital('ICE connection failed');
+    this.fullReconnect();
+  }
+
+  startInboundWatchdog() {
+    this.stopInboundWatchdog();
+    this.lastInboundTraffic = Date.now();
+
+    this.inboundWatchdog = setInterval(() => {
+      if (!this.lastInboundTraffic || !this.connectedOnce) return;
+
+      const timeSinceInbound = Date.now() - this.lastInboundTraffic;
+      if (timeSinceInbound > this.INBOUND_TIMEOUT_MS) {
+        // No inbound traffic for 15+ seconds - NAT mapping likely expired
+        const iceState = this.peerConnection?.iceConnectionState;
+        debugLog(`No inbound traffic for ${timeSinceInbound}ms - NAT likely expired (ICE: ${iceState})`);
+        reportVital(`NAT timeout detected: no inbound for ${Math.round(timeSinceInbound / 1000)}s, ICE=${iceState}`);
+
+        // Force ICE recovery even if ICE state still looks connected
+        // (ICE state can lag behind actual connectivity)
+        if (!this.iceRestartInProgress && this.reconnectionAttempts === 0) {
+          this.iceRestartInProgress = true;
+          this.fullReconnect();
+        }
+      }
+    }, 5000); // Check every 5 seconds
+  }
+
+  stopInboundWatchdog() {
+    if (this.inboundWatchdog) {
+      clearInterval(this.inboundWatchdog);
+      this.inboundWatchdog = null;
+    }
+  }
+
+  // Call this whenever we receive ANY message from the server
+  recordInboundTraffic() {
+    this.lastInboundTraffic = Date.now();
+  }
+
+  async fullReconnect() {
+    if (this.reconnectionAttempts >= this.maxReconnectionAttempts) {
+      VoiceModule.panic('Connection failed after multiple attempts');
+      return;
+    }
+
+    this.reconnectionAttempts++;
+
+    const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
+    await new Promise((r) => {
+      setTimeout(r, delay);
+    });
+
+    if (this.micStream) {
+      this.cleanup();
+      this.connectRtc(this.micStream);
+    }
   }
 
   setupDataChannel() {
     this.dataChannel = this.peerConnection.createDataChannel('eb', {
       ordered: true,
-      maxRetransmits: 3,
+      // Increase retransmits for more reliability on lossy connections
+      maxRetransmits: 10,
     });
 
     this.dataChannel.onopen = () => {
       debugLog('DataChannel opened');
+      reportVital('DataChannel opened');
       this.processMessageQueue();
+
+      // Start keepalive ping to prevent NAT timeout and browser throttling
+      this.startKeepalive();
+
+      // Start watchdog to detect NAT timeout (no inbound traffic)
+      this.startInboundWatchdog();
     };
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
+      reportVital('DataChannel closed');
+
+      // Stop keepalive and watchdog
+      this.stopKeepalive();
+      this.stopInboundWatchdog();
+
+      // If DataChannel closes but peer connection is still active, attempt recovery
+      // But only if we're not already in a reconnection attempt
+      if (this.peerConnection
+          && this.peerConnection.connectionState === 'connected'
+          && !this.iceRestartInProgress
+          && this.reconnectionAttempts === 0) {
+        // Wait a moment to see if this is part of a normal state transition
+        setTimeout(() => {
+          // Double-check conditions after delay
+          if (this.dataChannel?.readyState === 'closed'
+              && this.peerConnection?.connectionState === 'connected') {
+            debugLog('DataChannel closed unexpectedly, initiating recovery');
+            reportVital('DataChannel closed unexpectedly - reconnecting');
+            this.fullReconnect();
+          }
+        }, 1000);
+      }
     };
 
     this.dataChannel.onerror = (error) => {
@@ -203,27 +527,12 @@ export class PeerManager {
     this.registerDataChannel(this.dataChannel);
   }
 
-  handleConnectionEstablished() {
-    if (this.connectionTimeout) {
-      clearTimeout(this.connectionTimeout);
-      this.connectionTimeout = null;
-    }
-    this.reconnectionAttempts = 0;
-  }
-
   handleConnectionTimeout() {
     debugLog('Connection timeout');
     if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
       this.reconnect();
     } else {
       VoiceModule.panic('Failed after multiple attempts, server rejected connection, slot or integrity error');
-    }
-  }
-
-  handleDisconnection() {
-    debugLog('Connection disconnected');
-    if (this.reconnectionAttempts < this.maxReconnectionAttempts) {
-      this.reconnect();
     }
   }
 
@@ -250,6 +559,16 @@ export class PeerManager {
   }
 
   cleanup() {
+    // Stop keepalive and watchdog first
+    this.stopKeepalive();
+    this.stopInboundWatchdog();
+
+    // Remove visibility handler
+    if (this.visibilityHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityHandler);
+      this.visibilityHandler = null;
+    }
+
     if (this.connectionTimeout) {
       clearTimeout(this.connectionTimeout);
       this.connectionTimeout = null;
@@ -274,11 +593,25 @@ export class PeerManager {
     this.messageQueue = [];
     this.negotiationQueue = [];
     this.isNegotiating = false;
+
+    // Clear track queues so audio works after reconnect
+    this.trackQueue.clear();
+    this.waitingPromises.forEach((promise) => promise.handleError('Connection reset'));
+    this.waitingPromises.clear();
+
+    // Reset ping tracking
+    this.lastServerPing = null;
+    this.lastServerPong = null;
+    this.lastHiddenTime = null;
+    this.lastInboundTraffic = null;
   }
 
   registerDataChannel(dataChannel) {
     dataChannel.addEventListener('message', async (event) => {
       try {
+        // Record that we received inbound traffic - critical for NAT keepalive detection
+        this.recordInboundTraffic();
+
         const message = event.data;
         const rtcPacket = new RtcPacket().fromString(message);
         incrementDebugValue(DebugStatistic.VB_EVENTS);
@@ -360,6 +693,23 @@ export class PeerManager {
 
           case 'CONTEXT_EVENT':
             this.contextEvent(rtcPacket);
+            break;
+
+          case 'PING':
+            // Server is checking if we're alive, respond with PONG
+            this.lastServerPing = Date.now();
+            if (this.dataChannel && this.dataChannel.readyState === 'open') {
+              this.dataChannel.send(
+                new RtcPacket()
+                  .setEventName('PONG')
+                  .serialize(),
+              );
+            }
+            break;
+
+          case 'PONG':
+            // Server responded to our PING, connection is alive
+            this.lastServerPong = Date.now();
             break;
 
           case 'IDENTIFY_SELF':
@@ -523,7 +873,7 @@ export class PeerManager {
       .serialize());
   }
 
-  requestStream(peerKey, statusCallback = () => {}) {
+  requestStream(peerKey, statusCallback = () => { }) {
     if (this.dataChannel?.readyState === 'open') {
       const promise = new PromisedChannel();
       promise.onStatusUpdate(statusCallback);
