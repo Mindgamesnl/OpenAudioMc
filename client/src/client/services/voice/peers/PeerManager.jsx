@@ -226,17 +226,13 @@ export class PeerManager {
     if (this.disconnectTimer || this.iceRestartInProgress) return;
 
     this.disconnectTimer = setTimeout(() => {
-      debugLog('ICE still disconnected — restarting ICE');
+      debugLog('ICE still disconnected — performing full reconnect');
+      reportVital('ICE failed to recover, performing full reconnect');
       this.iceRestartInProgress = true;
 
-      try {
-        reportVital('Attempting ICE restart');
-        this.peerConnection.restartIce();
-      } catch (e) {
-        debugLog('restartIce() failed, falling back to full reconnect', e);
-        reportVital('ICE restart failed, performing full reconnect');
-        this.fullReconnect();
-      }
+      // ICE restart via restartIce() doesn't work reliably when the DataChannel
+      // is broken, so do a full reconnect to establish a fresh connection
+      this.fullReconnect();
     }, this.DISCONNECT_GRACE_MS);
   }
 
@@ -280,6 +276,24 @@ export class PeerManager {
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
       reportVital('DataChannel closed');
+
+      // If DataChannel closes but peer connection is still active, attempt recovery
+      // But only if we're not already in a reconnection attempt
+      if (this.peerConnection
+          && this.peerConnection.connectionState === 'connected'
+          && !this.iceRestartInProgress
+          && this.reconnectionAttempts === 0) {
+        // Wait a moment to see if this is part of a normal state transition
+        setTimeout(() => {
+          // Double-check conditions after delay
+          if (this.dataChannel?.readyState === 'closed'
+              && this.peerConnection?.connectionState === 'connected') {
+            debugLog('DataChannel closed unexpectedly, initiating recovery');
+            reportVital('DataChannel closed unexpectedly - reconnecting');
+            this.fullReconnect();
+          }
+        }, 1000);
+      }
     };
 
     this.dataChannel.onerror = (error) => {
@@ -345,6 +359,11 @@ export class PeerManager {
     this.messageQueue = [];
     this.negotiationQueue = [];
     this.isNegotiating = false;
+
+    // Clear track queues so audio works after reconnect
+    this.trackQueue.clear();
+    this.waitingPromises.forEach((promise) => promise.handleError('Connection reset'));
+    this.waitingPromises.clear();
   }
 
   registerDataChannel(dataChannel) {
@@ -594,7 +613,7 @@ export class PeerManager {
       .serialize());
   }
 
-  requestStream(peerKey, statusCallback = () => {}) {
+  requestStream(peerKey, statusCallback = () => { }) {
     if (this.dataChannel?.readyState === 'open') {
       const promise = new PromisedChannel();
       promise.onStatusUpdate(statusCallback);

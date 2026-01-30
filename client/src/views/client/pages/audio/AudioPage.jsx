@@ -6,7 +6,6 @@ import SoundCloudPlayer from '../../../../components/soundcloud/SoundCloudPlayer
 import { UnsupportedBanner } from '../../../../components/voice/UnsupportedBanner';
 import { msg } from '../../../../client/OpenAudioAppContainer';
 import { BaseSegmentedPage } from '../../../../components/layout/BaseSegmentedPage';
-import { MusicNoteSvg } from '../../../../components/icons/musicnote';
 
 function AudioPage(props) {
   const { currentUser } = props;
@@ -18,202 +17,112 @@ function AudioPage(props) {
 
   return (
     <BaseSegmentedPage noFooter>
-      <div className="flex w-full flex-col">
-        <div className="w-full">
-          <div className="backdrop-blur-xl bg-black bg-opacity-40 p-4 shadow-2xl rounded-3xl border " style={{ borderColor: 'var(--primary-accent)', borderWidth: '5px' }}>
-            <div
-              className="container mx-auto my-8 z-10 flex flex-col lg:flex-row items-center justify-center gap-8 px-4"
-            >
-              <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-end space-y-8 pt-8 pr-24">
-                <div className="w-full lg:w-5/12 flex flex-col items-center lg:items-end space-y-8 pt-8">
-                  <div className="text-center lg:text-right">
-                    <div className="relative inline-block w-fit mx-auto lg:mx-0">
-                      {/* Main image bubble */}
-                      <img
-                        src={`https://visage.surgeplay.com/bust/512/${currentUser?.uuid}`}
-                        alt="Profile"
-                        className="block w-48 h-48 rounded-full border-2 object-cover"
-                        style={{ borderColor: 'var(--accent-color, #6366f1)' }}
-                      />
-                      {logoImage ? (
-                        <img
-                          src={logoImage}
-                          alt="Secondary"
-                          className="absolute -bottom-3 -right-3 w-20 h-20 rounded-full"
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
+      <div className="w-full max-w-md mx-auto px-4 py-6">
+        {/* Main Card */}
+        <div className="bg-gray-900 rounded-2xl overflow-hidden">
+          {/* Header with accent color band */}
+          <div
+            className="h-2"
+            style={{ backgroundColor: 'var(--primary-accent)' }}
+          />
 
-                <div className="text-gray-400 max-w-md text-right">
-                  <h1 className="text-white text-3xl font-bold">
-                    {msg('home.welcome')}
-                  </h1>
-                  <p
-                    className="text-base text-gray-300 leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: msg('home.header') }}
+          {/* User Info Section */}
+          <div className="p-6 pb-4">
+            <div className="flex items-center gap-4">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={`https://visage.surgeplay.com/bust/512/${currentUser?.uuid}`}
+                  alt="Profile"
+                  className="w-14 h-14 rounded-xl object-cover bg-gray-800"
+                />
+                {logoImage ? (
+                  <img
+                    src={logoImage}
+                    alt="Server"
+                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-md bg-gray-800 border-2 border-gray-900"
                   />
-                </div>
+                ) : null}
               </div>
-
-              {/* Right Section - Audio Controls (like login page) */}
-              <div className="w-full lg:w-7/12 max-w-2xl">
-                <div
-                  className="backdrop-blur-xl bg-black bg-opacity-30 rounded-2xl p-8 shadow-2xl"
-                >
-                  {/* Gradient overlay */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br opacity-10 rounded-2xl"
-                    style={{
-                      backgroundImage: 'linear-gradient(135deg, var(--primary-accent), transparent 70%)',
-                    }}
-                  />
-
-                  {/* Glowing accent border effect */}
-                  <div
-                    className="absolute -inset-1 rounded-2xl blur opacity-10"
+              <div className="min-w-0 flex-1">
+                <h1 className="text-white text-lg font-semibold truncate">
+                  {msg('home.welcome')}
+                </h1>
+                <p className="text-gray-500 text-sm">{msg('home.subtitle')}</p>
+              </div>
+              {props.hasPlayingMedia ? (
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-2 h-2 rounded-full animate-pulse"
                     style={{ backgroundColor: 'var(--primary-accent)' }}
                   />
-
-                  <div className="relative z-10 space-y-8">
-                    {/* Volume Control Card */}
-                    <div className="group">
-                      <div className="flex items-center space-x-4 mb-6">
-                        <div className="relative">
-                          <div
-                            className="absolute -inset-1 rounded-full blur opacity-60 group-hover:opacity-100 transition-all duration-300"
-                            style={{ backgroundColor: 'var(--primary-accent)' }}
-                          />
-                          <div
-                            className="relative w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold"
-                            style={{ backgroundColor: 'var(--primary-accent)' }}
-                          >
-                            <MusicNoteSvg />
-                          </div>
-                        </div>
-                        <div>
-                          <h2 className="text-white text-xl font-bold">{msg('home.audioControls')}</h2>
-                        </div>
-                      </div>
-
-                      {/* Volume Circle */}
-                      <div className="flex justify-center mb-6">
-                        <div className="w-48 h-48 relative group">
-                          {/* Outer glow ring */}
-                          <div
-                            className="absolute -inset-2 rounded-full blur opacity-30 group-hover:opacity-50 transition-all duration-300"
-                            style={{ backgroundColor: 'var(--primary-accent)' }}
-                          />
-
-                          {/* Background circle with accent border */}
-                          <div
-                            className="absolute inset-0 rounded-full border-2"
-                            style={{ borderColor: 'var(--primary-accent)', opacity: 0.3 }}
-                          />
-
-                          {/* Volume arc */}
-                          <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                            <circle
-                              cx="50"
-                              cy="50"
-                              r="45"
-                              fill="none"
-                              stroke="white"
-                              strokeOpacity="0.1"
-                              strokeWidth="1"
-                            />
-                            <circle
-                              cx="50"
-                              cy="50"
-                              r="45"
-                              fill="none"
-                              stroke="var(--primary-accent)"
-                              strokeOpacity="0.9"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeDasharray={`${props.volume * 2.83} 283`}
-                              style={{
-                                filter: 'drop-shadow(0 0 12px var(--primary-accent))',
-                              }}
-                            />
-                            {props.volume > 0 && (
-                              <circle
-                                cx={50 + 45 * Math.cos((((props.volume / 100) * 360) * Math.PI) / 180)}
-                                cy={50 + 45 * Math.sin((((props.volume / 100) * 360) * Math.PI) / 180)}
-                                r="4"
-                                fill="var(--primary-accent)"
-                                style={{
-                                  filter: 'drop-shadow(0 0 6px var(--primary-accent))',
-                                }}
-                              />
-                            )}
-                          </svg>
-
-                          {/* Center content */}
-                          <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <div
-                              className="text-5xl font-thin text-white mb-1 tracking-wider"
-                              style={{ textShadow: '0 0 20px var(--primary-accent)' }}
-                            >
-                              {props.volume}
-                            </div>
-                            <div className="text-xs text-gray-300 font-light tracking-widest uppercase opacity-80">
-                              Volume
-                            </div>
-                            {props.hasPlayingMedia ? (
-                              <div className="mt-3 flex items-center space-x-2">
-                                <div
-                                  className="w-2 h-2 rounded-full animate-pulse"
-                                  style={{ backgroundColor: 'var(--primary-accent)' }}
-                                />
-                                <span className="text-xs text-gray-400 font-medium">Playing</span>
-                              </div>
-                            ) : null}
-                          </div>
-
-                          {/* Hidden range input for interaction */}
-                          <AudioVolume />
-                        </div>
-                      </div>
-
-                      <div className="flex items-center align-middle space-x-4 justify-center">
-                        <p
-                          className="text-gray-400 max-w-md text-sm leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: msg('home.volumeContext') }}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-gray-400 text-xs">{msg('home.playing')}</span>
                 </div>
-                {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat ? (
-                  <div
-                    className="backdrop-blur-md mt-12 bg-black bg-opacity-10 rounded-2xl p-8 lg:p-10 border border-white border-opacity-5 shadow-lg"
-                  >
-                    <VcOnboarding />
-                  </div>
-                ) : null}
-
-                {props.voiceState.enabled && !props.browserSupportsVoiceChat ? (
-                  <div
-                    className="backdrop-blur-md mt-12 bg-black bg-opacity-10 rounded-2xl p-8 lg:p-10 border border-white border-opacity-5 shadow-lg"
-                  >
-                    <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner>
-                  </div>
-                ) : null}
-
-                {props.voiceState.enabled && !props.clientSupportsVoiceChat ? (
-                  <div
-                    className="backdrop-blur-md mt-12 bg-black bg-opacity-10 rounded-2xl p-8 lg:p-10 border border-white border-opacity-5 shadow-lg"
-                  >
-                    <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner>
-                  </div>
-                ) : null}
-              </div>
-              <SoundCloudPlayer />
+              ) : null}
             </div>
           </div>
+
+          {/* Divider */}
+          <div className="h-px bg-gray-800 mx-6" />
+
+          {/* Volume Control Section */}
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400 text-sm font-medium">{msg('home.audioControls')}</span>
+              <span
+                className="text-2xl font-semibold tabular-nums"
+                style={{ color: 'var(--primary-accent)' }}
+              >
+                {props.volume}
+                %
+              </span>
+            </div>
+
+            {/* Volume Slider */}
+            <AudioVolume />
+
+            <p
+              className="text-gray-600 text-xs mt-4 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: msg('home.volumeContext') }}
+            />
+          </div>
+
+          {/* Voice Chat Section - only if enabled */}
+          {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <VcOnboarding />
+              </div>
+            </>
+          ) : null}
+
+          {/* Voice Chat Errors */}
+          {props.voiceState.enabled && !props.browserSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner>
+              </div>
+            </>
+          ) : null}
+
+          {props.voiceState.enabled && !props.clientSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner>
+              </div>
+            </>
+          ) : null}
         </div>
+
+        {/* SoundCloud - outside main card */}
+        <SoundCloudPlayer />
+
+        {/* Footer info */}
+        <p className="text-center text-gray-600 text-xs mt-6">
+          {msg('home.footerTip')}
+        </p>
       </div>
     </BaseSegmentedPage>
   );

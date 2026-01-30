@@ -64,18 +64,17 @@ export class BaseSegmentedPage extends React.Component {
 
     return (
       <div className="h-full bg-black flex flex-col overflow-auto">
-        {/* Animated gradient background */}
+        {/* Background */}
         <div className="fixed inset-0 bg-black z-0 overflow-hidden">
           <div
-            className="absolute inset-0 opacity-40 z-0"
+            className="absolute inset-0 opacity-30 z-0"
             style={{
               backgroundPosition: 'center',
               backgroundImage,
               backgroundSize: 'cover',
-              filter: 'blur(2px)',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-transparent to-black opacity-80 z-1" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-90 z-1" />
         </div>
 
         {/* Main content container */}
@@ -91,7 +90,7 @@ export class BaseSegmentedPage extends React.Component {
 
         {/* Footer */}
         {!this.props.noFooter ? (
-          <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-black bg-opacity-80 backdrop-blur-md border-t border-gray-800 z-10">
+          <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-gray-900 border-t border-gray-800 z-10">
             <div className="mb-2 sm:mb-0 text-center sm:text-left">
               &copy; OpenAudioMc 2016-2025. All Rights Reserved.
             </div>
