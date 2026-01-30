@@ -19,7 +19,7 @@ class AudioVolume extends React.Component {
       <div className="relative w-full py-4">
         {/* Slider container with flat background */}
         <div
-          className="relative h-14 flex items-center px-4 rounded-2xl"
+          className="relative h-14 flex items-center rounded-2xl overflow-hidden"
           style={{
             backgroundColor: 'rgba(255,255,255,0.03)',
             border: '1px solid rgba(255,255,255,0.08)',
@@ -27,19 +27,40 @@ class AudioVolume extends React.Component {
         >
           {/* Track background */}
           <div
-            className="absolute left-4 right-4 h-2.5 rounded-full"
+            className="absolute left-0 right-0 h-full"
             style={{
-              backgroundColor: '#1f2937',
+              backgroundColor: 'transparent',
             }}
-          />
+          >
+            {/* Center line visual */}
+            <div
+              className="absolute left-0 right-0 h-2.5"
+              style={{
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: '#1f2937',
+              }}
+            />
+          </div>
 
           {/* Filled track */}
           <div
-            className="absolute left-4 h-2.5 rounded-full"
+            className="absolute left-0 h-full"
             style={{
-              width: `calc((100% - 32px) * ${volume / 100})`,
+              width: `${volume}%`,
               backgroundColor: 'var(--primary-accent)',
-              border: '1px solid rgba(0,0,0,0.08)',
+              opacity: 0.2,
+            }}
+          />
+
+          {/* Filled track line */}
+          <div
+            className="absolute left-0 h-2.5"
+            style={{
+              width: `${volume}%`,
+              backgroundColor: 'var(--primary-accent)',
+              top: '50%',
+              transform: 'translateY(-50%)',
             }}
           />
 
@@ -50,20 +71,22 @@ class AudioVolume extends React.Component {
             max="100"
             value={volume}
             onChange={this.onChange}
-            className="absolute left-4 right-4 h-full cursor-pointer"
+            className="absolute left-0 right-0 h-full cursor-pointer w-full"
             style={{
               margin: 0,
+              width: '100%',
               WebkitAppearance: 'none',
               appearance: 'none',
               background: 'transparent',
+              zIndex: 10,
             }}
           />
 
           {/* Custom thumb without glow */}
           <div
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none z-20"
             style={{
-              left: `calc(16px + (100% - 32px) * ${volume / 100} - 14px)`,
+              left: `calc(${volume}% - 12px)`,
               top: '50%',
               transform: 'translateY(-50%)',
             }}
