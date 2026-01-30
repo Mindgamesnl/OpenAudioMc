@@ -33,7 +33,7 @@ export class PeerManager {
     this.disconnectTimer = null;
     this.iceRestartInProgress = false;
     this.DISCONNECT_GRACE_MS = 5000;
-    this.KEEPALIVE_INTERVAL_MS = 10000; // Send ping every 10 seconds
+    this.KEEPALIVE_INTERVAL_MS = 5000; // Send ping every 5 seconds to keep NAT alive
     this.keepaliveInterval = null;
 
     this.connectRtc = this.connectRtc.bind(this);
@@ -116,7 +116,14 @@ export class PeerManager {
       + `/pn/${currentUser.userName}`
       + `/sk/${globalState.voiceState.streamKey}`;
 
-    this.peerConnection = new RTCPeerConnection();
+    this.peerConnection = new RTCPeerConnection({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+      ],
+      // ICE transport policy - use all candidates (host, srflx, relay)
+      iceTransportPolicy: 'all',
+    });
 
     this.setupConnectionHandlers();
     this.setupDataChannel();
@@ -137,6 +144,37 @@ export class PeerManager {
 
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
+
+      // Wait for ICE gathering to complete before sending the offer
+      // This ensures all candidates (host, srflx) are included in the SDP
+      reportVital(`ICE gathering state before wait: ${this.peerConnection.iceGatheringState}`);
+      if (this.peerConnection.iceGatheringState !== 'complete') {
+        await new Promise((resolve) => {
+          const checkState = () => {
+            if (this.peerConnection.iceGatheringState === 'complete') {
+              this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+              reportVital('ICE gathering completed');
+              resolve();
+            }
+          };
+          this.peerConnection.addEventListener('icegatheringstatechange', checkState);
+          checkState();
+          setTimeout(() => {
+            this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+            debugLog('ICE gathering timed out, proceeding with available candidates');
+            reportVital(`ICE gathering timed out (state: ${this.peerConnection.iceGatheringState})`);
+            resolve();
+          }, 5000);
+        });
+      }
+
+      // Count candidates in the offer
+      const sdp = this.peerConnection.localDescription?.sdp || '';
+      const hostCandidates = (sdp.match(/typ host/g) || []).length;
+      const srflxCandidates = (sdp.match(/typ srflx/g) || []).length;
+      const relayCandidates = (sdp.match(/typ relay/g) || []).length;
+      reportVital(`Sending offer - candidates: host=${hostCandidates}, srflx=${srflxCandidates}, relay=${relayCandidates}`);
+      debugLog(`Sending offer with ICE gathering state: ${this.peerConnection.iceGatheringState}`);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -358,7 +396,8 @@ export class PeerManager {
   setupDataChannel() {
     this.dataChannel = this.peerConnection.createDataChannel('eb', {
       ordered: true,
-      maxRetransmits: 3,
+      // Increase retransmits for more reliability on lossy connections
+      maxRetransmits: 10,
     });
 
     this.dataChannel.onopen = () => {
@@ -553,6 +592,22 @@ export class PeerManager {
 
           case 'CONTEXT_EVENT':
             this.contextEvent(rtcPacket);
+            break;
+
+          case 'PING':
+            // Server is checking if we're alive, respond with PONG
+            if (this.dataChannel && this.dataChannel.readyState === 'open') {
+              this.dataChannel.send(
+                new RtcPacket()
+                  .setEventName('PONG')
+                  .serialize(),
+              );
+            }
+            break;
+
+          case 'PONG':
+            // Server responded to our PING, connection is alive
+            // Nothing to do, just prevents the "Unknown RTC event" warning
             break;
 
           case 'IDENTIFY_SELF':
