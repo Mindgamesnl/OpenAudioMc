@@ -33,6 +33,8 @@ export class PeerManager {
     this.disconnectTimer = null;
     this.iceRestartInProgress = false;
     this.DISCONNECT_GRACE_MS = 5000;
+    this.KEEPALIVE_INTERVAL_MS = 10000; // Send ping every 10 seconds
+    this.keepaliveInterval = null;
 
     this.connectRtc = this.connectRtc.bind(this);
     this.sendMetaData = this.sendMetaData.bind(this);
@@ -176,6 +178,9 @@ export class PeerManager {
 
       reportVital(`ICE state changed to: ${state}`);
 
+      // Log detailed ICE diagnostics on state change
+      this.logIceDiagnostics(state);
+
       if (state === 'connected' || state === 'completed') {
         this.onIceRecovered();
       }
@@ -192,6 +197,74 @@ export class PeerManager {
     this.peerConnection.onconnectionstatechange = () => {
       debugLog(`Connection state: ${this.peerConnection.connectionState}`);
     };
+
+    // Log ICE candidates as they're gathered
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        const c = event.candidate;
+        debugLog(`ICE candidate: ${c.type} ${c.protocol} ${c.address}:${c.port} (${c.candidateType})`);
+      }
+    };
+  }
+
+  async logIceDiagnostics(triggerState) {
+    try {
+      const stats = await this.peerConnection.getStats();
+      let candidatePairInfo = null;
+      let localCandidateInfo = null;
+      let remoteCandidateInfo = null;
+
+      stats.forEach((report) => {
+        if (report.type === 'candidate-pair' && report.state === 'succeeded') {
+          candidatePairInfo = {
+            localCandidateId: report.localCandidateId,
+            remoteCandidateId: report.remoteCandidateId,
+            bytesSent: report.bytesSent,
+            bytesReceived: report.bytesReceived,
+            currentRoundTripTime: report.currentRoundTripTime,
+            availableOutgoingBitrate: report.availableOutgoingBitrate,
+          };
+        }
+        if (report.type === 'local-candidate') {
+          localCandidateInfo = {
+            candidateType: report.candidateType,
+            protocol: report.protocol,
+            address: report.address,
+            port: report.port,
+            networkType: report.networkType,
+          };
+        }
+        if (report.type === 'remote-candidate') {
+          remoteCandidateInfo = {
+            candidateType: report.candidateType,
+            protocol: report.protocol,
+            address: report.address,
+            port: report.port,
+          };
+        }
+      });
+
+      console.log(`[ICE Diagnostics on ${triggerState}]`, {
+        localCandidate: localCandidateInfo,
+        remoteCandidate: remoteCandidateInfo,
+        candidatePair: candidatePairInfo,
+        signalingState: this.peerConnection.signalingState,
+        iceGatheringState: this.peerConnection.iceGatheringState,
+      });
+
+      // On disconnect, log additional network info
+      if (triggerState === 'disconnected') {
+        console.warn('[ICE DISCONNECT DEBUG]', {
+          timestamp: new Date().toISOString(),
+          connectionUptime: this.connectedOnce ? 'was connected' : 'never connected',
+          dataChannelState: this.dataChannel?.readyState,
+          navigatorOnline: navigator.onLine,
+          visibilityState: document.visibilityState,
+        });
+      }
+    } catch (e) {
+      console.error('Failed to get ICE diagnostics:', e);
+    }
   }
 
   onIceRecovered() {
@@ -236,6 +309,27 @@ export class PeerManager {
     }, this.DISCONNECT_GRACE_MS);
   }
 
+  startKeepalive() {
+    this.stopKeepalive(); // Clear any existing interval
+    this.keepaliveInterval = setInterval(() => {
+      if (this.dataChannel && this.dataChannel.readyState === 'open') {
+        try {
+          // Send a lightweight ping through DataChannel to keep NAT bindings alive
+          this.dataChannel.send(new RtcPacket().setEventName('PING').serialize());
+        } catch (e) {
+          debugLog('Keepalive ping failed', e);
+        }
+      }
+    }, this.KEEPALIVE_INTERVAL_MS);
+  }
+
+  stopKeepalive() {
+    if (this.keepaliveInterval) {
+      clearInterval(this.keepaliveInterval);
+      this.keepaliveInterval = null;
+    }
+  }
+
   onIceFailed() {
     debugLog('ICE failed — full reconnect');
     reportVital('ICE connection failed');
@@ -271,11 +365,17 @@ export class PeerManager {
       debugLog('DataChannel opened');
       reportVital('DataChannel opened');
       this.processMessageQueue();
+
+      // Start keepalive ping to prevent NAT timeout and browser throttling
+      this.startKeepalive();
     };
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
       reportVital('DataChannel closed');
+
+      // Stop keepalive
+      this.stopKeepalive();
 
       // If DataChannel closes but peer connection is still active, attempt recovery
       // But only if we're not already in a reconnection attempt
@@ -335,6 +435,9 @@ export class PeerManager {
   }
 
   cleanup() {
+    // Stop keepalive first
+    this.stopKeepalive();
+
     if (this.connectionTimeout) {
       clearTimeout(this.connectionTimeout);
       this.connectionTimeout = null;
