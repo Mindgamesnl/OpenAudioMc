@@ -340,7 +340,7 @@ export class PeerManager {
           timeSinceLastServerPing: timeSinceLastPing,
           timeSinceLastServerPong: timeSinceLastPong,
           timeSinceLastInbound: timeSinceInbound,
-          timeSinceHidden: timeSinceHidden,
+          timeSinceHidden,
           wasRecentlyHidden,
         });
         reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, pingAge=${timeSinceLastPing}ms`);
