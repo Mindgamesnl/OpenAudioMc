@@ -17,30 +17,29 @@ class AudioVolume extends React.Component {
 
     return (
       <div className="relative w-full py-4">
-        {/* Slider container with rounded background */}
+        {/* Slider container with flat background */}
         <div
-          className="relative h-16 flex items-center px-4 rounded-2xl"
+          className="relative h-14 flex items-center px-4 rounded-2xl"
           style={{
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            border: '1px solid rgba(255,255,255,0.05)',
+            backgroundColor: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          {/* Track background with inner shadow */}
+          {/* Track background */}
           <div
-            className="absolute left-4 right-4 h-3 rounded-full"
+            className="absolute left-4 right-4 h-2.5 rounded-full"
             style={{
-              backgroundColor: '#1a1a2e',
-              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.4)',
+              backgroundColor: '#1f2937',
             }}
           />
 
-          {/* Filled track with gradient and glow */}
+          {/* Filled track */}
           <div
-            className="absolute left-4 h-3 rounded-full"
+            className="absolute left-4 h-2.5 rounded-full"
             style={{
               width: `calc((100% - 32px) * ${volume / 100})`,
-              background: 'linear-gradient(90deg, var(--primary-accent) 0%, color-mix(in srgb, var(--primary-accent) 80%, #fff) 100%)',
-              boxShadow: '0 0 12px color-mix(in srgb, var(--primary-accent) 50%, transparent)',
+              backgroundColor: 'var(--primary-accent)',
+              border: '1px solid rgba(0,0,0,0.08)',
             }}
           />
 
@@ -60,7 +59,7 @@ class AudioVolume extends React.Component {
             }}
           />
 
-          {/* Custom thumb with glow */}
+          {/* Custom thumb without glow */}
           <div
             className="absolute pointer-events-none"
             style={{
@@ -70,13 +69,10 @@ class AudioVolume extends React.Component {
             }}
           >
             <div
-              className="w-7 h-7 rounded-full bg-white flex items-center justify-center"
-              style={{
-                boxShadow: '0 2px 10px rgba(0,0,0,0.4), 0 0 20px color-mix(in srgb, var(--primary-accent) 40%, transparent)',
-              }}
+              className="w-6 h-6 rounded-full bg-white flex items-center justify-center border border-gray-200"
             >
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: 'var(--primary-accent)' }}
               />
             </div>
@@ -84,10 +80,10 @@ class AudioVolume extends React.Component {
         </div>
 
         {/* Volume level indicators */}
-        <div className="flex justify-between mt-3 px-4">
-          <span className="text-gray-500 text-xs">0%</span>
-          <span className="text-gray-500 text-xs">50%</span>
-          <span className="text-gray-500 text-xs">100%</span>
+        <div className="flex justify-between mt-3 px-4 text-gray-500 text-xs">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
         </div>
       </div>
     );
