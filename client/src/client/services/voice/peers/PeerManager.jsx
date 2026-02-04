@@ -676,21 +676,18 @@ export class PeerManager {
               );
               const answer = await this.peerConnection.createAnswer();
 
-              // IMPORTANT: Set local description BEFORE sending the answer
-              // This ensures ICE candidates are gathered for our answer
+              // Set local description
               await this.peerConnection.setLocalDescription(answer);
 
-              // Wait for ICE gathering before sending answer
-              await this.waitForIceGathering();
-
+              // For renegotiation (not ICE restart), don't wait for gathering
+              // The existing ICE connection should be preserved
               let packet = new RtcPacket()
                 .setEventName('PROCESS_RESPONSE')
                 .serialize();
-              // Use localDescription to include gathered candidates
-              packet += btoa(JSON.stringify(this.peerConnection.localDescription));
+              packet += btoa(JSON.stringify(answer));
               this.dataChannel.send(packet);
 
-              console.log('[DEBUG] Processed server offer and sent answer (ICE gathering complete)');
+              console.log('[DEBUG] Processed server offer and sent answer');
             } catch (error) {
               // Reset on error
               if (this.negotiationTimeout) {
