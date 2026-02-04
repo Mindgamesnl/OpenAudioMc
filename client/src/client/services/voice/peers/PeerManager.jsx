@@ -1,5 +1,4 @@
-/* eslint-disable no-case-declarations */
-/* eslint-disable no-console */
+/* eslint-disable*/
 import { toast } from 'react-toastify';
 import { getGlobalState, setGlobalState, store } from '../../../../state/store';
 import { VoiceModule, VoiceStatusChangeEvent } from '../VoiceModule';
@@ -42,6 +41,7 @@ export class PeerManager {
     this.lastServerPing = null;
     this.lastServerPong = null;
     this.lastInboundTraffic = null; // Track ANY inbound message
+    this.lastRenegotiationTime = null; // Track when renegotiation happened
     this.inboundWatchdog = null;
     this.INBOUND_TIMEOUT_MS = 15000; // 15 seconds with no inbound = NAT likely expired
 
@@ -149,7 +149,7 @@ export class PeerManager {
 
     try {
       const tracks = micStream.getTracks();
-      // eslint-disable-next-line no-restricted-syntax
+       
       for (const track of tracks) {
         this.peerConnection.addTrack(track, micStream);
       }
@@ -245,7 +245,15 @@ export class PeerManager {
     };
 
     this.peerConnection.onconnectionstatechange = () => {
-      debugLog(`Connection state: ${this.peerConnection.connectionState}`);
+      const state = this.peerConnection.connectionState;
+      debugLog(`Connection state: ${state}`);
+
+      // Handle connection state failures (more reliable than ICE state alone)
+      if (state === 'failed') {
+        debugLog('PeerConnection failed - triggering recovery');
+        reportVital('PeerConnection state failed');
+        this.onIceFailed();
+      }
     };
 
     // Log ICE candidates as they're gathered
@@ -253,6 +261,15 @@ export class PeerManager {
       if (event.candidate) {
         const c = event.candidate;
         debugLog(`ICE candidate: ${c.type} ${c.protocol} ${c.address}:${c.port} (${c.candidateType})`);
+      }
+    };
+
+    // Track signaling state changes for debugging renegotiation
+    this.peerConnection.onsignalingstatechange = () => {
+      const state = this.peerConnection.signalingState;
+      console.log('[DEBUG] Signaling state changed:', state);
+      if (state === 'stable') {
+        console.log('[DEBUG] Signaling stable - ICE state:', this.peerConnection.iceConnectionState);
       }
     };
   }
@@ -286,17 +303,39 @@ export class PeerManager {
       let candidatePairInfo = null;
       let localCandidateInfo = null;
       let remoteCandidateInfo = null;
+      let transportInfo = null;
+      const allCandidatePairs = [];
 
       stats.forEach((report) => {
-        if (report.type === 'candidate-pair' && report.state === 'succeeded') {
-          candidatePairInfo = {
-            localCandidateId: report.localCandidateId,
-            remoteCandidateId: report.remoteCandidateId,
+        // Get ALL candidate pairs to see their states
+        if (report.type === 'candidate-pair') {
+          allCandidatePairs.push({
+            id: report.id,
+            state: report.state,
+            nominated: report.nominated,
             bytesSent: report.bytesSent,
             bytesReceived: report.bytesReceived,
-            currentRoundTripTime: report.currentRoundTripTime,
-            availableOutgoingBitrate: report.availableOutgoingBitrate,
-          };
+            requestsSent: report.requestsSent,
+            requestsReceived: report.requestsReceived,
+            responsesSent: report.responsesSent,
+            responsesReceived: report.responsesReceived,
+            consentRequestsSent: report.consentRequestsSent,
+            lastPacketSentTimestamp: report.lastPacketSentTimestamp,
+            lastPacketReceivedTimestamp: report.lastPacketReceivedTimestamp,
+          });
+
+          if (report.state === 'succeeded') {
+            candidatePairInfo = {
+              localCandidateId: report.localCandidateId,
+              remoteCandidateId: report.remoteCandidateId,
+              bytesSent: report.bytesSent,
+              bytesReceived: report.bytesReceived,
+              currentRoundTripTime: report.currentRoundTripTime,
+              availableOutgoingBitrate: report.availableOutgoingBitrate,
+              consentRequestsSent: report.consentRequestsSent,
+              lastPacketReceivedTimestamp: report.lastPacketReceivedTimestamp,
+            };
+          }
         }
         if (report.type === 'local-candidate') {
           localCandidateInfo = {
@@ -315,12 +354,23 @@ export class PeerManager {
             port: report.port,
           };
         }
+        if (report.type === 'transport') {
+          transportInfo = {
+            dtlsState: report.dtlsState,
+            iceState: report.iceState,
+            iceLocalCandidateId: report.iceLocalCandidateId,
+            selectedCandidatePairId: report.selectedCandidatePairId,
+            selectedCandidatePairChanges: report.selectedCandidatePairChanges,
+          };
+        }
       });
 
       console.log(`[ICE Diagnostics on ${triggerState}]`, {
         localCandidate: localCandidateInfo,
         remoteCandidate: remoteCandidateInfo,
         candidatePair: candidatePairInfo,
+        transport: transportInfo,
+        allPairs: allCandidatePairs,
         signalingState: this.peerConnection.signalingState,
         iceGatheringState: this.peerConnection.iceGatheringState,
       });
@@ -332,7 +382,24 @@ export class PeerManager {
         const timeSinceLastPong = this.lastServerPong ? (now - this.lastServerPong) : 'never';
         const timeSinceHidden = this.lastHiddenTime ? (now - this.lastHiddenTime) : 'never';
         const timeSinceInbound = this.lastInboundTraffic ? (now - this.lastInboundTraffic) : 'never';
+        const timeSinceRenegotiation = this.lastRenegotiationTime ? (now - this.lastRenegotiationTime) : 'never';
         const wasRecentlyHidden = this.lastHiddenTime && (now - this.lastHiddenTime) < 30000;
+
+        // Get current ICE credentials from local description
+        let currentIceUfrag = 'unknown';
+        try {
+          const localSdp = this.peerConnection.localDescription?.sdp || '';
+          currentIceUfrag = localSdp.match(/a=ice-ufrag:(\S+)/)?.[1] || 'none';
+        } catch (e) { /* ignore */ }
+
+        // Get consent-related stats if available
+        const consentInfo = candidatePairInfo ? {
+          consentRequestsSent: candidatePairInfo.consentRequestsSent,
+          lastPacketReceived: candidatePairInfo.lastPacketReceivedTimestamp
+            ? new Date(candidatePairInfo.lastPacketReceivedTimestamp).toISOString()
+            : 'unknown',
+        } : null;
+
         console.warn('[ICE DISCONNECT DEBUG]', {
           timestamp: new Date().toISOString(),
           connectionUptime: this.connectedOnce ? 'was connected' : 'never connected',
@@ -342,10 +409,14 @@ export class PeerManager {
           timeSinceLastServerPing: timeSinceLastPing,
           timeSinceLastServerPong: timeSinceLastPong,
           timeSinceLastInbound: timeSinceInbound,
+          timeSinceRenegotiation,
           timeSinceHidden,
           wasRecentlyHidden,
+          currentIceUfrag,
+          consentInfo,
+          transportState: transportInfo,
         });
-        reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, pingAge=${timeSinceLastPing}ms`);
+        reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, renego=${timeSinceRenegotiation}ms`);
       }
     } catch (e) {
       console.error('Failed to get ICE diagnostics:', e);
@@ -382,6 +453,45 @@ export class PeerManager {
     reportVital('ICE connection lost');
 
     if (this.disconnectTimer || this.iceRestartInProgress) return;
+
+    // Check if this disconnect is likely a transient state from renegotiation
+    // If we just completed renegotiation (within 10s) and DataChannel is still open,
+    // give it more time to stabilize
+    const timeSinceRenegotiation = this.lastRenegotiationTime
+      ? (Date.now() - this.lastRenegotiationTime)
+      : Infinity;
+    const dataChannelOpen = this.dataChannel?.readyState === 'open';
+
+    if (timeSinceRenegotiation < 10000 && dataChannelOpen) {
+      debugLog(`ICE disconnected shortly after renegotiation (${timeSinceRenegotiation}ms ago), DataChannel still open - likely transient, using extended grace period`);
+      reportVital(`ICE disconnect post-renegotiation: ${timeSinceRenegotiation}ms, DC=open - extended grace`);
+
+      // Use a longer grace period for post-renegotiation disconnects
+      this.disconnectTimer = setTimeout(() => {
+        // Re-check if still disconnected AND DataChannel is now also broken
+        const currentIceState = this.peerConnection?.iceConnectionState;
+        const currentDcState = this.dataChannel?.readyState;
+
+        if (currentIceState === 'disconnected' || currentIceState === 'failed') {
+          if (currentDcState !== 'open') {
+            debugLog('ICE and DataChannel both degraded — performing full reconnect');
+            reportVital('Post-renegotiation recovery failed, reconnecting');
+            this.iceRestartInProgress = true;
+            this.fullReconnect();
+          } else {
+            debugLog('ICE still disconnected but DataChannel working — monitoring');
+            reportVital('ICE disconnected but DC open - continuing to monitor');
+            // DataChannel still works, so connection is probably fine
+            // Clear the timer and let normal monitoring continue
+            this.disconnectTimer = null;
+          }
+        } else {
+          debugLog(`ICE recovered to ${currentIceState}`);
+          this.disconnectTimer = null;
+        }
+      }, 15000); // 15 second grace period for post-renegotiation
+      return;
+    }
 
     this.disconnectTimer = setTimeout(() => {
       debugLog('ICE still disconnected — performing full reconnect');
@@ -552,7 +662,7 @@ export class PeerManager {
     this.reconnectionAttempts++;
 
     const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
-    // eslint-disable-next-line no-promise-executor-return
+     
     await new Promise((resolve) => setTimeout(resolve, delay));
 
     if (this.micStream) {
@@ -611,6 +721,7 @@ export class PeerManager {
     this.lastServerPong = null;
     this.lastHiddenTime = null;
     this.lastInboundTraffic = null;
+    this.lastRenegotiationTime = null;
   }
 
   registerDataChannel(dataChannel) {
@@ -653,7 +764,24 @@ export class PeerManager {
             // Server creates offer because it knows about new tracks
             console.log('[DEBUG] Received PROCESS_OFFER from server');
             this.lastNegotiationRequest = performance.now();
+            this.lastRenegotiationTime = Date.now(); // Track for disconnect correlation
             const offer = JSON.parse(rtcPacket.trimmed());
+
+            // Log our CURRENT local ICE credentials before processing the offer
+            try {
+              const currentLocalSdp = this.peerConnection.localDescription?.sdp || '';
+              const currentLocalUfrag = currentLocalSdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+              console.log('[DEBUG] Our current local ICE ufrag BEFORE processing offer:', currentLocalUfrag);
+            } catch (e) { /* ignore */ }
+
+            // Log ICE credentials from the offer to check if they changed
+            try {
+              const offerSdp = JSON.parse(atob(offer.sdp));
+              const iceUfrag = offerSdp.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+              const icePwd = offerSdp.sdp.match(/a=ice-pwd:(\S+)/)?.[1]?.substring(0, 8);
+              console.log('[DEBUG] Offer ICE credentials:', { iceUfrag, icePwd: `${icePwd}...` });
+            } catch (e) { /* ignore parse errors */ }
+
             try {
               // If we're in the middle of client-initiated negotiation, we have a glare condition
               // Server always wins - abort our negotiation and process server's offer
@@ -671,20 +799,42 @@ export class PeerManager {
               // Start timeout - we expect CONFIRM_NEGOTIATION after sending our answer
               this.startNegotiationTimeout();
 
+              console.log('[DEBUG] Before setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
               await this.peerConnection.setRemoteDescription(
                 new RTCSessionDescription(JSON.parse(atob(offer.sdp))),
               );
+              console.log('[DEBUG] After setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
+
               const answer = await this.peerConnection.createAnswer();
 
               // Set local description
               await this.peerConnection.setLocalDescription(answer);
+              console.log('[DEBUG] After setLocalDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
+
+              // Log answer ICE credentials
+              try {
+                const answerUfrag = answer.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+                console.log('[DEBUG] Answer ICE ufrag (OUR new local credentials):', answerUfrag);
+
+                // Also check what's in our actual localDescription after setting it
+                const actualLocalUfrag = this.peerConnection.localDescription?.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+                console.log('[DEBUG] Actual localDescription ICE ufrag:', actualLocalUfrag);
+              } catch (e) { /* ignore */ }
+
+              // CRITICAL: Use localDescription, not the original answer object!
+              // After setLocalDescription, the actual localDescription may have
+              // additional ICE state that's not in the original answer
+              const actualAnswer = this.peerConnection.localDescription;
+              if (!actualAnswer) {
+                throw new Error('localDescription is null after setLocalDescription');
+              }
 
               // For renegotiation (not ICE restart), don't wait for gathering
               // The existing ICE connection should be preserved
               let packet = new RtcPacket()
                 .setEventName('PROCESS_RESPONSE')
                 .serialize();
-              packet += btoa(JSON.stringify(answer));
+              packet += btoa(JSON.stringify(actualAnswer));
               this.dataChannel.send(packet);
 
               console.log('[DEBUG] Processed server offer and sent answer');
