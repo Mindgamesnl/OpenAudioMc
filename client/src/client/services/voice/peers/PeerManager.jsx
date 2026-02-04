@@ -649,10 +649,9 @@ export class PeerManager {
             break;
 
           case 'PROCESS_OFFER':
-            // DEPRECATED: Old flow where server creates offer
-            // Kept for backwards compatibility with older servers
-            // New flow uses REQUEST_NEG_INIT -> KICKSTART_RENEG -> NEGOTIATION_RESPONSE
-            console.warn('[DEBUG] Received PROCESS_OFFER (legacy flow) - consider upgrading server');
+            // Server-initiated renegotiation (e.g., new track added)
+            // Server creates offer because it knows about new tracks
+            console.log('[DEBUG] Received PROCESS_OFFER from server');
             this.lastNegotiationRequest = performance.now();
             const offer = JSON.parse(rtcPacket.trimmed());
             try {
@@ -681,13 +680,17 @@ export class PeerManager {
               // This ensures ICE candidates are gathered for our answer
               await this.peerConnection.setLocalDescription(answer);
 
+              // Wait for ICE gathering before sending answer
+              await this.waitForIceGathering();
+
               let packet = new RtcPacket()
                 .setEventName('PROCESS_RESPONSE')
                 .serialize();
-              packet += btoa(JSON.stringify(answer));
+              // Use localDescription to include gathered candidates
+              packet += btoa(JSON.stringify(this.peerConnection.localDescription));
               this.dataChannel.send(packet);
 
-              console.log('[DEBUG] Processed server offer and sent answer');
+              console.log('[DEBUG] Processed server offer and sent answer (ICE gathering complete)');
             } catch (error) {
               // Reset on error
               if (this.negotiationTimeout) {
