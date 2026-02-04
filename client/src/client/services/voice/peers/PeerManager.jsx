@@ -29,10 +29,12 @@ export class PeerManager {
     this.reconnectionAttempts = 0;
     this.maxReconnectionAttempts = 3;
     this.connectionTimeout = null;
+    this.negotiationTimeout = null;
 
     this.disconnectTimer = null;
     this.iceRestartInProgress = false;
     this.DISCONNECT_GRACE_MS = 5000;
+    this.NEGOTIATION_TIMEOUT_MS = 10000; // 10 second timeout for negotiation
     this.KEEPALIVE_INTERVAL_MS = 5000; // Send ping every 5 seconds to keep NAT alive
     this.keepaliveInterval = null;
 
@@ -340,7 +342,7 @@ export class PeerManager {
           timeSinceLastServerPing: timeSinceLastPing,
           timeSinceLastServerPong: timeSinceLastPong,
           timeSinceLastInbound: timeSinceInbound,
-          timeSinceHidden,
+          timeSinceHidden: timeSinceHidden,
           wasRecentlyHidden,
         });
         reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, pingAge=${timeSinceLastPing}ms`);
@@ -574,6 +576,11 @@ export class PeerManager {
       this.connectionTimeout = null;
     }
 
+    if (this.negotiationTimeout) {
+      clearTimeout(this.negotiationTimeout);
+      this.negotiationTimeout = null;
+    }
+
     if (this.dataChannel) {
       try {
         this.dataChannel.close();
@@ -642,25 +649,58 @@ export class PeerManager {
             break;
 
           case 'PROCESS_OFFER':
+            // DEPRECATED: Old flow where server creates offer
+            // Kept for backwards compatibility with older servers
+            // New flow uses REQUEST_NEG_INIT -> KICKSTART_RENEG -> NEGOTIATION_RESPONSE
+            console.warn('[DEBUG] Received PROCESS_OFFER (legacy flow) - consider upgrading server');
             this.lastNegotiationRequest = performance.now();
             const offer = JSON.parse(rtcPacket.trimmed());
             try {
+              // If we're in the middle of client-initiated negotiation, we have a glare condition
+              // Server always wins - abort our negotiation and process server's offer
+              if (this.isNegotiating) {
+                console.warn('[DEBUG] Glare detected - server offer during client negotiation, server wins');
+                this.negotiationQueue = []; // Clear any queued negotiations
+                // Clear existing timeout
+                if (this.negotiationTimeout) {
+                  clearTimeout(this.negotiationTimeout);
+                  this.negotiationTimeout = null;
+                }
+              }
+              this.isNegotiating = true;
+
+              // Start timeout - we expect CONFIRM_NEGOTIATION after sending our answer
+              this.startNegotiationTimeout();
+
               await this.peerConnection.setRemoteDescription(
                 new RTCSessionDescription(JSON.parse(atob(offer.sdp))),
               );
               const answer = await this.peerConnection.createAnswer();
+
+              // IMPORTANT: Set local description BEFORE sending the answer
+              // This ensures ICE candidates are gathered for our answer
+              await this.peerConnection.setLocalDescription(answer);
+
               let packet = new RtcPacket()
                 .setEventName('PROCESS_RESPONSE')
                 .serialize();
               packet += btoa(JSON.stringify(answer));
               this.dataChannel.send(packet);
-              await this.peerConnection.setLocalDescription(answer);
+
+              console.log('[DEBUG] Processed server offer and sent answer');
             } catch (error) {
+              // Reset on error
+              if (this.negotiationTimeout) {
+                clearTimeout(this.negotiationTimeout);
+                this.negotiationTimeout = null;
+              }
+              this.isNegotiating = false;
               VoiceModule.panic('Couldn\'t process offer', error);
             }
             break;
 
           case 'CONFIRM_NEGOTIATION':
+            console.log('[DEBUG] Server confirmed negotiation complete');
             this.handleRenagEnd();
             break;
 
@@ -744,22 +784,84 @@ export class PeerManager {
       this.isNegotiating = true;
       this.lastNegotiationRequest = performance.now();
 
+      // Set a timeout in case negotiation gets stuck
+      this.startNegotiationTimeout();
+
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
+
+      // Wait for ICE gathering to complete before sending offer
+      // This ensures all candidates are included in the offer
+      await this.waitForIceGathering();
 
       let packet = new RtcPacket()
         .setEventName('KICKSTART_RENEG')
         .serialize();
+      // Use localDescription (not offer) to include gathered ICE candidates
       packet += JSON.stringify({ sdp: btoa(JSON.stringify(this.peerConnection.localDescription)) });
 
       this.sendMetaData(packet);
+      console.log('[DEBUG] Sent client-initiated renegotiation offer (ICE gathering complete)');
+
+      // NOTE: isNegotiating will be reset when we receive NEGOTIATION_RESPONSE
+      // and handleRenagEnd() is called. Don't reset it here!
     } catch (error) {
       console.error('Negotiation failed:', error);
-      VoiceModule.panic('Failed to create offer for renegotiation', error);
-    } finally {
+      // Only reset on error - successful path waits for response
+      if (this.negotiationTimeout) {
+        clearTimeout(this.negotiationTimeout);
+        this.negotiationTimeout = null;
+      }
       this.isNegotiating = false;
       this.processNegotiationQueue();
+      VoiceModule.panic('Failed to create offer for renegotiation', error);
     }
+  }
+
+  startNegotiationTimeout() {
+    // Clear any existing timeout
+    if (this.negotiationTimeout) {
+      clearTimeout(this.negotiationTimeout);
+    }
+
+    this.negotiationTimeout = setTimeout(() => {
+      if (this.isNegotiating) {
+        console.error('[DEBUG] Negotiation timeout - no response received in', this.NEGOTIATION_TIMEOUT_MS, 'ms');
+        reportVital('webrtc/negotiation-timeout', {
+          timeout: this.NEGOTIATION_TIMEOUT_MS,
+          connectionState: this.peerConnection?.connectionState,
+          iceConnectionState: this.peerConnection?.iceConnectionState,
+        });
+        // Reset negotiation state and try to recover
+        this.isNegotiating = false;
+        this.processNegotiationQueue();
+      }
+    }, this.NEGOTIATION_TIMEOUT_MS);
+  }
+
+  waitForIceGathering() {
+    return new Promise((resolve) => {
+      if (this.peerConnection.iceGatheringState === 'complete') {
+        resolve();
+        return;
+      }
+
+      const checkState = () => {
+        if (this.peerConnection.iceGatheringState === 'complete') {
+          this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+          resolve();
+        }
+      };
+
+      this.peerConnection.addEventListener('icegatheringstatechange', checkState);
+
+      // Safety timeout - don't wait forever
+      setTimeout(() => {
+        this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
+        console.warn('[DEBUG] ICE gathering timeout during renegotiation, proceeding anyway');
+        resolve();
+      }, 5000);
+    });
   }
 
   processNegotiationQueue() {
@@ -809,11 +911,23 @@ export class PeerManager {
   }
 
   handleRenagEnd() {
+    // Clear negotiation timeout
+    if (this.negotiationTimeout) {
+      clearTimeout(this.negotiationTimeout);
+      this.negotiationTimeout = null;
+    }
+
+    // Reset negotiation state
+    this.isNegotiating = false;
+
     if (this.lastNegotiationRequest != null) {
       const now = performance.now();
       const time = Math.ceil(now - this.lastNegotiationRequest);
       debugLog(`Renegotiation took ${time} MS - ${time > 500 ? 'Warning! Renegotiation took too long!' : ''}`);
     }
+
+    // Process any queued negotiations
+    this.processNegotiationQueue();
   }
 
   listenForTracks() {
