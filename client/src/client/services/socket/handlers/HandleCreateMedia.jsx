@@ -5,6 +5,7 @@ import { debugLog } from '../../debugging/DebugService';
 import { AudioPreloader } from '../../preloading/AudioPreloader';
 import { MEDIA_MUTEX } from '../../../util/mutex';
 import { AudioSourceProcessor } from '../../../util/AudioSourceProcessor';
+import { TimeService } from '../../time/TimeService';
 
 const sourceRewriter = new AudioSourceProcessor();
 
@@ -239,6 +240,11 @@ export async function handleCreateMedia(data) {
     }
   });
 
+  let si = startInstant;
+  if (!doPickup) {
+    si = TimeService.getPredictedTime();
+  }
+
   newChannel.setTag(flag);
   // Preload audio element and create track
   const track = new MediaTrack({
@@ -247,7 +253,7 @@ export async function handleCreateMedia(data) {
     audio: preloaded,
     loop: isPlaylist ? false : looping, // Playlists don't loop individual tracks
     startAtMillis,
-    startInstant,
+    startInstant: si,
   });
 
   if (speed != null && speed !== 1 && speed !== 0) track.setPlaybackSpeed(speed);
