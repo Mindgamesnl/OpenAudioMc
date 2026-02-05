@@ -23,24 +23,33 @@ public abstract class ParameteredSubCommand extends SubCommand {
         // we'll then reconstruct the args array without the parameters
         Map<String, String> parameters = new HashMap<>();
 
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            if (arg.startsWith("--") && arg.contains("=")) {
+        for (String arg : args) {
+            if (arg.startsWith("--")) {
                 String parameter = arg.substring(2);
-                String[] split = parameter.split("=");
-                String key = split[0];
-                String value = split[1];
+
+                String key;
+                String value;
+
+                int eqIndex = parameter.indexOf('=');
+                if (eqIndex >= 0) {
+                    key = parameter.substring(0, eqIndex);
+                    value = parameter.substring(eqIndex + 1);
+                } else {
+                    key = parameter;
+                    value = ""; // no '=' → empty value
+                }
+
                 parameters.put(key, value);
             }
         }
 
-        // remove all parameters from the args array
+
         String[] newArgs = new String[args.length - parameters.size()];
         int j = 0;
-        for (int i = 0; i < args.length; i++) {
-            if (!args[i].startsWith("--")) {
-                newArgs[j] = args[i];
-                j++;
+
+        for (String arg : args) {
+            if (!arg.startsWith("--")) {
+                newArgs[j++] = arg;
             }
         }
 
