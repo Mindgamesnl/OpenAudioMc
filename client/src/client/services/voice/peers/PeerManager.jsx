@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import { toast } from 'react-toastify';
 import { getGlobalState, setGlobalState, store } from '../../../../state/store';
 import { VoiceModule, VoiceStatusChangeEvent } from '../VoiceModule';
@@ -11,7 +10,6 @@ import { getTranslation } from '../../../OpenAudioAppContainer';
 import { debugLog, feedDebugValue, incrementDebugValue } from '../../debugging/DebugService';
 import { DebugStatistic } from '../../debugging/DebugStatistic';
 import { MagicValues } from '../../../config/MagicValues';
-import { reportVital } from '../../../util/vitalreporter';
 
 export class PeerManager {
   constructor() {
@@ -149,7 +147,8 @@ export class PeerManager {
 
     try {
       const tracks = micStream.getTracks();
-       
+
+      // eslint-disable-next-line no-restricted-syntax
       for (const track of tracks) {
         this.peerConnection.addTrack(track, micStream);
       }
@@ -159,13 +158,11 @@ export class PeerManager {
 
       // Wait for ICE gathering to complete before sending the offer
       // This ensures all candidates (host, srflx) are included in the SDP
-      reportVital(`ICE gathering state before wait: ${this.peerConnection.iceGatheringState}`);
       if (this.peerConnection.iceGatheringState !== 'complete') {
         await new Promise((resolve) => {
           const checkState = () => {
             if (this.peerConnection.iceGatheringState === 'complete') {
               this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
-              reportVital('ICE gathering completed');
               resolve();
             }
           };
@@ -174,18 +171,16 @@ export class PeerManager {
           setTimeout(() => {
             this.peerConnection.removeEventListener('icegatheringstatechange', checkState);
             debugLog('ICE gathering timed out, proceeding with available candidates');
-            reportVital(`ICE gathering timed out (state: ${this.peerConnection.iceGatheringState})`);
             resolve();
           }, 5000);
         });
       }
 
       // Count candidates in the offer
-      const sdp = this.peerConnection.localDescription?.sdp || '';
-      const hostCandidates = (sdp.match(/typ host/g) || []).length;
-      const srflxCandidates = (sdp.match(/typ srflx/g) || []).length;
-      const relayCandidates = (sdp.match(/typ relay/g) || []).length;
-      reportVital(`Sending offer - candidates: host=${hostCandidates}, srflx=${srflxCandidates}, relay=${relayCandidates}`);
+      // const sdp = this.peerConnection.localDescription?.sdp || '';
+      // const hostCandidates = (sdp.match(/typ host/g) || []).length;
+      // const srflxCandidates = (sdp.match(/typ srflx/g) || []).length;
+      // const relayCandidates = (sdp.match(/typ relay/g) || []).length;
       debugLog(`Sending offer with ICE gathering state: ${this.peerConnection.iceGatheringState}`);
 
       const response = await fetch(endpoint, {
@@ -226,8 +221,6 @@ export class PeerManager {
       const state = this.peerConnection.iceConnectionState;
       debugLog(`ICE connection state: ${state}`);
 
-      reportVital(`ICE state changed to: ${state}`);
-
       // Log detailed ICE diagnostics on state change
       this.logIceDiagnostics(state);
 
@@ -251,7 +244,6 @@ export class PeerManager {
       // Handle connection state failures (more reliable than ICE state alone)
       if (state === 'failed') {
         debugLog('PeerConnection failed - triggering recovery');
-        reportVital('PeerConnection state failed');
         this.onIceFailed();
       }
     };
@@ -267,9 +259,9 @@ export class PeerManager {
     // Track signaling state changes for debugging renegotiation
     this.peerConnection.onsignalingstatechange = () => {
       const state = this.peerConnection.signalingState;
-      console.log('[DEBUG] Signaling state changed:', state);
+      // // console.log('[DEBUG] Signaling state changed:', state);
       if (state === 'stable') {
-        console.log('[DEBUG] Signaling stable - ICE state:', this.peerConnection.iceConnectionState);
+        // console.log('[DEBUG] Signaling stable - ICE state:', this.peerConnection.iceConnectionState);
       }
     };
   }
@@ -282,7 +274,6 @@ export class PeerManager {
         // Page is visible again, check if connection is still healthy
         if (this.peerConnection) {
           const state = this.peerConnection.iceConnectionState;
-          reportVital(`Page visible - ICE state: ${state}`);
           if (state === 'disconnected' || state === 'failed') {
             // Connection died while backgrounded, trigger recovery
             debugLog('Connection degraded while backgrounded, attempting recovery');
@@ -416,7 +407,6 @@ export class PeerManager {
           consentInfo,
           transportState: transportInfo,
         });
-        reportVital(`ICE disconnect: dc=${this.dataChannel?.readyState}, online=${navigator.onLine}, inboundAge=${timeSinceInbound}ms, renego=${timeSinceRenegotiation}ms`);
       }
     } catch (e) {
       console.error('Failed to get ICE diagnostics:', e);
@@ -425,7 +415,6 @@ export class PeerManager {
 
   onIceRecovered() {
     debugLog('ICE connected / recovered');
-    reportVital('ICE connection recovered');
 
     // clear any pending disconnect recovery
     if (this.disconnectTimer) {
@@ -450,7 +439,6 @@ export class PeerManager {
 
   onIceDisconnected() {
     debugLog('ICE disconnected — waiting for recovery');
-    reportVital('ICE connection lost');
 
     if (this.disconnectTimer || this.iceRestartInProgress) return;
 
@@ -464,7 +452,6 @@ export class PeerManager {
 
     if (timeSinceRenegotiation < 10000 && dataChannelOpen) {
       debugLog(`ICE disconnected shortly after renegotiation (${timeSinceRenegotiation}ms ago), DataChannel still open - likely transient, using extended grace period`);
-      reportVital(`ICE disconnect post-renegotiation: ${timeSinceRenegotiation}ms, DC=open - extended grace`);
 
       // Use a longer grace period for post-renegotiation disconnects
       this.disconnectTimer = setTimeout(() => {
@@ -475,12 +462,10 @@ export class PeerManager {
         if (currentIceState === 'disconnected' || currentIceState === 'failed') {
           if (currentDcState !== 'open') {
             debugLog('ICE and DataChannel both degraded — performing full reconnect');
-            reportVital('Post-renegotiation recovery failed, reconnecting');
             this.iceRestartInProgress = true;
             this.fullReconnect();
           } else {
             debugLog('ICE still disconnected but DataChannel working — monitoring');
-            reportVital('ICE disconnected but DC open - continuing to monitor');
             // DataChannel still works, so connection is probably fine
             // Clear the timer and let normal monitoring continue
             this.disconnectTimer = null;
@@ -495,7 +480,6 @@ export class PeerManager {
 
     this.disconnectTimer = setTimeout(() => {
       debugLog('ICE still disconnected — performing full reconnect');
-      reportVital('ICE failed to recover, performing full reconnect');
       this.iceRestartInProgress = true;
 
       // ICE restart via restartIce() doesn't work reliably when the DataChannel
@@ -527,7 +511,6 @@ export class PeerManager {
 
   onIceFailed() {
     debugLog('ICE failed — full reconnect');
-    reportVital('ICE connection failed');
     this.fullReconnect();
   }
 
@@ -543,7 +526,6 @@ export class PeerManager {
         // No inbound traffic for 15+ seconds - NAT mapping likely expired
         const iceState = this.peerConnection?.iceConnectionState;
         debugLog(`No inbound traffic for ${timeSinceInbound}ms - NAT likely expired (ICE: ${iceState})`);
-        reportVital(`NAT timeout detected: no inbound for ${Math.round(timeSinceInbound / 1000)}s, ICE=${iceState}`);
 
         // Force ICE recovery even if ICE state still looks connected
         // (ICE state can lag behind actual connectivity)
@@ -595,7 +577,6 @@ export class PeerManager {
 
     this.dataChannel.onopen = () => {
       debugLog('DataChannel opened');
-      reportVital('DataChannel opened');
       this.processMessageQueue();
 
       // Start keepalive ping to prevent NAT timeout and browser throttling
@@ -607,7 +588,6 @@ export class PeerManager {
 
     this.dataChannel.onclose = () => {
       debugLog('DataChannel closed');
-      reportVital('DataChannel closed');
 
       // Stop keepalive and watchdog
       this.stopKeepalive();
@@ -625,7 +605,6 @@ export class PeerManager {
           if (this.dataChannel?.readyState === 'closed'
               && this.peerConnection?.connectionState === 'connected') {
             debugLog('DataChannel closed unexpectedly, initiating recovery');
-            reportVital('DataChannel closed unexpectedly - reconnecting');
             this.fullReconnect();
           }
         }, 1000);
@@ -662,7 +641,8 @@ export class PeerManager {
     this.reconnectionAttempts++;
 
     const delay = Math.min(1000 * 2 ** (this.reconnectionAttempts - 1), 10000);
-     
+
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, delay));
 
     if (this.micStream) {
@@ -734,7 +714,7 @@ export class PeerManager {
         const rtcPacket = new RtcPacket().fromString(message);
         incrementDebugValue(DebugStatistic.VB_EVENTS);
 
-        console.log('[DEBUG] Received RTC event:', rtcPacket.getEventName());
+        // console.log('[DEBUG] Received RTC event:', rtcPacket.getEventName());
 
         switch (rtcPacket.getEventName()) {
           case 'REQUEST_NEG_INIT':
@@ -762,25 +742,24 @@ export class PeerManager {
           case 'PROCESS_OFFER':
             // Server-initiated renegotiation (e.g., new track added)
             // Server creates offer because it knows about new tracks
-            console.log('[DEBUG] Received PROCESS_OFFER from server');
             this.lastNegotiationRequest = performance.now();
             this.lastRenegotiationTime = Date.now(); // Track for disconnect correlation
             const offer = JSON.parse(rtcPacket.trimmed());
 
             // Log our CURRENT local ICE credentials before processing the offer
-            try {
-              const currentLocalSdp = this.peerConnection.localDescription?.sdp || '';
-              const currentLocalUfrag = currentLocalSdp.match(/a=ice-ufrag:(\S+)/)?.[1];
-              console.log('[DEBUG] Our current local ICE ufrag BEFORE processing offer:', currentLocalUfrag);
-            } catch (e) { /* ignore */ }
-
-            // Log ICE credentials from the offer to check if they changed
-            try {
-              const offerSdp = JSON.parse(atob(offer.sdp));
-              const iceUfrag = offerSdp.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
-              const icePwd = offerSdp.sdp.match(/a=ice-pwd:(\S+)/)?.[1]?.substring(0, 8);
-              console.log('[DEBUG] Offer ICE credentials:', { iceUfrag, icePwd: `${icePwd}...` });
-            } catch (e) { /* ignore parse errors */ }
+            // try {
+            //   const currentLocalSdp = this.peerConnection.localDescription?.sdp || '';
+            //   const currentLocalUfrag = currentLocalSdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+            //   // console.log('[DEBUG] Our current local ICE ufrag BEFORE processing offer:', currentLocalUfrag);
+            // } catch (e) { /* ignore */ }
+            //
+            // // Log ICE credentials from the offer to check if they changed
+            // try {
+            //   const offerSdp = JSON.parse(atob(offer.sdp));
+            //   const iceUfrag = offerSdp.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+            //   const icePwd = offerSdp.sdp.match(/a=ice-pwd:(\S+)/)?.[1]?.substring(0, 8);
+            //   // console.log('[DEBUG] Offer ICE credentials:', { iceUfrag, icePwd: `${icePwd}...` });
+            // } catch (e) { /* ignore parse errors */ }
 
             try {
               // If we're in the middle of client-initiated negotiation, we have a glare condition
@@ -799,27 +778,27 @@ export class PeerManager {
               // Start timeout - we expect CONFIRM_NEGOTIATION after sending our answer
               this.startNegotiationTimeout();
 
-              console.log('[DEBUG] Before setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
+              // console.log('[DEBUG] Before setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
               await this.peerConnection.setRemoteDescription(
                 new RTCSessionDescription(JSON.parse(atob(offer.sdp))),
               );
-              console.log('[DEBUG] After setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
+              // console.log('[DEBUG] After setRemoteDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
 
               const answer = await this.peerConnection.createAnswer();
 
               // Set local description
               await this.peerConnection.setLocalDescription(answer);
-              console.log('[DEBUG] After setLocalDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
+              // console.log('[DEBUG] After setLocalDescription - ICE state:', this.peerConnection.iceConnectionState, 'signaling:', this.peerConnection.signalingState);
 
               // Log answer ICE credentials
-              try {
-                const answerUfrag = answer.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
-                console.log('[DEBUG] Answer ICE ufrag (OUR new local credentials):', answerUfrag);
-
-                // Also check what's in our actual localDescription after setting it
-                const actualLocalUfrag = this.peerConnection.localDescription?.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
-                console.log('[DEBUG] Actual localDescription ICE ufrag:', actualLocalUfrag);
-              } catch (e) { /* ignore */ }
+              // try {
+              //   const answerUfrag = answer.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+              //   // console.log('[DEBUG] Answer ICE ufrag (OUR new local credentials):', answerUfrag);
+              //
+              //   // Also check what's in our actual localDescription after setting it
+              //   const actualLocalUfrag = this.peerConnection.localDescription?.sdp.match(/a=ice-ufrag:(\S+)/)?.[1];
+              //   console.log('[DEBUG] Actual localDescription ICE ufrag:', actualLocalUfrag);
+              // } catch (e) { /* ignore */ }
 
               // CRITICAL: Use localDescription, not the original answer object!
               // After setLocalDescription, the actual localDescription may have
@@ -837,7 +816,7 @@ export class PeerManager {
               packet += btoa(JSON.stringify(actualAnswer));
               this.dataChannel.send(packet);
 
-              console.log('[DEBUG] Processed server offer and sent answer');
+              // console.log('[DEBUG] Processed server offer and sent answer');
             } catch (error) {
               // Reset on error
               if (this.negotiationTimeout) {
@@ -850,7 +829,7 @@ export class PeerManager {
             break;
 
           case 'CONFIRM_NEGOTIATION':
-            console.log('[DEBUG] Server confirmed negotiation complete');
+            // console.log('[DEBUG] Server confirmed negotiation complete');
             this.handleRenagEnd();
             break;
 
@@ -951,7 +930,7 @@ export class PeerManager {
       packet += JSON.stringify({ sdp: btoa(JSON.stringify(this.peerConnection.localDescription)) });
 
       this.sendMetaData(packet);
-      console.log('[DEBUG] Sent client-initiated renegotiation offer (ICE gathering complete)');
+      // console.log('[DEBUG] Sent client-initiated renegotiation offer (ICE gathering complete)');
 
       // NOTE: isNegotiating will be reset when we receive NEGOTIATION_RESPONSE
       // and handleRenagEnd() is called. Don't reset it here!
@@ -977,11 +956,11 @@ export class PeerManager {
     this.negotiationTimeout = setTimeout(() => {
       if (this.isNegotiating) {
         console.error('[DEBUG] Negotiation timeout - no response received in', this.NEGOTIATION_TIMEOUT_MS, 'ms');
-        reportVital('webrtc/negotiation-timeout', {
-          timeout: this.NEGOTIATION_TIMEOUT_MS,
-          connectionState: this.peerConnection?.connectionState,
-          iceConnectionState: this.peerConnection?.iceConnectionState,
-        });
+        // reportVital('webrtc/negotiation-timeout', {
+        //   timeout: this.NEGOTIATION_TIMEOUT_MS,
+        //   connectionState: this.peerConnection?.connectionState,
+        //   iceConnectionState: this.peerConnection?.iceConnectionState,
+        // });
         // Reset negotiation state and try to recover
         this.isNegotiating = false;
         this.processNegotiationQueue();
@@ -1022,7 +1001,7 @@ export class PeerManager {
   }
 
   onStart() {
-    console.log('[DEBUG] Dispatching RTC_READY event - Voice chat is ready');
+    // console.log('[DEBUG] Dispatching RTC_READY event - Voice chat is ready');
     setGlobalState({
       voiceState: { ready: true, loading: false },
     });
