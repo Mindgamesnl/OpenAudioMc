@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 * {
     outline: none;
@@ -168,7 +168,8 @@ body.light-mode .video-bg:before {
     width: 100%;
 }
 
-.header-menu button, .header-menu label {
+.header-menu button,
+.header-menu label {
     padding: 4px 12px;
     margin: 10px;
     border-bottom-left-radius: 10px;
@@ -186,12 +187,18 @@ body.light-mode .video-bg:before {
     }
 }
 
-.header-menu button.is-active, .header-menu a:hover, .header-menu .inactive, .header-menu label:hover {
+.header-menu button.is-active,
+.header-menu a:hover,
+.header-menu .inactive,
+.header-menu label:hover {
     color: var(--theme-color);
     border-bottom: 2px solid var(--primary-accent);
 }
 
-.header-menu button.is-active, .header-menu a:hover, .header-menu .active, .header-menu label:hover {
+.header-menu button.is-active,
+.header-menu a:hover,
+.header-menu .active,
+.header-menu label:hover {
     color: var(--theme-color);
     border-bottom: 6px solid var(--primary-accent);
 
@@ -273,12 +280,12 @@ body.light-mode .video-bg:before {
     top: -6px;
 }
 
-.notification + svg {
+.notification+svg {
     margin-left: 22px;
 }
 
 @media screen and (max-width: 945px) {
-    .notification + svg {
+    .notification+svg {
         display: none;
     }
 }
@@ -536,7 +543,7 @@ body.light-mode .video-bg:before {
     border-radius: 0 0 var(--common-border-radius) var(--common-border-radius);
 }
 
-.content-section ul li + li {
+.content-section ul li+li {
     border-top: var(--common-border-radius) solid var(--border-color);
 }
 
@@ -644,7 +651,10 @@ body.light-mode .video-bg:before {
 }
 
 @media screen and (max-width: 1100px) {
-    .sensitivty-card, .vc-monitoring-card, .small-vc-card {
+
+    .sensitivty-card,
+    .vc-monitoring-card,
+    .small-vc-card {
         width: calc(100% - 15px) !important;
         margin-left: 0px !important;
         margin-top: 10px !important;
@@ -717,7 +727,7 @@ body.light-mode .video-bg:before {
     flex-shrink: 0;
 }
 
-.content-card > span {
+.content-card>span {
     display: flex;
     align-items: center;
 }
@@ -1004,18 +1014,23 @@ footer {
     0% {
         transform: scale(1);
     }
+
     40% {
         transform: scale(1.08);
     }
+
     50% {
         transform: scale(0.98);
     }
+
     55% {
         transform: scale(1.02);
     }
+
     60% {
         transform: scale(0.98);
     }
+
     100% {
         transform: scale(1);
     }
@@ -1025,18 +1040,23 @@ footer {
     0% {
         transform: scale(1);
     }
+
     40% {
         transform: scale(1.08);
     }
+
     50% {
         transform: scale(0.98);
     }
+
     55% {
         transform: scale(1.02);
     }
+
     60% {
         transform: scale(0.98);
     }
+
     100% {
         transform: scale(1);
     }
@@ -1046,18 +1066,23 @@ footer {
     0% {
         transform: scale(1);
     }
+
     40% {
         transform: scale(1.08);
     }
+
     50% {
         transform: scale(0.98);
     }
+
     55% {
         transform: scale(1.02);
     }
+
     60% {
         transform: scale(0.98);
     }
+
     100% {
         transform: scale(1);
     }
@@ -1082,26 +1107,20 @@ footer {
 }
 
 .navbar-bg {
-    background: linear-gradient(
-            167deg, var(--dark-primary-background) 50%,
+    background: linear-gradient(167deg, var(--dark-primary-background) 50%,
             color-mix(in srgb, var(--primary-accent), var(--dark-primary-background) 65%),
-            var(--dark-primary-background) 100%
-    );
+            var(--dark-primary-background) 100%);
 }
 
 .navbar-bg-modern {
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.9) 50%,
-        rgba(0, 0, 0, 0.8) 100%
-    ),
-    linear-gradient(
-        45deg,
-        color-mix(in srgb, var(--primary-accent), transparent 90%) 0%,
-        transparent 50%,
-        color-mix(in srgb, var(--primary-accent), transparent 90%) 100%
-    );
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.9) 50%,
+            rgba(0, 0, 0, 0.8) 100%),
+        linear-gradient(45deg,
+            color-mix(in srgb, var(--primary-accent), transparent 90%) 0%,
+            transparent 50%,
+            color-mix(in srgb, var(--primary-accent), transparent 90%) 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1131,7 +1150,7 @@ span.tab {
     font-size: large;
 }
 
-.tab > label.active {
+.tab>label.active {
     outline: none;
 }
 
@@ -1148,29 +1167,37 @@ span.tab {
 .jumbo-text {
     font-size: 100px;
 }
+
 .speaking {
     background-color: lime;
     box-shadow: 0 0 0 25px #1cb91c;
     animation: pulseAndGrow .5s infinite alternate;
-    border-radius: 50%; /* Optional: For a circular shape */
+    border-radius: 50%;
+    /* Optional: For a circular shape */
 }
 
 .speaking-small {
     background-color: lime;
     box-shadow: 0 0 0 5px #1cb91c;
     animation: pulseAndGrow .5s infinite alternate;
-    border-radius: 50%; /* Optional: For a circular shape */
+    border-radius: 50%;
+    /* Optional: For a circular shape */
 }
 
 @keyframes pulseAndGrow {
     0% {
-        box-shadow: 0 0 2px 2px rgba(255, 0, 255, 0.5); /* Neon pink pulse */
+        box-shadow: 0 0 2px 2px rgba(255, 0, 255, 0.5);
+        /* Neon pink pulse */
     }
+
     50% {
-        box-shadow: 0 0 5px 5px rgba(0, 255, 255, 0.8); /* Neon blue pulse */
+        box-shadow: 0 0 5px 5px rgba(0, 255, 255, 0.8);
+        /* Neon blue pulse */
     }
+
     100% {
-        box-shadow: 0 0 2px 2px rgba(255, 0, 255, 0.5); /* Neon pink pulse */
+        box-shadow: 0 0 2px 2px rgba(255, 0, 255, 0.5);
+        /* Neon pink pulse */
     }
 }
 
@@ -1223,17 +1250,17 @@ pre {
 
 .disabled-bt {
     pointer-events: none;
-    opacity: 0.4; /* Adjust the opacity value to control the level of disabled effect */
-    background-color: #ccc; /* Adjust the background color for the disabled look */
+    opacity: 0.4;
+    /* Adjust the opacity value to control the level of disabled effect */
+    background-color: #ccc;
+    /* Adjust the background color for the disabled look */
     border: rgba(255, 0, 0, 0.46) 1px solid;
 }
 
 .audio-page-bg {
-    background: linear-gradient(
-            78deg, rgba(from var(--dark-primary-background) r g b / 0.85) 43%,
+    background: linear-gradient(78deg, rgba(from var(--dark-primary-background) r g b / 0.85) 43%,
             transparent,
-            rgba(from var(--dark-primary-background) r g b / 0.2) 10%
-    ), var(--background-image);
+            rgba(from var(--dark-primary-background) r g b / 0.2) 10%), var(--background-image);
     background-size: cover;
     background-position-y: center;
 }
@@ -1248,4 +1275,144 @@ pre {
 
 .accent-bg {
     background-color: var(--primary-accent);
+}
+
+/* ==========================================================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   Proof of Concept - Addresses backdrop-blur, animations, and GPU overhead
+   ========================================================================== */
+
+/* 
+ * Mobile device detection via max-width + touch capability
+ * Also respects prefers-reduced-motion for users who want less animation
+ */
+@media screen and (max-width: 768px),
+screen and (hover: none) and (pointer: coarse) {
+
+    /* ========================================
+     * DISABLE BACKDROP-BLUR ON MOBILE
+     * This is the #1 performance killer on mobile GPUs.
+     * Replace with solid semi-transparent backgrounds.
+     * ======================================== */
+
+    /* Global override for all backdrop-blur elements */
+    .backdrop-blur,
+    [class*="backdrop-blur"] {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Specific component fixes - add solid backgrounds to replace blur effect */
+    .app {
+        background-color: rgba(16, 18, 27, 0.95);
+    }
+
+    /* Sidebar navigation - use solid dark background */
+    nav[class*="backdrop-blur"] {
+        background: rgba(0, 0, 0, 0.95) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Cards and panels */
+    [class*="bg-black"][class*="bg-opacity"] {
+        background-color: rgba(0, 0, 0, 0.9) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Modal overlays */
+    .fixed[class*="backdrop-blur"] {
+        background: rgba(0, 0, 0, 0.95) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* ========================================
+     * REDUCE ANIMATION OVERHEAD
+     * Disable non-essential animations on mobile
+     * ======================================== */
+
+    /* Disable pulse animations - they run continuously */
+    .animate-pulse {
+        animation: none !important;
+    }
+
+    /* Keep spin animations but reduce their impact */
+    .animate-spin {
+        will-change: transform;
+    }
+
+    /* Reduce transition durations for snappier feel */
+    * {
+        transition-duration: 0.1s !important;
+    }
+
+    /* Disable hover animations on touch devices (they're useless anyway) */
+    *:hover {
+        transform: none !important;
+    }
+
+    /* ========================================
+     * GPU OPTIMIZATION
+     * Promote frequently animated elements to GPU layers
+     * ======================================== */
+
+    /* Promote scrollable containers to GPU */
+    .overflow-y-auto,
+    .overflow-x-auto {
+        will-change: scroll-position;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Reduce complex shadows on mobile */
+    [class*="shadow-2xl"],
+    [class*="shadow-xl"] {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* ========================================
+     * SIMPLIFY BACKGROUNDS
+     * Remove complex layered gradients
+     * ======================================== */
+
+    .content-wrapper-header {
+        background-image: var(--background-image) !important;
+        background-color: rgba(0, 0, 0, 0.6);
+        background-blend-mode: darken;
+    }
+}
+
+/* 
+ * Honor user preference for reduced motion
+ * This is an accessibility feature that also helps performance
+ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .animate-pulse,
+    .animate-spin,
+    .animate-bounce {
+        animation: none !important;
+    }
+}
+
+/* 
+ * Low-power mode / battery saver detection
+ * Some browsers support this media query
+ */
+@media (prefers-reduced-data: reduce) {
+
+    /* Disable background images to save bandwidth */
+    body {
+        background-image: none !important;
+        background-color: #0a0a0f !important;
+    }
 }

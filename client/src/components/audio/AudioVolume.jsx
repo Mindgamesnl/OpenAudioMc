@@ -1,71 +1,113 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setGlobalState } from '../../state/store';
-import './audiovolume.css';
 
 class AudioVolume extends React.Component {
   constructor(props) {
     super(props);
-    this.dragging = false;
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
-    this.onWheel = this.onWheel.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  onMouseDown(e) {
-    e.preventDefault();
-    this.dragging = true;
-    window.addEventListener('mousemove', this.onMouseMove);
-    window.addEventListener('mouseup', this.onMouseUp);
-    this.updateVolume(e);
-  }
-
-  onMouseMove(e) {
-    if (this.dragging) {
-      e.preventDefault();
-      this.updateVolume(e);
-    }
-  }
-
-  onMouseUp() {
-    this.dragging = false;
-    window.removeEventListener('mousemove', this.onMouseMove);
-    window.removeEventListener('mouseup', this.onMouseUp);
-  }
-
-  onWheel(e) {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -2 : 2;
-    const newVolume = Math.max(0, Math.min(100, this.props.volume + delta));
-    setGlobalState({ settings: { normalVolume: newVolume } });
-  }
-
-  updateVolume(e) {
-    const rect = this.container.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const angle = (Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180) / Math.PI + 90;
-    let normalizedAngle = angle;
-    if (normalizedAngle < 0) normalizedAngle += 360;
-    if (normalizedAngle > 360) normalizedAngle -= 360;
-    const volume = Math.round((normalizedAngle / 360) * 100);
-    setGlobalState({ settings: { normalVolume: volume } });
+  onChange(e) {
+    setGlobalState({ settings: { normalVolume: parseInt(e.target.value, 10) } });
   }
 
   render() {
+    const { volume } = this.props;
+
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div
-        className="absolute inset-0"
-        ref={(el) => {
-          this.container = el;
-        }}
-        onMouseDown={this.onMouseDown}
-        onWheel={this.onWheel}
-        style={{ userSelect: 'none' }}
-      >
-        {/* Invisible circular slider overlay */}
+      <div className="relative w-full py-4">
+        {/* Slider container with flat background */}
+        <div
+          className="relative h-14 flex items-center rounded-2xl overflow-hidden"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          {/* Track background */}
+          <div
+            className="absolute left-0 right-0 h-full"
+            style={{
+              backgroundColor: 'transparent',
+            }}
+          >
+            {/* Center line visual */}
+            <div
+              className="absolute left-0 right-0 h-2.5"
+              style={{
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: '#1f2937',
+              }}
+            />
+          </div>
+
+          {/* Filled track */}
+          <div
+            className="absolute left-0 h-full"
+            style={{
+              width: `${volume}%`,
+              backgroundColor: 'var(--primary-accent)',
+              opacity: 0.2,
+            }}
+          />
+
+          {/* Filled track line */}
+          <div
+            className="absolute left-0 h-2.5"
+            style={{
+              width: `${volume}%`,
+              backgroundColor: 'var(--primary-accent)',
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+          />
+
+          {/* Native range input */}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={this.onChange}
+            className="absolute left-0 right-0 h-full cursor-pointer w-full"
+            style={{
+              margin: 0,
+              width: '100%',
+              WebkitAppearance: 'none',
+              appearance: 'none',
+              background: 'transparent',
+              zIndex: 10,
+            }}
+          />
+
+          {/* Custom thumb without glow */}
+          <div
+            className="absolute pointer-events-none z-20"
+            style={{
+              left: `calc(${volume}% - 12px)`,
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+          >
+            <div
+              className="w-6 h-6 rounded-full bg-white flex items-center justify-center border border-gray-200"
+            >
+              <div
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: 'var(--primary-accent)' }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Volume level indicators */}
+        <div className="flex justify-between mt-3 px-4 text-gray-500 text-xs">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
       </div>
     );
   }
@@ -76,7 +118,5 @@ export default connect(mapStateToProps)(AudioVolume);
 function mapStateToProps(state) {
   return {
     volume: state.settings.normalVolume,
-    settings: state.settings,
-    hasPlayingMedia: state.hasPlayingMedia,
   };
 }

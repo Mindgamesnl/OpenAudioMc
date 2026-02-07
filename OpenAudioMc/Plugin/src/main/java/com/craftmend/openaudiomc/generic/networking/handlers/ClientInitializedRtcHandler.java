@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.networking.payloads.in.ClientOpenedRtcP
 import com.craftmend.openaudiomc.generic.node.packets.ClientUpdateStatePacket;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import org.bukkit.Bukkit;
 
 public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcPayload> {
 
@@ -102,7 +103,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
 
     private void handleState(ClientConnection cc, ClientOpenedRtcPayload payload) {
         // the user just enabled their voice chat
-        if (payload.isEnabled()) {
+        if (payload.isEnabled() && !cc.getSession().isConnectedToRtc()) {
             // update our local state to start peer finding and reset their mute state
             cc.getSession().setConnectedToRtc(true);
             cc.getRtcSessionManager().setMicrophoneEnabled(true);
@@ -112,7 +113,7 @@ public class ClientInitializedRtcHandler extends PayloadHandler<ClientOpenedRtcP
             cc.getUser().sendMessage(Platform.translateColors(StorageKey.MESSAGE_VC_SETUP.getString()));
             // notify the proxy, if applicable
             broadcastRtcUpdate(cc.getUser(), true, true, cc.getRtcSessionManager().isVoicechatDeafened(), cc.getRtcSessionManager().getStreamKey(), cc);
-        } else {
+        } else if (!payload.isEnabled() && cc.getSession().isConnectedToRtc()) {
             // disable their stream
             cc.getRtcSessionManager().setMicrophoneEnabled(false);
             cc.getRtcSessionManager().setVoicechatDeafened(false);

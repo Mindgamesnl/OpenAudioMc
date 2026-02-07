@@ -234,7 +234,7 @@ class TabWindow extends Component {
             onMouseOver={(e) => this.props.accentColor && (e.target.style.color = this.props.accentColor)}
             onMouseOut={(e) => this.props.accentColor && (e.target.style.color = '')}
           >
-            &copy; OpenAudioMc 2016-2025. All Rights Reserved.
+            &copy; OpenAudioMc 2016-2026. All Rights Reserved.
           </a>
         </div>
       </div>

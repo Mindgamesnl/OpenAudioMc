@@ -19,7 +19,7 @@ public class RegionsSubCommand extends SubCommand {
         super("region");
 
         registerSubCommands(
-                new RegionCreateSubCommand(openAudioMcSpigot),
+                new RegionCreateSubCommand(openAudioMcSpigot, this),
                 new RegionDeleteSubCommand(openAudioMcSpigot),
                 new RegionTempSubCommand(openAudioMcSpigot),
                 new RegionEditSubCommand(openAudioMcSpigot),

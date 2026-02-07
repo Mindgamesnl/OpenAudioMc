@@ -11,16 +11,19 @@ import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.media.utils.Validation;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
+import com.craftmend.openaudiomc.spigot.modules.commands.subcommands.RegionsSubCommand;
 import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
 
 public class RegionCreateSubCommand extends ParameteredSubCommand {
 
     private final OpenAudioMcSpigot openAudioMcSpigot;
+    private final RegionsSubCommand regionsSubCommand;
 
-    public RegionCreateSubCommand(OpenAudioMcSpigot openAudioMcSpigot) {
+    public RegionCreateSubCommand(OpenAudioMcSpigot openAudioMcSpigot, RegionsSubCommand regionsSubCommand) {
         super("create");
         this.openAudioMcSpigot = openAudioMcSpigot;
+        this.regionsSubCommand = regionsSubCommand;
     }
 
     @Override
@@ -48,6 +51,19 @@ public class RegionCreateSubCommand extends ParameteredSubCommand {
         }
 
         try {
+            if (parameters.hasParameter("ignore-existing")) {
+                // try to unregister first
+                try {
+                    this.regionsSubCommand.delegateTo("delete", sender, new String[]{"delete", args[1]});
+                } catch (Exception e) {
+                    if (e instanceof CommandError) {
+                        // ignore
+                    } else {
+                        throw e;
+                    }
+                }
+            }
+
             WorldApi.getInstance().registerRegion(
                     parameters.getParameterOrDefault("world", sender.getWorld()),
                     args[1],

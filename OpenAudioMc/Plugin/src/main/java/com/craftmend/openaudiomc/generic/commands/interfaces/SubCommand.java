@@ -92,7 +92,7 @@ public abstract class SubCommand {
      * @param user User
      * @param args Arguments
      */
-    protected void delegateTo(String subCommand, User<?> user, String[] args) {
+    public void delegateTo(String subCommand, User<?> user, String[] args) {
         SubCommand sci = moreSubCommands.get(subCommand);
         if (sci.trimArguments) {
             String[] subArgs = new String[args.length - 1];

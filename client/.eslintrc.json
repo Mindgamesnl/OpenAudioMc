@@ -17,6 +17,7 @@
     "ecmaVersion": 2022
   },
   "rules": {
+    "no-case-declarations": "off",
     "react/no-access-state-in-setstate": "off",
     "no-plusplus": "off",
     "max-len": "off",
