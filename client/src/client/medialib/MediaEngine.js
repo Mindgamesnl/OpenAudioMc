@@ -6,7 +6,11 @@ export class MediaEngine {
     this._destructionHandlers = new Map(); // id -> Set<fn>
     // tag -> { count: number, fadeMs: number }
     this._inhibitors = Object.create(null);
-    this._areSoundsPlaying = null;
+    this._areSoundsPlaying = false;
+    // Tracks whether the ambiance channel has received its initial volume state.
+    // Without this, if nothing else is playing on startup the ambiance channel
+    // never gets unmuted because _applyAmbianceState only fires on transitions.
+    this._ambianceInitialized = false;
     this._tickIntervalId = setInterval(() => { try { this._tick(); } catch (e) { /* ignore */ } }, 250);
   }
 
@@ -24,6 +28,11 @@ export class MediaEngine {
   removeChannel(id) {
     const ch = this.channels.get(id);
     if (!ch) return;
+    // If the ambiance channel is being removed, reset the init flag so a
+    // replacement channel gets its volume configured correctly on the next tick.
+    if (ch.tagSet && ((ch.tagSet.has && ch.tagSet.has('AMBIANCE')) || id === 'ambiance-from-account')) {
+      this._ambianceInitialized = false;
+    }
     try {
       // Stop tracks first to avoid late events firing after channel is gone
       Array.from(ch.tracks.values()).forEach((t) => { try { t.stop(); } catch (e) { /* ignore */ } });
@@ -130,7 +139,19 @@ export class MediaEngine {
     });
     if (foundPlaying !== this._areSoundsPlaying) {
       this._areSoundsPlaying = foundPlaying;
+      this._ambianceInitialized = true;
       this._applyAmbianceState(foundPlaying);
+    } else if (!this._ambianceInitialized) {
+      // On startup the playing state may never transition (stays false while the
+      // ambiance channel sits muted at 0). Apply the current state once as soon
+      // as we detect an ambiance channel so it unmutes immediately.
+      const hasAmbiance = Array.from(this.channels.values()).some(
+        (ch) => (ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) || ch.id === 'ambiance-from-account',
+      );
+      if (hasAmbiance) {
+        this._ambianceInitialized = true;
+        this._applyAmbianceState(this._areSoundsPlaying);
+      }
     }
   }
 
@@ -145,10 +166,8 @@ export class MediaEngine {
     if (isPlaying) {
       ambiance.fadeCurrentTo(0, fadeMs);
     } else {
-      // Restore to the channel's intended base volume (set by handleCreateMedia),
-      // falling back to 100 if not yet established.
-      const target = ambiance.baseVolumePct ?? 100;
-      ambiance.fadeCurrentTo(target, fadeMs);
+      // Use 100% so effective volume equals master
+      ambiance.fadeCurrentTo(100, fadeMs);
     }
   }
 }

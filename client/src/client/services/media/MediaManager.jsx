@@ -52,6 +52,8 @@ export const MediaManager = new class IMediaManager {
       });
       engineChannel.addTrack(track);
       engineChannel.setChannelVolumePct(0); // start muted, engine tick will fade based on activity
+      // play and loop
+      track.play();
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Failed to setup medialib ambiance track', e);
@@ -70,6 +72,10 @@ export const MediaManager = new class IMediaManager {
         track.play();
       } catch (e) { /* ignore */
       }
+    }
+
+    if (this.ambianceSound !== '') {
+      await this.setupAmbianceSound(this.ambianceSound);
     }
   }
 

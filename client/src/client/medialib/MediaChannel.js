@@ -30,18 +30,11 @@ export class MediaChannel {
   setTag(tag) {
     if (!tag) return;
     this.tagSet.add(tag);
-    if (this._engine) {
-      // Re-apply inhibitors for this channel when tags change.
-      // Pass immediate=true so a brand-new channel that should already be inhibited
-      // snaps to silent instantly rather than leaking one 25 ms tick of audio.
-      if (typeof this._engine._applyInhibitionsFor === 'function') {
-        try { this._engine._applyInhibitionsFor(this, true); } catch (e) { /* ignore */ }
-      }
-      // If this channel just became an ambiance channel, immediately apply the current
-      // playing-state so it starts audible (or muted) without waiting for the next tick.
-      if (tag === 'AMBIANCE' && typeof this._engine._applyAmbianceState === 'function') {
-        try { this._engine._applyAmbianceState(this._engine._areSoundsPlaying === true); } catch (e) { /* ignore */ }
-      }
+    // If engine is present, re-apply inhibitors for this channel when tags change.
+    // Pass immediate=true so a brand-new channel that should already be inhibited
+    // snaps to silent instantly rather than leaking one 25 ms tick of audio.
+    if (this._engine && typeof this._engine._applyInhibitionsFor === 'function') {
+      try { this._engine._applyInhibitionsFor(this, true); } catch (e) { /* ignore */ }
     }
   }
 

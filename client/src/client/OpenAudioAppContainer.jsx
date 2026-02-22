@@ -243,7 +243,7 @@ class OpenAudioAppContainer extends React.Component {
     }
 
     if (serverData.ambianceSound !== '') {
-      await MediaManager.setupAmbianceSound(serverData.ambianceSound);
+      MediaManager.ambianceSound = serverData.ambianceSound;
     }
 
     if (serverData.backgroundImage !== '') {
