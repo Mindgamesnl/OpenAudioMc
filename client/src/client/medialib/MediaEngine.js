@@ -6,7 +6,7 @@ export class MediaEngine {
     this._destructionHandlers = new Map(); // id -> Set<fn>
     // tag -> { count: number, fadeMs: number }
     this._inhibitors = Object.create(null);
-    this._areSoundsPlaying = false;
+    this._areSoundsPlaying = null;
     this._tickIntervalId = setInterval(() => { try { this._tick(); } catch (e) { /* ignore */ } }, 250);
   }
 
@@ -87,10 +87,6 @@ export class MediaEngine {
     this._applyInhibitions();
   }
 
-  // Apply inhibitors to a single channel (used when tags change or new channels are created).
-  // immediate=true: snap currentVolumePct to 0 without a fade (used when a tag is set on a
-  // freshly-created channel that is already under inhibition, preventing a 1-tick audio blip).
-  // immediate=false (default): fade smoothly, used for channels that are already playing.
   _applyInhibitionsFor(ch, immediate = false) {
     if (!ch) return;
     let total = 0;
@@ -109,7 +105,6 @@ export class MediaEngine {
     if (wantsMute && !ch._inhibitorActive) {
       ch._inhibitorActive = true;
       ch._lastInhibitFadeMs = maxFade;
-      // When immediate, pass 0 ms so fadeCurrentTo snaps instantly instead of starting a timer.
       ch.fadeCurrentTo(0, immediate ? 0 : maxFade);
     } else if (!wantsMute && ch._inhibitorActive) {
       ch._inhibitorActive = false;
@@ -124,7 +119,6 @@ export class MediaEngine {
   }
 
   _tick() {
-    // Determine if any non-ambiance channel has an actively playing track
     let foundPlaying = false;
     Array.from(this.channels.values()).some((ch) => {
       if (ch.tagSet && ch.tagSet.has && ch.tagSet.has('AMBIANCE')) return false;
@@ -151,8 +145,10 @@ export class MediaEngine {
     if (isPlaying) {
       ambiance.fadeCurrentTo(0, fadeMs);
     } else {
-      // Use 100% so effective volume equals master
-      ambiance.fadeCurrentTo(100, fadeMs);
+      // Restore to the channel's intended base volume (set by handleCreateMedia),
+      // falling back to 100 if not yet established.
+      const target = ambiance.baseVolumePct ?? 100;
+      ambiance.fadeCurrentTo(target, fadeMs);
     }
   }
 }

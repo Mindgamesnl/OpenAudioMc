@@ -17,102 +17,110 @@ function AudioPage(props) {
 
   return (
     <BaseSegmentedPage noFooter>
-      <div className="w-full max-w-3xl mx-auto px-4 py-8">
+      <div className="w-full max-w-md mx-auto px-4 py-6">
         {/* Main Card */}
-        <div className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="bg-gray-900 rounded-2xl overflow-hidden">
           {/* Header with accent color band */}
           <div
-            className="h-2 w-full"
+            className="h-2"
             style={{ backgroundColor: 'var(--primary-accent)' }}
           />
 
-          <div className="grid md:grid-cols-12">
-            {/* Left Column: User Profile */}
-            <div className="md:col-span-5 p-8 bg-gray-800/30 md:border-r border-gray-800 flex flex-col items-center justify-center text-center">
-              <div className="relative mb-4">
+          {/* User Info Section */}
+          <div className="p-6 pb-4">
+            <div className="flex items-center gap-4">
+              <div className="relative flex-shrink-0">
                 <img
                   src={`https://visage.surgeplay.com/bust/512/${currentUser?.uuid}`}
                   alt="Profile"
-                  className="w-24 h-24 rounded-2xl shadow-lg bg-gray-800 object-cover"
+                  className="w-14 h-14 rounded-xl object-cover bg-gray-800"
                 />
                 {logoImage ? (
                   <img
                     src={logoImage}
                     alt="Server"
-                    className="absolute -bottom-2 -right-2 w-8 h-8 rounded-lg bg-gray-800 border-4 border-gray-900 shadow-sm"
+                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-md bg-gray-800 border-2 border-gray-900"
                   />
                 ) : null}
               </div>
-
-              <h1 className="text-white text-xl font-bold mb-1">
-                {msg('home.welcome')}
-              </h1>
-              <p className="text-gray-400 text-sm font-medium mb-6">{msg('home.subtitle')}</p>
-
+              <div className="min-w-0 flex-1">
+                <h1 className="text-white text-lg font-semibold truncate">
+                  {msg('home.welcome')}
+                </h1>
+                <p className="text-gray-500 text-sm">{msg('home.subtitle')}</p>
+              </div>
               {props.hasPlayingMedia ? (
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/80 rounded-full border border-gray-700/50 backdrop-blur-sm">
+                <div className="flex items-center gap-2">
                   <span
                     className="w-2 h-2 rounded-full animate-pulse"
                     style={{ backgroundColor: 'var(--primary-accent)' }}
                   />
-                  <span className="text-gray-300 text-xs font-medium tracking-wide">{msg('home.playing')}</span>
-                </div>
-              ) : null}
-            </div>
-
-            {/* Right Column: Controls */}
-            <div className="md:col-span-7 p-8 flex flex-col justify-center gap-6">
-              {/* Volume Section */}
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-gray-300 font-medium text-sm uppercase tracking-wider">{msg('home.audioControls')}</span>
-                  <span
-                    className="text-3xl font-bold tabular-nums"
-                    style={{ color: 'var(--primary-accent)' }}
-                  >
-                    {props.volume}
-                    %
-                  </span>
-                </div>
-
-                <AudioVolume />
-
-                <p
-                  className="text-gray-500 text-xs mt-4 leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: msg('home.volumeContext') }}
-                />
-              </div>
-
-              {/* Voice Chat Section - only if enabled */}
-              {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat ? (
-                <div className="border-t border-gray-800 pt-6">
-                  <VcOnboarding />
-                </div>
-              ) : null}
-
-              {/* Voice Chat Errors */}
-              {props.voiceState.enabled && !props.browserSupportsVoiceChat ? (
-                <div className="border-t border-gray-800 pt-6">
-                  <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner>
-                </div>
-              ) : null}
-
-              {props.voiceState.enabled && !props.clientSupportsVoiceChat ? (
-                <div className="border-t border-gray-800 pt-6">
-                  <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner>
+                  <span className="text-gray-400 text-xs">{msg('home.playing')}</span>
                 </div>
               ) : null}
             </div>
           </div>
+
+          {/* Divider */}
+          <div className="h-px bg-gray-800 mx-6" />
+
+          {/* Volume Control Section */}
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400 text-sm font-medium">{msg('home.audioControls')}</span>
+              <span
+                className="text-2xl font-semibold tabular-nums"
+                style={{ color: 'var(--primary-accent)' }}
+              >
+                {props.volume}
+                %
+              </span>
+            </div>
+
+            {/* Volume Slider */}
+            <AudioVolume />
+
+            <p
+              className="text-gray-600 text-xs mt-4 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: msg('home.volumeContext') }}
+            />
+          </div>
+
+          {/* Voice Chat Section - only if enabled */}
+          {props.voiceState.enabled && !props.voiceState.ready && props.clientSupportsVoiceChat && props.browserSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <VcOnboarding />
+              </div>
+            </>
+          ) : null}
+
+          {/* Voice Chat Errors */}
+          {props.voiceState.enabled && !props.browserSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <UnsupportedBanner>{msg('vc.notCompatible')}</UnsupportedBanner>
+              </div>
+            </>
+          ) : null}
+
+          {props.voiceState.enabled && !props.clientSupportsVoiceChat ? (
+            <>
+              <div className="h-px bg-gray-800 mx-6" />
+              <div className="p-6">
+                <UnsupportedBanner>{msg('vc.badClient')}</UnsupportedBanner>
+              </div>
+            </>
+          ) : null}
         </div>
 
         {/* SoundCloud - outside main card */}
-        <div className="mt-8">
-          <SoundCloudPlayer />
-        </div>
+        <SoundCloudPlayer />
 
         {/* Footer info */}
-        <p className="text-center text-gray-500 text-sm mt-8 opacity-75">
+        <p className="text-center text-gray-600 text-xs mt-6">
           {msg('home.footerTip')}
         </p>
       </div>

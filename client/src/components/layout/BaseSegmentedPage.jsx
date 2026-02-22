@@ -92,7 +92,7 @@ export class BaseSegmentedPage extends React.Component {
         {!this.props.noFooter ? (
           <div className="relative w-full p-4 mt-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 bg-gray-900 border-t border-gray-800 z-10">
             <div className="mb-2 sm:mb-0 text-center sm:text-left">
-              &copy; OpenAudioMc 2016-2026. All Rights Reserved.
+              &copy; OpenAudioMc 2016-2025. All Rights Reserved.
             </div>
             <div className="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-2 sm:space-y-0">
               {this.props.showVersion ? (
