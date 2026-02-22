@@ -31,8 +31,10 @@ export class MediaChannel {
     if (!tag) return;
     this.tagSet.add(tag);
     // If engine is present, re-apply inhibitors for this channel when tags change.
+    // Pass immediate=true so a brand-new channel that should already be inhibited
+    // snaps to silent instantly rather than leaking one 25 ms tick of audio.
     if (this._engine && typeof this._engine._applyInhibitionsFor === 'function') {
-      try { this._engine._applyInhibitionsFor(this); } catch (e) { /* ignore */ }
+      try { this._engine._applyInhibitionsFor(this, true); } catch (e) { /* ignore */ }
     }
   }
 
