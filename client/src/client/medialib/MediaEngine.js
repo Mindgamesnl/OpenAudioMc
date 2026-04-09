@@ -51,10 +51,15 @@ export class MediaEngine {
   destroySounds({
     soundId, all = false, instantly = false, fadeTimeMs = 500, filterFn = null,
   }) {
+    // If soundId starts with '!' it's an inverse match: destroy all channels that don't match the tag after the '!'
+    const isInversedMatch = soundId ? soundId.startsWith('!') : false;
+    if (isInversedMatch) soundId = soundId.substring(1);
+
     let matched = false;
     const time = instantly ? 0 : (fadeTimeMs ?? 500);
     Array.from(this.channels.values()).forEach((ch) => {
-      if (all || (soundId ? ch.hasTag(soundId) : (!ch.hasTag('SPECIAL') && !ch.hasTag('REGION') && !ch.hasTag('SPEAKER')))) {
+      const isIdMatch = isInversedMatch ? !ch.hasTag(soundId) : ch.hasTag(soundId);
+      if (all || (soundId ? isIdMatch : (!ch.hasTag('SPECIAL') && !ch.hasTag('REGION') && !ch.hasTag('SPEAKER')))) {
         if (filterFn && !filterFn(ch)) return;
         matched = true;
         // Initiate a destructive fade; MediaChannel will preserve pending finalizer
