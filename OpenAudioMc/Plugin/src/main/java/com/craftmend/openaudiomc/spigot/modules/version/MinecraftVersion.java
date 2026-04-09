@@ -87,6 +87,10 @@ public enum MinecraftVersion {
     V_1_21_10("1.21.10"),
     V_1_21_11("1.21.11"),
 
+    V_26_0("26.0"),
+    V_26_1("26.1"),
+    V_26_2("26.2"),
+
 
     NEW_UNKNOWN("unknown");
 
