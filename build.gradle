@@ -86,9 +86,9 @@ ext.deps = [
     nbtApi: "de.tr7zw:item-nbt-api:${nbtApiVersion}",
 
     // BungeeCord dependencies
-    bungeeProxy: "com.github.SpigotMC.BungeeCord:bungeecord-proxy:${bungeeProxyVersion}",
-    bungeeProtocol: "com.github.SpigotMC.BungeeCord:bungeecord-protocol:${bungeeProtocolVersion}",
-    bungeeApi: "com.github.SpigotMC.BungeeCord:bungeecord-api:${bungeeApiVersion}",
+    bungeeProxy: "com.github.spigotmc.bungeecord:bungeecord-proxy:${bungeeProxyVersion}",
+    bungeeProtocol: "com.github.spigotmc.bungeecord:bungeecord-protocol:${bungeeProtocolVersion}",
+    bungeeApi: "com.github.spigotmc.bungeecord:bungeecord-api:${bungeeApiVersion}",
 
     // Integration dependencies
     traincarts: "com.bergerkiller.bukkit:TrainCarts:${traincartsVersion}",

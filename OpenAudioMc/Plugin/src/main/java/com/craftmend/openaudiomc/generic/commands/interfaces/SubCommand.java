@@ -20,14 +20,19 @@ import java.util.*;
 
 public abstract class SubCommand {
 
-    @Getter private final String command;
-    @Getter protected boolean listed = true;
-    @Getter private List<String> aliases = new ArrayList<>();
-    @Getter private final List<Argument> arguments = new ArrayList<>();
+    @Getter
+    private final String command;
+    @Getter
+    protected boolean listed = true;
+    @Getter
+    private List<String> aliases = new ArrayList<>();
+    @Getter
+    private final List<Argument> arguments = new ArrayList<>();
     private final Map<String, SubCommand> moreSubCommands = new HashMap<>();
     protected boolean trimArguments = false;
     protected boolean ignorePermissions = false;
-    @Setter protected CommandService commandService;
+    @Setter
+    protected CommandService commandService;
     protected String permissionScope = "openaudiomc.commands.";
 
     /**
@@ -55,7 +60,7 @@ public abstract class SubCommand {
     /**
      * send a openaudiomc styled message
      *
-     * @param sender Command sender
+     * @param sender  Command sender
      * @param message Your message
      */
     protected void message(User<?> sender, String message) {
@@ -89,8 +94,8 @@ public abstract class SubCommand {
 
     /**
      * @param subCommand Another sub command to use, like a sub sub command!
-     * @param user User
-     * @param args Arguments
+     * @param user       User
+     * @param args       Arguments
      */
     public void delegateTo(String subCommand, User<?> user, String[] args) {
         SubCommand sci = moreSubCommands.get(subCommand);
@@ -119,22 +124,26 @@ public abstract class SubCommand {
 
     /**
      * @param sender the sender that executed the commands
-     * @param args the arguments after your command, starting at index 0
+     * @param args   the arguments after your command, starting at index 0
      */
     public abstract void onExecute(User<?> sender, String[] args);
 
     protected boolean isInteger(String s) {
-        return isInteger(s,10);
+        return isInteger(s, 10);
+    }
+
+    protected boolean isBoolean(String b) {
+        return b.equalsIgnoreCase("true") || b.equalsIgnoreCase("false");
     }
 
     private boolean isInteger(String s, int radix) {
-        if(s.isEmpty()) return false;
-        for(int i = 0; i < s.length(); i++) {
-            if(i == 0 && s.charAt(i) == '-') {
-                if(s.length() == 1) return false;
+        if (s.isEmpty()) return false;
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 && s.charAt(i) == '-') {
+                if (s.length() == 1) return false;
                 else continue;
             }
-            if(Character.digit(s.charAt(i),radix) < 0) return false;
+            if (Character.digit(s.charAt(i), radix) < 0) return false;
         }
         return true;
     }

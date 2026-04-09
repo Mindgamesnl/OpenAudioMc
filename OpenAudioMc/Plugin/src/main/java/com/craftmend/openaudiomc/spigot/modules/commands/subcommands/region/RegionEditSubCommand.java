@@ -30,7 +30,9 @@ public class RegionEditSubCommand extends ParameteredSubCommand {
                 new Argument("volume <region> <volume>",
                         "Change the volume of a region"),
                 new Argument("fade <region> <fade time MS>",
-                        "Change the fade of a region")
+                        "Change the fade of a region"),
+                new Argument("sync <region> <true/false>",
+                        "Enable/disable region syncronization (sync media between players, don't start from the beginning")
         );
 
         this.openAudioMcSpigot = openAudioMcSpigot;
@@ -68,7 +70,7 @@ public class RegionEditSubCommand extends ParameteredSubCommand {
 
             if (rp != null) {
                 rp.setVolume(Integer.parseInt(args[2]));
-                message(sender, ChatColor.RED + "The volume of " + targetRegion + " has been set to " + args[2]);
+                message(sender, ChatColor.GREEN + "The volume of " + targetRegion + " has been set to " + args[2]);
                 worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
                 sendRegionMediaUpdatePacket(rp, worldName);
@@ -98,7 +100,32 @@ public class RegionEditSubCommand extends ParameteredSubCommand {
             RegionProperties rp = worldRegionManager.getRegionProperties(targetRegion);
             if (rp != null) {
                 rp.setFadeTimeMs(Integer.parseInt(args[2]));
-                message(sender, ChatColor.RED + "The fade of " + targetRegion + " has been set to " + args[2]);
+                message(sender, ChatColor.GREEN + "The fade of " + targetRegion + " has been set to " + args[2]);
+                // update the region
+                worldRegionManager.registerRegion(rp);
+                openAudioMcSpigot.getRegionModule().forceUpdateRegions();
+                sendRegionMediaUpdatePacket(rp, worldName);
+                saveAsync(rp);
+            } else {
+                message(sender, ChatColor.RED + "There's no worldguard region by the name " + targetRegion);
+            }
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("sync") && args.length == 3) {
+            if (!isBoolean(args[2])) {
+                message(sender, ChatColor.RED + "The sync value must be true or false");
+                return;
+            }
+
+            boolean sync = Boolean.parseBoolean(args[2]);
+
+            String targetRegion = args[1].toLowerCase();
+
+            RegionProperties rp = worldRegionManager.getRegionProperties(targetRegion);
+            if (rp != null) {
+                rp.setDoSync(sync);
+                message(sender, ChatColor.GREEN + "The syncronization of " + targetRegion + " has been set to " + sync);
                 // update the region
                 worldRegionManager.registerRegion(rp);
                 openAudioMcSpigot.getRegionModule().forceUpdateRegions();
