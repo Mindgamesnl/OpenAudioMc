@@ -296,8 +296,10 @@ public class SpigotConfiguration implements Configuration, Listener {
     public void saveAll(boolean includeConfig) {
         try {
             if (includeConfig) {
+                warnIfWrongFilePermissions(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml"));
                 mainConfig.save(new File(OpenAudioMcSpigot.getInstance().getDataFolder(), "config.yml"));
             }
+            warnIfWrongFilePermissions(new File("plugins"+ File.separator + "OpenAudioMc" + File.separator + "data.yml"));
             dataConfig.save("plugins"+ File.separator + "OpenAudioMc" + File.separator + "data.yml");
         } catch (IOException e) {
             OpenAudioLogger.error(e, "Failed to save config/data");

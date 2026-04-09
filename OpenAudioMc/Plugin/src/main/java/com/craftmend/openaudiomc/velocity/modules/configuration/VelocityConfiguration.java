@@ -306,6 +306,9 @@ public class VelocityConfiguration implements Configuration {
             File config = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "config.yml");
             File data = new File(OpenAudioMcVelocity.getInstance().getDataDir(), "data.yml");
 
+            warnIfWrongFilePermissions(data);
+            warnIfWrongFilePermissions(config);
+
             if (configChanged) {
                 YAMLConfigurationLoader.builder()
                         .setFile(config)

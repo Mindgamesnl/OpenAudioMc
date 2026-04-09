@@ -262,8 +262,11 @@ public class BungeeConfiguration implements Configuration {
     public void saveAll(boolean includeConfig) {
         try {
             if (includeConfig) {
+                warnIfWrongFilePermissions(new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
                 ConfigurationProvider.getProvider(YamlConfiguration.class).save(mainConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "config.yml"));
             }
+
+            warnIfWrongFilePermissions(new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(dataConfig, new File(OpenAudioMcBungee.getInstance().getDataFolder(), "data.yml"));
         } catch (IOException e) {
             OpenAudioLogger.error(e, "Failed to save config/data");

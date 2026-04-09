@@ -1,8 +1,10 @@
 package com.craftmend.openaudiomc.generic.storage.interfaces;
 
+import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageLocation;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,5 +31,18 @@ public interface Configuration {
     void overwriteConfigFile();
     boolean hasDataFile();
     boolean hasStorageKey(StorageKey storageKey);
+
+    default void warnIfWrongFilePermissions(File file) {
+        if (file.exists() && !file.canRead()) {
+            OpenAudioLogger.warn("======= FATAL CONFIG ERROR =======");
+            OpenAudioLogger.warn("The file " + file.getAbsolutePath() + " is not readable. Please check the file permissions.");
+            OpenAudioLogger.warn("======= FATAL CONFIG ERROR =======");
+        }
+        if (file.exists() && !file.canWrite()) {
+            OpenAudioLogger.warn("======= FATAL CONFIG ERROR =======");
+            OpenAudioLogger.warn("The file " + file.getAbsolutePath() + " is not writable. Please check the file permissions.");
+            OpenAudioLogger.warn("======= FATAL CONFIG ERROR =======");
+        }
+    }
 
 }
