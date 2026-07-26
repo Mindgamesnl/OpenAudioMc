@@ -28,11 +28,27 @@ javadoc {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
+
             groupId = project.group
-            artifactId = 'openaudiomc-api'
+            artifactId = "openaudiomc-api"
             version = project.version
+        }
+    }
+
+    repositories {
+        maven {
+            name = "pixelib-repo"
+            url = uri("https://repo.pixelib.dev/repository/mats-public")
+
+            credentials {
+                def settings = new XmlSlurper().parse(new File(System.getProperty("user.home"), ".m2/settings.xml"))
+                def server = settings.servers.server.find { it.id.text() == "pixelib-repo" }
+
+                username = server.username.text()
+                password = server.password.text()
+            }
         }
     }
 }

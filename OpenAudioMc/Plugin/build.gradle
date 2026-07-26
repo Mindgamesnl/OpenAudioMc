@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id("io.freefair.lombok") version "8.13.1"
-    id 'dev.s7a.gradle.minecraft.server' version '3.2.1'
+    id 'dev.s7a.gradle.minecraft.server' version '4.0.2'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
@@ -119,35 +119,29 @@ build {
     dependsOn shadowJar
 }
 
-// Configure publishing to use the shadow jar
+
 publishing {
     publications {
-        maven(MavenPublication) {
-            // Use the shadow jar as the main artifact
-            artifact shadowJar
-            artifact sourcesJar
-            artifact javadocJar
+        mavenJava(MavenPublication) {
+            from components.java
 
             groupId = project.group
-            artifactId = 'openaudiomc'
+            artifactId = "openaudiomc"
             version = project.version
-
-            // Configure the POM
-            pom {
-                name = 'OpenAudioMc'
-                description = 'The OpenAudioMc Java plugin and Api'
-                url = 'https://openaudiomc.net/'
-            }
         }
     }
 
     repositories {
         maven {
-            name = 'github'
-            url = uri('https://maven.pkg.github.com/Mindgamesnl/OpenAudioMc')
+            name = "pixelib-repo"
+            url = uri("https://repo.pixelib.dev/repository/mats-public")
+
             credentials {
-                username = System.getenv('GITHUB_ACTOR')
-                password = System.getenv('GITHUB_TOKEN')
+                def settings = new XmlSlurper().parse(new File(System.getProperty("user.home"), ".m2/settings.xml"))
+                def server = settings.servers.server.find { it.id.text() == "pixelib-repo" }
+
+                username = server.username.text()
+                password = server.password.text()
             }
         }
     }
@@ -173,7 +167,7 @@ import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
             }
         }
         serverDirectory = "$buildDir/MinecraftServer$name"
-        jarUrl = LaunchMinecraftServerTask.JarUrl.INSTANCE.Paper(version)
+//        jarUrl = LaunchMinecraftServerTask.JarUrl.Paper(version)
         agreeEula = true
     }
 }
@@ -187,7 +181,7 @@ task("testPluginBungee", type: LaunchMinecraftServerTask) {
         }
     }
     serverDirectory = "$buildDir/BungeeServer"
-    jarUrl = "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar"
+//    jarUrl = "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar"
     agreeEula = true
 }
 
