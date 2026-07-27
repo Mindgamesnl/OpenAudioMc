@@ -40,7 +40,7 @@ publishing {
     repositories {
         maven {
             name = "pixelib-repo"
-            url = uri("https://repo.pixelib.dev/repository/mats-public")
+            url = uri("https://repo.mats.coffee/repository/mats-public")
 
             credentials {
                 def settings = new XmlSlurper().parse(new File(System.getProperty("user.home"), ".m2/settings.xml"))
