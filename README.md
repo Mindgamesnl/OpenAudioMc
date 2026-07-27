@@ -29,6 +29,7 @@ The Java plugin/implementation and vistas platforms come bundled with gradle uni
 Please note that the test for `vistas-server` test cases require a redis server to be running on `localhost:6379` with no password. These test cases will fail prematurely if this is not the case.
 
 ## Useful Links
+* **API Maven Repository** - <https://repo.mats.coffee/artifacts/mats-public?group=com.craftmend.openaudiomc&artifact=openaudiomc-api>
 * **Patreon** - <https://patreon.com/mindgamesnl>
 * **Website** - <https://openaudiomc.net/>
 * **Discord Community** - <https://discord.openaudiomc.net/>
