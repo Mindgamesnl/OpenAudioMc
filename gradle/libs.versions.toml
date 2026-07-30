@@ -1,7 +1,7 @@
 [versions]
 shadow = "9.6.1"
 freefair-lombok = "9.5.0"
-minecraft-server = "4.0.2"
+run-server = "1.2.2"
 
 jetbrains-annotations = "26.1.0"
 
@@ -80,4 +80,4 @@ junit = { module = "junit:junit", version.ref = "junit" }
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 lombok = { id = "io.freefair.lombok", version.ref = "freefair-lombok" }
-minecraft-server = { id = "dev.s7a.gradle.minecraft.server", version.ref = "minecraft-server" }
+run-server = { id = "org.bxteam.runserver", version.ref = "run-server" }

@@ -1,11 +1,13 @@
-import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
 import com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer
+import org.bxteam.runserver.RamAmount
+import org.bxteam.runserver.RunServerTask
+import org.bxteam.runserver.ServerType
 
 plugins {
     id 'java-library'
     alias libs.plugins.shadow
     alias libs.plugins.lombok
-    alias libs.plugins.minecraft.server
+    alias libs.plugins.run.server
 }
 
 apply from: "$rootDir/gradle/publish-conventions.gradle"
@@ -120,48 +122,48 @@ publishing {
     }
 }
 
-[
-        ['8', '1.8.8'],
-        ['12', '1.12.2'],
-        ['20', '1.20.4'],
-        ['21', '1.21.7'],
-        ['2110', '1.21.10'],
-        ['2111', '1.21.11']
-].each { name, version ->
-    tasks.register("testPlugin$name", LaunchMinecraftServerTask) {
-        dependsOn tasks.shadowJar
+// Each task downloads the server jar and installs the shadowJar output for you, so
+// `./gradlew testPlugin2111` is all it takes to get a server running the current build.
+//
+// Configuring a RunServerTask validates the Minecraft version against the JDK running
+// Gradle, and that happens as soon as the task is realized. Anything listed here that
+// the current JDK cannot run therefore breaks `./gradlew tasks` and IDE sync, which is
+// why the legacy servers sit behind -PlegacyServers and want Gradle itself on Java 8.
+def paperServers = [
+        '20'  : '1.20.4',
+        '21'  : '1.21.7',
+        '2110': '1.21.10',
+        '2111': '1.21.11'
+]
 
-        def serverDir = layout.buildDirectory.dir("MinecraftServer$name")
-        def pluginJar = tasks.shadowJar.archiveFile
+// 1.8.8 is absent on purpose: run-server reads javaVersions from the Spigot version API
+// to do that check, and the 1.8.8 document has no such field, so the task cannot even be
+// configured. See https://hub.spigotmc.org/versions/1.8.8.json
+if (providers.gradleProperty('legacyServers').present) {
+    paperServers['12'] = '1.12.2'
+}
 
-        doFirst {
-            copy {
-                from pluginJar
-                into serverDir.get().dir('plugins')
-            }
-        }
+paperServers.each { suffix, mcVersion ->
+    tasks.register("testPlugin$suffix", RunServerTask) {
+        group = 'openaudiomc'
+        description = "Run a Paper $mcVersion server with the current OpenAudioMc build installed"
 
-        serverDirectory = serverDir.get().asFile.path
-//        jarUrl = LaunchMinecraftServerTask.JarUrl.Paper(version)
-        agreeEula = true
+        serverType ServerType.PAPER
+        serverVersion mcVersion
+        serverFolderName "build/run/paper-$mcVersion"
+        allowedRam 2, RamAmount.GIGABYTE
+        acceptMojangEula()
     }
 }
 
-tasks.register('testPluginBungee', LaunchMinecraftServerTask) {
-    dependsOn tasks.shadowJar
+tasks.register('testPluginBungee', RunServerTask) {
+    group = 'openaudiomc'
+    description = 'Run a BungeeCord proxy with the current OpenAudioMc build installed'
 
-    def serverDir = layout.buildDirectory.dir('BungeeServer')
-    def pluginJar = tasks.shadowJar.archiveFile
-
-    doFirst {
-        copy {
-            from pluginJar
-            into serverDir.get().dir('plugins')
-        }
-    }
-
-    serverDirectory = serverDir.get().asFile.path
-    agreeEula = true
+    serverType ServerType.BUNGEECORD
+    serverVersion '1.21'
+    serverFolderName 'build/run/bungeecord'
+    allowedRam 1, RamAmount.GIGABYTE
 }
 
 def generatedResources = layout.buildDirectory.dir('generated/resources/buildinfo')
