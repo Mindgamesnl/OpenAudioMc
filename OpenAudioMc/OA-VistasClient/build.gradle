@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     alias libs.plugins.shadow
     alias libs.plugins.lombok
+    id 'maven-publish'
 }
 
 apply from: "$rootDir/gradle/vistas-shadow-conventions.gradle"
@@ -18,4 +19,18 @@ dependencies {
 
 shadowJar {
     archiveBaseName = 'vistas-client'
+}
+
+apply from: "$rootDir/gradle/publish-conventions.gradle"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact shadowJar
+
+            groupId = project.group
+            artifactId = 'openaudiomc-vistas-client'
+            version = project.version
+        }
+    }
 }

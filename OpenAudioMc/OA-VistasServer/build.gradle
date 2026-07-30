@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'application'
+    id 'maven-publish'
     alias libs.plugins.shadow
     alias libs.plugins.lombok
 }
@@ -42,4 +43,17 @@ jar {
 test {
     forkEvery = 0
     testLogging.showStandardStreams = true
+}
+apply from: "$rootDir/gradle/publish-conventions.gradle"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact shadowJar
+
+            groupId = project.group
+            artifactId = 'openaudiomc-vistas-server'
+            version = project.version
+        }
+    }
 }
