@@ -48,6 +48,5 @@ Please note that the test for `vistas-server` test cases require a redis server 
 - `client/` contains the source code, build scripts and assets of the production web client
 - `OpenAudioMc/OA-PartiesModule` contains the module integrating with the official [Parties](https://www.spigotmc.org/resources/parties-an-advanced-parties-manager.3709/) plugin
 - `OpenAudioMc/OA-SkywarsModule` contains the module integrating with native Skywars game states ([Skywars Reloaded](https://github.com/lukasvdgaag/SkyWarsReloaded))
-- `OpenAudioMc/OA-PaperUserAdapter` work-in-progress paper port for our user system, adding support for minimessage
 - `OpenAudioMc/vistas-server` a standalone OpenAudioMc installation that links over redis, for enterprise deployments with multiple bungee or lilypad proxies
 - `OpenAudioMc/vistas-client` a plugin runtime implementation for vistas, to hook into a redis based mesh network

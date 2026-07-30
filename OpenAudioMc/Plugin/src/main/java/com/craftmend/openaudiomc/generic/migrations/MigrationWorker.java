@@ -66,6 +66,7 @@ public class MigrationWorker {
                 new AddConfigKeyMigration(SETTINGS_SPEAKER_SKIN_UUID, "Add a setting for the speaker skin textures"),
                 new AddConfigKeyMigration(SETTINGS_TRAINCARTS_MUTE_REGIONS, "Add a setting to mute regions and speakers in traincarts"),
                 new AddConfigKeyMigration(SETTINGS_VOICE_PERMISSION_ENABLED, "Add a setting to enable/disable voicechat join permissions"),
+                new AddConfigKeyMigration(SETTINGS_MESSAGE_FORMAT, "Add a setting to pick between color codes and MiniMessage"),
         };
 
         for (SimpleMigration migration : migrations) {

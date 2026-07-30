@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import lombok.SneakyThrows;
@@ -47,8 +48,9 @@ public class ChannelCreateCommand extends SubCommand {
             throw new CommandError(StorageKey.MESSAGE_VOICE_CHANNEL_NAME_TAKEN.getString());
         }
 
-        sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_CREATED.getString()
-                .replace("{channel}", channelName)
+        sender.sendMessage(Platform.translateColors(Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_CREATED.getString())
+                .with("channel", channelName)
+                .apply()
         ));
     }
 }

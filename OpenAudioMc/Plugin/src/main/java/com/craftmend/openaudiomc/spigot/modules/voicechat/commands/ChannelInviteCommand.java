@@ -8,6 +8,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.OpenAudioMcSpigot;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
@@ -69,7 +70,9 @@ public class ChannelInviteCommand extends SubCommand {
 
             channel.addMember(sender);
 
-            sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_JOINED.getString().replace("{channel}", channel.getName())));
+            sender.sendMessage(Platform.translateColors(Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_JOINED.getString())
+                    .with("channel", channel.getName())
+                    .apply()));
             return;
         }
 
@@ -118,9 +121,10 @@ public class ChannelInviteCommand extends SubCommand {
         UUID invitationId = UUID.randomUUID();
         invitations.put(invitationId, channel.getName());
 
-        String invitationMessage = StorageKey.MESSAGE_VOICE_CHANNEL_INVITED.getString()
-                .replace("{channel}", channel.getName())
-                .replace("{inviter}", sender.getName());
+        String invitationMessage = Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_INVITED.getString())
+                .with("channel", channel.getName())
+                .with("inviter", sender.getName())
+                .apply();
 
         User targetUser = resolveDependency(UserHooks.class).byUuid(target.getUniqueId());
         if (targetUser == null) {
@@ -147,16 +151,18 @@ public class ChannelInviteCommand extends SubCommand {
         );
 
         sender.sendMessage(Platform.translateColors(
-                StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_SENT.getString()
-                        .replace("{player}", target.getName())
+                Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_SENT.getString())
+                        .with("player", target.getName())
+                        .apply()
         ));
 
         Bukkit.getScheduler().runTaskLater(OpenAudioMcSpigot.getInstance(), () -> {
             if (invitations.containsKey(invitationId)) {
                 invitations.remove(invitationId);
                 sender.sendMessage(Platform.translateColors(
-                        StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_EXPIRED.getString()
-                                .replace("{player}", target.getName())
+                        Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_INVITATION_EXPIRED.getString())
+                                .with("player", target.getName())
+                                .apply()
                 ));
             }
         }, 20 * 30);

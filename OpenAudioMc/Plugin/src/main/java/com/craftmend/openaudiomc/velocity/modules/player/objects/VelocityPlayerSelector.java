@@ -5,9 +5,9 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.user.adapters.VelocityUserAdapter;
 import com.craftmend.openaudiomc.velocity.OpenAudioMcVelocity;
+import com.craftmend.openaudiomc.velocity.utils.VelocityComponents;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +68,7 @@ public class VelocityPlayerSelector implements SelectorTranslator<CommandSource>
         } else {
             //you fucked it
             OpenAudioLogger.warn("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
-            source.sendMessage(Component.text("Invalid player query. Try something like @a, @a[server=lobby], username or other arguments."));
+            VelocityComponents.sendPlain(source, "Invalid player query. Try something like @a, @a[server=lobby], username or other arguments.");
         }
         return players;
     }
