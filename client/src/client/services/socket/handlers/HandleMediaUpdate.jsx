@@ -12,7 +12,7 @@ export async function handleMediaUpdate(data) {
     if (engine) {
       const ch = engine.channels.get(id);
       if (ch) {
-        if (volume) {
+        if (volume != null) {
           ch.fadeTo(volume, fadeTimeMs);
         }
 
