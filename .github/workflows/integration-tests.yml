@@ -40,6 +40,15 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Configure bogus pixelib gradle credentials
+        run: |
+          mkdir -p ~/.gradle
+          cat > ~/.gradle/gradle.properties <<EOF
+          pixelibRepoUser=readonly@pixelib.dev
+          pixelibRepoToken=none
+          EOF
+          chmod 600 ~/.gradle/gradle.properties
+
       # --rerun because Test tasks are cacheable: without it an unchanged nightly
       # run restores FROM-CACHE and never actually exercises anything
       - name: Run Vistas integration test
