@@ -20,11 +20,10 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # Tests are excluded: the only suite is a Vistas full stack integration test that
-      # needs a local Redis and registers a real account against the production API on
-      # every run, so it is not something to fire on each push
+      # The Vistas integration test skips itself without a local Redis, so it stays out
+      # of the way here. See integration-tests.yml for the run that exercises it.
       - name: Build
-        run: ./gradlew build -x test
+        run: ./gradlew build
 
       - name: Upload plugin jar
         uses: actions/upload-artifact@v4

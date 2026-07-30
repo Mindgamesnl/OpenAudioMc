@@ -2,7 +2,7 @@ name: Integration tests
 
 # Every run registers a fresh account against the production API, so this is
 # deliberately not wired to push or pull_request. Trigger it by hand when you
-# need it, plus one scheduled run a night to catch regressions.
+# need it, plus one scheduled run a week to catch regressions.
 on:
   workflow_dispatch:
   schedule:
