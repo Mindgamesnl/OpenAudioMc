@@ -2,7 +2,7 @@ package com.craftmend.openaudiomc.generic.user.adapters;
 
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
-import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.BungeeAudienceProvider;
 import com.craftmend.openaudiomc.generic.text.RichText;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,7 +25,7 @@ public class BungeeUserAdapter implements User<CommandSender> {
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
             if (RichText.isRich(s)) {
-                Audiences.bungee().sender(sender).sendMessage(RichText.parse(s));
+                BungeeAudienceProvider.get().sender(sender).sendMessage(RichText.parse(s));
             } else {
                 sender.sendMessage(s);
             }
@@ -56,7 +56,7 @@ public class BungeeUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bungee().sender(sender).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
+            BungeeAudienceProvider.get().sender(sender).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
             return;
         }
 
@@ -86,7 +86,7 @@ public class BungeeUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bungee().sender(sender).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
+            BungeeAudienceProvider.get().sender(sender).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
             return;
         }
 

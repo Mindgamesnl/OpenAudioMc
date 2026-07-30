@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.SpigotAudiences;
 import com.craftmend.openaudiomc.generic.text.RichText;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
         String[] lines = string.split("\\\\n");
         for (String line : lines) {
             if (RichText.isRich(line)) {
-                Audiences.bukkit().sender(sender).sendMessage(RichText.parse(line));
+                SpigotAudiences.get().sender(sender).sendMessage(RichText.parse(line));
             } else {
                 sender.sendMessage(Platform.translateColors(line));
             }
@@ -70,7 +70,7 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bukkit().sender(sender).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
+            SpigotAudiences.get().sender(sender).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
             return;
         }
 
@@ -100,7 +100,7 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bukkit().sender(sender).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
+            SpigotAudiences.get().sender(sender).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
             return;
         }
 
@@ -158,7 +158,7 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
     @Override
     public void sendActionbarMessage(String text) {
         if (RichText.isRich(text)) {
-            Audiences.bukkit().sender(sender).sendActionBar(RichText.parse(text));
+            SpigotAudiences.get().sender(sender).sendActionBar(RichText.parse(text));
             return;
         }
 

@@ -19,7 +19,7 @@ import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
 import com.craftmend.openaudiomc.generic.networking.interfaces.NetworkingService;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.state.states.IdleState;
-import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.BungeeAudienceProvider;
 import com.craftmend.openaudiomc.spigot.modules.proxy.enums.OAClientMode;
 import com.craftmend.openaudiomc.bungee.modules.punishments.LitebansIntegration;
 import com.craftmend.openaudiomc.generic.proxy.messages.implementations.BungeeCordPacketManager;
@@ -89,7 +89,7 @@ public class OpenAudioMcBungee extends Plugin implements OpenAudioInvoker {
      */
     @Override
     public void onDisable() {
-        Audiences.close();
+        BungeeAudienceProvider.close();
         OpenAudioMc.getInstance().disable();
     }
 

@@ -3,7 +3,7 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
-import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.SpigotAudiences;
 import com.craftmend.openaudiomc.generic.text.RichText;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
             if (RichText.isRich(s)) {
-                Audiences.bukkit().sender(player).sendMessage(RichText.parse(s));
+                SpigotAudiences.get().sender(player).sendMessage(RichText.parse(s));
             } else {
                 player.sendMessage(s);
             }
@@ -63,7 +63,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bukkit().sender(player).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
+            SpigotAudiences.get().sender(player).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
             return;
         }
 
@@ -99,7 +99,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
         }
 
         if (RichText.isRich(msgText, hoverMessage)) {
-            Audiences.bukkit().sender(player).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
+            SpigotAudiences.get().sender(player).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
             return;
         }
 
@@ -162,7 +162,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public void sendActionbarMessage(String text) {
         if (RichText.isRich(text)) {
-            Audiences.bukkit().sender(player).sendActionBar(RichText.parse(text));
+            SpigotAudiences.get().sender(player).sendActionBar(RichText.parse(text));
             return;
         }
 
