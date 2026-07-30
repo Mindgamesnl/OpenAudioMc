@@ -1,24 +1,18 @@
-export JAVA_HOME=`/usr/libexec/java_home -v 17`
-mkdir -p test-server-spigot/plugins/
-mkdir -p test-server-spigot/plugins/OpenAudioMc/
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
 echo "Building new OpenAudioMc jar without unit tests.."
+./gradlew :OpenAudioMc:Plugin:shadowJar :OpenAudioMc:OA-VistasClient:shadowJar :OpenAudioMc:OA-VistasServer:shadowJar -x test
 
-cd plugin
-./src/main/bash/post-build.sh
-cd ..
+mkdir -p dev-resources/vistas-test/plugins
+cp OpenAudioMc/Plugin/build/libs/openaudiomc-*.jar dev-resources/vistas-test/plugins/
 
-mvn -T 4.5C clean install -Dmaven.test.skip=true
+mkdir -p dev-resources/vistas-test/plugins/OpenAudioMc/modules
+cp OpenAudioMc/OA-VistasClient/build/libs/vistas-client-*.jar dev-resources/vistas-test/plugins/OpenAudioMc/modules/
 
-# permission workaround
-cp plugin/target/openaudiomc-*.jar dev-resources/vistas-test/plugins/
-
-# copy vistas client module
-mkdir -p dev-resources/vistas-test/plugins/OpenAudioMc/modules/
-cp modules/vistas-client/target/vistas-client.jar dev-resources/vistas-test/plugins/OpenAudioMc/modules/
-
-# vistas server jar
-mkdir -p dev-resources/vistas-test/vistas/
-cp modules/vistas-server/target/vistas-server.jar dev-resources/vistas-test/vistas/
+mkdir -p dev-resources/vistas-test/vistas
+cp OpenAudioMc/OA-VistasServer/build/libs/vistas-server-*.jar dev-resources/vistas-test/vistas/
 
 cd dev-resources/vistas-test/
-docker-compose up
+docker compose up

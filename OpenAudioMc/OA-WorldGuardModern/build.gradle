@@ -2,32 +2,13 @@ plugins {
     id 'java'
 }
 
-group = 'com.craftmend.openaudiomc'
-version = '1.2'
-
-repositories {
-    mavenCentral()
-    maven {
-        url 'https://repo.enginehub.org/repo/'
-    }
-}
+description = 'OpenAudioMc WorldGuard 7 support'
 
 dependencies {
     compileOnly project(':OpenAudioMc:OA-WorldguardIntegration')
-    compileOnly deps.spigot
+    compileOnly libs.spigot.api
 
-    // https://mvnrepository.com/artifact/com.sk89q.worldguard/worldguard-bukkit
-    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.0") {
-        // ignore target compatibility, I know we're compiling for 1.8 and these dependencies are 1.17+, but we should be fine
-        because("We are using the WorldGuard API, which is compatible with 1.8+")
-    }
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.0.0") {
-        // ignore target compatibility, I know we're compiling for 1.8 and these dependencies are 1.17+, but we should be fine
-        because("We are using the WorldEdit API, which is compatible with 1.8+")
-    }
-}
-
-
-test {
-    useJUnitPlatform()
+    // Built against a 1.17+ artifact on purpose, we only touch API that exists on 1.8+
+    compileOnly libs.worldguard.modern
+    compileOnly libs.worldedit.modern
 }

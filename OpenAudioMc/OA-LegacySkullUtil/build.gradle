@@ -2,25 +2,11 @@ plugins {
     id 'java'
 }
 
-group = 'com.craftmend.openaudiomc'
-version = '1.2'
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "papermc"
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
-}
+description = 'OpenAudioMc skull support for legacy servers'
 
 dependencies {
     implementation project(':OpenAudioMc:API')
+    implementation libs.nbt.api
 
-    implementation deps.nbtApi
-
-    compileOnly 'com.destroystokyo.paper:paper-api:1.16.2-R0.1-SNAPSHOT'
-}
-
-test {
-    useJUnitPlatform()
+    compileOnly libs.paper.api.skull
 }

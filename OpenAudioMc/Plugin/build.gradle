@@ -1,50 +1,56 @@
+import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
+import com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer
+
 plugins {
     id 'java-library'
-    id 'maven-publish'
-    id("io.freefair.lombok") version "8.13.1"
-    id 'dev.s7a.gradle.minecraft.server' version '4.0.2'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    alias libs.plugins.shadow
+    alias libs.plugins.lombok
+    alias libs.plugins.minecraft.server
 }
+
+apply from: "$rootDir/gradle/publish-conventions.gradle"
 
 description = 'OpenAudioMc Plugin'
 
 dependencies {
-    // Core dependencies (these will be shaded)
-    implementation deps.nbtApi
-    implementation deps.storm
-    implementation 'org.yaml:snakeyaml:2.0'
-    implementation(deps.okhttp) {
+    // Shaded into the plugin jar
+    implementation libs.nbt.api
+    implementation(libs.storm) {
+        // Storm leaks Lombok onto its runtime classpath with a dynamic version
+        exclude group: 'org.projectlombok'
+    }
+    implementation libs.snakeyaml
+    implementation(libs.okhttp) {
         exclude group: 'com.google.android', module: 'android'
     }
+    implementation libs.socketio.client
+    implementation libs.lettuce.core
+    implementation libs.sqlite.jdbc
 
-    implementation 'io.socket:socket.io-client:1.0.0'
-    implementation 'io.lettuce:lettuce-core:6.3.0.RELEASE'
-    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
-
-    // OA (these will be shaded)
     implementation project(':OpenAudioMc:API')
     implementation project(':OpenAudioMc:OA-LegacySkullUtil')
     implementation project(':OpenAudioMc:OA-ModernSkullUtil')
-//    implementation project(':OpenAudioMc:OA-PaperUserAdapter')
     implementation project(':OpenAudioMc:OA-WorldguardIntegration')
     implementation project(':OpenAudioMc:OA-WorldGuardLegacy')
     implementation project(':OpenAudioMc:OA-WorldGuardModern')
 
-    // Provided dependencies (these will NOT be shaded)
-    compileOnly deps.spigot
-    compileOnly deps.bungeeProxy
-    compileOnly deps.bungeeProtocol
-    compileOnly deps.bungeeApi
-    compileOnly deps.traincarts
-    compileOnly deps.bkcommonlib
-    compileOnly deps.velocityApi
-    compileOnly deps.litebans
-    compileOnly deps.essentialsx
-    compileOnly deps.placeholderapi
+    // Provided by the platform at runtime
+    compileOnly libs.spigot.api
+    compileOnly libs.bungee.proxy
+    compileOnly libs.bungee.protocol
+    compileOnly libs.bungee.api
+    compileOnly libs.traincarts
+    compileOnly libs.bkcommonlib
+    compileOnly libs.velocity.api
+    compileOnly libs.litebans.api
+    compileOnly(libs.essentialsx) {
+        // Pulls a Java 21 paper-api that Gradle rejects for our Java 8 target
+        exclude group: 'io.papermc.paper'
+    }
+    compileOnly libs.placeholderapi
 
-    // Test dependencies
-    testImplementation 'com.coreoz:wisp:2.4.0'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.wisp
+    testImplementation libs.junit
 }
 
 java {
@@ -52,15 +58,13 @@ java {
     withJavadocJar()
 }
 
-// Configure the Shadow plugin
 shadowJar {
     archiveBaseName = 'openaudiomc'
-    archiveClassifier = '' // This removes the '-all' suffix from the JAR name
+    archiveClassifier = ''
 
-    // Relocations to match your Maven configuration
     relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
     relocate 'io', 'com.craftmend.thirdparty.io', {
-        // Exclude netty classes to not break invocations with bungee
+        // Netty channel types cross the plugin boundary when talking to BungeeCord
         exclude 'io.netty.channel.Channel'
         exclude 'io.netty.channel.ChannelPipeline'
         exclude 'io.netty.channel.ChannelHandler'
@@ -69,11 +73,9 @@ shadowJar {
     relocate 'reactor', 'com.craftmend.thirdparty.reactor'
     relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
     relocate 'okio', 'com.craftmend.thirdparty.okio'
-    relocate 'org.projectlombok', 'com.craftmend.thirdparty.org'
     relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
     relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
 
-    // Exclude duplicate files and signing files
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
@@ -81,44 +83,30 @@ shadowJar {
     exclude 'META-INF/LICENSE*'
     exclude 'META-INF/NOTICE*'
 
-    // Merge service files instead of excluding them
     mergeServiceFiles()
 
-    // Transform to handle duplicate entries
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) {
+    transform(AppendingTransformer) {
         resource = 'META-INF/spring.handlers'
     }
-    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) {
+    transform(AppendingTransformer) {
         resource = 'META-INF/spring.schemas'
     }
 }
 
-// Make javadoc ignore errors
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.encoding = 'UTF-8'
-}
-
-// Configure the regular jar task (optional - you might want to disable it)
 jar {
-    dependsOn project(':OpenAudioMc:API').tasks.named('jar')
     archiveBaseName = 'openaudiomc'
-    archiveClassifier = 'thin' // Mark as thin jar
+    archiveClassifier = 'thin'
 
-    // Exclude duplicate files
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    // Exclude test dependencies
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
 }
 
-// Make build depend on shadowJar instead of jar
 build {
     dependsOn shadowJar
 }
-
 
 publishing {
     publications {
@@ -126,183 +114,118 @@ publishing {
             from components.java
 
             groupId = project.group
-            artifactId = "openaudiomc"
+            artifactId = 'openaudiomc'
             version = project.version
-        }
-    }
-
-    repositories {
-        maven {
-            name = "pixelib-repo"
-            url = uri("https://repo.mats.coffee/repository/mats-public")
-
-            credentials {
-                def settings = new XmlSlurper().parse(new File(System.getProperty("user.home"), ".m2/settings.xml"))
-                def server = settings.servers.server.find { it.id.text() == "pixelib-repo" }
-
-                username = server.username.text()
-                password = server.password.text()
-            }
         }
     }
 }
 
-import dev.s7a.gradle.minecraft.server.tasks.LaunchMinecraftServerTask
-
 [
-        ["8", "1.8.8"],
-        ["12", "1.12.2"],
-        ["20", "1.20.4"],
-//        ["21", "1.21.4"],
-        ["21", "1.21.7"],
-        ["2110", "1.21.10"],
-        ["2111", "1.21.11"]
+        ['8', '1.8.8'],
+        ['12', '1.12.2'],
+        ['20', '1.20.4'],
+        ['21', '1.21.7'],
+        ['2110', '1.21.10'],
+        ['2111', '1.21.11']
 ].each { name, version ->
-    task("testPlugin$name", type: LaunchMinecraftServerTask) {
-        dependsOn 'shadowJar' // Changed from 'build' to use the shaded jar
+    tasks.register("testPlugin$name", LaunchMinecraftServerTask) {
+        dependsOn tasks.shadowJar
+
+        def serverDir = layout.buildDirectory.dir("MinecraftServer$name")
+        def pluginJar = tasks.shadowJar.archiveFile
+
         doFirst {
             copy {
-                from shadowJar.archiveFile
-                into "$buildDir/MinecraftServer$name/plugins"
+                from pluginJar
+                into serverDir.get().dir('plugins')
             }
         }
-        serverDirectory = "$buildDir/MinecraftServer$name"
+
+        serverDirectory = serverDir.get().asFile.path
 //        jarUrl = LaunchMinecraftServerTask.JarUrl.Paper(version)
         agreeEula = true
     }
 }
 
-task("testPluginBungee", type: LaunchMinecraftServerTask) {
-    dependsOn 'shadowJar'
+tasks.register('testPluginBungee', LaunchMinecraftServerTask) {
+    dependsOn tasks.shadowJar
+
+    def serverDir = layout.buildDirectory.dir('BungeeServer')
+    def pluginJar = tasks.shadowJar.archiveFile
+
     doFirst {
         copy {
-            from shadowJar.archiveFile
-            into "$buildDir/BungeeServer/plugins"
+            from pluginJar
+            into serverDir.get().dir('plugins')
         }
     }
-    serverDirectory = "$buildDir/BungeeServer"
-//    jarUrl = "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar"
+
+    serverDirectory = serverDir.get().asFile.path
     agreeEula = true
 }
 
-def placeholder = "@OA_VERSION@"
-def versionValue = project.version.toString()
+def generatedResources = layout.buildDirectory.dir('generated/resources/buildinfo')
 
-task replaceVersionPlaceholders {
-    description = 'Replaces @OA_VERSION@ in all source and resource files with the project version.'
+def generateBuildInfo = tasks.register('generateBuildInfo') {
+    description = 'Increments the build counter and writes openaudiomc-build.properties'
     group = 'build'
 
-    // Define file extensions to process
-    def extensions = ['java', 'kt', 'json', 'txt', 'html', 'xml', 'properties', 'yml', 'yaml']
+    def counterFile = file('src/main/bash/data.bin')
+    def outputDir = generatedResources
+    def commit = providers.exec {
+        commandLine 'git', 'rev-parse', 'HEAD'
+    }.standardOutput.asText.map { it.trim() }
+    def author = providers.exec {
+        commandLine 'git', 'log', '-1', '--pretty=format:%an'
+    }.standardOutput.asText.map { it.trim() }
+
+    outputs.dir outputDir
+    outputs.upToDateWhen { false }
 
     doLast {
-        // Define the directories to search
-        def dirs = [
-                file('src/main/java'),
-                file('src/main/resources'),
-                file('src/test/java'),
-                file('src/test/resources')
-        ]
+        def counter = counterFile.exists() ? counterFile.text : ''
+        def match = counter =~ /BUILD_NUM\s*=\s*"?(\d+)"?/
+        def buildNumber = (match ? match[0][1].toInteger() : 0) + 1
 
-        dirs.each { dir ->
-            if (!dir.exists()) return
+        counterFile.parentFile.mkdirs()
+        counterFile.text = "BUILD_NUM=\"${buildNumber}\"\n"
 
-            dir.eachFileRecurse { file ->
-                if (file.isFile() && extensions.any { file.name.endsWith(it) }) {
-                    def content = file.getText('UTF-8')
-                    def newContent = content.replace(placeholder, versionValue)
-                    if (content != newContent) {
-                        file.write(newContent, 'UTF-8')
-                        println "Updated: ${file}"
-                    }
+        def target = outputDir.get().asFile
+        target.mkdirs()
+        new File(target, 'openaudiomc-build.properties').text = """\
+            |BUILD_VERSION="${buildNumber}"
+            |BUILD_COMMIT="${commit.getOrElse('unknown')}"
+            |BUILD_AUTHOR="${author.getOrElse('unknown')}"
+            |""".stripMargin()
+    }
+}
+
+sourceSets.main.resources.srcDir generateBuildInfo
+
+def replaceableExtensions = ['java', 'kt', 'json', 'txt', 'html', 'xml', 'properties', 'yml', 'yaml']
+
+tasks.register('replaceVersionPlaceholders') {
+    description = 'Replaces @OA_VERSION@ in all source and resource files with the project version'
+    group = 'build'
+
+    def sourceDirs = ['src/main/java', 'src/main/resources', 'src/test/java', 'src/test/resources'].collect { file(it) }
+    def replacement = project.version.toString()
+
+    doLast {
+        sourceDirs.findAll { it.exists() }.each { dir ->
+            dir.eachFileRecurse { candidate ->
+                if (!candidate.isFile() || !replaceableExtensions.any { candidate.name.endsWith(it) }) return
+
+                def content = candidate.getText('UTF-8')
+                def replaced = content.replace('@OA_VERSION@', replacement)
+                if (content != replaced) {
+                    candidate.write(replaced, 'UTF-8')
+                    logger.lifecycle("Updated: $candidate")
                 }
             }
         }
     }
 }
 
-compileJava.dependsOn replaceVersionPlaceholders
-processResources.dependsOn replaceVersionPlaceholders
-
-// Add a Gradle task to replace the post-build bash script functionality
-// It increments BUILD_NUM in src/main/bash/data.bin, writes the
-// src/main/resources/openaudiomc-build.properties and copies data.bin
-// into resources so it ends up inside the jar.
-task updateBuildProperties {
-    description = 'Increment build number and update openaudiomc-build.properties and data.bin'
-    group = 'build'
-
-    doLast {
-        def bashDataFile = file('src/main/bash/data.bin')
-        // Ensure the directory exists
-        bashDataFile.parentFile?.mkdirs()
-
-        // Create the file if missing with BUILD_NUM=0
-        if (!bashDataFile.exists()) {
-            bashDataFile.text = 'BUILD_NUM="0"\n'
-            bashDataFile.setExecutable(true)
-        }
-
-        // Read current BUILD_NUM
-        def raw = bashDataFile.getText('UTF-8')
-        def matcher = raw =~ /BUILD_NUM\s*=\s*"?(\d+)"?/
-        def buildNum = 0
-        if (matcher) {
-            buildNum = matcher[0][1].toInteger()
-        }
-
-        // Increment
-        buildNum = buildNum + 1
-
-        // Write back to bash/data.bin
-        bashDataFile.text = "BUILD_NUM=\"${buildNum}\"\n"
-        try { bashDataFile.setExecutable(true) } catch (Exception ignored) {}
-
-        // Try to get git commit and author; fall back to placeholders
-        def commit = 'unknown'
-        def author = 'unknown'
-        try {
-            def stdout = new ByteArrayOutputStream()
-            exec {
-                commandLine 'git', 'rev-parse', 'HEAD'
-                standardOutput = stdout
-                errorOutput = new ByteArrayOutputStream()
-                ignoreExitValue = true
-            }
-            def out = stdout.toString().trim()
-            if (out) commit = out
-        } catch (Exception e) {
-            logger.warn("Could not determine git commit: ${e.message}")
-        }
-
-        try {
-            def stdout = new ByteArrayOutputStream()
-            exec {
-                commandLine 'git', 'log', '-1', "--pretty=format:%an"
-                standardOutput = stdout
-                errorOutput = new ByteArrayOutputStream()
-                ignoreExitValue = true
-            }
-            def out = stdout.toString().trim()
-            if (out) author = out
-        } catch (Exception e) {
-            logger.warn("Could not determine git author: ${e.message}")
-        }
-
-        // Write the properties file into src/main/resources
-        def propsFile = file('src/main/resources/openaudiomc-build.properties')
-        propsFile.parentFile?.mkdirs()
-        propsFile.text = "BUILD_VERSION=\"${buildNum}\"\nBUILD_COMMIT=\"${commit}\"\nBUILD_AUTHOR=\"${author}\"\n"
-
-        // Copy data.bin into resources so it will be included in the jar
-        copy {
-            from bashDataFile
-            into 'src/main/resources'
-        }
-
-        println "Updated build properties: BUILD_VERSION=${buildNum} BUILD_COMMIT=${commit} BUILD_AUTHOR=${author}"
-    }
-}
-
-// Make sure resources are updated before they're processed/packaged
-processResources.dependsOn updateBuildProperties
+compileJava.dependsOn tasks.replaceVersionPlaceholders
+processResources.dependsOn tasks.replaceVersionPlaceholders

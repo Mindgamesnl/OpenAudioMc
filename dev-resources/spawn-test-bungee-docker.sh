@@ -1,19 +1,13 @@
-export JAVA_HOME=`/usr/libexec/java_home -v 17`
-mkdir -p test-server-spigot/plugins/
-mkdir -p test-server-spigot/plugins/OpenAudioMc/
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
 echo "Building new OpenAudioMc jar without unit tests.."
+./gradlew :OpenAudioMc:Plugin:shadowJar -x test
 
-cd plugin
-./src/main/bash/post-build.sh
-cd ..
+rm -rf dev-resources/bungee-test/plugins
+mkdir -p dev-resources/bungee-test/plugins
+cp OpenAudioMc/Plugin/build/libs/openaudiomc-*.jar dev-resources/bungee-test/plugins/
 
-asdf local java adoptopenjdk-8.0.332+9
-mvn -T 4.5C clean install -Dmaven.test.skip=true
-asdf local java openjdk-21
-
-# permission workaround
-rm -rf dev-resources/bungee-test/plugins/
-mkdir -p dev-resources/bungee-test/plugins/
-cp plugin/target/openaudiomc-*.jar dev-resources/bungee-test/plugins/
 cd dev-resources/bungee-test/
-docker-compose up --build
+docker compose up --build

@@ -2,24 +2,12 @@ plugins {
     id 'java'
 }
 
-group = 'com.craftmend.openaudiomc'
-version = '1.2'
-
-repositories {
-    mavenCentral()
-    maven {
-        url 'https://repo.enginehub.org/repo/'
-    }
-}
+description = 'OpenAudioMc WorldGuard 6 support'
 
 dependencies {
     compileOnly project(':OpenAudioMc:OA-WorldguardIntegration')
-    compileOnly deps.spigot
+    compileOnly libs.spigot.api
 
-    compileOnly("com.sk89q.worldguard:worldguard-legacy:6.2")
-    compileOnly("com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT")
-}
-
-test {
-    useJUnitPlatform()
+    compileOnly libs.worldguard.legacy
+    compileOnly libs.worldedit.legacy
 }

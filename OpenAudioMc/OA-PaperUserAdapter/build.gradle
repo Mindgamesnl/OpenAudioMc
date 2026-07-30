@@ -2,28 +2,15 @@ plugins {
     id 'java'
 }
 
-group = 'com.craftmend.openaudiomc'
-version = '1.2'
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "papermc"
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
-}
+description = 'OpenAudioMc Paper user adapter'
 
 dependencies {
     implementation project(':OpenAudioMc:API')
 
-    compileOnly 'com.destroystokyo.paper:paper-api:1.15.2-R0.1-SNAPSHOT'
-    compileOnly('net.kyori:adventure-platform-bukkit:4.4.0') {
-        exclude(module: 'adventure-bom')
-        exclude(module: 'adventure-api')
-        exclude(module: 'adventure-nbt')
+    compileOnly libs.paper.api.adapter
+    compileOnly(libs.adventure.platform.bukkit) {
+        exclude module: 'adventure-bom'
+        exclude module: 'adventure-api'
+        exclude module: 'adventure-nbt'
     }
-}
-
-test {
-    useJUnitPlatform()
 }

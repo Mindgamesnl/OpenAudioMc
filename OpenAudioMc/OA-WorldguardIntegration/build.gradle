@@ -2,18 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'com.craftmend.openaudiomc'
-version = '1.0'
-
-repositories {
-    mavenCentral()
-}
+description = 'OpenAudioMc WorldGuard integration contract'
 
 dependencies {
-    compileOnly deps.spigot
+    compileOnly libs.spigot.api
 }
-
-test {
-    useJUnitPlatform()
-}
-

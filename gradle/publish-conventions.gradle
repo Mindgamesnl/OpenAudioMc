@@ -1,0 +1,15 @@
+apply plugin: 'maven-publish'
+
+publishing {
+    repositories {
+        maven {
+            name = 'pixelib-repo'
+            url = 'https://repo.mats.coffee/repository/mats-public'
+
+            credentials {
+                username = providers.gradleProperty('pixelibRepoUser').get()
+                password = providers.gradleProperty('pixelibRepoToken').get()
+            }
+        }
+    }
+}

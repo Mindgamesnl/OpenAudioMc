@@ -1,0 +1,83 @@
+[versions]
+shadow = "9.6.1"
+freefair-lombok = "9.5.0"
+minecraft-server = "4.0.2"
+
+jetbrains-annotations = "26.1.0"
+
+# Legacy compile baseline, do not bump: it defines the oldest server we support
+spigot-legacy = "1.13.2-R0.1-SNAPSHOT"
+spigot-modern = "1.21.11-R0.1-SNAPSHOT"
+paper-skull = "1.16.2-R0.1-SNAPSHOT"
+paper-adapter = "1.15.2-R0.1-SNAPSHOT"
+adventure-platform = "4.4.1"
+# Pinned: velocity-api 3.2.0+ publishes Java 17+ metadata, which Gradle rejects for our Java 8 target
+velocity = "3.1.0"
+bungee = "b23a51825e"
+
+# Pinned deliberately, do not bump
+okhttp = "4.7.0"
+snakeyaml = "2.6"
+sqlite = "3.53.2.1"
+lettuce = "6.8.2.RELEASE"
+gson = "2.14.0"
+nbt-api = "2.16.0"
+storm = "e1f961b"
+wisp = "2.5.0"
+# Protocol-locked to the Socket.IO 2.x client in ./client, do not bump to 2.x
+socketio = "1.0.0"
+
+traincarts = "1.15.2-v2-SNAPSHOT"
+litebans = "0.6.1"
+essentialsx = "2.21.2"
+placeholderapi = "2.12.3"
+parties = "3.2.16"
+skywars = "5.6.16"
+worldguard-legacy = "6.2"
+worldedit-legacy = "6.1.4-SNAPSHOT"
+worldguard-modern = "7.0.0"
+worldedit-modern = "7.0.0"
+
+junit = "4.13.2"
+
+[libraries]
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+
+spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-legacy" }
+spigot-api-modern = { module = "org.spigotmc:spigot-api", version.ref = "spigot-modern" }
+paper-api-skull = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-skull" }
+paper-api-adapter = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-adapter" }
+adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
+velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
+bungee-proxy = { module = "com.github.spigotmc.bungeecord:bungeecord-proxy", version.ref = "bungee" }
+bungee-protocol = { module = "com.github.spigotmc.bungeecord:bungeecord-protocol", version.ref = "bungee" }
+bungee-api = { module = "com.github.spigotmc.bungeecord:bungeecord-api", version.ref = "bungee" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
+lettuce-core = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+nbt-api = { module = "de.tr7zw:item-nbt-api", version.ref = "nbt-api" }
+storm = { module = "com.github.Mindgamesnl:Storm", version.ref = "storm" }
+wisp = { module = "com.coreoz:wisp", version.ref = "wisp" }
+socketio-client = { module = "io.socket:socket.io-client", version.ref = "socketio" }
+
+traincarts = { module = "com.bergerkiller.bukkit:TrainCarts", version.ref = "traincarts" }
+bkcommonlib = { module = "com.bergerkiller.bukkit:BKCommonLib", version.ref = "traincarts" }
+litebans-api = { module = "litebans:api", version.ref = "litebans" }
+essentialsx = { module = "net.essentialsx:EssentialsX", version.ref = "essentialsx" }
+placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
+parties-api = { module = "com.alessiodp.parties:parties-api", version.ref = "parties" }
+skywars-reloaded = { module = "net.gcnt:skywarsreloaded", version.ref = "skywars" }
+worldguard-legacy = { module = "com.sk89q.worldguard:worldguard-legacy", version.ref = "worldguard-legacy" }
+worldedit-legacy = { module = "com.sk89q.worldedit:worldedit-core", version.ref = "worldedit-legacy" }
+worldguard-modern = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = "worldguard-modern" }
+worldedit-modern = { module = "com.sk89q.worldedit:worldedit-bukkit", version.ref = "worldedit-modern" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+lombok = { id = "io.freefair.lombok", version.ref = "freefair-lombok" }
+minecraft-server = { id = "dev.s7a.gradle.minecraft.server", version.ref = "minecraft-server" }

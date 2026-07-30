@@ -1,0 +1,17 @@
+shadowJar {
+    archiveClassifier = ''
+
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'io.', 'com.craftmend.thirdparty.io'
+    relocate 'org.json.', 'com.craftmend.thirdparty.json'
+    relocate 'reactor.', 'com.craftmend.thirdparty.reactor'
+    relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
+    relocate 'okio', 'com.craftmend.thirdparty.okio'
+    relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
+    relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
+}
+
+processResources {
+    def oaVersion = project.version.toString()
+    filter { line -> line.replace('${oa.version}', oaVersion) }
+}

@@ -1,9 +1,11 @@
 plugins {
     id 'java-library'
-    id 'com.github.johnrengelman.shadow'
-    id("io.freefair.lombok") version "8.13.1"
     id 'application'
+    alias libs.plugins.shadow
+    alias libs.plugins.lombok
 }
+
+apply from: "$rootDir/gradle/vistas-shadow-conventions.gradle"
 
 description = 'OpenAudioMc Vistas Server'
 
@@ -15,38 +17,21 @@ dependencies {
     implementation project(':OpenAudioMc:API')
     implementation project(':OpenAudioMc:Plugin')
     implementation project(':OpenAudioMc:OA-VistasClient')
-    implementation deps.spigot
-    implementation 'com.coreoz:wisp:2.4.0'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation libs.spigot.api
+    implementation libs.wisp
+    implementation libs.gson
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.junit
 }
 
 shadowJar {
     archiveBaseName = 'vistas-server'
-    archiveClassifier = ''
 
     manifest {
         attributes(
-            'Main-Class': 'com.craftmend.vistas.server.VistasBoot',
+            'Main-Class': application.mainClass.get(),
             'Class-Path': 'libs/'
         )
-    }
-
-    relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
-    relocate 'io.', 'com.craftmend.thirdparty.io'
-    relocate 'org.json.', 'com.craftmend.thirdparty.json'
-    relocate 'reactor.', 'com.craftmend.thirdparty.reactor'
-    relocate 'okhttp3', 'com.craftmend.thirdparty.okhttp3'
-    relocate 'okio', 'com.craftmend.thirdparty.okio'
-    relocate 'org.projectlombok', 'com.craftmend.thirdparty.org'
-    relocate 'org.mapdb', 'com.craftmend.thirdparty.mapdb'
-    relocate 'kotlin', 'com.craftmend.thirdparty.kotlin'
-}
-
-processResources {
-    filter { line ->
-        line.replace('${oa.version}', project.version)
     }
 }
 
@@ -54,21 +39,7 @@ jar {
     enabled = false
 }
 
-artifacts {
-    archives shadowJar
-}
-
 test {
-    doFirst {
-        println "classpath:"
-        classpath.files.each { println it }
-    }
-
-    // force classloader isolation off
     forkEvery = 0
     testLogging.showStandardStreams = true
-}
-
-test.doFirst {
-    println "Test classpath: ${test.classpath.files.join('\n')}"
 }

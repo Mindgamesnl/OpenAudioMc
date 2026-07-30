@@ -1,16 +1,101 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'OpenAudioMc-Root'
 
-// Subprojects
-include ':OpenAudioMc:OA-WorldguardIntegration'
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.PREFER_SETTINGS
 
+    // Every third party repo is scoped to the groups it actually serves. Several of them
+    // answer 500 instead of 404 for unknown artifacts, which aborts resolution outright.
+    repositories {
+        mavenCentral()
+
+        maven {
+            name = 'spigotmc'
+            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+            content {
+                includeGroup 'org.spigotmc'
+                includeGroup 'org.bukkit'
+            }
+        }
+        maven {
+            name = 'papermc'
+            url = 'https://repo.papermc.io/repository/maven-public/'
+            content {
+                includeGroup 'com.destroystokyo.paper'
+                includeGroupByRegex 'io\\.papermc(\\..*)?'
+                includeGroup 'com.velocitypowered'
+                includeGroup 'net.md-5'
+            }
+        }
+        maven {
+            name = 'codemc'
+            url = 'https://repo.codemc.org/repository/maven-public/'
+            content {
+                includeGroup 'de.tr7zw'
+                includeGroup 'litebans'
+            }
+        }
+        maven {
+            name = 'enginehub'
+            url = 'https://maven.enginehub.org/repo/'
+            content { includeGroupByRegex 'com\\.sk89q(\\..*)?' }
+        }
+        maven {
+            name = 'essentialsx'
+            url = 'https://repo.essentialsx.net/releases/'
+            content { includeGroup 'net.essentialsx' }
+        }
+        maven {
+            name = 'extendedclip'
+            url = 'https://repo.extendedclip.com/releases/'
+            content { includeGroup 'me.clip' }
+        }
+        maven {
+            name = 'alessiodp'
+            url = 'https://repo.alessiodp.com/releases/'
+            content { includeGroupByRegex 'com\\.alessiodp(\\..*)?' }
+        }
+        maven {
+            name = 'gcnt'
+            url = 'https://nexuslite.gcnt.net/repos/gcnt'
+            content { includeGroup 'net.gcnt' }
+        }
+        maven {
+            name = 'mg-dev'
+            url = 'https://ci.mg-dev.eu/plugin/repository/everything'
+            content {
+                includeGroupByRegex 'com\\.bergerkiller(\\..*)?'
+                includeGroup 'me.m56738'
+            }
+        }
+        maven {
+            name = 'minecraft-libraries'
+            url = 'https://libraries.minecraft.net/'
+            content { includeGroup 'com.mojang' }
+        }
+        maven {
+            name = 'jitpack'
+            url = 'https://jitpack.io'
+            content { includeGroupByRegex 'com\\.github\\..*' }
+        }
+    }
+}
+
+// WorldGuard support, split so a single jar works against both API generations
+include ':OpenAudioMc:OA-WorldguardIntegration'
 include ':OpenAudioMc:OA-WorldGuardLegacy'
-include 'OpenAudioMc:OA-WorldGuardModern'
+include ':OpenAudioMc:OA-WorldGuardModern'
 
 // Main modules
 include ':OpenAudioMc:API'
 include ':OpenAudioMc:OA-LegacySkullUtil'
 include ':OpenAudioMc:OA-ModernSkullUtil'
-include 'OpenAudioMc:OA-PaperUserAdapter'
+include ':OpenAudioMc:OA-PaperUserAdapter'
 include ':OpenAudioMc:Plugin'
 
 // Ported modules
@@ -18,14 +103,3 @@ include ':OpenAudioMc:OA-PartiesModule'
 include ':OpenAudioMc:OA-SkywarsModule'
 include ':OpenAudioMc:OA-VistasClient'
 include ':OpenAudioMc:OA-VistasServer'
-
-// Module directory modules
-//include 'modules:jutils'
-//include 'modules:voice-join-permission'
-//include 'modules:vistas-client'
-//include 'modules:vistas-server'
-//include 'modules:mapdb-migrator'
-//include 'modules:parties-module'
-//include 'modules:skywars-module'
-//include 'modules:rinaorc-legacy'
-

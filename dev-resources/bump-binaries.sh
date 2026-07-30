@@ -1,12 +1,10 @@
-[ ! -d "plugin/" ] && echo "Execute this script from the repo root" && exit 1
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282`
-asdf local java adoptopenjdk-8.0.332+9
-# Build everything
-mvn -T 4.5C clean install -Dmaven.test.skip=true
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
 
-# copy modules
-cp modules/vistas-server/target/vistas-server.jar modules/vistas-server.jar
-cp modules/vistas-client/target/vistas-client.jar modules/vistas-client.jar
-cp modules/mapdb-migrator/target/migrate.* modules/
-cp modules/parties-module/target/parties* modules/
-cp modules/skywars-module/target/skywars-hook.jar modules/
+./gradlew build -x test
+
+mkdir -p modules
+for module in OA-VistasServer OA-VistasClient OA-PartiesModule OA-SkywarsModule; do
+    cp OpenAudioMc/$module/build/libs/*.jar modules/
+done

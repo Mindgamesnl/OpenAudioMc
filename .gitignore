@@ -1,24 +1,23 @@
-# Intellij
+# IDE
 .classpath
 .project
 .settings
 eclipse
-.idea
+.idea/
 *.iml
 *.ipr
 *.iws
+.vscode/
 .DS_Store
 bin
+out/
 
-# Out
-.idea/*
-out
-out/*
+# Gradle
+.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Sublime text
-.vscode/*
-
-# Custom
+# Test servers
 test-server-spigot/
 test-server-spigot-legacy/
 test-server-bungee/
@@ -27,11 +26,12 @@ test-server/
 .buildconfig
 javadoc/
 
-// ignore jar files, no matter the name where they are
+# Ignore jar files, no matter the name or where they are
 *.jar
-// ignore .html, except for the client directory
+
+# Ignore .html, except for the client directory
 *.html
 !client/*.html
 
-.gradle/
-**/build/
+# Node
+node_modules/

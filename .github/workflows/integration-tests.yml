@@ -1,0 +1,54 @@
+name: Integration tests
+
+# Every run registers a fresh account against the production API, so this is
+# deliberately not wired to push or pull_request. Trigger it by hand when you
+# need it, plus one scheduled run a night to catch regressions.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+# Never let two runs register accounts at the same time
+concurrency:
+  group: integration-tests
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # --rerun because Test tasks are cacheable: without it an unchanged nightly
+      # run restores FROM-CACHE and never actually exercises anything
+      - name: Run Vistas integration test
+        run: ./gradlew :OpenAudioMc:OA-VistasServer:test --rerun
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: OpenAudioMc/OA-VistasServer/build/reports/tests/test
+          if-no-files-found: ignore

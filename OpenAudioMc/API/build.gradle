@@ -1,14 +1,15 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
-    id("io.freefair.lombok") version "8.13.1"
+    alias libs.plugins.lombok
 }
+
+apply from: "$rootDir/gradle/publish-conventions.gradle"
 
 description = 'OpenAudioMc API'
 
 dependencies {
-    compileOnly deps.spigot
-    compileOnly deps.jetbrainsAnnot
+    compileOnly libs.spigot.api
+    compileOnly libs.jetbrains.annotations
 }
 
 java {
@@ -17,13 +18,7 @@ java {
 }
 
 javadoc {
-    options {
-        source = '8'
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-        docEncoding = 'UTF-8'
-        addStringOption('Xdoclint:none', '-quiet')
-    }
+    options.source = '8'
 }
 
 publishing {
@@ -32,23 +27,8 @@ publishing {
             from components.java
 
             groupId = project.group
-            artifactId = "openaudiomc-api"
+            artifactId = 'openaudiomc-api'
             version = project.version
-        }
-    }
-
-    repositories {
-        maven {
-            name = "pixelib-repo"
-            url = uri("https://repo.mats.coffee/repository/mats-public")
-
-            credentials {
-                def settings = new XmlSlurper().parse(new File(System.getProperty("user.home"), ".m2/settings.xml"))
-                def server = settings.servers.server.find { it.id.text() == "pixelib-repo" }
-
-                username = server.username.text()
-                password = server.password.text()
-            }
         }
     }
 }
