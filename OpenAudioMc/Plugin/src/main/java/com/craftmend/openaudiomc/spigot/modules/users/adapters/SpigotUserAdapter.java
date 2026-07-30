@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.RichText;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -27,7 +29,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            player.sendMessage(s);
+            if (RichText.isRich(s)) {
+                Audiences.bukkit().sender(player).sendMessage(RichText.parse(s));
+            } else {
+                player.sendMessage(s);
+            }
         }
     }
 
@@ -53,6 +59,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
             for (String line : lines) {
                 sendClickableCommandMessage(line, hoverMessage, command);
             }
+            return;
+        }
+
+        if (RichText.isRich(msgText, hoverMessage)) {
+            Audiences.bukkit().sender(player).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
             return;
         }
 
@@ -85,6 +96,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
         // are we a console? then add the url to the message
         if (player instanceof org.bukkit.command.ConsoleCommandSender) {
             msgText = msgText + " " + ChatColor.GRAY + "(" + url + " for console users)";
+        }
+
+        if (RichText.isRich(msgText, hoverMessage)) {
+            Audiences.bukkit().sender(player).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
+            return;
         }
 
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
@@ -145,6 +161,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendActionbarMessage(String text) {
+        if (RichText.isRich(text)) {
+            Audiences.bukkit().sender(player).sendActionBar(RichText.parse(text));
+            return;
+        }
+
         Player sp = (Player) player;
         sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
     }

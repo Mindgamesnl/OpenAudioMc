@@ -171,6 +171,12 @@ messages:
   token-activation-failed: '&7&oYour token could not be activated. Please try again or double check your code.'
 
 options:
+  # Decides how the messages above are rendered.
+  # 'auto' uses MiniMessage for messages that contain MiniMessage tags, and color codes for the rest
+  # 'legacy' only uses color codes, MiniMessage tags are shown as plain text
+  # 'minimessage' always uses MiniMessage, so color codes only work if your messages use tags
+  message-format: auto
+
   # The name prefix to look for to determine if a player is playing on bedrock edition
   bedrock-name-prefix: '.'
 

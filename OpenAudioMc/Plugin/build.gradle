@@ -29,6 +29,13 @@ dependencies {
     implementation libs.lettuce.core
     implementation libs.sqlite.jdbc
 
+    implementation libs.adventure.api
+    implementation libs.adventure.minimessage
+    implementation libs.adventure.serializer.legacy
+    implementation libs.adventure.serializer.gson
+    implementation libs.adventure.platform.bukkit
+    implementation libs.adventure.platform.bungeecord
+
     implementation project(':OpenAudioMc:API')
     implementation project(':OpenAudioMc:OA-LegacySkullUtil')
     implementation project(':OpenAudioMc:OA-ModernSkullUtil')
@@ -65,11 +72,15 @@ shadowJar {
     archiveClassifier = ''
 
     relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'net.kyori', 'com.craftmend.thirdparty.kyori'
     relocate 'io', 'com.craftmend.thirdparty.io', {
         // Netty channel types cross the plugin boundary when talking to BungeeCord
         exclude 'io.netty.channel.Channel'
         exclude 'io.netty.channel.ChannelPipeline'
         exclude 'io.netty.channel.ChannelHandler'
+        // adventure-platform reflects on these by name, so the literals must survive relocation
+        exclude 'io.netty.buffer.ByteBuf'
+        exclude 'io.papermc.paper.adventure.PaperAdventure'
     }
     relocate 'org.json', 'com.craftmend.thirdparty.json'
     relocate 'reactor', 'com.craftmend.thirdparty.reactor'

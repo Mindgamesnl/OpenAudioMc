@@ -12,6 +12,7 @@ import com.craftmend.openaudiomc.generic.rest.Task;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.platform.interfaces.TaskService;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.generic.storage.interfaces.Configuration;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.generic.utils.BedrockUtil;
@@ -100,14 +101,15 @@ public class ClientAuth implements Serializable, ClientBaseAuthentication {
         String ourMessage = messageToSend.getString();
 
         // replace the {domain} with the url
-        ourMessage = ourMessage.replace("{domain}", baseUrl);
+        ourMessage = Placeholders.of(ourMessage).with("domain", baseUrl).apply();
 
         String finalOurMessage = ourMessage;
         sessionRequest.setWhenFinished(token -> {
             String url = baseUrl + "#" + token;
-            String msgText = translateColors(finalOurMessage
-                    .replace("{url}", url)
-                    .replace("{token}", token));
+            String msgText = translateColors(Placeholders.of(finalOurMessage)
+                    .with("url", url)
+                    .with("token", token)
+                    .apply());
             client.getUser().sendClickableUrlMessage(msgText, StorageKey.MESSAGE_HOVER_TO_CONNECT.getString(), url);
             client.getSession().setWaitingToken(true);
         });

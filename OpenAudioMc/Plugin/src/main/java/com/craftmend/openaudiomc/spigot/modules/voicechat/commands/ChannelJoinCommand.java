@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.Argument;
 import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
@@ -56,15 +57,17 @@ public class ChannelJoinCommand extends SubCommand {
         ChannelEnterResponse response = targetChannel.attemptEnter(sender);
         if (response != ChannelEnterResponse.OK) {
             throw new CommandError(
-                    response.getMessage()
-                            .replace("{owner}", targetChannel.getCreator() != null ? targetChannel.getCreator().getName() : "unknown")
+                    Placeholders.of(response.getMessage())
+                            .with("owner", targetChannel.getCreator() != null ? targetChannel.getCreator().getName() : "unknown")
+                            .apply()
             );
         }
 
         targetChannel.addMember(sender);
         sender.sendMessage(Platform.translateColors(
-                StorageKey.MESSAGE_VOICE_CHANNEL_JOINED.getString()
-                        .replace("{channel}", channelName)
+                Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_JOINED.getString())
+                        .with("channel", channelName)
+                        .apply()
         ));
     }
 }

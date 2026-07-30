@@ -3,6 +3,8 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Audiences;
+import com.craftmend.openaudiomc.generic.text.RichText;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -29,7 +31,11 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
     public void sendMessage(String string) {
         String[] lines = string.split("\\\\n");
         for (String line : lines) {
-            sender.sendMessage(Platform.translateColors(line));
+            if (RichText.isRich(line)) {
+                Audiences.bukkit().sender(sender).sendMessage(RichText.parse(line));
+            } else {
+                sender.sendMessage(Platform.translateColors(line));
+            }
         }
     }
 
@@ -63,6 +69,11 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
             return;
         }
 
+        if (RichText.isRich(msgText, hoverMessage)) {
+            Audiences.bukkit().sender(sender).sendMessage(RichText.clickableCommand(msgText, hoverMessage, command));
+            return;
+        }
+
         TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
                 msgText
         )));
@@ -85,6 +96,11 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
             for (String line : lines) {
                 sendClickableUrlMessage(line, hoverMessage, url);
             }
+            return;
+        }
+
+        if (RichText.isRich(msgText, hoverMessage)) {
+            Audiences.bukkit().sender(sender).sendMessage(RichText.clickableUrl(msgText, hoverMessage, url));
             return;
         }
 
@@ -141,7 +157,11 @@ public class LegacySpigotUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendActionbarMessage(String text) {
-        Player sp = (Player) sender;
+        if (RichText.isRich(text)) {
+            Audiences.bukkit().sender(sender).sendActionBar(RichText.parse(text));
+            return;
+        }
+
         sendActionbar(new TextComponent(text));
     }
 
