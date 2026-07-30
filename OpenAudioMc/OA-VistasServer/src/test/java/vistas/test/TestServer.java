@@ -16,39 +16,35 @@ import com.craftmend.openaudiomc.vistas.client.server.networking.VistasRedisServ
 import com.craftmend.openaudiomc.vistas.client.users.ServerUserHooks;
 import com.craftmend.vistas.server.VistasServer;
 import com.craftmend.vistas.server.base.VistasConfiguration;
-import junit.framework.TestCase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import vistas.test.server.TestVistasServer;
 import vistas.test.utils.Waiter;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class TestServer extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
+
+public class TestServer {
 
     private TempUser mats = new TempUser("Mats", UUID.randomUUID());
     private TempUser anouk = new TempUser("Anouk", UUID.randomUUID());
 
     private TestVistasServer testVistasServer;
 
-    @Override
+    @Before
     @SneakyThrows
-    public void setUp() throws Exception {
-        System.out.println("Setting it up!");
-        // start embedded redis server for testing
-
-        // check if anything is running on localhost:6379, we should fail if that's the case
-        try {
-            Socket socket = new Socket("localhost", 6379);
-            socket.close();
-        } catch (Exception e) {
-            fail("You need to have a local redis server running on port 6379 to run this test");
-        }
+    public void setUp() {
+        assumeTrue("Skipped, this test needs a local redis server on port 6379", isRedisReachable());
 
         System.out.println("Starting test resources");
 
@@ -58,10 +54,22 @@ public class TestServer extends TestCase {
         testVistasServer = new TestVistasServer();
     }
 
-    @Override
-    public void tearDown() throws Exception {
+    @After
+    public void tearDown() {
+        // setUp may have been skipped, in which case there is nothing to shut down
+        VistasServer server = VistasServer.getInstance();
+        if (server == null) return;
+
         System.out.println("Running: tearDown");
-        VistasServer.getInstance().getOpenAudioMc().disable();
+        server.getOpenAudioMc().disable();
+    }
+
+    private static boolean isRedisReachable() {
+        try (Socket ignored = new Socket("localhost", 6379)) {
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     @Test

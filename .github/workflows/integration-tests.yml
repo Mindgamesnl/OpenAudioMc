@@ -6,7 +6,7 @@ name: Integration tests
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 0 * * 1'
 
 # Never let two runs register accounts at the same time
 concurrency:
