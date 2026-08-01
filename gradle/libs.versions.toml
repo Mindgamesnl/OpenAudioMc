@@ -9,7 +9,8 @@ jetbrains-annotations = "26.1.0"
 spigot-legacy = "1.13.2-R0.1-SNAPSHOT"
 spigot-modern = "1.21.11-R0.1-SNAPSHOT"
 paper-skull = "1.16.2-R0.1-SNAPSHOT"
-paper-adapter = "1.15.2-R0.1-SNAPSHOT"
+# Kept at the version adventure-platform is built against, so the shaded set resolves to one adventure
+adventure = "4.21.0"
 adventure-platform = "4.4.1"
 # Pinned: velocity-api 3.2.0+ publishes Java 17+ metadata, which Gradle rejects for our Java 8 target
 velocity = "3.1.0"
@@ -46,8 +47,13 @@ jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "j
 spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-legacy" }
 spigot-api-modern = { module = "org.spigotmc:spigot-api", version.ref = "spigot-modern" }
 paper-api-skull = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-skull" }
-paper-api-adapter = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-adapter" }
+
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure-serializer-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+adventure-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
 adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
+adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version.ref = "adventure-platform" }
 velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 bungee-proxy = { module = "com.github.spigotmc.bungeecord:bungeecord-proxy", version.ref = "bungee" }
 bungee-protocol = { module = "com.github.spigotmc.bungeecord:bungeecord-protocol", version.ref = "bungee" }

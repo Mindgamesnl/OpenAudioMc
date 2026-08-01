@@ -29,6 +29,13 @@ dependencies {
     implementation libs.lettuce.core
     implementation libs.sqlite.jdbc
 
+    implementation libs.adventure.api
+    implementation libs.adventure.minimessage
+    implementation libs.adventure.serializer.legacy
+    implementation libs.adventure.serializer.gson
+    implementation libs.adventure.platform.bukkit
+    implementation libs.adventure.platform.bungeecord
+
     implementation project(':OpenAudioMc:API')
     implementation project(':OpenAudioMc:OA-LegacySkullUtil')
     implementation project(':OpenAudioMc:OA-ModernSkullUtil')
@@ -65,11 +72,15 @@ shadowJar {
     archiveClassifier = ''
 
     relocate 'de.tr7zw.changeme.nbtapi', 'com.craftmend.thirdparty.nbt'
+    relocate 'net.kyori', 'com.craftmend.thirdparty.kyori'
     relocate 'io', 'com.craftmend.thirdparty.io', {
         // Netty channel types cross the plugin boundary when talking to BungeeCord
         exclude 'io.netty.channel.Channel'
         exclude 'io.netty.channel.ChannelPipeline'
         exclude 'io.netty.channel.ChannelHandler'
+        // adventure-platform reflects on these by name, so the literals must survive relocation
+        exclude 'io.netty.buffer.ByteBuf'
+        exclude 'io.papermc.paper.adventure.PaperAdventure'
     }
     relocate 'org.json', 'com.craftmend.thirdparty.json'
     relocate 'reactor', 'com.craftmend.thirdparty.reactor'
@@ -143,6 +154,20 @@ if (providers.gradleProperty('legacyServers').present) {
     paperServers['12'] = '1.12.2'
 }
 
+// Modrinth version ids, not version numbers: a version number matches both the Bukkit and
+// the Fabric upload and run-server would grab whichever the API returns first. WorldGuard
+// hard-depends on a matching WorldEdit, so both are pinned per server generation.
+//
+// WorldEdit stops at 7.4.2 on purpose. 7.4.3 and up are compiled for Java 25, which the
+// Java 21 these servers run on refuses to load.
+def regionPlugins = [
+        '1.12.2' : [worldedit: 'JezAXbj7', worldguard: '9Mm5Xl5Z'],
+        '1.20.4' : [worldedit: 'Bu1zaaoc', worldguard: 'NpagB1YQ'],
+        '1.21.7' : [worldedit: 'p8T2aZ8U', worldguard: 'PO4MKx7e'],
+        '1.21.10': [worldedit: 'p8T2aZ8U', worldguard: 'WaElxvDz'],
+        '1.21.11': [worldedit: 'p8T2aZ8U', worldguard: 'WaElxvDz']
+]
+
 paperServers.each { suffix, mcVersion ->
     tasks.register("testPlugin$suffix", RunServerTask) {
         group = 'openaudiomc'
@@ -152,6 +177,15 @@ paperServers.each { suffix, mcVersion ->
         serverVersion mcVersion
         serverFolderName "build/run/paper-$mcVersion"
         allowedRam 2, RamAmount.GIGABYTE
+
+        def versions = regionPlugins[mcVersion]
+        // run-server takes a Kotlin function type here, so Groovy passes the spec as an
+        // argument instead of setting it as the closure delegate
+        downloadPlugins { spec ->
+            spec.modrinth('worldedit', versions.worldedit)
+            spec.modrinth('worldguard', versions.worldguard)
+        }
+
         acceptMojangEula()
     }
 }

@@ -95,7 +95,6 @@ include ':OpenAudioMc:OA-WorldGuardModern'
 include ':OpenAudioMc:API'
 include ':OpenAudioMc:OA-LegacySkullUtil'
 include ':OpenAudioMc:OA-ModernSkullUtil'
-include ':OpenAudioMc:OA-PaperUserAdapter'
 include ':OpenAudioMc:Plugin'
 
 // Ported modules

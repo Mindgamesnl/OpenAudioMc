@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.environment.MagicValue;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.proxy.interfaces.UserHooks;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.NoArgsConstructor;
 import org.bukkit.command.Command;
@@ -32,7 +33,9 @@ public class ChannelCommand implements CommandExecutor, TabCompleter {
         }
 
         commandService.invokeCommand(OpenAudioMc.resolveDependency(UserHooks.class).fromCommandSender(sender), CommandContext.CHANNEL, args, (err) -> {
-            sender.sendMessage(Platform.translateColors(StorageKey.MESSAGE_VOICE_COMMAND_ERROR_FORMAT.getString().replace("{message}", err)));
+            sender.sendMessage(Platform.translateColors(Placeholders.of(StorageKey.MESSAGE_VOICE_COMMAND_ERROR_FORMAT.getString())
+                    .withRendered("message", err)
+                    .apply()));
         });
         return true;
     }

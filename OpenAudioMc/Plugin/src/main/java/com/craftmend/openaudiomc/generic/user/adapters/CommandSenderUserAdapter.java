@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.generic.user.adapters;
 
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.SpigotAudiences;
+import com.craftmend.openaudiomc.generic.text.RichText;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
@@ -18,7 +20,11 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            sender.sendMessage(s);
+            if (RichText.isRich(s)) {
+                SpigotAudiences.get().sender(sender).sendMessage(RichText.parse(s));
+            } else {
+                sender.sendMessage(s);
+            }
         }
     }
 

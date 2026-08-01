@@ -7,6 +7,7 @@ import com.craftmend.openaudiomc.generic.commands.objects.CommandError;
 import com.craftmend.openaudiomc.generic.platform.OaColor;
 import com.craftmend.openaudiomc.generic.platform.Platform;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
+import com.craftmend.openaudiomc.generic.text.Placeholders;
 import com.craftmend.openaudiomc.api.user.User;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.VoiceChannelService;
 import com.craftmend.openaudiomc.spigot.modules.voicechat.channels.Channel;
@@ -64,10 +65,11 @@ public class ChannelListCommand extends SubCommand {
             }
 
             sender.sendMessage(
-                    Platform.translateColors(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_ITEM.getString()
-                            .replace("{channel}", channel.getName())
-                            .replace("{participants}", readableOccupants.toString())
-                            .replace("{type}", channel.getReadableType())
+                    Platform.translateColors(Placeholders.of(StorageKey.MESSAGE_VOICE_CHANNEL_LIST_ITEM.getString())
+                            .with("channel", channel.getName())
+                            .with("participants", readableOccupants.toString())
+                            .with("type", channel.getReadableType())
+                            .apply()
                     )
             );
         }

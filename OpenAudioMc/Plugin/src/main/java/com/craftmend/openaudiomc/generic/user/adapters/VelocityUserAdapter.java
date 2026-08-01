@@ -2,6 +2,8 @@ package com.craftmend.openaudiomc.generic.user.adapters;
 
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
+import com.craftmend.openaudiomc.generic.text.RichText;
+import com.craftmend.openaudiomc.velocity.utils.VelocityComponents;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import lombok.AllArgsConstructor;
@@ -9,10 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 
-import java.util.Objects;
 import java.util.UUID;
-
-import static com.craftmend.openaudiomc.generic.platform.Platform.translateColors;
 
 @AllArgsConstructor
 public class VelocityUserAdapter implements User<CommandSource> {
@@ -22,7 +21,11 @@ public class VelocityUserAdapter implements User<CommandSource> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            sender.sendMessage(Component.text(s));
+            if (RichText.isRich(s)) {
+                VelocityComponents.send(sender, RichText.parse(s));
+            } else {
+                VelocityComponents.sendPlain(sender, s);
+            }
         }
     }
 
@@ -44,15 +47,7 @@ public class VelocityUserAdapter implements User<CommandSource> {
             return;
         }
 
-        String msgText = translateColors(t);
-        Component message = Component.text(Objects.requireNonNull(msgText));
-
-        message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
-
-        String hoverText = translateColors(hoverMessage);
-        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
-
-        sender.sendMessage(message);
+        sendClickable(t, hoverMessage, ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
     }
 
     @Override
@@ -65,15 +60,19 @@ public class VelocityUserAdapter implements User<CommandSource> {
             return;
         }
 
-        String msgText = translateColors(t);
-        Component message = Component.text(Objects.requireNonNull(msgText));
+        sendClickable(t, hoverMessage, ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, url));
+    }
 
-        message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, url));
+    private void sendClickable(String text, String hoverMessage, ClickEvent clickEvent) {
+        Component message = toComponent(text)
+                .clickEvent(clickEvent)
+                .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, toComponent(hoverMessage)));
 
-        String hoverText = translateColors(hoverMessage);
-        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
+        VelocityComponents.send(sender, message);
+    }
 
-        sender.sendMessage(message);
+    private Component toComponent(String text) {
+        return RichText.isRich(text) ? RichText.parse(text) : RichText.asLegacy(text);
     }
 
     @Override
