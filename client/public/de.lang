@@ -1,6 +1,6 @@
 lang.name=Deutsch
 
-lang.detectedAs=Wir haben deine Sprache zu %langName geändert. Möchtest du diese Änderung beibehalten?
+lang.detectedAs=Wir haben deine Sprache zu %langName geändert. Diese Änderung beibehalten?
 lang.keep=Behalte %langName
 lang.toEn=Ändere zu Englisch
 
@@ -8,9 +8,9 @@ ui.loading=Wird geladen...
 ui.logout=Ausloggen
 
 ui.urlChangeDetected=URL Änderung festgestellt
-ui.hashchange=Die URL hat sich verändert. Möchtest du die Seite neu laden und eine neue Sitzung beginnen? Dies wird deine aktuelle Sitzung beenden.
+ui.hashchange=Die URL hat sich verändert. Lade die Seite neu um eine neue Sitzung beginnen, dies wird deine aktuelle Sitzung beenden.
 
-navbar.audio=Audio
+navbar.audio=Lautstärke
 navbar.vc=Sprachchat
 navbar.settings=Einstellungen
 navbar.debug=Debug
@@ -18,11 +18,23 @@ navbar.free=kostenlos
 navbar.premium=premium
 navbar.upgradeRequired=Aktualisierung erforderlich
 navbar.isPlaying=Musik läuft
+navbar.menu=Menu öffnen
 
 home.confirmLoginHeader=Willkommen zurück!
 home.confirmLoginBody=Versuchst du dich gerade als <i>%player</i> einzuloggen?<br />Falls nicht, schließe bitte das Fenster.
 home.confirmLoginButton=Starte eine Audio-Sitzung
 home.confirmLoginWithVoicechat=Starte eine Sitzung mit Sprachchat
+home.onboarding.subtext=Verbinde dein Spiel-Sound und tauche in eine völlig neue Dimension des Gameplays ein.
+home.onboarding.title=Verbinde dein Spiel
+home.onboarding.description=Wählen aus, wie der Sound im Spiel wahrgenommen werden soll:
+home.onboarding.audioonly.title=Nur Audio
+home.onboarding.audioonly.description=Verbinden im Audiomodus, damit Lautsprecher und Regionen gehört werden können.
+home.onboarding.withvoice.title=Audio + Voice Chat
+home.onboarding.withvoice.description=Vollständig Erlebnis mit Sprachkommunikation
+home.onboarding.features.title=Verbessertes Audio-Erlebnis
+home.onboarding.features.one=Audio, das sich mit Ihren Aktionen im Spiel bewegt
+home.onboarding.features.two=Kein Resourcepack oder Downloads erforderlich
+home.onboarding.features.three=Wählen deine Art der Verbindung und lasse Registerkarte einfach im Hintergrund geöffnet
 
 home.activate=Sitzung starten
 home.activateText=Diese persönliche Webseite wird dazu verwendet, deinen Ton und deine Stimme während deines Besuchs abzuspielen. Bitte klicke auf eine beliebige Stelle auf dieser Seite, um zu beginnen.
@@ -39,12 +51,6 @@ vc.badClient=VoiceChat benötigt einen Web-Client, der über HTTPS bedient wird.
 vc.notCompatible=Dein Browser unterstützt den Sprachchat nicht. Bitte verwende einen modernen (Desktop-)Browser wie Chrome, Safari, etc.
 vc.voiceModerationEnabled=Auf diesem Server ist Moderation aktiviert. Ausgewählte Teammitglieder können mithören, während dein Mikrofon aktiv ist.
 vc.notice=Hinweis
-vc.startingPopupTitle=Anmeldung in den Sprachchat...
-vc.startingPopup=Bitte warte, während wir den Sprachserver für dich einrichten. Dies sollte nicht lange dauern...
-vc.reloadingPopupTitle=Das Sprachchat-System wird neu geladen!
-vc.reloadingPopup=Bitte warte, während der Sprachchat neugestartet wurde, um neue Einstellungen festzulegen... Dies sollte nicht lange dauern.
-vc.updatingMicPopupTitle=Das Mikrofon wird aktualisiert!
-vc.updatingMicPopup=Bitte warte, während der Sprachchat mit deinem neuen Mikrofon neugestartet wird... Dies sollte nicht lange dauern.
 vc.micErrorPopupTitle=Mikrofon Fehler
 vc.micErrorPopup=Beim Versuch, auf dein Mikrofon zuzugreifen, ist ein Fehler aufgetreten. Bitte klicke auf "Zulassen", wenn dein Browser dich nach Mikrofon-Berechtigungen fragt, oder besuche das Wiki für mehr Informationen.
 vc.disabled=Der Sprachchat wurde von %serverName temporär deaktiviert.
@@ -72,7 +78,13 @@ vc.safetyDisclaimer=Du wirst Benachrichtigungen im Spiel erhalten, wenn andere P
 vc.safetyFooter=<b>Privatsphäre gefällig? Du kannst dein Mikrofon jederzeit stummschalten, indem du den Befehl <pre style="display: inline;">/mm</pre> eingibst oder im Spiel <pre style="display: inline;">Shift + F</pre> drückst. Du kannst natürlich auch die Schaltfläche auf dieser Website nutzen.</b>
 vc.join=Sprachchat betreten
 vc.empty.title=Ziemlich leer hier!
-vc.empty.body=Es ist niemand in deinem Sprachchat-Radius. Versuche dich ein wenig zu bewegen oder frage deine Freunde, ob sie zu dir stoßen möchten.
+vc.empty.description=Voice-Chat macht gemeinsam mehr Spaß! Erfhhrste her, wie man sich mit anderen verbinden können:
+vc.empty.move.title=Bewege dich näher zu anderen Spielern
+vc.empty.move.description=Der Voice-Chat funktioniert auf Basis der Nähe. Finde andere Spieler und spreche diese an!
+vc.empty.channel.title=Einem Channel beitreten
+vc.empty.channel.description=Einige Server haben Channel. Prüfe, ob es einen Channel gibt, dem beigetreten werden kann!
+vc.empty.invite.title=Freunde einladen!
+vc.empty.invite.description=Informieren andere über den Voice-Chat - vielleicht haben sie ihn noch nicht aktiviert!
 vc.muteMicrophone=Stummschalten
 vc.unmuteMicrophone=Stummschaltung aufheben
 vc.myStatus=Eigener Mikrofonstatus
@@ -80,14 +92,10 @@ vc.hero.title=Willkommen zum Sprachchat!
 vc.hero.subtitle=Dies ist dein Sprachchat-Dashboard. Hier kannst du sehen, wer in deinem Sprachchat-Radius ist und wen du hören kannst. Du kannst Personen bei Bedarf auch stummschalten.
 vc.statusTitle=Mein Status
 vc.settings.globalVolumeTitle=Allgemeine Sprachchat-Lautstärke
-vc.settings.surround.disable=Surround deaktivieren
-vc.settings.surround.enable=Surround aktivieren
+vc.settings.surround.toggle=Surround-Sound
 vc.settings.globalVolumeAbout=Ändere die Lautstärke aller Sprachchat-Teilnehmer
-vc.settings.toggleMenuTitle=Sprachchat-Eingabeeinstellungen
-vc.settings.toggleMenu=Menü umschalten
+vc.settings.completelyFadePeers=Lautstärke über Entfernung vollständig verblassen lassen
 vc.settings.monitoring.title=Mikrofon-Monitor
-vc.settings.monitoring.about=Gib deine eigene Stimme so wieder, wie andere sie hören. Dies ist nützlich, um deine Mikrofon- und Empfindlichkeitseinstellungen zu testen.
-vc.settings.monitoring.toggle=Aktiviere Mikrofon-Monitor
 vc.operaWarning=Dein Login scheint eine Weile zu dauern. Das liegt wahrscheinlich an deinen Opera-Einstellungen. Bitte öffne deine Browsereinstellungen, suche nach "WebRTC" und wähle die Option "Alles aktivieren".
 vc.youAreModerating=Pass auf! Du bist jetzt ein Moderator. Du kannst nun jeden im Sprachchat hören, aber sie können dich nicht hören.
 vc.noMicInputYetTitle=Wir haben Schwierigkeiten, dich zu hören!
@@ -102,12 +110,34 @@ vc.tooltip.local=Umgebungsabhängiger Sprachchat
 vc.tooltip.global=Globaler Sprachchat
 vc.peerLoading=Lade {name}
 
+vc.state.loading.title=Verbinden mit dem Sprachchat
+vc.state.loading.body=Aufbau der Sprachverbindung...
+vc.state.error.title=Sprachchatverbindung fehlgeschlagen
+vc.state.error.body=Wir konnten keine Verbindung zum Sprachserver herstellen.
+vc.state.error.hints=Dinge, die du überprüfen kannst:
+vc.state.error.fix1=Prüfe, ob eine VPN oder eine Anti-WebRTC-Software aktiviert haben
+vc.state.error.fix2=Prüfe, ob Ihr Browser über Mikrofonrechte verfügt
+vc.state.error.fix3=Versuche, die Seite neu zu laden
+vc.state.error.fix4=Der Server ist möglicherweise voll und hat keine weiteren Sprachplätze mehr frei
+
+vc.channel.title=Sprachkanäle ohne Annäherung
+vc.channel.single=Channel
+vc.channel.multiple=Channel
+vc.channel.moreMembers=Mehr Mitglieder
+vc.channel.noMembersYet=Keine weiteren Mitglieder
+vc.channel.joining=Beitreten...
+vc.channel.leave=Channel verlassen
+vc.channel.leaving=Verlassen...
+vc.channel.leaveCurrentFirst=Zuerst die aktuelle Channel verlassen
+vc.channel.noPermissions=keine Berechtigungen
+vc.channel.join=Channel beitreten
+
 
 settings.voicechat.echocancel.title=Echo-Unterdrückung
-settings.voicechat.echocancel.body=Die Echo-Unterdrückung wird versuchen, das aufgenommene Echo zu reduzieren. Dies könnte hilfreich sein, wenn du Lautsprecher anstelle von Kopfhörern verwendest. Deine Audioqualität und Hörbarkeit könnte sich dadurch jedoch auf einigen Plattformen verschlechtern.
+settings.voicechat.echocancel.body=Die Echo-Unterdrückung wird versuchen, das aufgenommene Echo zu reduzieren. Dies könnte hilfreich sein, wenn der Lautsprecher anstelle von Kopfhörer verwendet wernden soll. Deine Audioqualität und Hörbarkeit könnte sich dadurch jedoch auf einigen Plattformen verschlechtern.
 settings.voicechat.echocancel.button=Echo-Unterdrückung aktivieren
 settings.voicechat.chimes.title=Sprachchat-Läuten
-settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn du die Stummschaltung deines Mikrofons de-/aktivierst. Content-Creator möchten dies möglicherweise deaktivieren.
+settings.voicechat.chimes.body=Das Läuten ist ein kleiner Sound, der abgespielt wird, wenn das Mikrofon die Stummschaltung de-/aktivierst wird. Content-Creator möchten dies möglicherweise deaktivieren.
 settings.voicechat.chimes.button=Aktiviere Sprachchat-Läuten
 settings.theme.title=Dunkelmodus
 settings.theme.body=Nutze den (Standard-)Dunkelmodus des Web-Clients
@@ -121,25 +151,27 @@ settings.mix-and-fade.button=Aktiviere das Überblenden
 settings.preload.title=Automatisches Vorladen von Audiodateien
 settings.preload.body=Wenn diese Option aktiviert ist, lädt OpenAudioMc automatisch Dateien vor, die in der Umgebung deines Spielstandorts häufig verwendet werden. Dies macht Audio reaktionsschneller, verbraucht aber mehr Daten.
 settings.preload.button=Aktiviere Vorladen
-settings.rolloff.title=3D-Audio-Wiedergabe
-settings.rolloff.body=Dies steuert die Menge der Dämpfung, die auf 3D-Audio angewendet wird, basierend auf der Entfernung. 0% bedeutet keine Dämpfung, 100% bedeutet volle Dämpfung. Dies gilt sowohl für die Lautsprecher als auch für den Voice-Chat.
-settings.rolloff.01=1% (minimal)
-settings.rolloff.5=50%
-settings.rolloff.8=80%
-settings.rolloff.1=100% (normal)
-settings.rolloff.12=120%
-settings.rolloff.15=150% (extrem)
 settings.language.title=Sprache
 settings.language.body=Wähle deine bevorzugte Sprache
-settings.distancemodel.title=Lautstärkenabnahme über Distanz
-settings.distancemodel.body=Lege fest, welcher Algorythmus verwendet werden soll, um die Lautstärke von Audioquellen zu reduzieren, wenn du dich von ihnen entfernst.
-settings.distancemodel.linear=Linear
-settings.distancemodel.exponential=Exponentiell
 
-settings.spatial.title=Räumliche Rendering-Engine
-settings.spatial.body=Wähle aus, welche Rendering-Engine du verwenden möchtest. Die präzise Engine ist von höherer Qualität und etwas schneller, befindet sich jedoch noch in aktiver Entwicklung.
-settings.spatial.modern=Präzise
-settings.spatial.legacy=Legacy (altes System)
+settings.spatial.section.title=Raumklang (Lautsprecher und Sprachchat)
+settings.spatial.stereo.title=Stereo Separation
+settings.spatial.stereo.body=Schwenkt auf den linken oder rechten Lautsprecher.
+settings.spatial.stereo.low=Aus
+settings.spatial.stereo.medium=Mittel
+settings.spatial.stereo.high=Hoch
+settings.spatial.stereo.max=Maximum
+
+settings.spatial.rolloff.title=Audio-Rolloff
+settings.spatial.rolloff.Hier wird festgelegt, wie stark die Lautstärke abnehmen soll, wenn sich der Zuhörer von der Audioquelle entfernt.
+settings.spatial.rolloff.none=Nichts
+settings.spatial.rolloff.default=Mittel
+settings.spatial.rolloff.medium=Mittel
+settings.spatial.rolloff.max=Maximum
+
+settings.spatial.bypass.title=Räumliches Audio umgehen
+settings.spatial.bypass.body=Dadurch werden alle räumlichen Audioeffekte deaktiviert, sodass alle Audioquellen so klingen, als kämen sie vom selben Ort.
+settings.spatial.bypass.button=Einschalten
 
 settings.interpolation.title=Glättung der Übergänge
 settings.interpolation.body=Übergänge werden automatisch geglättet, um das Stottern des Sprechers/Voicechats beim Gehen zu minimieren. Dies führt zu einer zusätzlichen Verzögerung, klingt aber besser.
