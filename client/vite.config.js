@@ -1,6 +1,4 @@
-import MillionLint from '@million/lint';
 /* eslint-disable import/no-extraneous-dependencies */
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
@@ -17,28 +15,57 @@ Array.prototype.some = function someMatchUtil(fun) {
   }
   return false;
 };
-const millionPlugins = [svgr({
-  svgrOptions: {
-    ref: true,
-  },
-}), {
-  name: 'singleHMR',
-  handleHotUpdate({
-    modules,
-  }) {
-    return modules;
-  },
-}, react({
-  include: '**/*.jsx',
-}), eslint()];
-millionPlugins.unshift(MillionLint.vite());
-export default defineConfig({
-  plugins: millionPlugins,
-  server: {
-    port: 3000,
-    host: true,
-  },
-  build: {
-    outDir: './build',
-  },
+
+export default defineConfig(async ({ command }) => {
+  const isDev = command === 'serve';
+
+  const plugins = [
+    svgr({
+      svgrOptions: {
+        ref: true,
+      },
+    }),
+    {
+      name: 'singleHMR',
+      handleHotUpdate({
+        modules,
+      }) {
+        return modules;
+      },
+    },
+    react({
+      include: '**/*.jsx',
+    }),
+  ];
+
+  // Dev-only tooling: the eslint overlay and the Million Lint profiler add
+  // build time and ship instrumentation, so keep them out of `vite build`.
+  // Million is a dynamic import so a production `vite build` never needs the
+  // (dev-only) package installed.
+  if (isDev) {
+    plugins.push(eslint());
+    const { default: MillionLint } = await import('@million/lint');
+    plugins.unshift(MillionLint.vite());
+  }
+
+  return {
+    plugins,
+    server: {
+      port: 3000,
+      host: true,
+    },
+    build: {
+      outDir: './build',
+      rollupOptions: {
+        output: {
+          // Keep third-party code in its own chunk so an app-code change
+          // between deploys doesn't bust the (large, rarely-changing) vendor cache.
+          manualChunks(id) {
+            if (id.includes('node_modules')) return 'vendor';
+            return undefined;
+          },
+        },
+      },
+    },
+  };
 });
