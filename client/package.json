@@ -6,7 +6,6 @@
   "type": "module",
   "dependencies": {
     "@fontsource/roboto": "^5.0.8",
-    "@million/lint": "^1.0.0-rc.84",
     "class-variance-authority": "^0.7.1",
     "dompurify": "^3.2.4",
     "immer": "^9.0.17",
@@ -48,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@million/lint": "^1.0.0-rc.84",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
