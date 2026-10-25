@@ -1,5 +1,6 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
+import com.craftmend.openaudiomc.generic.platform.HexColors;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ProxiedCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
@@ -43,7 +44,7 @@ public class ChatRunnable extends ShowRunnable {
 
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
-        String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));
+        String fullMessage = ChatColor.translateAlternateColorCodes('&', HexColors.translate(String.join(" ", subArgs)));
 
         spigotPlayerSelector.getResults().forEach(user -> user.sendMessage(fullMessage));
     }

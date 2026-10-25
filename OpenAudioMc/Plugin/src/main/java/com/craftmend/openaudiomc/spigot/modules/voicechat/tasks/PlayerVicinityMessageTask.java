@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.spigot.modules.voicechat.tasks;
 
 import com.craftmend.openaudiomc.generic.logging.OpenAudioLogger;
+import com.craftmend.openaudiomc.generic.platform.HexColors;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.spigot.modules.players.SpigotPlayerService;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotConnection;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 
 import java.time.Duration;
@@ -68,8 +70,10 @@ public class PlayerVicinityMessageTask implements Runnable {
             }
 
             if (found) {
-                client.getBukkitPlayer().sendMessage(
-                        ChatColor.translateAlternateColorCodes('&', StorageKey.MESSAGE_VOICE_IN_VICINITY.getString())
+                client.getBukkitPlayer().spigot().sendMessage(
+                        TextComponent.fromLegacyText(
+                                ChatColor.translateAlternateColorCodes('&', HexColors.translate(StorageKey.MESSAGE_VOICE_IN_VICINITY.getString()))
+                        )
                 );
                 client.setLastVoiceReminderMessage(now);
             }

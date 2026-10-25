@@ -1,5 +1,10 @@
 apply plugin: 'maven-publish'
 
+// Resolved lazily and without get(), so building (or publishing to maven local) works fine
+// on a machine that has no credentials for the remote repo configured.
+def repoUser = providers.gradleProperty('pixelibRepoUser').orNull
+def repoToken = providers.gradleProperty('pixelibRepoToken').orNull
+
 publishing {
     repositories {
         maven {
@@ -7,9 +12,21 @@ publishing {
             url = 'https://repo.mats.coffee/repository/mats-public'
 
             credentials {
-                username = providers.gradleProperty('pixelibRepoUser').get()
-                password = providers.gradleProperty('pixelibRepoToken').get()
+                username = repoUser ?: ''
+                password = repoToken ?: ''
             }
+        }
+    }
+}
+
+tasks.withType(PublishToMavenRepository).configureEach {
+    doFirst {
+        if (!repoUser || !repoToken) {
+            throw new GradleException(
+                    "Publishing to pixelib-repo needs the pixelibRepoUser and pixelibRepoToken " +
+                            "gradle properties. Set them in ~/.gradle/gradle.properties or pass " +
+                            "them as -PpixelibRepoUser=... -PpixelibRepoToken=..."
+            )
         }
     }
 }

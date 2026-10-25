@@ -1,3 +1,6 @@
+# All messages below support the regular &-color codes (like &a or &l), as well as
+# hex colors written as &#rrggbb (for example &#e0b456). Hex colors require a 1.16+ server,
+# older servers fall back to the closest matching regular color.
 messages:
   # The message a client gets when they are not connected but a sound got triggered. this can be disabled under settings
   suggest-connection: '&7&oYou are currently missing out on some sounds! connect with the audio client via /audio'

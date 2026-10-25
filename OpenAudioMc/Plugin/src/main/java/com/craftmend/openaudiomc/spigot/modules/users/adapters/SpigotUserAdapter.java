@@ -2,10 +2,12 @@ package com.craftmend.openaudiomc.spigot.modules.users.adapters;
 
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.generic.environment.MagicValue;
+import com.craftmend.openaudiomc.generic.platform.HexColors;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -27,7 +29,21 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            player.sendMessage(s);
+            sendLegacyText(s);
+        }
+    }
+
+    /**
+     * Sends an already color-translated string as a chat component. Players need the
+     * component route because §x§r§r§g§g§b§b hex colors are only understood there, raw
+     * text would make the client read every pair as a separate legacy color.
+     */
+    private void sendLegacyText(String legacyText) {
+        if (player instanceof Player) {
+            ((Player) player).spigot().sendMessage(TextComponent.fromLegacyText(legacyText));
+        } else {
+            // consoles and command blocks render raw section codes, so hex has to collapse
+            player.sendMessage(HexColors.sectionHexToLegacy(legacyText));
         }
     }
 
@@ -43,7 +59,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
     }
 
     public void sendMessage(TextComponent textComponent) {
-        player.spigot().sendMessage(textComponent);
+        if (player instanceof Player) {
+            ((Player) player).spigot().sendMessage(textComponent);
+        } else {
+            player.sendMessage(HexColors.sectionHexToLegacy(textComponent.toLegacyText()));
+        }
     }
 
     @Override
@@ -56,15 +76,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
             return;
         }
 
-        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+        TextComponent message = new TextComponent(TextComponent.fromLegacyText(translateColors(Objects.requireNonNull(
                 msgText
-        )));
+        ))));
 
-        TextComponent[] hover = new TextComponent[]{
-                new TextComponent(translateColors(
-                        hoverMessage
-                ))
-        };
+        BaseComponent[] hover = TextComponent.fromLegacyText(translateColors(hoverMessage));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
@@ -87,15 +103,11 @@ public class SpigotUserAdapter implements User<CommandSender> {
             msgText = msgText + " " + ChatColor.GRAY + "(" + url + " for console users)";
         }
 
-        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+        TextComponent message = new TextComponent(TextComponent.fromLegacyText(translateColors(Objects.requireNonNull(
                 msgText
-        )));
+        ))));
 
-        TextComponent[] hover = new TextComponent[]{
-                new TextComponent(translateColors(
-                        hoverMessage
-                ))
-        };
+        BaseComponent[] hover = TextComponent.fromLegacyText(translateColors(hoverMessage));
 
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
@@ -146,7 +158,7 @@ public class SpigotUserAdapter implements User<CommandSender> {
     @Override
     public void sendActionbarMessage(String text) {
         Player sp = (Player) player;
-        sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
+        sp.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
     }
 
     @Override

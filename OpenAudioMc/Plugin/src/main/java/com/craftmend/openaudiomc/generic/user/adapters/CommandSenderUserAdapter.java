@@ -1,9 +1,11 @@
 package com.craftmend.openaudiomc.generic.user.adapters;
 
 import com.craftmend.openaudiomc.api.basic.ActorCategory;
+import com.craftmend.openaudiomc.generic.platform.HexColors;
 import com.craftmend.openaudiomc.generic.storage.enums.StorageKey;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +20,20 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            sender.sendMessage(s);
+            sendLegacyText(s);
+        }
+    }
+
+    /**
+     * Players get the message as a component, because §x§r§r§g§g§b§b hex colors only work
+     * there. Everything else renders raw section codes, so hex collapses to its closest
+     * legacy color first.
+     */
+    private void sendLegacyText(String legacyText) {
+        if (sender instanceof Player) {
+            ((Player) sender).spigot().sendMessage(TextComponent.fromLegacyText(legacyText));
+        } else {
+            sender.sendMessage(HexColors.sectionHexToLegacy(legacyText));
         }
     }
 
@@ -32,12 +47,12 @@ public class CommandSenderUserAdapter implements User<CommandSender> {
 
     @Override
     public void sendClickableCommandMessage(String t, String hoverMessage, String command) {
-        sender.sendMessage(t);
+        sendLegacyText(t);
     }
 
     @Override
     public void sendClickableUrlMessage(String t, String hoverMessage, String url) {
-        sender.sendMessage(t);
+        sendLegacyText(t);
     }
 
     @Override

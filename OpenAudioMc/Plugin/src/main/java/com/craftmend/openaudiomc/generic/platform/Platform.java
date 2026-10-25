@@ -26,11 +26,11 @@ public enum Platform {
     public static String translateColors(String input) {
         switch (OpenAudioMc.getInstance().getPlatform()) {
             case SPIGOT:
-                return org.bukkit.ChatColor.translateAlternateColorCodes('&', input);
+                return org.bukkit.ChatColor.translateAlternateColorCodes('&', HexColors.translate(input));
             case BUNGEE:
-                return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', input);
+                return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', HexColors.translate(input));
             case VELOCITY:
-                return VelocityChatColor.translateAlternateColorCodes('&', input);
+                return VelocityChatColor.translateAlternateColorCodes('&', HexColors.translate(input));
             default:
                 return input; // unknown platform
         }

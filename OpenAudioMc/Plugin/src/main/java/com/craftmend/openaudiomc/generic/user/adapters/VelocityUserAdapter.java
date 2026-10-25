@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -17,12 +18,21 @@ import static com.craftmend.openaudiomc.generic.platform.Platform.translateColor
 @AllArgsConstructor
 public class VelocityUserAdapter implements User<CommandSource> {
 
+    // parses the §-codes our messages carry, including the §x§r§r§g§g§b§b hex form.
+    // sending those as plain text would make the client read each pair as a separate
+    // legacy color, so the last digit of the hex would win instead of the actual color
+    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder()
+            .character('§')
+            .hexCharacter('#')
+            .hexColors()
+            .build();
+
     private CommandSource sender;
 
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            sender.sendMessage(Component.text(s));
+            sender.sendMessage(LEGACY.deserialize(s));
         }
     }
 
@@ -45,12 +55,12 @@ public class VelocityUserAdapter implements User<CommandSource> {
         }
 
         String msgText = translateColors(t);
-        Component message = Component.text(Objects.requireNonNull(msgText));
+        Component message = LEGACY.deserialize(Objects.requireNonNull(msgText));
 
         message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
 
         String hoverText = translateColors(hoverMessage);
-        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
+        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, LEGACY.deserialize(Objects.requireNonNull(hoverText))));
 
         sender.sendMessage(message);
     }
@@ -66,12 +76,12 @@ public class VelocityUserAdapter implements User<CommandSource> {
         }
 
         String msgText = translateColors(t);
-        Component message = Component.text(Objects.requireNonNull(msgText));
+        Component message = LEGACY.deserialize(Objects.requireNonNull(msgText));
 
         message = message.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, url));
 
         String hoverText = translateColors(hoverMessage);
-        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(Objects.requireNonNull(hoverText))));
+        message = message.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, LEGACY.deserialize(Objects.requireNonNull(hoverText))));
 
         sender.sendMessage(message);
     }
