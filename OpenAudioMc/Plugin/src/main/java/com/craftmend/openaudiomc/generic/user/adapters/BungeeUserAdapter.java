@@ -4,6 +4,7 @@ import com.craftmend.openaudiomc.api.basic.ActorCategory;
 import com.craftmend.openaudiomc.api.user.User;
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -22,7 +23,9 @@ public class BungeeUserAdapter implements User<CommandSender> {
     @Override
     public void sendMessage(String string) {
         for (String s : string.split("\\\\n")) {
-            sender.sendMessage(s);
+            // as a component, so §x§r§r§g§g§b§b hex colors survive instead of being read
+            // as six separate legacy colors by the client
+            sender.sendMessage(TextComponent.fromLegacyText(s));
         }
     }
 
@@ -49,15 +52,11 @@ public class BungeeUserAdapter implements User<CommandSender> {
             return;
         }
 
-        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+        TextComponent message = new TextComponent(TextComponent.fromLegacyText(translateColors(Objects.requireNonNull(
                 msgText
-        )));
+        ))));
 
-        TextComponent[] hover = new TextComponent[]{
-                new TextComponent(translateColors(
-                        hoverMessage
-                ))
-        };
+        BaseComponent[] hover = TextComponent.fromLegacyText(translateColors(hoverMessage));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + command));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 
@@ -74,15 +73,11 @@ public class BungeeUserAdapter implements User<CommandSender> {
             return;
         }
 
-        TextComponent message = new TextComponent(translateColors(Objects.requireNonNull(
+        TextComponent message = new TextComponent(TextComponent.fromLegacyText(translateColors(Objects.requireNonNull(
                 msgText
-        )));
+        ))));
 
-        TextComponent[] hover = new TextComponent[]{
-                new TextComponent(translateColors(
-                        hoverMessage
-                ))
-        };
+        BaseComponent[] hover = TextComponent.fromLegacyText(translateColors(hoverMessage));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 

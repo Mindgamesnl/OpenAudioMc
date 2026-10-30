@@ -1,6 +1,7 @@
 package com.craftmend.openaudiomc.spigot.modules.show.runnables;
 
 import com.craftmend.openaudiomc.api.user.User;
+import com.craftmend.openaudiomc.generic.platform.HexColors;
 import com.craftmend.openaudiomc.spigot.modules.show.interfaces.ProxiedCommandSender;
 import com.craftmend.openaudiomc.spigot.modules.users.adapters.SpigotUserAdapter;
 import com.craftmend.openaudiomc.spigot.modules.players.objects.SpigotPlayerSelector;
@@ -46,11 +47,11 @@ public class ActionBarRunnable extends ShowRunnable {
 
         String[] subArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subArgs, 0, args.length - 1);
-        String fullMessage = ChatColor.translateAlternateColorCodes('&', String.join(" ", subArgs));
+        String fullMessage = ChatColor.translateAlternateColorCodes('&', HexColors.translate(String.join(" ", subArgs)));
         for (User<CommandSender> user : spigotPlayerSelector.getResults()) {
             if (user.getOriginal() instanceof Player) {
                 Player player = (Player) user.getOriginal();
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(fullMessage));
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(fullMessage));
             }
         }
     }
